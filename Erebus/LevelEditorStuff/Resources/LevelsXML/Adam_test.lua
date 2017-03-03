@@ -48,7 +48,7 @@ Heightmap7 = nil
 Heightmap8 = {}
 Heightmap8.asset = Assets.LoadHeightmap("Textures/tile8_height.png")
 Heightmap8.asset:SetPosition({x=256, y=100, z=384})
-Heightmap8.asset:SetHeightMultiplier(0.110467)
+Heightmap8.asset:SetHeightMultiplier(0.165527)
 heightmaps[8] = Heightmap8
 Heightmap8 = nil
 
@@ -425,54 +425,6 @@ Transform.SetPosition(level01.props.Lantern6ID.transformID, {x=19.7806, y=4.8515
 Transform.SetScaleNonUniform(level01.props.Lantern6ID.transformID, 1, 1, 1)
 Transform.SetRotation(level01.props.Lantern6ID.transformID, {x=-0, y=-1.1856, z=-0})
 Light.addLight(18.9806, 8.60156, 181.844, 1, 0.576471, 0.160784, 10,2)
-level01.props.BlockerClosedFire1ID = {}
-level01.props.BlockerClosedFire1ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire1ID.transformID = Gear.BindStaticInstance(level01.props.BlockerClosedFire1ID.model)
-Transform.SetPosition(level01.props.BlockerClosedFire1ID.transformID, {x=51.047, y=11.9025, z=177.259})
-Transform.SetScaleNonUniform(level01.props.BlockerClosedFire1ID.transformID, 1, 1, 1.5)
-Transform.SetRotation(level01.props.BlockerClosedFire1ID.transformID, {x=-1.11856, y=0, z=-0})
-level01.props.BlockerClosedFire1ID.collider = OBBCollider.Create(-1)
-level01.props.BlockerClosedFire1ID.collider:SetOffset(0,0,0)
-level01.props.BlockerClosedFire1ID.collider:SetAxes(0.43698, -0.899471, 0, -0.899471, -0.43698, 0, 0, 0, 1)
-level01.props.BlockerClosedFire1ID.collider:SetHalfLengths(0.5,9,10.5)
-level01.props.BlockerClosedFire1ID.collider:SetPos(51.047,11.9025,177.259)
-CollisionHandler.AddOBB(level01.props.BlockerClosedFire1ID.collider, 3)
-level01.props.BlockerClosedFire2ID = {}
-level01.props.BlockerClosedFire2ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire2ID.transformID = Gear.BindStaticInstance(level01.props.BlockerClosedFire2ID.model)
-Transform.SetPosition(level01.props.BlockerClosedFire2ID.transformID, {x=41.125, y=24.5156, z=174.75})
-Transform.SetScaleNonUniform(level01.props.BlockerClosedFire2ID.transformID, 1, 1, 1.5)
-Transform.SetRotation(level01.props.BlockerClosedFire2ID.transformID, {x=-0, y=-0.957635, z=-0})
-level01.props.BlockerClosedFire2ID.collider = OBBCollider.Create(-1)
-level01.props.BlockerClosedFire2ID.collider:SetOffset(0,0,0)
-level01.props.BlockerClosedFire2ID.collider:SetAxes(0.575455, 0, 0.817833, 0, -1, 0, -0.817833, 0, 0.575455)
-level01.props.BlockerClosedFire2ID.collider:SetHalfLengths(0.5,9,10.5)
-level01.props.BlockerClosedFire2ID.collider:SetPos(41.125,24.5156,174.75)
-CollisionHandler.AddOBB(level01.props.BlockerClosedFire2ID.collider, 3)
-level01.props.BlockerClosedFire3ID = {}
-level01.props.BlockerClosedFire3ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire3ID.transformID = Gear.BindStaticInstance(level01.props.BlockerClosedFire3ID.model)
-Transform.SetPosition(level01.props.BlockerClosedFire3ID.transformID, {x=45.9063, y=8.76563, z=147.5})
-Transform.SetScaleNonUniform(level01.props.BlockerClosedFire3ID.transformID, 1, 1, 1.5)
-Transform.SetRotation(level01.props.BlockerClosedFire3ID.transformID, {x=-0, y=0, z=-0.813385})
-level01.props.BlockerClosedFire3ID.collider = OBBCollider.Create(-1)
-level01.props.BlockerClosedFire3ID.collider:SetOffset(0,0,0)
-level01.props.BlockerClosedFire3ID.collider:SetAxes(1, 0, 0, 0, -0.687043, -0.726617, 0, -0.726617, 0.687043)
-level01.props.BlockerClosedFire3ID.collider:SetHalfLengths(0.5,9,10.5)
-level01.props.BlockerClosedFire3ID.collider:SetPos(45.9063,8.76563,147.5)
-CollisionHandler.AddOBB(level01.props.BlockerClosedFire3ID.collider, 3)
-level01.props.BlockerClosedFire4ID = {}
-level01.props.BlockerClosedFire4ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire4ID.transformID = Gear.BindStaticInstance(level01.props.BlockerClosedFire4ID.model)
-Transform.SetPosition(level01.props.BlockerClosedFire4ID.transformID, {x=14.3672, y=4, z=189.625})
-Transform.SetScaleNonUniform(level01.props.BlockerClosedFire4ID.transformID, 1, 1, 1.5)
-Transform.SetRotation(level01.props.BlockerClosedFire4ID.transformID, {x=-0.44221, y=-0.661686, z=-0.715859})
-level01.props.BlockerClosedFire4ID.collider = OBBCollider.Create(-1)
-level01.props.BlockerClosedFire4ID.collider:SetOffset(0,0,0)
-level01.props.BlockerClosedFire4ID.collider:SetAxes(0.713066, -0.337625, 0.614448, 0.0415603, -0.854512, -0.517766, -0.699864, -0.394738, 0.595292)
-level01.props.BlockerClosedFire4ID.collider:SetHalfLengths(0.5,9,10.5)
-level01.props.BlockerClosedFire4ID.collider:SetPos(14.3672,4,189.625)
-CollisionHandler.AddOBB(level01.props.BlockerClosedFire4ID.collider, 3)
 level01.colliders.C_Parent_Tile_1ID = {}
 level01.colliders.C_Parent_Tile_1ID.collider = AABBCollider.Create(-1)
 level01.colliders.C_Parent_Tile_1ID.collider:SetOffset(0,0,0)
@@ -974,7 +926,7 @@ level01.colliders.C_Parent_Tile_1ID78.collider:AddChild(level01.colliders.C_Pare
 level01.colliders.C_Parent_Tile_1ID83 = {}
 level01.colliders.C_Parent_Tile_1ID83.collider = OBBCollider.Create(-1)
 level01.colliders.C_Parent_Tile_1ID83.collider:SetOffset(98,22.4477,219.5)
-level01.colliders.C_Parent_Tile_1ID83.collider:SetAxes(-0.242536, 0, 0.970143, 0, -1, 0, 0.970143, 0, 0.242536)
+level01.colliders.C_Parent_Tile_1ID83.collider:SetAxes(-0.242536, 0, 0.970142, 0, -1, 0, 0.970142, 0, 0.242536)
 level01.colliders.C_Parent_Tile_1ID83.collider:SetHalfLengths(0.3,9.41872,6.18466)
 level01.colliders.C_Parent_Tile_1ID78.collider:AddChild(level01.colliders.C_Parent_Tile_1ID83.collider)
 level01.colliders.C_Parent_Tile_1ID84 = {}
@@ -1436,18 +1388,6 @@ level01.props.Lantern5ID = nil
 Gear.UnbindInstance(level01.props.Lantern6ID.transformID)
 Assets.UnloadModel('Models/Lantern_Post.model')
 level01.props.Lantern6ID = nil
-Gear.UnbindInstance(level01.props.BlockerClosedFire1ID.transformID)
-Assets.UnloadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire1ID = nil
-Gear.UnbindInstance(level01.props.BlockerClosedFire2ID.transformID)
-Assets.UnloadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire2ID = nil
-Gear.UnbindInstance(level01.props.BlockerClosedFire3ID.transformID)
-Assets.UnloadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire3ID = nil
-Gear.UnbindInstance(level01.props.BlockerClosedFire4ID.transformID)
-Assets.UnloadModel('Models/Fire_Branch_blocker.model')
-level01.props.BlockerClosedFire4ID = nil
 level01.colliders.C_Parent_Tile_11ID = nil
 level01.colliders.C_Parent_Tile_12ID = nil
 level01.colliders.C_Parent_Tile_13ID = nil
@@ -1920,9 +1860,99 @@ CollisionHandler.AddOBB(level02.props.BlockerClosedFireID.collider, 3)
 level02.props.BlockerOpenFireID = {}
 level02.props.BlockerOpenFireID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
 level02.props.BlockerOpenFireID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenFireID.model)
-Transform.SetPosition(level02.props.BlockerOpenFireID.transformID, {x=189.747, y=52.2883, z=236.728})
+Transform.SetPosition(level02.props.BlockerOpenFireID.transformID, {x=189.747, y=44.2068, z=236.678})
 Transform.SetScaleNonUniform(level02.props.BlockerOpenFireID.transformID, 1, 1, 1.5)
 Transform.SetRotation(level02.props.BlockerOpenFireID.transformID, {x=-0, y=0, z=0.106526})
+level02.props.BlockerClosedFire1ID = {}
+level02.props.BlockerClosedFire1ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level02.props.BlockerClosedFire1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerClosedFire1ID.model)
+Transform.SetPosition(level02.props.BlockerClosedFire1ID.transformID, {x=357.701, y=41.2286, z=182.806})
+Transform.SetScaleNonUniform(level02.props.BlockerClosedFire1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerClosedFire1ID.transformID, {x=-0, y=1.53245, z=-0})
+level02.props.BlockerClosedFire1ID.collider = OBBCollider.Create(-1)
+level02.props.BlockerClosedFire1ID.collider:SetOffset(0,0,0)
+level02.props.BlockerClosedFire1ID.collider:SetAxes(0.0383416, 0, -0.999265, 0, -1, 0, 0.999265, 0, 0.0383416)
+level02.props.BlockerClosedFire1ID.collider:SetHalfLengths(0.5,9,14)
+level02.props.BlockerClosedFire1ID.collider:SetPos(357.701,41.2286,182.806)
+CollisionHandler.AddOBB(level02.props.BlockerClosedFire1ID.collider, 3)
+level02.props.BlockerOpenFire1ID = {}
+level02.props.BlockerOpenFire1ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level02.props.BlockerOpenFire1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenFire1ID.model)
+Transform.SetPosition(level02.props.BlockerOpenFire1ID.transformID, {x=359.067, y=35.1186, z=198.483})
+Transform.SetScaleNonUniform(level02.props.BlockerOpenFire1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerOpenFire1ID.transformID, {x=-0, y=1.57451, z=-0})
+level02.props.BlockerClosedNatureID = {}
+level02.props.BlockerClosedNatureID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerClosedNatureID.transformID = Gear.BindStaticInstance(level02.props.BlockerClosedNatureID.model)
+Transform.SetPosition(level02.props.BlockerClosedNatureID.transformID, {x=146.568, y=50.6744, z=165.327})
+Transform.SetScaleNonUniform(level02.props.BlockerClosedNatureID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level02.props.BlockerClosedNatureID.transformID, {x=0.196927, y=1.68986, z=-0})
+level02.props.BlockerClosedNatureID.collider = OBBCollider.Create(-1)
+level02.props.BlockerClosedNatureID.collider:SetOffset(0,0,0)
+level02.props.BlockerClosedNatureID.collider:SetAxes(-0.116484, -0.02324, -0.992921, 0.195657, -0.980672, -0, 0.97373, 0.194271, -0.118779)
+level02.props.BlockerClosedNatureID.collider:SetHalfLengths(0.5,9,10.5)
+level02.props.BlockerClosedNatureID.collider:SetPos(146.568,50.6744,165.327)
+CollisionHandler.AddOBB(level02.props.BlockerClosedNatureID.collider, 3)
+level02.props.BlockerOpenNatureID = {}
+level02.props.BlockerOpenNatureID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerOpenNatureID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenNatureID.model)
+Transform.SetPosition(level02.props.BlockerOpenNatureID.transformID, {x=149.125, y=38.3969, z=173})
+Transform.SetScaleNonUniform(level02.props.BlockerOpenNatureID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level02.props.BlockerOpenNatureID.transformID, {x=0.236165, y=1.81959, z=-0})
+level02.props.BlockerClosedIceID = {}
+level02.props.BlockerClosedIceID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerClosedIceID.transformID = Gear.BindStaticInstance(level02.props.BlockerClosedIceID.model)
+Transform.SetPosition(level02.props.BlockerClosedIceID.transformID, {x=194.402, y=44.1694, z=196.375})
+Transform.SetScaleNonUniform(level02.props.BlockerClosedIceID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level02.props.BlockerClosedIceID.transformID, {x=-0, y=0.294333, z=-0})
+level02.props.BlockerClosedIceID.collider = OBBCollider.Create(-1)
+level02.props.BlockerClosedIceID.collider:SetOffset(0,0,0)
+level02.props.BlockerClosedIceID.collider:SetAxes(0.956996, 0, -0.290102, 0, -1, 0, 0.290102, 0, 0.956996)
+level02.props.BlockerClosedIceID.collider:SetHalfLengths(0.5,9,10.5)
+level02.props.BlockerClosedIceID.collider:SetPos(194.402,44.1694,196.375)
+CollisionHandler.AddOBB(level02.props.BlockerClosedIceID.collider, 3)
+level02.props.BlockerOpenIceID = {}
+level02.props.BlockerOpenIceID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerOpenIceID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenIceID.model)
+Transform.SetPosition(level02.props.BlockerOpenIceID.transformID, {x=186.533, y=37.1862, z=198.722})
+Transform.SetScaleNonUniform(level02.props.BlockerOpenIceID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level02.props.BlockerOpenIceID.transformID, {x=-0, y=0.308219, z=-0})
+level02.props.BlockerClosedNature1ID = {}
+level02.props.BlockerClosedNature1ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerClosedNature1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerClosedNature1ID.model)
+Transform.SetPosition(level02.props.BlockerClosedNature1ID.transformID, {x=304.997, y=44.7525, z=98.0171})
+Transform.SetScaleNonUniform(level02.props.BlockerClosedNature1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerClosedNature1ID.transformID, {x=0.134885, y=-0.957065, z=-0})
+level02.props.BlockerClosedNature1ID.collider = OBBCollider.Create(-1)
+level02.props.BlockerClosedNature1ID.collider:SetOffset(0,0,0)
+level02.props.BlockerClosedNature1ID.collider:SetAxes(0.57069, 0.0774476, 0.817505, 0.134476, -0.990917, 0, -0.810079, -0.109935, 0.575922)
+level02.props.BlockerClosedNature1ID.collider:SetHalfLengths(0.5,9,14)
+level02.props.BlockerClosedNature1ID.collider:SetPos(304.997,44.7525,98.0171)
+CollisionHandler.AddOBB(level02.props.BlockerClosedNature1ID.collider, 3)
+level02.props.BlockerOpenNature1ID = {}
+level02.props.BlockerOpenNature1ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerOpenNature1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenNature1ID.model)
+Transform.SetPosition(level02.props.BlockerOpenNature1ID.transformID, {x=296.617, y=36.4825, z=89.3938})
+Transform.SetScaleNonUniform(level02.props.BlockerOpenNature1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerOpenNature1ID.transformID, {x=0.147718, y=-0.919598, z=-0})
+level02.props.BlockerClosedIce1ID = {}
+level02.props.BlockerClosedIce1ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerClosedIce1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerClosedIce1ID.model)
+Transform.SetPosition(level02.props.BlockerClosedIce1ID.transformID, {x=292.5, y=39.1392, z=117.586})
+Transform.SetScaleNonUniform(level02.props.BlockerClosedIce1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerClosedIce1ID.transformID, {x=-0, y=0, z=-0})
+level02.props.BlockerClosedIce1ID.collider = OBBCollider.Create(-1)
+level02.props.BlockerClosedIce1ID.collider:SetOffset(0,0,0)
+level02.props.BlockerClosedIce1ID.collider:SetAxes(1, 0, 0, 0, -1, 0, 0, 0, 1)
+level02.props.BlockerClosedIce1ID.collider:SetHalfLengths(0.5,9,14)
+level02.props.BlockerClosedIce1ID.collider:SetPos(292.5,39.1392,117.586)
+CollisionHandler.AddOBB(level02.props.BlockerClosedIce1ID.collider, 3)
+level02.props.BlockerOpenIce1ID = {}
+level02.props.BlockerOpenIce1ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerOpenIce1ID.transformID = Gear.BindStaticInstance(level02.props.BlockerOpenIce1ID.model)
+Transform.SetPosition(level02.props.BlockerOpenIce1ID.transformID, {x=283.761, y=32.0386, z=118.563})
+Transform.SetScaleNonUniform(level02.props.BlockerOpenIce1ID.transformID, 1, 1, 2)
+Transform.SetRotation(level02.props.BlockerOpenIce1ID.transformID, {x=-0, y=0, z=-0})
 level02.colliders.C_Parent_Tile_2ID = {}
 level02.colliders.C_Parent_Tile_2ID.collider = AABBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_2ID.collider:SetOffset(0,0,0)
@@ -2226,13 +2256,13 @@ level02.colliders.C_Parent_Tile_2ID46.collider:AddChild(level02.colliders.C_Pare
 level02.colliders.C_Parent_Tile_2ID50 = {}
 level02.colliders.C_Parent_Tile_2ID50.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_2ID50.collider:SetOffset(205.5,55.1358,132.5)
-level02.colliders.C_Parent_Tile_2ID50.collider:SetAxes(-0.995893, 0, 0.0905357, 0, -1, 0, 0.0905357, 0, 0.995893)
+level02.colliders.C_Parent_Tile_2ID50.collider:SetAxes(-0.995893, 0, 0.0905358, 0, -1, 0, 0.0905358, 0, 0.995893)
 level02.colliders.C_Parent_Tile_2ID50.collider:SetHalfLengths(0.3,5.33421,5.52268)
 level02.colliders.C_Parent_Tile_2ID46.collider:AddChild(level02.colliders.C_Parent_Tile_2ID50.collider)
 level02.colliders.C_Parent_Tile_2ID51 = {}
 level02.colliders.C_Parent_Tile_2ID51.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_2ID51.collider:SetOffset(206.5,55.47,143.5)
-level02.colliders.C_Parent_Tile_2ID51.collider:SetAxes(-0.995893, 0, 0.0905357, 0, -1, 0, 0.0905357, 0, 0.995893)
+level02.colliders.C_Parent_Tile_2ID51.collider:SetAxes(-0.995893, 0, 0.0905358, 0, -1, 0, 0.0905358, 0, 0.995893)
 level02.colliders.C_Parent_Tile_2ID51.collider:SetHalfLengths(0.3,5.22281,5.52268)
 level02.colliders.C_Parent_Tile_2ID46.collider:AddChild(level02.colliders.C_Parent_Tile_2ID51.collider)
 level02.colliders.C_Parent_Tile_2ID52 = {}
@@ -2724,7 +2754,7 @@ level02.colliders.C_Parent_Tile_2ID124.collider:AddChild(level02.colliders.C_Par
 level02.colliders.C_Parent_Tile_2ID133 = {}
 level02.colliders.C_Parent_Tile_2ID133.collider = OBBCollider.Create(-1)
 level02.colliders.C_Parent_Tile_2ID133.collider:SetOffset(281.5,37.5339,128.5)
-level02.colliders.C_Parent_Tile_2ID133.collider:SetAxes(0.0905357, -0, 0.995893, 0, -1, -0, 0.995893, 0, -0.0905357)
+level02.colliders.C_Parent_Tile_2ID133.collider:SetAxes(0.0905358, -0, 0.995893, 0, -1, -0, 0.995893, 0, -0.0905358)
 level02.colliders.C_Parent_Tile_2ID133.collider:SetHalfLengths(0.3,5.33421,5.52268)
 level02.colliders.C_Parent_Tile_2ID124.collider:AddChild(level02.colliders.C_Parent_Tile_2ID133.collider)
 level02.colliders.C_Parent_Tile_2ID134 = {}
@@ -3335,6 +3365,66 @@ level02.triggers.BlockerTriggerID.collider.OnExit = function(self) SluiceExit(sl
 level02.triggers.BlockerTriggerID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice2) end
 level02.triggers.BlockerTriggerID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTriggerID.collider, 4)
+level02.triggers.BlockerTrigger1ID = {}
+level02.triggers.BlockerTrigger1ID.collider = OBBCollider.Create(-1)
+level02.triggers.BlockerTrigger1ID.collider:SetOffset(0,0,0)
+level02.triggers.BlockerTrigger1ID.collider:SetAxes(0.999536, 0, 0.0304648, 0, -1, 0, -0.0304648, 0, 0.999536)
+level02.triggers.BlockerTrigger1ID.collider:SetHalfLengths(14.2635,3,4)
+level02.triggers.BlockerTrigger1ID.collider:SetPos(359.742,39.9207,187.091)
+sluice3 = CreateSluice(level02.triggers.BlockerTrigger1ID.collider, level02.props.BlockerClosedFire1ID.transformID, level02.props.BlockerClosedFire1ID, level02.props.BlockerOpenFire1ID.transformID)
+level02.triggers.BlockerTrigger1ID.collider.OnEnter = function(self) SluiceEnter(sluice3) end
+level02.triggers.BlockerTrigger1ID.collider.OnExit = function(self) SluiceExit(sluice3) end
+level02.triggers.BlockerTrigger1ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice3) end
+level02.triggers.BlockerTrigger1ID.collider.triggered = false
+CollisionHandler.AddOBB(level02.triggers.BlockerTrigger1ID.collider, 4)
+level02.triggers.BlockerTrigger2ID = {}
+level02.triggers.BlockerTrigger2ID.collider = OBBCollider.Create(-1)
+level02.triggers.BlockerTrigger2ID.collider:SetOffset(0,0,0)
+level02.triggers.BlockerTrigger2ID.collider:SetAxes(0.132199, 0, 0.991223, -0.0740368, -0.997207, 0.00987426, -0.988454, 0.0746923, 0.13183)
+level02.triggers.BlockerTrigger2ID.collider:SetHalfLengths(1.95633,8.86251,17.1309)
+level02.triggers.BlockerTrigger2ID.collider:SetPos(147,50.5426,167.417)
+sluice4 = CreateSluice(level02.triggers.BlockerTrigger2ID.collider, level02.props.BlockerClosedNatureID.transformID, level02.props.BlockerClosedNatureID, level02.props.BlockerOpenNatureID.transformID)
+level02.triggers.BlockerTrigger2ID.collider.OnEnter = function(self) SluiceEnter(sluice4) end
+level02.triggers.BlockerTrigger2ID.collider.OnExit = function(self) SluiceExit(sluice4) end
+level02.triggers.BlockerTrigger2ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice4) end
+level02.triggers.BlockerTrigger2ID.collider.triggered = false
+CollisionHandler.AddOBB(level02.triggers.BlockerTrigger2ID.collider, 4)
+level02.triggers.BlockerTrigger3ID = {}
+level02.triggers.BlockerTrigger3ID.collider = OBBCollider.Create(-1)
+level02.triggers.BlockerTrigger3ID.collider:SetOffset(0,0,0)
+level02.triggers.BlockerTrigger3ID.collider:SetAxes(0.957147, 0, -0.289602, 0, -1, 0, 0.289602, 0, 0.957147)
+level02.triggers.BlockerTrigger3ID.collider:SetHalfLengths(2,3,12.4405)
+level02.triggers.BlockerTrigger3ID.collider:SetPos(191.87,41.5,196.572)
+sluice5 = CreateSluice(level02.triggers.BlockerTrigger3ID.collider, level02.props.BlockerClosedIceID.transformID, level02.props.BlockerClosedIceID, level02.props.BlockerOpenIceID.transformID)
+level02.triggers.BlockerTrigger3ID.collider.OnEnter = function(self) SluiceEnter(sluice5) end
+level02.triggers.BlockerTrigger3ID.collider.OnExit = function(self) SluiceExit(sluice5) end
+level02.triggers.BlockerTrigger3ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice5) end
+level02.triggers.BlockerTrigger3ID.collider.triggered = false
+CollisionHandler.AddOBB(level02.triggers.BlockerTrigger3ID.collider, 4)
+level02.triggers.BlockerTrigger4ID = {}
+level02.triggers.BlockerTrigger4ID.collider = OBBCollider.Create(-1)
+level02.triggers.BlockerTrigger4ID.collider:SetOffset(0,0,0)
+level02.triggers.BlockerTrigger4ID.collider:SetAxes(0.573016, 0, 0.819544, 0, -1, 0, -0.819544, 0, 0.573016)
+level02.triggers.BlockerTrigger4ID.collider:SetHalfLengths(2.70544,3,10.4709)
+level02.triggers.BlockerTrigger4ID.collider:SetPos(301.862,41.5,96.5146)
+sluice6 = CreateSluice(level02.triggers.BlockerTrigger4ID.collider, level02.props.BlockerClosedNature1ID.transformID, level02.props.BlockerClosedNature1ID, level02.props.BlockerOpenNature1ID.transformID)
+level02.triggers.BlockerTrigger4ID.collider.OnEnter = function(self) SluiceEnter(sluice6) end
+level02.triggers.BlockerTrigger4ID.collider.OnExit = function(self) SluiceExit(sluice6) end
+level02.triggers.BlockerTrigger4ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice6) end
+level02.triggers.BlockerTrigger4ID.collider.triggered = false
+CollisionHandler.AddOBB(level02.triggers.BlockerTrigger4ID.collider, 4)
+level02.triggers.BlockerTrigger5ID = {}
+level02.triggers.BlockerTrigger5ID.collider = OBBCollider.Create(-1)
+level02.triggers.BlockerTrigger5ID.collider:SetOffset(0,0,0)
+level02.triggers.BlockerTrigger5ID.collider:SetAxes(1, 0, 0, 0, -1, 0, 0, 0, 1)
+level02.triggers.BlockerTrigger5ID.collider:SetHalfLengths(2,3,14.5821)
+level02.triggers.BlockerTrigger5ID.collider:SetPos(290.143,35.875,118.938)
+sluice8 = CreateSluice(level02.triggers.BlockerTrigger5ID.collider, level02.props.BlockerClosedIce1ID.transformID, level02.props.BlockerClosedIce1ID, level02.props.BlockerOpenIce1ID.transformID)
+level02.triggers.BlockerTrigger5ID.collider.OnEnter = function(self) SluiceEnter(sluice8) end
+level02.triggers.BlockerTrigger5ID.collider.OnExit = function(self) SluiceExit(sluice8) end
+level02.triggers.BlockerTrigger5ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice8) end
+level02.triggers.BlockerTrigger5ID.collider.triggered = false
+CollisionHandler.AddOBB(level02.triggers.BlockerTrigger5ID.collider, 4)
 end
 level02.unload = function()
 level02.props.tile2ID = nil
@@ -3720,6 +3810,41 @@ Gear.UnbindInstance(level02.props.BlockerOpenFireID.transformID)
 Assets.UnloadModel('Models/Fire_Branch_blocker.model')
 level02.props.BlockerOpenFireID = nil
 level02.triggers.BlockerTriggerID = nil
+Gear.UnbindInstance(level02.props.BlockerClosedFire1ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level02.props.BlockerClosedFire1ID = nil
+level02.triggers.BlockerTrigger1ID = nil
+Gear.UnbindInstance(level02.props.BlockerOpenFire1ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level02.props.BlockerOpenFire1ID = nil
+Gear.UnbindInstance(level02.props.BlockerClosedNatureID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerClosedNatureID = nil
+Gear.UnbindInstance(level02.props.BlockerOpenNatureID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerOpenNatureID = nil
+level02.triggers.BlockerTrigger2ID = nil
+Gear.UnbindInstance(level02.props.BlockerClosedIceID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerClosedIceID = nil
+level02.triggers.BlockerTrigger3ID = nil
+Gear.UnbindInstance(level02.props.BlockerOpenIceID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerOpenIceID = nil
+Gear.UnbindInstance(level02.props.BlockerClosedNature1ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerClosedNature1ID = nil
+level02.triggers.BlockerTrigger4ID = nil
+Gear.UnbindInstance(level02.props.BlockerOpenNature1ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level02.props.BlockerOpenNature1ID = nil
+Gear.UnbindInstance(level02.props.BlockerClosedIce1ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerClosedIce1ID = nil
+level02.triggers.BlockerTrigger5ID = nil
+Gear.UnbindInstance(level02.props.BlockerOpenIce1ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level02.props.BlockerOpenIce1ID = nil
 level02.colliders.C_Parent_Tile_21ID = nil
 level02.colliders.C_Parent_Tile_22ID = nil
 level02.colliders.C_Parent_Tile_23ID = nil
@@ -4470,17 +4595,125 @@ Transform.SetPosition(level05.props.Crystal12ID.transformID, {x=519.119, y=48.91
 Transform.SetScaleNonUniform(level05.props.Crystal12ID.transformID, 1, 1, 1)
 Transform.SetRotation(level05.props.Crystal12ID.transformID, {x=-1.2884, y=0, z=-0.54079})
 Light.addLight(511.119, 48.9107, 412.748, 0, 1, 1, 30,4)
+level05.props.BlockerClosedIce2ID = {}
+level05.props.BlockerClosedIce2ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerClosedIce2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedIce2ID.model)
+Transform.SetPosition(level05.props.BlockerClosedIce2ID.transformID, {x=528.56, y=51.3838, z=431.977})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedIce2ID.transformID, 1, 2, 4)
+Transform.SetRotation(level05.props.BlockerClosedIce2ID.transformID, {x=-0, y=-0.375734, z=-0})
+level05.props.BlockerClosedIce2ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedIce2ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedIce2ID.collider:SetAxes(0.930238, 0, 0.366956, 0, -1, 0, -0.366956, 0, 0.930238)
+level05.props.BlockerClosedIce2ID.collider:SetHalfLengths(0.5,18,28)
+level05.props.BlockerClosedIce2ID.collider:SetPos(528.56,51.3838,431.977)
+CollisionHandler.AddOBB(level05.props.BlockerClosedIce2ID.collider, 3)
+level05.props.BlockerOpenIce2ID = {}
+level05.props.BlockerOpenIce2ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerOpenIce2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenIce2ID.model)
+Transform.SetPosition(level05.props.BlockerOpenIce2ID.transformID, {x=515.942, y=35.3545, z=429.163})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenIce2ID.transformID, 1, 2, 4)
+Transform.SetRotation(level05.props.BlockerOpenIce2ID.transformID, {x=-0, y=-0.366113, z=-0})
+level05.props.BlockerClosedFire2ID = {}
+level05.props.BlockerClosedFire2ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerClosedFire2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedFire2ID.model)
+Transform.SetPosition(level05.props.BlockerClosedFire2ID.transformID, {x=451.922, y=61.9099, z=450.578})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedFire2ID.transformID, 1, 2, 4)
+Transform.SetRotation(level05.props.BlockerClosedFire2ID.transformID, {x=-0, y=-2.72207, z=-0})
+level05.props.BlockerClosedFire2ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedFire2ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedFire2ID.collider:SetAxes(-0.913285, 0, 0.407322, -0, -1, 0, -0.407322, 0, -0.913285)
+level05.props.BlockerClosedFire2ID.collider:SetHalfLengths(0.5,18,28)
+level05.props.BlockerClosedFire2ID.collider:SetPos(451.922,61.9099,450.578)
+CollisionHandler.AddOBB(level05.props.BlockerClosedFire2ID.collider, 3)
+level05.props.BlockerOpenFire2ID = {}
+level05.props.BlockerOpenFire2ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerOpenFire2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenFire2ID.model)
+Transform.SetPosition(level05.props.BlockerOpenFire2ID.transformID, {x=461.483, y=43.5325, z=445.834})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenFire2ID.transformID, 1, 2, 4)
+Transform.SetRotation(level05.props.BlockerOpenFire2ID.transformID, {x=-0, y=-2.70486, z=-0})
+level05.props.BlockerClosedNature2ID = {}
+level05.props.BlockerClosedNature2ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerClosedNature2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedNature2ID.model)
+Transform.SetPosition(level05.props.BlockerClosedNature2ID.transformID, {x=433.534, y=77.993, z=414.52})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedNature2ID.transformID, 1, 1.25, 1.8)
+Transform.SetRotation(level05.props.BlockerClosedNature2ID.transformID, {x=-0, y=-2.80738, z=-0})
+level05.props.BlockerClosedNature2ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedNature2ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedNature2ID.collider:SetAxes(-0.944668, 0, 0.328029, -0, -1, 0, -0.328029, 0, -0.944668)
+level05.props.BlockerClosedNature2ID.collider:SetHalfLengths(0.5,11.25,12.6)
+level05.props.BlockerClosedNature2ID.collider:SetPos(433.534,77.993,414.52)
+CollisionHandler.AddOBB(level05.props.BlockerClosedNature2ID.collider, 3)
+level05.props.BlockerOpenNature2ID = {}
+level05.props.BlockerOpenNature2ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerOpenNature2ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenNature2ID.model)
+Transform.SetPosition(level05.props.BlockerOpenNature2ID.transformID, {x=443.325, y=63.4909, z=410.669})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenNature2ID.transformID, 1, 1.25, 1.8)
+Transform.SetRotation(level05.props.BlockerOpenNature2ID.transformID, {x=-0, y=-2.82828, z=-0})
+level05.props.BlockerClosedNature3ID = {}
+level05.props.BlockerClosedNature3ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerClosedNature3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedNature3ID.model)
+Transform.SetPosition(level05.props.BlockerClosedNature3ID.transformID, {x=457.75, y=90.0679, z=585})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedNature3ID.transformID, 1, 2, 3)
+Transform.SetRotation(level05.props.BlockerClosedNature3ID.transformID, {x=-0, y=-1.04948, z=-0})
+level05.props.BlockerClosedNature3ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedNature3ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedNature3ID.collider:SetAxes(0.498026, 0, 0.867162, 0, -1, 0, -0.867162, 0, 0.498026)
+level05.props.BlockerClosedNature3ID.collider:SetHalfLengths(0.5,18,21)
+level05.props.BlockerClosedNature3ID.collider:SetPos(457.75,90.0679,585)
+CollisionHandler.AddOBB(level05.props.BlockerClosedNature3ID.collider, 3)
+level05.props.BlockerOpenNature3ID = {}
+level05.props.BlockerOpenNature3ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerOpenNature3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenNature3ID.model)
+Transform.SetPosition(level05.props.BlockerOpenNature3ID.transformID, {x=452.03, y=76.5454, z=573.808})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenNature3ID.transformID, 1, 1.45, 2.2)
+Transform.SetRotation(level05.props.BlockerOpenNature3ID.transformID, {x=-0, y=-1.02309, z=-0})
+level05.props.BlockerClosedIce3ID = {}
+level05.props.BlockerClosedIce3ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerClosedIce3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedIce3ID.model)
+Transform.SetPosition(level05.props.BlockerClosedIce3ID.transformID, {x=567.303, y=90.2649, z=625.726})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedIce3ID.transformID, 1, 2, 3)
+Transform.SetRotation(level05.props.BlockerClosedIce3ID.transformID, {x=-0, y=-2.36027, z=-0})
+level05.props.BlockerClosedIce3ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedIce3ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedIce3ID.collider:SetAxes(-0.709982, 0, 0.70422, -0, -1, 0, -0.70422, 0, -0.709982)
+level05.props.BlockerClosedIce3ID.collider:SetHalfLengths(0.5,18,21)
+level05.props.BlockerClosedIce3ID.collider:SetPos(567.303,90.2649,625.726)
+CollisionHandler.AddOBB(level05.props.BlockerClosedIce3ID.collider, 3)
+level05.props.BlockerOpenIce3ID = {}
+level05.props.BlockerOpenIce3ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerOpenIce3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenIce3ID.model)
+Transform.SetPosition(level05.props.BlockerOpenIce3ID.transformID, {x=575.828, y=77.0846, z=615.027})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenIce3ID.transformID, 1, 2, 3)
+Transform.SetRotation(level05.props.BlockerOpenIce3ID.transformID, {x=-0, y=-2.32398, z=-0})
+level05.props.BlockerClosedFire3ID = {}
+level05.props.BlockerClosedFire3ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerClosedFire3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerClosedFire3ID.model)
+Transform.SetPosition(level05.props.BlockerClosedFire3ID.transformID, {x=510.55, y=86.2842, z=578.143})
+Transform.SetScaleNonUniform(level05.props.BlockerClosedFire3ID.transformID, 1, 2, 3)
+Transform.SetRotation(level05.props.BlockerClosedFire3ID.transformID, {x=-0, y=-1.79454, z=-0})
+level05.props.BlockerClosedFire3ID.collider = OBBCollider.Create(-1)
+level05.props.BlockerClosedFire3ID.collider:SetOffset(0,0,0)
+level05.props.BlockerClosedFire3ID.collider:SetAxes(-0.221886, 0, 0.975073, -0, -1, 0, -0.975073, 0, -0.221886)
+level05.props.BlockerClosedFire3ID.collider:SetHalfLengths(0.5,18,21)
+level05.props.BlockerClosedFire3ID.collider:SetPos(510.55,86.2842,578.143)
+CollisionHandler.AddOBB(level05.props.BlockerClosedFire3ID.collider, 3)
+level05.props.BlockerOpenFire3ID = {}
+level05.props.BlockerOpenFire3ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerOpenFire3ID.transformID = Gear.BindStaticInstance(level05.props.BlockerOpenFire3ID.model)
+Transform.SetPosition(level05.props.BlockerOpenFire3ID.transformID, {x=514.035, y=69.8671, z=564.464})
+Transform.SetScaleNonUniform(level05.props.BlockerOpenFire3ID.transformID, 1, 2, 3)
+Transform.SetRotation(level05.props.BlockerOpenFire3ID.transformID, {x=-0, y=-1.81179, z=-0})
 level05.colliders.C_Parent_Tile_5ID = {}
 level05.colliders.C_Parent_Tile_5ID.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID.collider:SetOffset(0,0,0)
 level05.colliders.C_Parent_Tile_5ID.collider:SetMinPos(395.7,30.4293,384.918)
-level05.colliders.C_Parent_Tile_5ID.collider:SetMaxPos(640.3,106.093,640)
+level05.colliders.C_Parent_Tile_5ID.collider:SetMaxPos(640.3,92.5435,640)
 level05.colliders.C_Parent_Tile_5ID.collider:SetPos(0,0,0)
 level05.colliders.C_Parent_Tile_5ID1 = {}
 level05.colliders.C_Parent_Tile_5ID1.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID1.collider:SetOffset(0,0,0)
 level05.colliders.C_Parent_Tile_5ID1.collider:SetMinPos(395.7,30.4293,384.918)
-level05.colliders.C_Parent_Tile_5ID1.collider:SetMaxPos(593.274,90.7195,613.247)
+level05.colliders.C_Parent_Tile_5ID1.collider:SetMaxPos(597.268,90.7195,613.247)
 level05.colliders.C_Parent_Tile_5ID.collider:AddChild(level05.colliders.C_Parent_Tile_5ID1.collider)
 level05.colliders.C_Parent_Tile_5ID2 = {}
 level05.colliders.C_Parent_Tile_5ID2.collider = AABBCollider.Create(-1)
@@ -5036,51 +5269,51 @@ level05.colliders.C_Parent_Tile_5ID93.collider:SetHalfLengths(0.3,5.78172,2.2360
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID93.collider)
 level05.colliders.C_Parent_Tile_5ID94 = {}
 level05.colliders.C_Parent_Tile_5ID94.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID94.collider:SetOffset(529,67.7401,508.5)
-level05.colliders.C_Parent_Tile_5ID94.collider:SetAxes(0.124035, 0, -0.992278, 0, -1, -0, -0.992278, 0, -0.124035)
-level05.colliders.C_Parent_Tile_5ID94.collider:SetHalfLengths(0.3,6.04229,4.03113)
+level05.colliders.C_Parent_Tile_5ID94.collider:SetOffset(442,84.4167,577)
+level05.colliders.C_Parent_Tile_5ID94.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
+level05.colliders.C_Parent_Tile_5ID94.collider:SetHalfLengths(0.3,5.26057,2.23607)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID94.collider)
 level05.colliders.C_Parent_Tile_5ID95 = {}
 level05.colliders.C_Parent_Tile_5ID95.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID95.collider:SetOffset(442,84.4167,577)
-level05.colliders.C_Parent_Tile_5ID95.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
-level05.colliders.C_Parent_Tile_5ID95.collider:SetHalfLengths(0.3,5.26057,2.23607)
+level05.colliders.C_Parent_Tile_5ID95.collider:SetOffset(443.5,84.6772,580.5)
+level05.colliders.C_Parent_Tile_5ID95.collider:SetAxes(-0.948683, 0, 0.316228, 0, -1, 0, 0.316228, 0, 0.948683)
+level05.colliders.C_Parent_Tile_5ID95.collider:SetHalfLengths(0.3,5.26057,1.58114)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID95.collider)
 level05.colliders.C_Parent_Tile_5ID96 = {}
 level05.colliders.C_Parent_Tile_5ID96.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID96.collider:SetOffset(443.5,84.6772,580.5)
-level05.colliders.C_Parent_Tile_5ID96.collider:SetAxes(-0.948683, 0, 0.316228, 0, -1, 0, 0.316228, 0, 0.948683)
-level05.colliders.C_Parent_Tile_5ID96.collider:SetHalfLengths(0.3,5.26057,1.58114)
+level05.colliders.C_Parent_Tile_5ID96.collider:SetOffset(444.5,84.4167,585.5)
+level05.colliders.C_Parent_Tile_5ID96.collider:SetAxes(-0.98995, 0, 0.141421, 0, -1, 0, 0.141421, 0, 0.98995)
+level05.colliders.C_Parent_Tile_5ID96.collider:SetHalfLengths(0.3,6.30286,3.53553)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID96.collider)
 level05.colliders.C_Parent_Tile_5ID97 = {}
 level05.colliders.C_Parent_Tile_5ID97.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID97.collider:SetOffset(444.5,84.4167,585.5)
-level05.colliders.C_Parent_Tile_5ID97.collider:SetAxes(-0.98995, 0, 0.141421, 0, -1, 0, 0.141421, 0, 0.98995)
-level05.colliders.C_Parent_Tile_5ID97.collider:SetHalfLengths(0.3,6.30286,3.53553)
+level05.colliders.C_Parent_Tile_5ID97.collider:SetOffset(467.5,82.8532,576)
+level05.colliders.C_Parent_Tile_5ID97.collider:SetAxes(-0.8, 0, 0.6, 0, -1, 0, 0.6, 0, 0.8)
+level05.colliders.C_Parent_Tile_5ID97.collider:SetHalfLengths(0.3,7.60571,7.5)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID97.collider)
 level05.colliders.C_Parent_Tile_5ID98 = {}
 level05.colliders.C_Parent_Tile_5ID98.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID98.collider:SetOffset(467.5,82.8532,576)
-level05.colliders.C_Parent_Tile_5ID98.collider:SetAxes(-0.8, 0, 0.6, 0, -1, 0, 0.6, 0, 0.8)
-level05.colliders.C_Parent_Tile_5ID98.collider:SetHalfLengths(0.3,7.60571,7.5)
+level05.colliders.C_Parent_Tile_5ID98.collider:SetOffset(494.5,76.0784,546.5)
+level05.colliders.C_Parent_Tile_5ID98.collider:SetAxes(0.707107, 0, -0.707107, 0, -1, -0, -0.707107, 0, -0.707107)
+level05.colliders.C_Parent_Tile_5ID98.collider:SetHalfLengths(0.3,6.82401,3.53553)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID98.collider)
 level05.colliders.C_Parent_Tile_5ID99 = {}
 level05.colliders.C_Parent_Tile_5ID99.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID99.collider:SetOffset(494.5,76.0784,546.5)
+level05.colliders.C_Parent_Tile_5ID99.collider:SetOffset(490,74.2544,542)
 level05.colliders.C_Parent_Tile_5ID99.collider:SetAxes(0.707107, 0, -0.707107, 0, -1, -0, -0.707107, 0, -0.707107)
-level05.colliders.C_Parent_Tile_5ID99.collider:SetHalfLengths(0.3,6.82401,3.53553)
+level05.colliders.C_Parent_Tile_5ID99.collider:SetHalfLengths(0.3,7.34514,2.82843)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID99.collider)
 level05.colliders.C_Parent_Tile_5ID100 = {}
 level05.colliders.C_Parent_Tile_5ID100.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID100.collider:SetOffset(490,74.2544,542)
-level05.colliders.C_Parent_Tile_5ID100.collider:SetAxes(0.707107, 0, -0.707107, 0, -1, -0, -0.707107, 0, -0.707107)
-level05.colliders.C_Parent_Tile_5ID100.collider:SetHalfLengths(0.3,7.34514,2.82843)
+level05.colliders.C_Parent_Tile_5ID100.collider:SetOffset(528,70.9754,525)
+level05.colliders.C_Parent_Tile_5ID100.collider:SetAxes(0.948683, 0, -0.316228, 0, -1, -0, -0.316228, 0, -0.948683)
+level05.colliders.C_Parent_Tile_5ID100.collider:SetHalfLengths(0.3,9.66303,9.48683)
 level05.colliders.C_Parent_Tile_5ID90.collider:AddChild(level05.colliders.C_Parent_Tile_5ID100.collider)
 level05.colliders.C_Parent_Tile_5ID101 = {}
 level05.colliders.C_Parent_Tile_5ID101.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID101.collider:SetOffset(0,0,0)
 level05.colliders.C_Parent_Tile_5ID101.collider:SetMinPos(432.829,52.0567,449.878)
-level05.colliders.C_Parent_Tile_5ID101.collider:SetMaxPos(593.274,88.8955,613.247)
+level05.colliders.C_Parent_Tile_5ID101.collider:SetMaxPos(597.268,88.8955,613.247)
 level05.colliders.C_Parent_Tile_5ID1.collider:AddChild(level05.colliders.C_Parent_Tile_5ID101.collider)
 level05.colliders.C_Parent_Tile_5ID102 = {}
 level05.colliders.C_Parent_Tile_5ID102.collider = OBBCollider.Create(-1)
@@ -5090,15 +5323,15 @@ level05.colliders.C_Parent_Tile_5ID102.collider:SetHalfLengths(0.3,6.30286,4.924
 level05.colliders.C_Parent_Tile_5ID101.collider:AddChild(level05.colliders.C_Parent_Tile_5ID102.collider)
 level05.colliders.C_Parent_Tile_5ID103 = {}
 level05.colliders.C_Parent_Tile_5ID103.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID103.collider:SetOffset(567,66.9584,490.5)
-level05.colliders.C_Parent_Tile_5ID103.collider:SetAxes(-0.913812, 0, 0.406139, 0, -1, 0, 0.406139, 0, 0.913812)
-level05.colliders.C_Parent_Tile_5ID103.collider:SetHalfLengths(0.3,8.12685,4.92443)
+level05.colliders.C_Parent_Tile_5ID103.collider:SetOffset(595,59.6624,463)
+level05.colliders.C_Parent_Tile_5ID103.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
+level05.colliders.C_Parent_Tile_5ID103.collider:SetHalfLengths(0.3,6.56343,4.47214)
 level05.colliders.C_Parent_Tile_5ID101.collider:AddChild(level05.colliders.C_Parent_Tile_5ID103.collider)
 level05.colliders.C_Parent_Tile_5ID104 = {}
 level05.colliders.C_Parent_Tile_5ID104.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID104.collider:SetOffset(538.5,71.1275,514)
-level05.colliders.C_Parent_Tile_5ID104.collider:SetAxes(0.672673, 0, -0.73994, 0, -1, -0, -0.73994, 0, -0.672673)
-level05.colliders.C_Parent_Tile_5ID104.collider:SetHalfLengths(0.3,8.38743,7.43303)
+level05.colliders.C_Parent_Tile_5ID104.collider:SetOffset(567,66.9584,490.5)
+level05.colliders.C_Parent_Tile_5ID104.collider:SetAxes(-0.913812, 0, 0.406139, 0, -1, 0, 0.406139, 0, 0.913812)
+level05.colliders.C_Parent_Tile_5ID104.collider:SetHalfLengths(0.3,8.12685,4.92443)
 level05.colliders.C_Parent_Tile_5ID101.collider:AddChild(level05.colliders.C_Parent_Tile_5ID104.collider)
 level05.colliders.C_Parent_Tile_5ID105 = {}
 level05.colliders.C_Parent_Tile_5ID105.collider = OBBCollider.Create(-1)
@@ -5145,8 +5378,8 @@ level05.colliders.C_Parent_Tile_5ID101.collider:AddChild(level05.colliders.C_Par
 level05.colliders.C_Parent_Tile_5ID112 = {}
 level05.colliders.C_Parent_Tile_5ID112.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID112.collider:SetOffset(0,0,0)
-level05.colliders.C_Parent_Tile_5ID112.collider:SetMinPos(430,46.8453,458.866)
-level05.colliders.C_Parent_Tile_5ID112.collider:SetMaxPos(640.3,106.093,640)
+level05.colliders.C_Parent_Tile_5ID112.collider:SetMinPos(430,46.8453,465.855)
+level05.colliders.C_Parent_Tile_5ID112.collider:SetMaxPos(640.3,92.5435,640)
 level05.colliders.C_Parent_Tile_5ID.collider:AddChild(level05.colliders.C_Parent_Tile_5ID112.collider)
 level05.colliders.C_Parent_Tile_5ID113 = {}
 level05.colliders.C_Parent_Tile_5ID113.collider = AABBCollider.Create(-1)
@@ -5162,129 +5395,129 @@ level05.colliders.C_Parent_Tile_5ID114.collider:SetHalfLengths(0.3,12.5566,11.41
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID114.collider)
 level05.colliders.C_Parent_Tile_5ID115 = {}
 level05.colliders.C_Parent_Tile_5ID115.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID115.collider:SetOffset(521,66.6978,507.5)
-level05.colliders.C_Parent_Tile_5ID115.collider:SetAxes(0.124035, 0, -0.992278, 0, -1, -0, -0.992278, 0, -0.124035)
-level05.colliders.C_Parent_Tile_5ID115.collider:SetHalfLengths(0.3,6.04228,4.03113)
+level05.colliders.C_Parent_Tile_5ID115.collider:SetOffset(511,65.6555,506.5)
+level05.colliders.C_Parent_Tile_5ID115.collider:SetAxes(0.0830455, 0, -0.996546, 0, -1, -0, -0.996546, 0, -0.0830455)
+level05.colliders.C_Parent_Tile_5ID115.collider:SetHalfLengths(0.3,6.30286,6.0208)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID115.collider)
 level05.colliders.C_Parent_Tile_5ID116 = {}
 level05.colliders.C_Parent_Tile_5ID116.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID116.collider:SetOffset(511,65.6555,506.5)
-level05.colliders.C_Parent_Tile_5ID116.collider:SetAxes(0.0830455, 0, -0.996546, 0, -1, -0, -0.996546, 0, -0.0830455)
-level05.colliders.C_Parent_Tile_5ID116.collider:SetHalfLengths(0.3,6.30286,6.0208)
+level05.colliders.C_Parent_Tile_5ID116.collider:SetOffset(431,84.1561,569)
+level05.colliders.C_Parent_Tile_5ID116.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
+level05.colliders.C_Parent_Tile_5ID116.collider:SetHalfLengths(0.3,5.26057,1)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID116.collider)
 level05.colliders.C_Parent_Tile_5ID117 = {}
 level05.colliders.C_Parent_Tile_5ID117.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID117.collider:SetOffset(431,84.1561,569)
-level05.colliders.C_Parent_Tile_5ID117.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
-level05.colliders.C_Parent_Tile_5ID117.collider:SetHalfLengths(0.3,5.26057,1)
+level05.colliders.C_Parent_Tile_5ID117.collider:SetOffset(434.5,84.4167,570)
+level05.colliders.C_Parent_Tile_5ID117.collider:SetAxes(-0.371391, 0, 0.928477, 0, -1, 0, 0.928477, 0, 0.371391)
+level05.colliders.C_Parent_Tile_5ID117.collider:SetHalfLengths(0.3,5,2.69258)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID117.collider)
 level05.colliders.C_Parent_Tile_5ID118 = {}
 level05.colliders.C_Parent_Tile_5ID118.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID118.collider:SetOffset(434.5,84.4167,570)
-level05.colliders.C_Parent_Tile_5ID118.collider:SetAxes(-0.371391, 0, 0.928477, 0, -1, 0, 0.928477, 0, 0.371391)
-level05.colliders.C_Parent_Tile_5ID118.collider:SetHalfLengths(0.3,5,2.69258)
+level05.colliders.C_Parent_Tile_5ID118.collider:SetOffset(439,84.4167,573)
+level05.colliders.C_Parent_Tile_5ID118.collider:SetAxes(-0.707107, 0, 0.707107, 0, -1, 0, 0.707107, 0, 0.707107)
+level05.colliders.C_Parent_Tile_5ID118.collider:SetHalfLengths(0.3,5,2.82843)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID118.collider)
 level05.colliders.C_Parent_Tile_5ID119 = {}
 level05.colliders.C_Parent_Tile_5ID119.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID119.collider:SetOffset(439,84.4167,573)
-level05.colliders.C_Parent_Tile_5ID119.collider:SetAxes(-0.707107, 0, 0.707107, 0, -1, 0, 0.707107, 0, 0.707107)
-level05.colliders.C_Parent_Tile_5ID119.collider:SetHalfLengths(0.3,5,2.82843)
+level05.colliders.C_Parent_Tile_5ID119.collider:SetOffset(457,80.7687,557.5)
+level05.colliders.C_Parent_Tile_5ID119.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
+level05.colliders.C_Parent_Tile_5ID119.collider:SetHalfLengths(0.3,5.78172,1.5)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID119.collider)
 level05.colliders.C_Parent_Tile_5ID120 = {}
 level05.colliders.C_Parent_Tile_5ID120.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID120.collider:SetOffset(457,80.7687,557.5)
-level05.colliders.C_Parent_Tile_5ID120.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
-level05.colliders.C_Parent_Tile_5ID120.collider:SetHalfLengths(0.3,5.78172,1.5)
+level05.colliders.C_Parent_Tile_5ID120.collider:SetOffset(460,81.5504,564.5)
+level05.colliders.C_Parent_Tile_5ID120.collider:SetAxes(-0.877896, 0, 0.478852, 0, -1, 0, 0.478852, 0, 0.877896)
+level05.colliders.C_Parent_Tile_5ID120.collider:SetHalfLengths(0.3,6.30285,6.26498)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID120.collider)
 level05.colliders.C_Parent_Tile_5ID121 = {}
 level05.colliders.C_Parent_Tile_5ID121.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID121.collider:SetOffset(460,81.5504,564.5)
-level05.colliders.C_Parent_Tile_5ID121.collider:SetAxes(-0.877896, 0, 0.478852, 0, -1, 0, 0.478852, 0, 0.877896)
-level05.colliders.C_Parent_Tile_5ID121.collider:SetHalfLengths(0.3,6.30285,6.26498)
+level05.colliders.C_Parent_Tile_5ID121.collider:SetOffset(484.5,71.9093,537.5)
+level05.colliders.C_Parent_Tile_5ID121.collider:SetAxes(0.581238, 0, -0.813733, 0, -1, -0, -0.813733, 0, -0.581238)
+level05.colliders.C_Parent_Tile_5ID121.collider:SetHalfLengths(0.3,11.7748,4.30116)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID121.collider)
 level05.colliders.C_Parent_Tile_5ID122 = {}
 level05.colliders.C_Parent_Tile_5ID122.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID122.collider:SetOffset(484.5,71.9093,537.5)
-level05.colliders.C_Parent_Tile_5ID122.collider:SetAxes(0.581238, 0, -0.813733, 0, -1, -0, -0.813733, 0, -0.581238)
-level05.colliders.C_Parent_Tile_5ID122.collider:SetHalfLengths(0.3,11.7748,4.30116)
+level05.colliders.C_Parent_Tile_5ID122.collider:SetOffset(477,65.1344,535.5)
+level05.colliders.C_Parent_Tile_5ID122.collider:SetAxes(-0.124035, 0, -0.992278, -0, -1, 0, -0.992278, 0, 0.124035)
+level05.colliders.C_Parent_Tile_5ID122.collider:SetHalfLengths(0.3,5.78172,4.03113)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID122.collider)
 level05.colliders.C_Parent_Tile_5ID123 = {}
 level05.colliders.C_Parent_Tile_5ID123.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID123.collider:SetOffset(477,65.1344,535.5)
-level05.colliders.C_Parent_Tile_5ID123.collider:SetAxes(-0.124035, 0, -0.992278, -0, -1, 0, -0.992278, 0, 0.124035)
-level05.colliders.C_Parent_Tile_5ID123.collider:SetHalfLengths(0.3,5.78172,4.03113)
+level05.colliders.C_Parent_Tile_5ID123.collider:SetOffset(521,66.3124,511.5)
+level05.colliders.C_Parent_Tile_5ID123.collider:SetAxes(0.747409, 0, -0.664364, 0, -1, -0, -0.664364, 0, -0.747409)
+level05.colliders.C_Parent_Tile_5ID123.collider:SetHalfLengths(0.3,5.8882,6.0208)
 level05.colliders.C_Parent_Tile_5ID113.collider:AddChild(level05.colliders.C_Parent_Tile_5ID123.collider)
 level05.colliders.C_Parent_Tile_5ID124 = {}
 level05.colliders.C_Parent_Tile_5ID124.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID124.collider:SetOffset(0,0,0)
-level05.colliders.C_Parent_Tile_5ID124.collider:SetMinPos(445.806,53.099,458.866)
+level05.colliders.C_Parent_Tile_5ID124.collider:SetMinPos(445.806,53.099,466.905)
 level05.colliders.C_Parent_Tile_5ID124.collider:SetMaxPos(601.285,91.5013,624.229)
 level05.colliders.C_Parent_Tile_5ID112.collider:AddChild(level05.colliders.C_Parent_Tile_5ID124.collider)
 level05.colliders.C_Parent_Tile_5ID125 = {}
 level05.colliders.C_Parent_Tile_5ID125.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID125.collider:SetOffset(595,59.6624,463)
-level05.colliders.C_Parent_Tile_5ID125.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
-level05.colliders.C_Parent_Tile_5ID125.collider:SetHalfLengths(0.3,6.56343,4.47214)
+level05.colliders.C_Parent_Tile_5ID125.collider:SetOffset(599,61.2258,473)
+level05.colliders.C_Parent_Tile_5ID125.collider:SetAxes(-0.948683, 0, 0.316228, 0, -1, 0, 0.316228, 0, 0.948683)
+level05.colliders.C_Parent_Tile_5ID125.collider:SetHalfLengths(0.3,8.12685,6.32456)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID125.collider)
 level05.colliders.C_Parent_Tile_5ID126 = {}
 level05.colliders.C_Parent_Tile_5ID126.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID126.collider:SetOffset(599,61.2258,473)
-level05.colliders.C_Parent_Tile_5ID126.collider:SetAxes(-0.948683, 0, 0.316228, 0, -1, 0, 0.316228, 0, 0.948683)
-level05.colliders.C_Parent_Tile_5ID126.collider:SetHalfLengths(0.3,8.12685,6.32456)
+level05.colliders.C_Parent_Tile_5ID126.collider:SetOffset(572,70.0853,501)
+level05.colliders.C_Parent_Tile_5ID126.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
+level05.colliders.C_Parent_Tile_5ID126.collider:SetHalfLengths(0.3,7.34515,6.7082)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID126.collider)
 level05.colliders.C_Parent_Tile_5ID127 = {}
 level05.colliders.C_Parent_Tile_5ID127.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID127.collider:SetOffset(572,70.0853,501)
-level05.colliders.C_Parent_Tile_5ID127.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
-level05.colliders.C_Parent_Tile_5ID127.collider:SetHalfLengths(0.3,7.34515,6.7082)
+level05.colliders.C_Parent_Tile_5ID127.collider:SetOffset(452.5,83.1138,618.5)
+level05.colliders.C_Parent_Tile_5ID127.collider:SetAxes(-0.645942, 0, 0.763386, 0, -1, 0, 0.763386, 0, 0.645942)
+level05.colliders.C_Parent_Tile_5ID127.collider:SetHalfLengths(0.3,7.08458,8.51469)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID127.collider)
 level05.colliders.C_Parent_Tile_5ID128 = {}
 level05.colliders.C_Parent_Tile_5ID128.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID128.collider:SetOffset(548,74.2544,525)
-level05.colliders.C_Parent_Tile_5ID128.collider:SetAxes(0.83205, 0, -0.5547, 0, -1, -0, -0.5547, 0, -0.83205)
-level05.colliders.C_Parent_Tile_5ID128.collider:SetHalfLengths(0.3,8.12685,7.2111)
+level05.colliders.C_Parent_Tile_5ID128.collider:SetOffset(474,85.459,583.5)
+level05.colliders.C_Parent_Tile_5ID128.collider:SetAxes(-0.6, 0, 0.8, 0, -1, 0, 0.8, 0, 0.6)
+level05.colliders.C_Parent_Tile_5ID128.collider:SetHalfLengths(0.3,5.26056,2.5)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID128.collider)
 level05.colliders.C_Parent_Tile_5ID129 = {}
 level05.colliders.C_Parent_Tile_5ID129.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID129.collider:SetOffset(452.5,83.1138,618.5)
-level05.colliders.C_Parent_Tile_5ID129.collider:SetAxes(-0.645942, 0, 0.763386, 0, -1, 0, 0.763386, 0, 0.645942)
-level05.colliders.C_Parent_Tile_5ID129.collider:SetHalfLengths(0.3,7.08458,8.51469)
+level05.colliders.C_Parent_Tile_5ID129.collider:SetOffset(479,85.1984,586.5)
+level05.colliders.C_Parent_Tile_5ID129.collider:SetAxes(-0.447214, 0, 0.894427, 0, -1, 0, 0.894427, 0, 0.447214)
+level05.colliders.C_Parent_Tile_5ID129.collider:SetHalfLengths(0.3,6.30286,3.3541)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID129.collider)
 level05.colliders.C_Parent_Tile_5ID130 = {}
 level05.colliders.C_Parent_Tile_5ID130.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID130.collider:SetOffset(474,85.459,583.5)
-level05.colliders.C_Parent_Tile_5ID130.collider:SetAxes(-0.6, 0, 0.8, 0, -1, 0, 0.8, 0, 0.6)
-level05.colliders.C_Parent_Tile_5ID130.collider:SetHalfLengths(0.3,5.26056,2.5)
+level05.colliders.C_Parent_Tile_5ID130.collider:SetOffset(484.5,83.8955,586.5)
+level05.colliders.C_Parent_Tile_5ID130.collider:SetAxes(0.514496, -0, 0.857493, 0, -1, -0, 0.857493, 0, -0.514496)
+level05.colliders.C_Parent_Tile_5ID130.collider:SetHalfLengths(0.3,5.26057,2.91548)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID130.collider)
 level05.colliders.C_Parent_Tile_5ID131 = {}
 level05.colliders.C_Parent_Tile_5ID131.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID131.collider:SetOffset(479,85.1984,586.5)
-level05.colliders.C_Parent_Tile_5ID131.collider:SetAxes(-0.447214, 0, 0.894427, 0, -1, 0, 0.894427, 0, 0.447214)
-level05.colliders.C_Parent_Tile_5ID131.collider:SetHalfLengths(0.3,6.30286,3.3541)
+level05.colliders.C_Parent_Tile_5ID131.collider:SetOffset(490,83.635,582.5)
+level05.colliders.C_Parent_Tile_5ID131.collider:SetAxes(0.640184, -0, 0.768221, 0, -1, -0, 0.768221, 0, -0.640184)
+level05.colliders.C_Parent_Tile_5ID131.collider:SetHalfLengths(0.3,6.04229,3.90512)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID131.collider)
 level05.colliders.C_Parent_Tile_5ID132 = {}
 level05.colliders.C_Parent_Tile_5ID132.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID132.collider:SetOffset(490,83.635,582.5)
-level05.colliders.C_Parent_Tile_5ID132.collider:SetAxes(0.640184, -0, 0.768221, 0, -1, -0, 0.768221, 0, -0.640184)
-level05.colliders.C_Parent_Tile_5ID132.collider:SetHalfLengths(0.3,6.04229,3.90512)
+level05.colliders.C_Parent_Tile_5ID132.collider:SetOffset(496,82.3321,573.5)
+level05.colliders.C_Parent_Tile_5ID132.collider:SetAxes(0.928477, -0, 0.371391, 0, -1, -0, 0.371391, 0, -0.928477)
+level05.colliders.C_Parent_Tile_5ID132.collider:SetHalfLengths(0.3,5.78172,2.69258)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID132.collider)
 level05.colliders.C_Parent_Tile_5ID133 = {}
 level05.colliders.C_Parent_Tile_5ID133.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID133.collider:SetOffset(496,82.3321,573.5)
-level05.colliders.C_Parent_Tile_5ID133.collider:SetAxes(0.928477, -0, 0.371391, 0, -1, -0, 0.371391, 0, -0.928477)
-level05.colliders.C_Parent_Tile_5ID133.collider:SetHalfLengths(0.3,5.78172,2.69258)
+level05.colliders.C_Parent_Tile_5ID133.collider:SetOffset(498,81.5504,567)
+level05.colliders.C_Parent_Tile_5ID133.collider:SetAxes(0.970143, -0, 0.242536, 0, -1, -0, 0.242536, 0, -0.970143)
+level05.colliders.C_Parent_Tile_5ID133.collider:SetHalfLengths(0.3,6.30286,4.12311)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID133.collider)
 level05.colliders.C_Parent_Tile_5ID134 = {}
 level05.colliders.C_Parent_Tile_5ID134.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID134.collider:SetOffset(498,81.5504,567)
-level05.colliders.C_Parent_Tile_5ID134.collider:SetAxes(0.970143, -0, 0.242536, 0, -1, -0, 0.242536, 0, -0.970143)
-level05.colliders.C_Parent_Tile_5ID134.collider:SetHalfLengths(0.3,6.30286,4.12311)
+level05.colliders.C_Parent_Tile_5ID134.collider:SetOffset(532,74.7502,542.5)
+level05.colliders.C_Parent_Tile_5ID134.collider:SetAxes(0.993151, 0, -0.116841, 0, -1, -0, -0.116841, 0, -0.993151)
+level05.colliders.C_Parent_Tile_5ID134.collider:SetHalfLengths(0.3,8.77484,8.55862)
 level05.colliders.C_Parent_Tile_5ID124.collider:AddChild(level05.colliders.C_Parent_Tile_5ID134.collider)
 level05.colliders.C_Parent_Tile_5ID135 = {}
 level05.colliders.C_Parent_Tile_5ID135.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID135.collider:SetOffset(0,0,0)
 level05.colliders.C_Parent_Tile_5ID135.collider:SetMinPos(458.834,53.099,478.897)
-level05.colliders.C_Parent_Tile_5ID135.collider:SetMaxPos(610.299,96.7127,639.124)
+level05.colliders.C_Parent_Tile_5ID135.collider:SetMaxPos(610.299,91.2968,639.124)
 level05.colliders.C_Parent_Tile_5ID112.collider:AddChild(level05.colliders.C_Parent_Tile_5ID135.collider)
 level05.colliders.C_Parent_Tile_5ID136 = {}
 level05.colliders.C_Parent_Tile_5ID136.collider = OBBCollider.Create(-1)
@@ -5312,45 +5545,45 @@ level05.colliders.C_Parent_Tile_5ID139.collider:SetHalfLengths(0.3,10.2114,17.67
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID139.collider)
 level05.colliders.C_Parent_Tile_5ID140 = {}
 level05.colliders.C_Parent_Tile_5ID140.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID140.collider:SetOffset(560,85.459,550)
-level05.colliders.C_Parent_Tile_5ID140.collider:SetAxes(0.961524, 0, -0.274721, 0, -1, -0, -0.274721, 0, -0.961524)
-level05.colliders.C_Parent_Tile_5ID140.collider:SetHalfLengths(0.3,11.2537,7.28011)
+level05.colliders.C_Parent_Tile_5ID140.collider:SetOffset(462,85.1984,626)
+level05.colliders.C_Parent_Tile_5ID140.collider:SetAxes(-0.5547, 0, 0.83205, 0, -1, 0, 0.83205, 0, 0.5547)
+level05.colliders.C_Parent_Tile_5ID140.collider:SetHalfLengths(0.3,5,3.60555)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID140.collider)
 level05.colliders.C_Parent_Tile_5ID141 = {}
 level05.colliders.C_Parent_Tile_5ID141.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID141.collider:SetOffset(555,79.2053,537)
-level05.colliders.C_Parent_Tile_5ID141.collider:SetAxes(0.894427, 0, -0.447214, 0, -1, -0, -0.447214, 0, -0.894427)
-level05.colliders.C_Parent_Tile_5ID141.collider:SetHalfLengths(0.3,9.95086,6.7082)
+level05.colliders.C_Parent_Tile_5ID141.collider:SetOffset(467.5,85.1984,633.5)
+level05.colliders.C_Parent_Tile_5ID141.collider:SetAxes(-0.910366, 0, 0.413803, 0, -1, 0, 0.413803, 0, 0.910366)
+level05.colliders.C_Parent_Tile_5ID141.collider:SetHalfLengths(0.3,5.78171,6.04152)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID141.collider)
 level05.colliders.C_Parent_Tile_5ID142 = {}
 level05.colliders.C_Parent_Tile_5ID142.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID142.collider:SetOffset(462,85.1984,626)
-level05.colliders.C_Parent_Tile_5ID142.collider:SetAxes(-0.5547, 0, 0.83205, 0, -1, 0, 0.83205, 0, 0.5547)
-level05.colliders.C_Parent_Tile_5ID142.collider:SetHalfLengths(0.3,5,3.60555)
+level05.colliders.C_Parent_Tile_5ID142.collider:SetOffset(494,82.5927,578)
+level05.colliders.C_Parent_Tile_5ID142.collider:SetAxes(0.894427, -0, 0.447214, 0, -1, -0, 0.447214, 0, -0.894427)
+level05.colliders.C_Parent_Tile_5ID142.collider:SetHalfLengths(0.3,5.26057,2.23607)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID142.collider)
 level05.colliders.C_Parent_Tile_5ID143 = {}
 level05.colliders.C_Parent_Tile_5ID143.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID143.collider:SetOffset(467.5,85.1984,633.5)
-level05.colliders.C_Parent_Tile_5ID143.collider:SetAxes(-0.910366, 0, 0.413803, 0, -1, 0, 0.413803, 0, 0.910366)
-level05.colliders.C_Parent_Tile_5ID143.collider:SetHalfLengths(0.3,5.78171,6.04152)
+level05.colliders.C_Parent_Tile_5ID143.collider:SetOffset(519,84.2984,600)
+level05.colliders.C_Parent_Tile_5ID143.collider:SetAxes(0.948683, -0, 0.316228, 0, -1, -0, 0.316228, 0, -0.948683)
+level05.colliders.C_Parent_Tile_5ID143.collider:SetHalfLengths(0.3,6.99844,9.48683)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID143.collider)
 level05.colliders.C_Parent_Tile_5ID144 = {}
 level05.colliders.C_Parent_Tile_5ID144.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID144.collider:SetOffset(484.5,83.8955,586.5)
-level05.colliders.C_Parent_Tile_5ID144.collider:SetAxes(0.514496, -0, 0.857493, 0, -1, -0, 0.857493, 0, -0.514496)
-level05.colliders.C_Parent_Tile_5ID144.collider:SetHalfLengths(0.3,5.26057,2.91548)
+level05.colliders.C_Parent_Tile_5ID144.collider:SetOffset(525.5,82.2999,580)
+level05.colliders.C_Parent_Tile_5ID144.collider:SetAxes(0.952926, -0, 0.303204, 0, -1, -0, 0.303204, 0, -0.952926)
+level05.colliders.C_Parent_Tile_5ID144.collider:SetHalfLengths(0.3,8.55279,11.5434)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID144.collider)
 level05.colliders.C_Parent_Tile_5ID145 = {}
 level05.colliders.C_Parent_Tile_5ID145.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID145.collider:SetOffset(494,82.5927,578)
-level05.colliders.C_Parent_Tile_5ID145.collider:SetAxes(0.894427, -0, 0.447214, 0, -1, -0, 0.447214, 0, -0.894427)
-level05.colliders.C_Parent_Tile_5ID145.collider:SetHalfLengths(0.3,5.26057,2.23607)
+level05.colliders.C_Parent_Tile_5ID145.collider:SetOffset(531,78.7471,560)
+level05.colliders.C_Parent_Tile_5ID145.collider:SetAxes(0.976187, -0, 0.21693, 0, -1, -0, 0.21693, 0, -0.976187)
+level05.colliders.C_Parent_Tile_5ID145.collider:SetHalfLengths(0.3,8.99688,9.21954)
 level05.colliders.C_Parent_Tile_5ID135.collider:AddChild(level05.colliders.C_Parent_Tile_5ID145.collider)
 level05.colliders.C_Parent_Tile_5ID146 = {}
 level05.colliders.C_Parent_Tile_5ID146.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID146.collider:SetOffset(0,0,0)
-level05.colliders.C_Parent_Tile_5ID146.collider:SetMinPos(561.762,66.1275,516)
-level05.colliders.C_Parent_Tile_5ID146.collider:SetMaxPos(615.291,106.093,589.073)
+level05.colliders.C_Parent_Tile_5ID146.collider:SetMinPos(515.702,66.1275,516)
+level05.colliders.C_Parent_Tile_5ID146.collider:SetMaxPos(614.299,91.5188,628.3)
 level05.colliders.C_Parent_Tile_5ID112.collider:AddChild(level05.colliders.C_Parent_Tile_5ID146.collider)
 level05.colliders.C_Parent_Tile_5ID147 = {}
 level05.colliders.C_Parent_Tile_5ID147.collider = OBBCollider.Create(-1)
@@ -5372,75 +5605,75 @@ level05.colliders.C_Parent_Tile_5ID149.collider:SetHalfLengths(0.3,9.42972,13.53
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID149.collider)
 level05.colliders.C_Parent_Tile_5ID150 = {}
 level05.colliders.C_Parent_Tile_5ID150.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID150.collider:SetOffset(614.5,84.9378,587)
-level05.colliders.C_Parent_Tile_5ID150.collider:SetAxes(-0.970143, 0, 0.242536, 0, -1, 0, 0.242536, 0, 0.970143)
-level05.colliders.C_Parent_Tile_5ID150.collider:SetHalfLengths(0.3,5.52113,2.06155)
+level05.colliders.C_Parent_Tile_5ID150.collider:SetOffset(582.5,82.8532,573.5)
+level05.colliders.C_Parent_Tile_5ID150.collider:SetAxes(-0.919145, 0, -0.393919, -0, -1, 0, -0.393919, 0, 0.919145)
+level05.colliders.C_Parent_Tile_5ID150.collider:SetHalfLengths(0.3,7.08458,3.80789)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID150.collider)
 level05.colliders.C_Parent_Tile_5ID151 = {}
 level05.colliders.C_Parent_Tile_5ID151.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID151.collider:SetOffset(582.5,82.8532,573.5)
-level05.colliders.C_Parent_Tile_5ID151.collider:SetAxes(-0.919145, 0, -0.393919, -0, -1, 0, -0.393919, 0, 0.919145)
-level05.colliders.C_Parent_Tile_5ID151.collider:SetHalfLengths(0.3,7.08458,3.80789)
+level05.colliders.C_Parent_Tile_5ID151.collider:SetOffset(579,85.4086,584.5)
+level05.colliders.C_Parent_Tile_5ID151.collider:SetAxes(-0.966235, 0, -0.257663, -0, -1, 0, -0.257663, 0, 0.966235)
+level05.colliders.C_Parent_Tile_5ID151.collider:SetHalfLengths(0.3,5,7.76209)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID151.collider)
 level05.colliders.C_Parent_Tile_5ID152 = {}
 level05.colliders.C_Parent_Tile_5ID152.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID152.collider:SetOffset(579.5,84.9378,578)
-level05.colliders.C_Parent_Tile_5ID152.collider:SetAxes(-0.5547, 0, -0.83205, -0, -1, 0, -0.83205, 0, 0.5547)
-level05.colliders.C_Parent_Tile_5ID152.collider:SetHalfLengths(0.3,6.04228,1.80278)
+level05.colliders.C_Parent_Tile_5ID152.collider:SetOffset(573,85.4086,598.5)
+level05.colliders.C_Parent_Tile_5ID152.collider:SetAxes(-0.851658, 0, -0.524097, -0, -1, 0, -0.524097, 0, 0.851658)
+level05.colliders.C_Parent_Tile_5ID152.collider:SetHalfLengths(0.3,6.11024,7.63217)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID152.collider)
 level05.colliders.C_Parent_Tile_5ID153 = {}
 level05.colliders.C_Parent_Tile_5ID153.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID153.collider:SetOffset(575.5,85.9801,579)
-level05.colliders.C_Parent_Tile_5ID153.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
-level05.colliders.C_Parent_Tile_5ID153.collider:SetHalfLengths(0.3,5.26057,2.5)
+level05.colliders.C_Parent_Tile_5ID153.collider:SetOffset(559.5,84.2984,613)
+level05.colliders.C_Parent_Tile_5ID153.collider:SetAxes(-0.644136, 0, -0.764911, -0, -1, 0, -0.764911, 0, 0.644136)
+level05.colliders.C_Parent_Tile_5ID153.collider:SetHalfLengths(0.3,5.22205,12.4197)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID153.collider)
 level05.colliders.C_Parent_Tile_5ID154 = {}
 level05.colliders.C_Parent_Tile_5ID154.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID154.collider:SetOffset(572,85.7195,578)
-level05.colliders.C_Parent_Tile_5ID154.collider:SetAxes(0.707107, 0, -0.707107, 0, -1, -0, -0.707107, 0, -0.707107)
-level05.colliders.C_Parent_Tile_5ID154.collider:SetHalfLengths(0.3,7.08457,1.41421)
+level05.colliders.C_Parent_Tile_5ID154.collider:SetOffset(542,84.5204,624.5)
+level05.colliders.C_Parent_Tile_5ID154.collider:SetAxes(-0.400819, 0, -0.916157, -0, -1, 0, -0.916157, 0, 0.400819)
+level05.colliders.C_Parent_Tile_5ID154.collider:SetHalfLengths(0.3,5.44411,8.73212)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID154.collider)
 level05.colliders.C_Parent_Tile_5ID155 = {}
 level05.colliders.C_Parent_Tile_5ID155.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID155.collider:SetOffset(571.5,87.8041,573.5)
-level05.colliders.C_Parent_Tile_5ID155.collider:SetAxes(0.98995, -0, 0.141421, 0, -1, -0, 0.141421, 0, -0.98995)
-level05.colliders.C_Parent_Tile_5ID155.collider:SetHalfLengths(0.3,10.472,3.53553)
+level05.colliders.C_Parent_Tile_5ID155.collider:SetOffset(526,84.9645,628)
+level05.colliders.C_Parent_Tile_5ID155.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
+level05.colliders.C_Parent_Tile_5ID155.collider:SetHalfLengths(0.3,5,8)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID155.collider)
 level05.colliders.C_Parent_Tile_5ID156 = {}
 level05.colliders.C_Parent_Tile_5ID156.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID156.collider:SetOffset(567,93.2761,563.5)
-level05.colliders.C_Parent_Tile_5ID156.collider:SetAxes(0.792624, 0, -0.609711, 0, -1, -0, -0.609711, 0, -0.792624)
-level05.colliders.C_Parent_Tile_5ID156.collider:SetHalfLengths(0.3,12.8171,8.20061)
+level05.colliders.C_Parent_Tile_5ID156.collider:SetOffset(517,84.9645,618.5)
+level05.colliders.C_Parent_Tile_5ID156.collider:SetAxes(0.994505, 0, -0.104685, 0, -1, -0, -0.104685, 0, -0.994505)
+level05.colliders.C_Parent_Tile_5ID156.collider:SetHalfLengths(0.3,5.66615,9.55249)
 level05.colliders.C_Parent_Tile_5ID146.collider:AddChild(level05.colliders.C_Parent_Tile_5ID156.collider)
 level05.colliders.C_Parent_Tile_5ID157 = {}
 level05.colliders.C_Parent_Tile_5ID157.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID157.collider:SetOffset(0,0,0)
-level05.colliders.C_Parent_Tile_5ID157.collider:SetMinPos(576.7,79.6772,588.866)
+level05.colliders.C_Parent_Tile_5ID157.collider:SetMinPos(576.7,79.4167,584.927)
 level05.colliders.C_Parent_Tile_5ID157.collider:SetMaxPos(640,92.0224,640)
 level05.colliders.C_Parent_Tile_5ID112.collider:AddChild(level05.colliders.C_Parent_Tile_5ID157.collider)
 level05.colliders.C_Parent_Tile_5ID158 = {}
 level05.colliders.C_Parent_Tile_5ID158.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID158.collider:SetOffset(615.5,85.459,590)
-level05.colliders.C_Parent_Tile_5ID158.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
-level05.colliders.C_Parent_Tile_5ID158.collider:SetHalfLengths(0.3,5.78172,1.11803)
+level05.colliders.C_Parent_Tile_5ID158.collider:SetOffset(614.5,84.9378,587)
+level05.colliders.C_Parent_Tile_5ID158.collider:SetAxes(-0.970143, 0, 0.242536, 0, -1, 0, 0.242536, 0, 0.970143)
+level05.colliders.C_Parent_Tile_5ID158.collider:SetHalfLengths(0.3,5.52113,2.06155)
 level05.colliders.C_Parent_Tile_5ID157.collider:AddChild(level05.colliders.C_Parent_Tile_5ID158.collider)
 level05.colliders.C_Parent_Tile_5ID159 = {}
 level05.colliders.C_Parent_Tile_5ID159.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID159.collider:SetOffset(617,86.2407,591.5)
-level05.colliders.C_Parent_Tile_5ID159.collider:SetAxes(-0.447214, 0, 0.894427, 0, -1, 0, 0.894427, 0, 0.447214)
-level05.colliders.C_Parent_Tile_5ID159.collider:SetHalfLengths(0.3,5.52114,1.11803)
+level05.colliders.C_Parent_Tile_5ID159.collider:SetOffset(615.5,85.459,590)
+level05.colliders.C_Parent_Tile_5ID159.collider:SetAxes(-0.894427, 0, 0.447214, 0, -1, 0, 0.447214, 0, 0.894427)
+level05.colliders.C_Parent_Tile_5ID159.collider:SetHalfLengths(0.3,5.78172,1.11803)
 level05.colliders.C_Parent_Tile_5ID157.collider:AddChild(level05.colliders.C_Parent_Tile_5ID159.collider)
 level05.colliders.C_Parent_Tile_5ID160 = {}
 level05.colliders.C_Parent_Tile_5ID160.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID160.collider:SetOffset(629,86.7618,592)
-level05.colliders.C_Parent_Tile_5ID160.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
-level05.colliders.C_Parent_Tile_5ID160.collider:SetHalfLengths(0.3,5.26057,11)
+level05.colliders.C_Parent_Tile_5ID160.collider:SetOffset(617,86.2407,591.5)
+level05.colliders.C_Parent_Tile_5ID160.collider:SetAxes(-0.447214, 0, 0.894427, 0, -1, 0, 0.894427, 0, 0.447214)
+level05.colliders.C_Parent_Tile_5ID160.collider:SetHalfLengths(0.3,5.52114,1.11803)
 level05.colliders.C_Parent_Tile_5ID157.collider:AddChild(level05.colliders.C_Parent_Tile_5ID160.collider)
 level05.colliders.C_Parent_Tile_5ID161 = {}
 level05.colliders.C_Parent_Tile_5ID161.collider = OBBCollider.Create(-1)
-level05.colliders.C_Parent_Tile_5ID161.collider:SetOffset(602.5,84.9378,623)
-level05.colliders.C_Parent_Tile_5ID161.collider:SetAxes(0.371391, 0, -0.928477, 0, -1, -0, -0.928477, 0, -0.371391)
-level05.colliders.C_Parent_Tile_5ID161.collider:SetHalfLengths(0.3,5,2.69258)
+level05.colliders.C_Parent_Tile_5ID161.collider:SetOffset(629,86.7618,592)
+level05.colliders.C_Parent_Tile_5ID161.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
+level05.colliders.C_Parent_Tile_5ID161.collider:SetHalfLengths(0.3,5.26057,11)
 level05.colliders.C_Parent_Tile_5ID157.collider:AddChild(level05.colliders.C_Parent_Tile_5ID161.collider)
 level05.colliders.C_Parent_Tile_5ID162 = {}
 level05.colliders.C_Parent_Tile_5ID162.collider = OBBCollider.Create(-1)
@@ -5481,7 +5714,7 @@ level05.colliders.C_Parent_Tile_5ID157.collider:AddChild(level05.colliders.C_Par
 level05.colliders.C_Parent_Tile_5ID168 = {}
 level05.colliders.C_Parent_Tile_5ID168.collider = AABBCollider.Create(-1)
 level05.colliders.C_Parent_Tile_5ID168.collider:SetOffset(0,0,0)
-level05.colliders.C_Parent_Tile_5ID168.collider:SetMinPos(604.813,79.9378,592)
+level05.colliders.C_Parent_Tile_5ID168.collider:SetMinPos(599.889,79.9378,592)
 level05.colliders.C_Parent_Tile_5ID168.collider:SetMaxPos(640.3,92.5435,639.3)
 level05.colliders.C_Parent_Tile_5ID112.collider:AddChild(level05.colliders.C_Parent_Tile_5ID168.collider)
 level05.colliders.C_Parent_Tile_5ID169 = {}
@@ -5532,6 +5765,12 @@ level05.colliders.C_Parent_Tile_5ID176.collider:SetOffset(607.5,84.9378,626)
 level05.colliders.C_Parent_Tile_5ID176.collider:SetAxes(0.624695, 0, -0.780869, 0, -1, -0, -0.780869, 0, -0.624695)
 level05.colliders.C_Parent_Tile_5ID176.collider:SetHalfLengths(0.3,5,3.20156)
 level05.colliders.C_Parent_Tile_5ID168.collider:AddChild(level05.colliders.C_Parent_Tile_5ID176.collider)
+level05.colliders.C_Parent_Tile_5ID177 = {}
+level05.colliders.C_Parent_Tile_5ID177.collider = OBBCollider.Create(-1)
+level05.colliders.C_Parent_Tile_5ID177.collider:SetOffset(602.5,84.9378,623)
+level05.colliders.C_Parent_Tile_5ID177.collider:SetAxes(0.371391, 0, -0.928477, 0, -1, -0, -0.928477, 0, -0.371391)
+level05.colliders.C_Parent_Tile_5ID177.collider:SetHalfLengths(0.3,5,2.69258)
+level05.colliders.C_Parent_Tile_5ID168.collider:AddChild(level05.colliders.C_Parent_Tile_5ID177.collider)
 CollisionHandler.AddAABB(level05.colliders.C_Parent_Tile_5ID.collider, 3)
 level05.colliders.C_Parent_Tile_5ID1 = nil
 level05.colliders.C_Parent_Tile_5ID2 = nil
@@ -5709,6 +5948,79 @@ level05.colliders.C_Parent_Tile_5ID173 = nil
 level05.colliders.C_Parent_Tile_5ID174 = nil
 level05.colliders.C_Parent_Tile_5ID175 = nil
 level05.colliders.C_Parent_Tile_5ID176 = nil
+level05.colliders.C_Parent_Tile_5ID177 = nil
+level05.triggers.BlockerTrigger7ID = {}
+level05.triggers.BlockerTrigger7ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger7ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger7ID.collider:SetAxes(0.91698, 0.0647954, -0.393636, 0.056125, -0.997861, -0.0335112, 0.394966, -0.00863628, 0.918655)
+level05.triggers.BlockerTrigger7ID.collider:SetHalfLengths(3.40472,3,22.3649)
+level05.triggers.BlockerTrigger7ID.collider:SetPos(455.587,54.0625,449.101)
+sluice10 = CreateSluice(level05.triggers.BlockerTrigger7ID.collider, level05.props.BlockerClosedFire2ID.transformID, level05.props.BlockerClosedFire2ID, level05.props.BlockerOpenFire2ID.transformID)
+level05.triggers.BlockerTrigger7ID.collider.OnEnter = function(self) SluiceEnter(sluice10) end
+level05.triggers.BlockerTrigger7ID.collider.OnExit = function(self) SluiceExit(sluice10) end
+level05.triggers.BlockerTrigger7ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice10) end
+level05.triggers.BlockerTrigger7ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger7ID.collider, 4)
+level05.triggers.BlockerTrigger8ID = {}
+level05.triggers.BlockerTrigger8ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger8ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger8ID.collider:SetAxes(0.942854, 0, -0.333206, 0, -1, 0, 0.333206, 0, 0.942854)
+level05.triggers.BlockerTrigger8ID.collider:SetHalfLengths(2.64044,4.07561,13.8721)
+level05.triggers.BlockerTrigger8ID.collider:SetPos(435.641,73.3125,411.125)
+sluice11 = CreateSluice(level05.triggers.BlockerTrigger8ID.collider, level05.props.BlockerClosedNature2ID.transformID, level05.props.BlockerClosedNature2ID, level05.props.BlockerOpenNature2ID.transformID)
+level05.triggers.BlockerTrigger8ID.collider.OnEnter = function(self) SluiceEnter(sluice11) end
+level05.triggers.BlockerTrigger8ID.collider.OnExit = function(self) SluiceExit(sluice11) end
+level05.triggers.BlockerTrigger8ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice11) end
+level05.triggers.BlockerTrigger8ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger8ID.collider, 4)
+level05.triggers.BlockerTrigger9ID = {}
+level05.triggers.BlockerTrigger9ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger9ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger9ID.collider:SetAxes(0.505167, 0, 0.863022, 0, -1, 0, -0.863022, 0, 0.505167)
+level05.triggers.BlockerTrigger9ID.collider:SetHalfLengths(2.81146,3,15.5979)
+level05.triggers.BlockerTrigger9ID.collider:SetPos(455.895,84.5841,582.683)
+sluice13 = CreateSluice(level05.triggers.BlockerTrigger9ID.collider, level05.props.BlockerClosedNature3ID.transformID, level05.props.BlockerClosedNature3ID, level05.props.BlockerOpenNature3ID.transformID)
+level05.triggers.BlockerTrigger9ID.collider.OnEnter = function(self) SluiceEnter(sluice13) end
+level05.triggers.BlockerTrigger9ID.collider.OnExit = function(self) SluiceExit(sluice13) end
+level05.triggers.BlockerTrigger9ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice13) end
+level05.triggers.BlockerTrigger9ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger9ID.collider, 4)
+level05.triggers.BlockerTrigger6ID = {}
+level05.triggers.BlockerTrigger6ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger6ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger6ID.collider:SetAxes(0.702581, 0, -0.711603, 0, -1, 0, 0.711603, 0, 0.702581)
+level05.triggers.BlockerTrigger6ID.collider:SetHalfLengths(3.47607,4.28469,18.6487)
+level05.triggers.BlockerTrigger6ID.collider:SetPos(569.055,84.625,622.085)
+sluice14 = CreateSluice(level05.triggers.BlockerTrigger6ID.collider, level05.props.BlockerClosedIce3ID.transformID, level05.props.BlockerClosedIce3ID, level05.props.BlockerOpenIce3ID.transformID)
+level05.triggers.BlockerTrigger6ID.collider.OnEnter = function(self) SluiceEnter(sluice14) end
+level05.triggers.BlockerTrigger6ID.collider.OnExit = function(self) SluiceExit(sluice14) end
+level05.triggers.BlockerTrigger6ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice14) end
+level05.triggers.BlockerTrigger6ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger6ID.collider, 4)
+level05.triggers.BlockerTrigger10ID = {}
+level05.triggers.BlockerTrigger10ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger10ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger10ID.collider:SetAxes(0.22386, 0, -0.974621, 0, -1, 0, 0.974621, 0, 0.22386)
+level05.triggers.BlockerTrigger10ID.collider:SetHalfLengths(2,4.12589,19.5308)
+level05.triggers.BlockerTrigger10ID.collider:SetPos(508.755,79.125,575.449)
+sluice15 = CreateSluice(level05.triggers.BlockerTrigger10ID.collider, level05.props.BlockerClosedFire3ID.transformID, level05.props.BlockerClosedFire3ID, level05.props.BlockerOpenFire3ID.transformID)
+level05.triggers.BlockerTrigger10ID.collider.OnEnter = function(self) SluiceEnter(sluice15) end
+level05.triggers.BlockerTrigger10ID.collider.OnExit = function(self) SluiceExit(sluice15) end
+level05.triggers.BlockerTrigger10ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice15) end
+level05.triggers.BlockerTrigger10ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger10ID.collider, 4)
+level05.triggers.BlockerTrigger11ID = {}
+level05.triggers.BlockerTrigger11ID.collider = OBBCollider.Create(-1)
+level05.triggers.BlockerTrigger11ID.collider:SetOffset(0,0,0)
+level05.triggers.BlockerTrigger11ID.collider:SetAxes(0.92389, -0.0989963, 0.369632, -0.0902885, -0.995078, -0.0408312, -0.371855, -0.00435007, 0.928281)
+level05.triggers.BlockerTrigger11ID.collider:SetHalfLengths(2,8.79282,37.2997)
+level05.triggers.BlockerTrigger11ID.collider:SetPos(526.702,45.2223,428.906)
+sluice16 = CreateSluice(level05.triggers.BlockerTrigger11ID.collider, level05.props.BlockerClosedIce2ID.transformID, level05.props.BlockerClosedIce2ID, level05.props.BlockerOpenIce2ID.transformID)
+level05.triggers.BlockerTrigger11ID.collider.OnEnter = function(self) SluiceEnter(sluice16) end
+level05.triggers.BlockerTrigger11ID.collider.OnExit = function(self) SluiceExit(sluice16) end
+level05.triggers.BlockerTrigger11ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice16) end
+level05.triggers.BlockerTrigger11ID.collider.triggered = false
+CollisionHandler.AddOBB(level05.triggers.BlockerTrigger11ID.collider, 4)
 end
 level05.unload = function()
 level05.props.tile5ID = nil
@@ -5778,17 +6090,6 @@ level05.colliders.Tile5_wallNr44ID = nil
 level05.colliders.Tile5_wallNr45ID = nil
 level05.colliders.Tile5_wallNr46ID = nil
 level05.colliders.Tile5_wallNr47ID = nil
-level05.colliders.Tile5_wallNr48ID = nil
-level05.colliders.Tile5_wallNr49ID = nil
-level05.colliders.Tile5_wallNr50ID = nil
-level05.colliders.Tile5_wallNr51ID = nil
-level05.colliders.Tile5_wallNr52ID = nil
-level05.colliders.Tile5_wallNr53ID = nil
-level05.colliders.Tile5_wallNr54ID = nil
-level05.colliders.Tile5_wallNr55ID = nil
-level05.colliders.Tile5_wallNr56ID = nil
-level05.colliders.Tile5_wallNr57ID = nil
-level05.colliders.Tile5_wallNr58ID = nil
 level05.colliders.Tile5_wallNr59ID = nil
 level05.colliders.Tile5_wallNr60ID = nil
 level05.colliders.Tile5_wallNr61ID = nil
@@ -5930,6 +6231,60 @@ level05.props.Crystal11ID = nil
 Gear.UnbindInstance(level05.props.Crystal12ID.transformID)
 Assets.UnloadModel('Models/ice_crystal.model')
 level05.props.Crystal12ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedIce2ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerClosedIce2ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenIce2ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerOpenIce2ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedFire2ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerClosedFire2ID = nil
+level05.triggers.BlockerTrigger7ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenFire2ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerOpenFire2ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedNature2ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerClosedNature2ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenNature2ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerOpenNature2ID = nil
+level05.triggers.BlockerTrigger8ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedNature3ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerClosedNature3ID = nil
+level05.triggers.BlockerTrigger9ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenNature3ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level05.props.BlockerOpenNature3ID = nil
+level05.colliders.Tile5_wallNr93ID = nil
+level05.colliders.Tile5_wallNr159ID = nil
+level05.colliders.Tile5_wallNr160ID = nil
+level05.colliders.Tile5_wallNr161ID = nil
+level05.colliders.Tile5_wallNr162ID = nil
+level05.colliders.Tile5_wallNr163ID = nil
+level05.colliders.Tile5_wallNr164ID = nil
+level05.colliders.Tile5_wallNr165ID = nil
+level05.colliders.Tile5_wallNr166ID = nil
+level05.colliders.Tile5_wallNr167ID = nil
+level05.colliders.Tile5_wallNr168ID = nil
+level05.colliders.Tile5_wallNr169ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedIce3ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerClosedIce3ID = nil
+level05.triggers.BlockerTrigger6ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenIce3ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level05.props.BlockerOpenIce3ID = nil
+Gear.UnbindInstance(level05.props.BlockerClosedFire3ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerClosedFire3ID = nil
+level05.triggers.BlockerTrigger10ID = nil
+Gear.UnbindInstance(level05.props.BlockerOpenFire3ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level05.props.BlockerOpenFire3ID = nil
+level05.triggers.BlockerTrigger11ID = nil
 level05.colliders.C_Parent_Tile_51ID = nil
 level05.colliders.C_Parent_Tile_52ID = nil
 level05.colliders.C_Parent_Tile_53ID = nil
@@ -6079,8 +6434,8 @@ level06.colliders.C_Parent_Tile_6ID1.collider:AddChild(level06.colliders.C_Paren
 level06.colliders.C_Parent_Tile_6ID12 = {}
 level06.colliders.C_Parent_Tile_6ID12.collider = AABBCollider.Create(-1)
 level06.colliders.C_Parent_Tile_6ID12.collider:SetOffset(0,0,0)
-level06.colliders.C_Parent_Tile_6ID12.collider:SetMinPos(383.7,79.6584,680.979)
-level06.colliders.C_Parent_Tile_6ID12.collider:SetMaxPos(470.299,111.063,733.3)
+level06.colliders.C_Parent_Tile_6ID12.collider:SetMinPos(383.7,66.1848,680.979)
+level06.colliders.C_Parent_Tile_6ID12.collider:SetMaxPos(470.299,111.063,738.3)
 level06.colliders.C_Parent_Tile_6ID.collider:AddChild(level06.colliders.C_Parent_Tile_6ID12.collider)
 level06.colliders.C_Parent_Tile_6ID13 = {}
 level06.colliders.C_Parent_Tile_6ID13.collider = OBBCollider.Create(-1)
@@ -6096,87 +6451,87 @@ level06.colliders.C_Parent_Tile_6ID14.collider:SetHalfLengths(0.3,5.08527,4.7434
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID14.collider)
 level06.colliders.C_Parent_Tile_6ID15 = {}
 level06.colliders.C_Parent_Tile_6ID15.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID15.collider:SetOffset(451.5,85.4259,708)
-level06.colliders.C_Parent_Tile_6ID15.collider:SetAxes(-0.0948091, 0, -0.995496, -0, -1, 0, -0.995496, 0, 0.0948091)
-level06.colliders.C_Parent_Tile_6ID15.collider:SetHalfLengths(0.3,5.25583,10.5475)
+level06.colliders.C_Parent_Tile_6ID15.collider:SetOffset(464.5,85.4259,705.5)
+level06.colliders.C_Parent_Tile_6ID15.collider:SetAxes(-0.514496, 0, -0.857493, -0, -1, 0, -0.857493, 0, 0.514496)
+level06.colliders.C_Parent_Tile_6ID15.collider:SetHalfLengths(0.3,5,2.91548)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID15.collider)
 level06.colliders.C_Parent_Tile_6ID16 = {}
 level06.colliders.C_Parent_Tile_6ID16.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID16.collider:SetOffset(403,102.14,708)
-level06.colliders.C_Parent_Tile_6ID16.collider:SetAxes(-0.707107, 0, -0.707107, -0, -1, 0, -0.707107, 0, 0.707107)
-level06.colliders.C_Parent_Tile_6ID16.collider:SetHalfLengths(0.3,6.36442,1.41421)
+level06.colliders.C_Parent_Tile_6ID16.collider:SetOffset(451.5,85.4259,708)
+level06.colliders.C_Parent_Tile_6ID16.collider:SetAxes(-0.0948091, 0, -0.995496, -0, -1, 0, -0.995496, 0, 0.0948091)
+level06.colliders.C_Parent_Tile_6ID16.collider:SetHalfLengths(0.3,5.25583,10.5475)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID16.collider)
 level06.colliders.C_Parent_Tile_6ID17 = {}
 level06.colliders.C_Parent_Tile_6ID17.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID17.collider:SetOffset(402,103.504,712)
-level06.colliders.C_Parent_Tile_6ID17.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
-level06.colliders.C_Parent_Tile_6ID17.collider:SetHalfLengths(0.3,5.51165,3)
+level06.colliders.C_Parent_Tile_6ID17.collider:SetOffset(395.5,103.078,716)
+level06.colliders.C_Parent_Tile_6ID17.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
+level06.colliders.C_Parent_Tile_6ID17.collider:SetHalfLengths(0.3,7.98466,11.5)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID17.collider)
 level06.colliders.C_Parent_Tile_6ID18 = {}
 level06.colliders.C_Parent_Tile_6ID18.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID18.collider:SetOffset(395.5,103.078,716)
-level06.colliders.C_Parent_Tile_6ID18.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
-level06.colliders.C_Parent_Tile_6ID18.collider:SetHalfLengths(0.3,7.98466,11.5)
+level06.colliders.C_Parent_Tile_6ID18.collider:SetOffset(422,88.0694,737)
+level06.colliders.C_Parent_Tile_6ID18.collider:SetAxes(0.05547, 0, -0.99846, 0, -1, -0, -0.99846, 0, -0.05547)
+level06.colliders.C_Parent_Tile_6ID18.collider:SetHalfLengths(0.3,21.8846,18.0278)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID18.collider)
 level06.colliders.C_Parent_Tile_6ID19 = {}
 level06.colliders.C_Parent_Tile_6ID19.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID19.collider:SetOffset(403,104.613,733)
-level06.colliders.C_Parent_Tile_6ID19.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
-level06.colliders.C_Parent_Tile_6ID19.collider:SetHalfLengths(0.3,5.17055,1)
+level06.colliders.C_Parent_Tile_6ID19.collider:SetOffset(395,104.954,726.5)
+level06.colliders.C_Parent_Tile_6ID19.collider:SetAxes(-0.135113, 0, 0.99083, 0, -1, 0, 0.99083, 0, 0.135113)
+level06.colliders.C_Parent_Tile_6ID19.collider:SetHalfLengths(0.3,5.42638,11.1018)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID19.collider)
 level06.colliders.C_Parent_Tile_6ID20 = {}
 level06.colliders.C_Parent_Tile_6ID20.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID20.collider:SetOffset(402,104.442,730.5)
-level06.colliders.C_Parent_Tile_6ID20.collider:SetAxes(1, -0, 0, 0, -1, -0, 0, 0, -1)
-level06.colliders.C_Parent_Tile_6ID20.collider:SetHalfLengths(0.3,5.42638,2.5)
+level06.colliders.C_Parent_Tile_6ID20.collider:SetOffset(384,104.954,728.5)
+level06.colliders.C_Parent_Tile_6ID20.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
+level06.colliders.C_Parent_Tile_6ID20.collider:SetHalfLengths(0.3,5.93803,3.5)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID20.collider)
 level06.colliders.C_Parent_Tile_6ID21 = {}
 level06.colliders.C_Parent_Tile_6ID21.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID21.collider:SetOffset(395,104.954,726.5)
-level06.colliders.C_Parent_Tile_6ID21.collider:SetAxes(-0.135113, 0, 0.99083, 0, -1, 0, 0.99083, 0, 0.135113)
-level06.colliders.C_Parent_Tile_6ID21.collider:SetHalfLengths(0.3,5.42638,11.1018)
+level06.colliders.C_Parent_Tile_6ID21.collider:SetOffset(407,102.96,711.5)
+level06.colliders.C_Parent_Tile_6ID21.collider:SetAxes(1, -0, 0, 0, -1, -0, 0, 0, -1)
+level06.colliders.C_Parent_Tile_6ID21.collider:SetHalfLengths(0.3,5.86406,4.5)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID21.collider)
 level06.colliders.C_Parent_Tile_6ID22 = {}
 level06.colliders.C_Parent_Tile_6ID22.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID22.collider:SetOffset(384,104.954,728.5)
+level06.colliders.C_Parent_Tile_6ID22.collider:SetOffset(406,104.784,732)
 level06.colliders.C_Parent_Tile_6ID22.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
-level06.colliders.C_Parent_Tile_6ID22.collider:SetHalfLengths(0.3,5.93803,3.5)
+level06.colliders.C_Parent_Tile_6ID22.collider:SetHalfLengths(0.3,5.19202,4)
 level06.colliders.C_Parent_Tile_6ID12.collider:AddChild(level06.colliders.C_Parent_Tile_6ID22.collider)
 level06.colliders.C_Parent_Tile_6ID23 = {}
 level06.colliders.C_Parent_Tile_6ID23.collider = AABBCollider.Create(-1)
 level06.colliders.C_Parent_Tile_6ID23.collider:SetOffset(0,0,0)
-level06.colliders.C_Parent_Tile_6ID23.collider:SetMinPos(403.7,66.1848,685.723)
-level06.colliders.C_Parent_Tile_6ID23.collider:SetMaxPos(532.115,110.295,738.3)
+level06.colliders.C_Parent_Tile_6ID23.collider:SetMinPos(440,79.1467,640)
+level06.colliders.C_Parent_Tile_6ID23.collider:SetMaxPos(579.279,93.6553,738.3)
 level06.colliders.C_Parent_Tile_6ID.collider:AddChild(level06.colliders.C_Parent_Tile_6ID23.collider)
 level06.colliders.C_Parent_Tile_6ID24 = {}
 level06.colliders.C_Parent_Tile_6ID24.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID24.collider:SetOffset(464.5,85.4259,705.5)
-level06.colliders.C_Parent_Tile_6ID24.collider:SetAxes(-0.514496, 0, -0.857493, -0, -1, 0, -0.857493, 0, 0.514496)
-level06.colliders.C_Parent_Tile_6ID24.collider:SetHalfLengths(0.3,5,2.91548)
+level06.colliders.C_Parent_Tile_6ID24.collider:SetOffset(508.5,85.0848,695.5)
+level06.colliders.C_Parent_Tile_6ID24.collider:SetAxes(-0.141421, 0, -0.98995, -0, -1, 0, -0.98995, 0, 0.141421)
+level06.colliders.C_Parent_Tile_6ID24.collider:SetHalfLengths(0.3,5,3.53553)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID24.collider)
 level06.colliders.C_Parent_Tile_6ID25 = {}
 level06.colliders.C_Parent_Tile_6ID25.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID25.collider:SetOffset(508.5,85.0848,695.5)
-level06.colliders.C_Parent_Tile_6ID25.collider:SetAxes(-0.141421, 0, -0.98995, -0, -1, 0, -0.98995, 0, 0.141421)
-level06.colliders.C_Parent_Tile_6ID25.collider:SetHalfLengths(0.3,5,3.53553)
+level06.colliders.C_Parent_Tile_6ID25.collider:SetOffset(502.5,85.0848,697)
+level06.colliders.C_Parent_Tile_6ID25.collider:SetAxes(-0.371391, 0, -0.928477, -0, -1, 0, -0.928477, 0, 0.371391)
+level06.colliders.C_Parent_Tile_6ID25.collider:SetHalfLengths(0.3,5.93803,2.69258)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID25.collider)
 level06.colliders.C_Parent_Tile_6ID26 = {}
 level06.colliders.C_Parent_Tile_6ID26.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID26.collider:SetOffset(502.5,85.0848,697)
-level06.colliders.C_Parent_Tile_6ID26.collider:SetAxes(-0.371391, 0, -0.928477, -0, -1, 0, -0.928477, 0, 0.371391)
-level06.colliders.C_Parent_Tile_6ID26.collider:SetHalfLengths(0.3,5.93803,2.69258)
+level06.colliders.C_Parent_Tile_6ID26.collider:SetOffset(496,86.0228,709)
+level06.colliders.C_Parent_Tile_6ID26.collider:SetAxes(-0.939793, 0, -0.341743, -0, -1, 0, -0.341743, 0, 0.939793)
+level06.colliders.C_Parent_Tile_6ID26.collider:SetHalfLengths(0.3,5.08527,11.7047)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID26.collider)
 level06.colliders.C_Parent_Tile_6ID27 = {}
 level06.colliders.C_Parent_Tile_6ID27.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID27.collider:SetOffset(496,86.0228,709)
-level06.colliders.C_Parent_Tile_6ID27.collider:SetAxes(-0.939793, 0, -0.341743, -0, -1, 0, -0.341743, 0, 0.939793)
-level06.colliders.C_Parent_Tile_6ID27.collider:SetHalfLengths(0.3,5.08527,11.7047)
+level06.colliders.C_Parent_Tile_6ID27.collider:SetOffset(480,85.9375,727.5)
+level06.colliders.C_Parent_Tile_6ID27.collider:SetAxes(-0.529999, 0, -0.847998, -0, -1, 0, -0.847998, 0, 0.529999)
+level06.colliders.C_Parent_Tile_6ID27.collider:SetHalfLengths(0.3,5.3411,14.151)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID27.collider)
 level06.colliders.C_Parent_Tile_6ID28 = {}
 level06.colliders.C_Parent_Tile_6ID28.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID28.collider:SetOffset(480,85.9375,727.5)
-level06.colliders.C_Parent_Tile_6ID28.collider:SetAxes(-0.529999, 0, -0.847998, -0, -1, 0, -0.847998, 0, 0.529999)
-level06.colliders.C_Parent_Tile_6ID28.collider:SetHalfLengths(0.3,5.3411,14.151)
+level06.colliders.C_Parent_Tile_6ID28.collider:SetOffset(462,86.2786,736.5)
+level06.colliders.C_Parent_Tile_6ID28.collider:SetAxes(-0.242536, 0, -0.970142, -0, -1, 0, -0.970142, 0, 0.242536)
+level06.colliders.C_Parent_Tile_6ID28.collider:SetHalfLengths(0.3,5.3411,6.18466)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID28.collider)
 level06.colliders.C_Parent_Tile_6ID29 = {}
 level06.colliders.C_Parent_Tile_6ID29.collider = OBBCollider.Create(-1)
@@ -6186,15 +6541,15 @@ level06.colliders.C_Parent_Tile_6ID29.collider:SetHalfLengths(0.3,6.44968,8)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID29.collider)
 level06.colliders.C_Parent_Tile_6ID30 = {}
 level06.colliders.C_Parent_Tile_6ID30.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID30.collider:SetOffset(422,88.0694,737)
-level06.colliders.C_Parent_Tile_6ID30.collider:SetAxes(0.05547, 0, -0.99846, 0, -1, -0, -0.99846, 0, -0.05547)
-level06.colliders.C_Parent_Tile_6ID30.collider:SetHalfLengths(0.3,21.8846,18.0278)
+level06.colliders.C_Parent_Tile_6ID30.collider:SetOffset(577,85.1031,642)
+level06.colliders.C_Parent_Tile_6ID30.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
+level06.colliders.C_Parent_Tile_6ID30.collider:SetHalfLengths(0.3,5,2)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID30.collider)
 level06.colliders.C_Parent_Tile_6ID31 = {}
 level06.colliders.C_Parent_Tile_6ID31.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID31.collider:SetOffset(404,104.954,734.5)
-level06.colliders.C_Parent_Tile_6ID31.collider:SetAxes(1, -0, 0, 0, -1, -0, 0, 0, -1)
-level06.colliders.C_Parent_Tile_6ID31.collider:SetHalfLengths(0.3,5.3411,1.5)
+level06.colliders.C_Parent_Tile_6ID31.collider:SetOffset(578,85.1031,646.5)
+level06.colliders.C_Parent_Tile_6ID31.collider:SetAxes(-0.928477, 0, 0.371391, 0, -1, 0, 0.371391, 0, 0.928477)
+level06.colliders.C_Parent_Tile_6ID31.collider:SetHalfLengths(0.3,5,2.69258)
 level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Parent_Tile_6ID31.collider)
 level06.colliders.C_Parent_Tile_6ID32 = {}
 level06.colliders.C_Parent_Tile_6ID32.collider = OBBCollider.Create(-1)
@@ -6211,8 +6566,8 @@ level06.colliders.C_Parent_Tile_6ID23.collider:AddChild(level06.colliders.C_Pare
 level06.colliders.C_Parent_Tile_6ID34 = {}
 level06.colliders.C_Parent_Tile_6ID34.collider = AABBCollider.Create(-1)
 level06.colliders.C_Parent_Tile_6ID34.collider:SetOffset(0,0,0)
-level06.colliders.C_Parent_Tile_6ID34.collider:SetMinPos(455.927,79.9111,640)
-level06.colliders.C_Parent_Tile_6ID34.collider:SetMaxPos(591.111,92.0232,738.291)
+level06.colliders.C_Parent_Tile_6ID34.collider:SetMinPos(511.7,79.9111,648.82)
+level06.colliders.C_Parent_Tile_6ID34.collider:SetMaxPos(596,92.1192,703)
 level06.colliders.C_Parent_Tile_6ID.collider:AddChild(level06.colliders.C_Parent_Tile_6ID34.collider)
 level06.colliders.C_Parent_Tile_6ID35 = {}
 level06.colliders.C_Parent_Tile_6ID35.collider = OBBCollider.Create(-1)
@@ -6222,39 +6577,39 @@ level06.colliders.C_Parent_Tile_6ID35.collider:SetHalfLengths(0.3,5,0.5)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID35.collider)
 level06.colliders.C_Parent_Tile_6ID36 = {}
 level06.colliders.C_Parent_Tile_6ID36.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID36.collider:SetOffset(462,86.2786,736.5)
-level06.colliders.C_Parent_Tile_6ID36.collider:SetAxes(-0.242536, 0, -0.970143, -0, -1, 0, -0.970143, 0, 0.242536)
-level06.colliders.C_Parent_Tile_6ID36.collider:SetHalfLengths(0.3,5.3411,6.18466)
+level06.colliders.C_Parent_Tile_6ID36.collider:SetOffset(580.5,85.1031,651)
+level06.colliders.C_Parent_Tile_6ID36.collider:SetAxes(-0.8, 0, 0.6, 0, -1, 0, 0.6, 0, 0.8)
+level06.colliders.C_Parent_Tile_6ID36.collider:SetHalfLengths(0.3,5,2.5)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID36.collider)
 level06.colliders.C_Parent_Tile_6ID37 = {}
 level06.colliders.C_Parent_Tile_6ID37.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID37.collider:SetOffset(577,85.1031,642)
-level06.colliders.C_Parent_Tile_6ID37.collider:SetAxes(-1, 0, 0, 0, -1, 0, 0, 0, 1)
-level06.colliders.C_Parent_Tile_6ID37.collider:SetHalfLengths(0.3,5,2)
+level06.colliders.C_Parent_Tile_6ID37.collider:SetOffset(584,85.1031,654.5)
+level06.colliders.C_Parent_Tile_6ID37.collider:SetAxes(-0.6, 0, 0.8, 0, -1, 0, 0.8, 0, 0.6)
+level06.colliders.C_Parent_Tile_6ID37.collider:SetHalfLengths(0.3,5.096,2.5)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID37.collider)
 level06.colliders.C_Parent_Tile_6ID38 = {}
 level06.colliders.C_Parent_Tile_6ID38.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID38.collider:SetOffset(578,85.1031,646.5)
-level06.colliders.C_Parent_Tile_6ID38.collider:SetAxes(-0.928477, 0, 0.371391, 0, -1, 0, 0.371391, 0, 0.928477)
-level06.colliders.C_Parent_Tile_6ID38.collider:SetHalfLengths(0.3,5,2.69258)
+level06.colliders.C_Parent_Tile_6ID38.collider:SetOffset(588.5,85.1991,657)
+level06.colliders.C_Parent_Tile_6ID38.collider:SetAxes(-0.371391, 0, 0.928477, 0, -1, 0, 0.928477, 0, 0.371391)
+level06.colliders.C_Parent_Tile_6ID38.collider:SetHalfLengths(0.3,5.28802,2.69258)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID38.collider)
 level06.colliders.C_Parent_Tile_6ID39 = {}
 level06.colliders.C_Parent_Tile_6ID39.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID39.collider:SetOffset(580.5,85.1031,651)
-level06.colliders.C_Parent_Tile_6ID39.collider:SetAxes(-0.8, 0, 0.6, 0, -1, 0, 0.6, 0, 0.8)
-level06.colliders.C_Parent_Tile_6ID39.collider:SetHalfLengths(0.3,5,2.5)
+level06.colliders.C_Parent_Tile_6ID39.collider:SetOffset(593.5,85.4871,658)
+level06.colliders.C_Parent_Tile_6ID39.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
+level06.colliders.C_Parent_Tile_6ID39.collider:SetHalfLengths(0.3,5.19201,2.5)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID39.collider)
 level06.colliders.C_Parent_Tile_6ID40 = {}
 level06.colliders.C_Parent_Tile_6ID40.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID40.collider:SetOffset(584,85.1031,654.5)
-level06.colliders.C_Parent_Tile_6ID40.collider:SetAxes(-0.6, 0, 0.8, 0, -1, 0, 0.8, 0, 0.6)
-level06.colliders.C_Parent_Tile_6ID40.collider:SetHalfLengths(0.3,5.096,2.5)
+level06.colliders.C_Parent_Tile_6ID40.collider:SetOffset(580,86.9272,675.5)
+level06.colliders.C_Parent_Tile_6ID40.collider:SetAxes(-0.287348, 0, -0.957826, -0, -1, 0, -0.957826, 0, 0.287348)
+level06.colliders.C_Parent_Tile_6ID40.collider:SetHalfLengths(0.3,5.09601,5.22015)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID40.collider)
 level06.colliders.C_Parent_Tile_6ID41 = {}
 level06.colliders.C_Parent_Tile_6ID41.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID41.collider:SetOffset(588.5,85.1991,657)
-level06.colliders.C_Parent_Tile_6ID41.collider:SetAxes(-0.371391, 0, 0.928477, 0, -1, 0, 0.928477, 0, 0.371391)
-level06.colliders.C_Parent_Tile_6ID41.collider:SetHalfLengths(0.3,5.28802,2.69258)
+level06.colliders.C_Parent_Tile_6ID41.collider:SetOffset(569.5,87.0232,678)
+level06.colliders.C_Parent_Tile_6ID41.collider:SetAxes(-0.178885, 0, -0.98387, -0, -1, 0, -0.98387, 0, 0.178885)
+level06.colliders.C_Parent_Tile_6ID41.collider:SetHalfLengths(0.3,5.09601,5.59017)
 level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Parent_Tile_6ID41.collider)
 level06.colliders.C_Parent_Tile_6ID42 = {}
 level06.colliders.C_Parent_Tile_6ID42.collider = OBBCollider.Create(-1)
@@ -6277,51 +6632,33 @@ level06.colliders.C_Parent_Tile_6ID34.collider:AddChild(level06.colliders.C_Pare
 level06.colliders.C_Parent_Tile_6ID45 = {}
 level06.colliders.C_Parent_Tile_6ID45.collider = AABBCollider.Create(-1)
 level06.colliders.C_Parent_Tile_6ID45.collider:SetOffset(0,0,0)
-level06.colliders.C_Parent_Tile_6ID45.collider:SetMinPos(563.946,80.1031,656.703)
-level06.colliders.C_Parent_Tile_6ID45.collider:SetMaxPos(607.234,92.1192,679.295)
+level06.colliders.C_Parent_Tile_6ID45.collider:SetMinPos(584.854,80.1031,656.703)
+level06.colliders.C_Parent_Tile_6ID45.collider:SetMaxPos(607.234,91.9272,674.262)
 level06.colliders.C_Parent_Tile_6ID.collider:AddChild(level06.colliders.C_Parent_Tile_6ID45.collider)
 level06.colliders.C_Parent_Tile_6ID46 = {}
 level06.colliders.C_Parent_Tile_6ID46.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID46.collider:SetOffset(593.5,85.4871,658)
-level06.colliders.C_Parent_Tile_6ID46.collider:SetAxes(0, 0, 1, 0, -1, 0, 1, 0, 0)
-level06.colliders.C_Parent_Tile_6ID46.collider:SetHalfLengths(0.3,5.19201,2.5)
+level06.colliders.C_Parent_Tile_6ID46.collider:SetOffset(599.5,85.6791,657.5)
+level06.colliders.C_Parent_Tile_6ID46.collider:SetAxes(0.141421, -0, 0.98995, 0, -1, -0, 0.98995, 0, -0.141421)
+level06.colliders.C_Parent_Tile_6ID46.collider:SetHalfLengths(0.3,5.28802,3.53553)
 level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID46.collider)
 level06.colliders.C_Parent_Tile_6ID47 = {}
 level06.colliders.C_Parent_Tile_6ID47.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID47.collider:SetOffset(599.5,85.6791,657.5)
-level06.colliders.C_Parent_Tile_6ID47.collider:SetAxes(0.141421, -0, 0.98995, 0, -1, -0, 0.98995, 0, -0.141421)
-level06.colliders.C_Parent_Tile_6ID47.collider:SetHalfLengths(0.3,5.28802,3.53553)
+level06.colliders.C_Parent_Tile_6ID47.collider:SetOffset(605,85.9672,659.5)
+level06.colliders.C_Parent_Tile_6ID47.collider:SetAxes(-0.780869, 0, 0.624695, 0, -1, 0, 0.624695, 0, 0.780869)
+level06.colliders.C_Parent_Tile_6ID47.collider:SetHalfLengths(0.3,5.86406,3.20156)
 level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID47.collider)
 level06.colliders.C_Parent_Tile_6ID48 = {}
 level06.colliders.C_Parent_Tile_6ID48.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID48.collider:SetOffset(605,85.9672,659.5)
-level06.colliders.C_Parent_Tile_6ID48.collider:SetAxes(-0.780869, 0, 0.624695, 0, -1, 0, 0.624695, 0, 0.780869)
-level06.colliders.C_Parent_Tile_6ID48.collider:SetHalfLengths(0.3,5.86406,3.20156)
+level06.colliders.C_Parent_Tile_6ID48.collider:SetOffset(600.5,86.8312,665.5)
+level06.colliders.C_Parent_Tile_6ID48.collider:SetAxes(-0.4741, 0, -0.880471, -0, -1, 0, -0.880471, 0, 0.4741)
+level06.colliders.C_Parent_Tile_6ID48.collider:SetHalfLengths(0.3,5,7.38241)
 level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID48.collider)
 level06.colliders.C_Parent_Tile_6ID49 = {}
 level06.colliders.C_Parent_Tile_6ID49.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID49.collider:SetOffset(600.5,86.8312,665.5)
-level06.colliders.C_Parent_Tile_6ID49.collider:SetAxes(-0.4741, 0, -0.880471, -0, -1, 0, -0.880471, 0, 0.4741)
-level06.colliders.C_Parent_Tile_6ID49.collider:SetHalfLengths(0.3,5,7.38241)
+level06.colliders.C_Parent_Tile_6ID49.collider:SetOffset(589.5,86.8312,671.5)
+level06.colliders.C_Parent_Tile_6ID49.collider:SetAxes(-0.485643, 0, -0.874157, -0, -1, 0, -0.874157, 0, 0.485643)
+level06.colliders.C_Parent_Tile_6ID49.collider:SetHalfLengths(0.3,5.096,5.14782)
 level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID49.collider)
-level06.colliders.C_Parent_Tile_6ID50 = {}
-level06.colliders.C_Parent_Tile_6ID50.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID50.collider:SetOffset(589.5,86.8312,671.5)
-level06.colliders.C_Parent_Tile_6ID50.collider:SetAxes(-0.485643, 0, -0.874157, -0, -1, 0, -0.874157, 0, 0.485643)
-level06.colliders.C_Parent_Tile_6ID50.collider:SetHalfLengths(0.3,5.096,5.14782)
-level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID50.collider)
-level06.colliders.C_Parent_Tile_6ID51 = {}
-level06.colliders.C_Parent_Tile_6ID51.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID51.collider:SetOffset(580,86.9272,675.5)
-level06.colliders.C_Parent_Tile_6ID51.collider:SetAxes(-0.287348, 0, -0.957826, -0, -1, 0, -0.957826, 0, 0.287348)
-level06.colliders.C_Parent_Tile_6ID51.collider:SetHalfLengths(0.3,5.09601,5.22015)
-level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID51.collider)
-level06.colliders.C_Parent_Tile_6ID52 = {}
-level06.colliders.C_Parent_Tile_6ID52.collider = OBBCollider.Create(-1)
-level06.colliders.C_Parent_Tile_6ID52.collider:SetOffset(569.5,87.0232,678)
-level06.colliders.C_Parent_Tile_6ID52.collider:SetAxes(-0.178885, 0, -0.98387, -0, -1, 0, -0.98387, 0, 0.178885)
-level06.colliders.C_Parent_Tile_6ID52.collider:SetHalfLengths(0.3,5.09601,5.59017)
-level06.colliders.C_Parent_Tile_6ID45.collider:AddChild(level06.colliders.C_Parent_Tile_6ID52.collider)
 CollisionHandler.AddAABB(level06.colliders.C_Parent_Tile_6ID.collider, 3)
 level06.colliders.C_Parent_Tile_6ID1 = nil
 level06.colliders.C_Parent_Tile_6ID2 = nil
@@ -6372,9 +6709,6 @@ level06.colliders.C_Parent_Tile_6ID46 = nil
 level06.colliders.C_Parent_Tile_6ID47 = nil
 level06.colliders.C_Parent_Tile_6ID48 = nil
 level06.colliders.C_Parent_Tile_6ID49 = nil
-level06.colliders.C_Parent_Tile_6ID50 = nil
-level06.colliders.C_Parent_Tile_6ID51 = nil
-level06.colliders.C_Parent_Tile_6ID52 = nil
 end
 level06.unload = function()
 level06.props.tile6ID = nil
@@ -6408,8 +6742,6 @@ level06.colliders.Tile6_wallNr10ID = nil
 level06.colliders.Tile6_wallNr11ID = nil
 level06.colliders.Tile6_wallNr12ID = nil
 level06.colliders.Tile6_wallNr13ID = nil
-level06.colliders.Tile6_wallNr14ID = nil
-level06.colliders.Tile6_wallNr15ID = nil
 level06.colliders.Tile6_wallNr16ID = nil
 level06.colliders.Tile6_wallNr17ID = nil
 level06.colliders.Tile6_wallNr18ID = nil
@@ -6421,9 +6753,6 @@ level06.colliders.Tile6_wallNr22ID = nil
 level06.colliders.Tile6_wallNr23ID = nil
 level06.colliders.Tile6_wallNr24ID = nil
 level06.colliders.Tile6_wallNr25ID = nil
-level06.colliders.Tile6_wallNr26ID = nil
-level06.colliders.Tile6_wallNr27ID = nil
-level06.colliders.Tile6_wallNr28ID = nil
 level06.colliders.Tile6_wallNr29ID = nil
 level06.colliders.Tile6_wallNr30ID = nil
 level06.colliders.Tile6_wallNr2ID = nil
@@ -6443,6 +6772,8 @@ level06.colliders.Tile6_wallNr43ID = nil
 level06.colliders.Tile6_wallNr44ID = nil
 level06.colliders.Tile6_wallNr45ID = nil
 level06.colliders.Tile6_wallNr46ID = nil
+level06.colliders.Tile6_wallNr14ID = nil
+level06.colliders.Tile6_wallNr15ID = nil
 level06.colliders.C_Parent_Tile_61ID = nil
 level06.colliders.C_Parent_Tile_62ID = nil
 level06.colliders.C_Parent_Tile_63ID = nil
@@ -6592,11 +6923,121 @@ level07.props.t6s14ID.transformID = Gear.BindStaticInstance(level07.props.t6s14I
 Transform.SetPosition(level07.props.t6s14ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(level07.props.t6s14ID.transformID, 1, 1, 1)
 Transform.SetRotation(level07.props.t6s14ID.transformID, {x=-0, y=0, z=-0})
+level07.props.BlockerClosedNature4ID = {}
+level07.props.BlockerClosedNature4ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerClosedNature4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedNature4ID.model)
+Transform.SetPosition(level07.props.BlockerClosedNature4ID.transformID, {x=277.5, y=93.4103, z=676})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedNature4ID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level07.props.BlockerClosedNature4ID.transformID, {x=-0, y=2.43442, z=-0})
+level07.props.BlockerClosedNature4ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedNature4ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedNature4ID.collider:SetAxes(-0.760204, 0, -0.649684, 0, -1, -0, 0.649684, 0, -0.760204)
+level07.props.BlockerClosedNature4ID.collider:SetHalfLengths(0.5,9,10.5)
+level07.props.BlockerClosedNature4ID.collider:SetPos(277.5,93.4103,676)
+CollisionHandler.AddOBB(level07.props.BlockerClosedNature4ID.collider, 3)
+level07.props.BlockerOpenNature4ID = {}
+level07.props.BlockerOpenNature4ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerOpenNature4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenNature4ID.model)
+Transform.SetPosition(level07.props.BlockerOpenNature4ID.transformID, {x=315.429, y=99.5388, z=708.686})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenNature4ID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level07.props.BlockerOpenNature4ID.transformID, {x=-0, y=2.4459, z=-0})
+level07.props.BlockerClosedNature5ID = {}
+level07.props.BlockerClosedNature5ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerClosedNature5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedNature5ID.model)
+Transform.SetPosition(level07.props.BlockerClosedNature5ID.transformID, {x=214.038, y=127.818, z=588.234})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedNature5ID.transformID, 1, 1.3, 2)
+Transform.SetRotation(level07.props.BlockerClosedNature5ID.transformID, {x=-0, y=2.23689, z=-0})
+level07.props.BlockerClosedNature5ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedNature5ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedNature5ID.collider:SetAxes(-0.617918, 0, -0.786243, 0, -1, -0, 0.786243, 0, -0.617918)
+level07.props.BlockerClosedNature5ID.collider:SetHalfLengths(0.5,11.7,14)
+level07.props.BlockerClosedNature5ID.collider:SetPos(214.038,127.818,588.234)
+CollisionHandler.AddOBB(level07.props.BlockerClosedNature5ID.collider, 3)
+level07.props.New2ID = {}
+Light.addLight(182.625, 193.233, 772, 1, 1, 1, 1000,1)
+level07.props.BlockerOpenNature5ID = {}
+level07.props.BlockerOpenNature5ID.model = Assets.LoadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerOpenNature5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenNature5ID.model)
+Transform.SetPosition(level07.props.BlockerOpenNature5ID.transformID, {x=231.652, y=101.838, z=618.411})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenNature5ID.transformID, 1, 1.3, 2)
+Transform.SetRotation(level07.props.BlockerOpenNature5ID.transformID, {x=-0, y=2.119, z=-0})
+level07.props.BlockerOpenFire4ID = {}
+level07.props.BlockerOpenFire4ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerOpenFire4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenFire4ID.model)
+Transform.SetPosition(level07.props.BlockerOpenFire4ID.transformID, {x=308.744, y=98.9674, z=729.976})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenFire4ID.transformID, 1, 1, 1)
+Transform.SetRotation(level07.props.BlockerOpenFire4ID.transformID, {x=-0, y=-3.17281, z=-0})
+level07.props.BlockerClosedFire4ID = {}
+level07.props.BlockerClosedFire4ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerClosedFire4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedFire4ID.model)
+Transform.SetPosition(level07.props.BlockerClosedFire4ID.transformID, {x=206.599, y=94.426, z=735.749})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedFire4ID.transformID, 1, 1.3, 1.4)
+Transform.SetRotation(level07.props.BlockerClosedFire4ID.transformID, {x=-0, y=-3.10506, z=-0})
+level07.props.BlockerClosedFire4ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedFire4ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedFire4ID.collider:SetAxes(-0.999333, 0, 0.0365244, -0, -1, 0, -0.0365244, 0, -0.999333)
+level07.props.BlockerClosedFire4ID.collider:SetHalfLengths(0.5,11.7,9.8)
+level07.props.BlockerClosedFire4ID.collider:SetPos(206.599,94.426,735.749)
+CollisionHandler.AddOBB(level07.props.BlockerClosedFire4ID.collider, 3)
+level07.props.BlockerClosedIce4ID = {}
+level07.props.BlockerClosedIce4ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerClosedIce4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedIce4ID.model)
+Transform.SetPosition(level07.props.BlockerClosedIce4ID.transformID, {x=361.538, y=122.739, z=672.44})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedIce4ID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level07.props.BlockerClosedIce4ID.transformID, {x=-0, y=1.25548, z=-0})
+level07.props.BlockerClosedIce4ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedIce4ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedIce4ID.collider:SetAxes(0.310114, 0, -0.9507, 0, -1, 0, 0.9507, 0, 0.310114)
+level07.props.BlockerClosedIce4ID.collider:SetHalfLengths(0.5,9,10.5)
+level07.props.BlockerClosedIce4ID.collider:SetPos(361.538,122.739,672.44)
+CollisionHandler.AddOBB(level07.props.BlockerClosedIce4ID.collider, 3)
+level07.props.BlockerOpenIce4ID = {}
+level07.props.BlockerOpenIce4ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerOpenIce4ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenIce4ID.model)
+Transform.SetPosition(level07.props.BlockerOpenIce4ID.transformID, {x=357.932, y=100.855, z=697.902})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenIce4ID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level07.props.BlockerOpenIce4ID.transformID, {x=-0, y=1.40306, z=-0})
+level07.props.BlockerClosedIce5ID = {}
+level07.props.BlockerClosedIce5ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerClosedIce5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedIce5ID.model)
+Transform.SetPosition(level07.props.BlockerClosedIce5ID.transformID, {x=321.762, y=146.189, z=566.071})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedIce5ID.transformID, 1, 1, 1.2)
+Transform.SetRotation(level07.props.BlockerClosedIce5ID.transformID, {x=-0, y=1.6125, z=-0})
+level07.props.BlockerClosedIce5ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedIce5ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedIce5ID.collider:SetAxes(-0.0416884, 0, -0.999131, 0, -1, -0, 0.999131, 0, -0.0416884)
+level07.props.BlockerClosedIce5ID.collider:SetHalfLengths(0.5,9,8.4)
+level07.props.BlockerClosedIce5ID.collider:SetPos(321.762,146.189,566.071)
+CollisionHandler.AddOBB(level07.props.BlockerClosedIce5ID.collider, 3)
+level07.props.BlockerOpenIce5ID = {}
+level07.props.BlockerOpenIce5ID.model = Assets.LoadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerOpenIce5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenIce5ID.model)
+Transform.SetPosition(level07.props.BlockerOpenIce5ID.transformID, {x=340.313, y=133.575, z=603.714})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenIce5ID.transformID, 1, 1, 1.5)
+Transform.SetRotation(level07.props.BlockerOpenIce5ID.transformID, {x=-0, y=1.93491, z=-0})
+level07.props.BlockerClosedFire5ID = {}
+level07.props.BlockerClosedFire5ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerClosedFire5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerClosedFire5ID.model)
+Transform.SetPosition(level07.props.BlockerClosedFire5ID.transformID, {x=164.328, y=129.733, z=581.147})
+Transform.SetScaleNonUniform(level07.props.BlockerClosedFire5ID.transformID, 1, 1, 1.1)
+Transform.SetRotation(level07.props.BlockerClosedFire5ID.transformID, {x=-0, y=1.16669, z=-0})
+level07.props.BlockerClosedFire5ID.collider = OBBCollider.Create(-1)
+level07.props.BlockerClosedFire5ID.collider:SetOffset(0,0,0)
+level07.props.BlockerClosedFire5ID.collider:SetAxes(0.393201, 0, -0.919453, 0, -1, 0, 0.919453, 0, 0.393201)
+level07.props.BlockerClosedFire5ID.collider:SetHalfLengths(0.5,9,7.7)
+level07.props.BlockerClosedFire5ID.collider:SetPos(164.328,129.733,581.147)
+CollisionHandler.AddOBB(level07.props.BlockerClosedFire5ID.collider, 3)
+level07.props.BlockerOpenFire5ID = {}
+level07.props.BlockerOpenFire5ID.model = Assets.LoadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerOpenFire5ID.transformID = Gear.BindStaticInstance(level07.props.BlockerOpenFire5ID.model)
+Transform.SetPosition(level07.props.BlockerOpenFire5ID.transformID, {x=151.3, y=79.2607, z=709})
+Transform.SetScaleNonUniform(level07.props.BlockerOpenFire5ID.transformID, 1, 1, 1.3)
+Transform.SetRotation(level07.props.BlockerOpenFire5ID.transformID, {x=-0, y=1.52783, z=-0})
 level07.colliders.C_Parent_Tile_7ID = {}
 level07.colliders.C_Parent_Tile_7ID.collider = AABBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID.collider:SetOffset(0,0,0)
 level07.colliders.C_Parent_Tile_7ID.collider:SetMinPos(127.7,35.1631,512)
-level07.colliders.C_Parent_Tile_7ID.collider:SetMaxPos(384.3,165.059,767.3)
+level07.colliders.C_Parent_Tile_7ID.collider:SetMaxPos(384.3,201.685,778.546)
 level07.colliders.C_Parent_Tile_7ID.collider:SetPos(0,0,0)
 level07.colliders.C_Parent_Tile_7ID1 = {}
 level07.colliders.C_Parent_Tile_7ID1.collider = AABBCollider.Create(-1)
@@ -6649,7 +7090,7 @@ level07.colliders.C_Parent_Tile_7ID2.collider:AddChild(level07.colliders.C_Paren
 level07.colliders.C_Parent_Tile_7ID9 = {}
 level07.colliders.C_Parent_Tile_7ID9.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID9.collider:SetOffset(135.5,130.085,552)
-level07.colliders.C_Parent_Tile_7ID9.collider:SetAxes(-0.970143, 0, 0.242536, 0, -1, 0, 0.242536, 0, 0.970143)
+level07.colliders.C_Parent_Tile_7ID9.collider:SetAxes(-0.970142, 0, 0.242536, 0, -1, 0, 0.242536, 0, 0.970142)
 level07.colliders.C_Parent_Tile_7ID9.collider:SetHalfLengths(0.3,5.9669,6.18466)
 level07.colliders.C_Parent_Tile_7ID2.collider:AddChild(level07.colliders.C_Parent_Tile_7ID9.collider)
 level07.colliders.C_Parent_Tile_7ID10 = {}
@@ -6847,7 +7288,7 @@ level07.colliders.C_Parent_Tile_7ID35.collider:AddChild(level07.colliders.C_Pare
 level07.colliders.C_Parent_Tile_7ID42 = {}
 level07.colliders.C_Parent_Tile_7ID42.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID42.collider:SetOffset(212.5,107.846,624)
-level07.colliders.C_Parent_Tile_7ID42.collider:SetAxes(-0.970143, 0, -0.242536, -0, -1, 0, -0.242536, 0, 0.970143)
+level07.colliders.C_Parent_Tile_7ID42.collider:SetAxes(-0.970142, 0, -0.242536, -0, -1, 0, -0.242536, 0, 0.970142)
 level07.colliders.C_Parent_Tile_7ID42.collider:SetHalfLengths(0.3,7.41725,6.18466)
 level07.colliders.C_Parent_Tile_7ID35.collider:AddChild(level07.colliders.C_Parent_Tile_7ID42.collider)
 level07.colliders.C_Parent_Tile_7ID43 = {}
@@ -6967,7 +7408,7 @@ level07.colliders.C_Parent_Tile_7ID57.collider:AddChild(level07.colliders.C_Pare
 level07.colliders.C_Parent_Tile_7ID62 = {}
 level07.colliders.C_Parent_Tile_7ID62.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID62.collider:SetOffset(328.5,128.393,619.5)
-level07.colliders.C_Parent_Tile_7ID62.collider:SetAxes(-0.995893, 0, -0.0905357, -0, -1, 0, -0.0905357, 0, 0.995893)
+level07.colliders.C_Parent_Tile_7ID62.collider:SetAxes(-0.995893, 0, -0.0905358, -0, -1, 0, -0.0905358, 0, 0.995893)
 level07.colliders.C_Parent_Tile_7ID62.collider:SetHalfLengths(0.3,8.14243,5.52268)
 level07.colliders.C_Parent_Tile_7ID57.collider:AddChild(level07.colliders.C_Parent_Tile_7ID62.collider)
 level07.colliders.C_Parent_Tile_7ID63 = {}
@@ -7051,7 +7492,7 @@ level07.colliders.C_Parent_Tile_7ID68.collider:AddChild(level07.colliders.C_Pare
 level07.colliders.C_Parent_Tile_7ID76 = {}
 level07.colliders.C_Parent_Tile_7ID76.collider = OBBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID76.collider:SetOffset(286.5,88.7498,665.5)
-level07.colliders.C_Parent_Tile_7ID76.collider:SetAxes(0.995893, -0, 0.0905357, 0, -1, -0, 0.0905357, 0, -0.995893)
+level07.colliders.C_Parent_Tile_7ID76.collider:SetAxes(0.995893, -0, 0.0905358, 0, -1, -0, 0.0905358, 0, -0.995893)
 level07.colliders.C_Parent_Tile_7ID76.collider:SetHalfLengths(0.3,6.45035,5.52268)
 level07.colliders.C_Parent_Tile_7ID68.collider:AddChild(level07.colliders.C_Parent_Tile_7ID76.collider)
 level07.colliders.C_Parent_Tile_7ID77 = {}
@@ -7268,7 +7709,7 @@ level07.colliders.C_Parent_Tile_7ID112 = {}
 level07.colliders.C_Parent_Tile_7ID112.collider = AABBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID112.collider:SetOffset(0,0,0)
 level07.colliders.C_Parent_Tile_7ID112.collider:SetMinPos(151,88.826,693.7)
-level07.colliders.C_Parent_Tile_7ID112.collider:SetMaxPos(384.3,112.846,767.3)
+level07.colliders.C_Parent_Tile_7ID112.collider:SetMaxPos(384.3,201.685,778.546)
 level07.colliders.C_Parent_Tile_7ID.collider:AddChild(level07.colliders.C_Parent_Tile_7ID112.collider)
 level07.colliders.C_Parent_Tile_7ID113 = {}
 level07.colliders.C_Parent_Tile_7ID113.collider = AABBCollider.Create(-1)
@@ -7339,8 +7780,8 @@ level07.colliders.C_Parent_Tile_7ID113.collider:AddChild(level07.colliders.C_Par
 level07.colliders.C_Parent_Tile_7ID124 = {}
 level07.colliders.C_Parent_Tile_7ID124.collider = AABBCollider.Create(-1)
 level07.colliders.C_Parent_Tile_7ID124.collider:SetOffset(0,0,0)
-level07.colliders.C_Parent_Tile_7ID124.collider:SetMinPos(205.76,91.0016,693.732)
-level07.colliders.C_Parent_Tile_7ID124.collider:SetMaxPos(384.3,111.637,767.18)
+level07.colliders.C_Parent_Tile_7ID124.collider:SetMinPos(176.521,91.0016,693.732)
+level07.colliders.C_Parent_Tile_7ID124.collider:SetMaxPos(384.3,201.685,778.546)
 level07.colliders.C_Parent_Tile_7ID112.collider:AddChild(level07.colliders.C_Parent_Tile_7ID124.collider)
 level07.colliders.C_Parent_Tile_7ID125 = {}
 level07.colliders.C_Parent_Tile_7ID125.collider = OBBCollider.Create(-1)
@@ -7368,40 +7809,52 @@ level07.colliders.C_Parent_Tile_7ID128.collider:SetHalfLengths(0.3,5.72517,13.08
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID128.collider)
 level07.colliders.C_Parent_Tile_7ID129 = {}
 level07.colliders.C_Parent_Tile_7ID129.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID129.collider:SetOffset(360.5,98.9023,759)
-level07.colliders.C_Parent_Tile_7ID129.collider:SetAxes(0.5547, -0, 0.83205, 0, -1, -0, 0.83205, 0, -0.5547)
-level07.colliders.C_Parent_Tile_7ID129.collider:SetHalfLengths(0.3,5.48345,12.6194)
+level07.colliders.C_Parent_Tile_7ID129.collider:SetOffset(377.5,98.4188,745.5)
+level07.colliders.C_Parent_Tile_7ID129.collider:SetAxes(0.707107, -0, 0.707107, 0, -1, -0, 0.707107, 0, -0.707107)
+level07.colliders.C_Parent_Tile_7ID129.collider:SetHalfLengths(0.3,6.45035,9.19239)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID129.collider)
 level07.colliders.C_Parent_Tile_7ID130 = {}
 level07.colliders.C_Parent_Tile_7ID130.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID130.collider:SetOffset(377.5,98.4188,745.5)
-level07.colliders.C_Parent_Tile_7ID130.collider:SetAxes(0.707107, -0, 0.707107, 0, -1, -0, 0.707107, 0, -0.707107)
-level07.colliders.C_Parent_Tile_7ID130.collider:SetHalfLengths(0.3,6.45035,9.19239)
+level07.colliders.C_Parent_Tile_7ID130.collider:SetOffset(384,99.8692,735.5)
+level07.colliders.C_Parent_Tile_7ID130.collider:SetAxes(1, -0, 0, 0, -1, -0, 0, 0, -1)
+level07.colliders.C_Parent_Tile_7ID130.collider:SetHalfLengths(0.3,8.8676,3.5)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID130.collider)
 level07.colliders.C_Parent_Tile_7ID131 = {}
 level07.colliders.C_Parent_Tile_7ID131.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID131.collider:SetOffset(384,99.8692,735.5)
-level07.colliders.C_Parent_Tile_7ID131.collider:SetAxes(1, -0, 0, 0, -1, -0, 0, 0, -1)
-level07.colliders.C_Parent_Tile_7ID131.collider:SetHalfLengths(0.3,8.8676,3.5)
+level07.colliders.C_Parent_Tile_7ID131.collider:SetOffset(382,105.671,700.5)
+level07.colliders.C_Parent_Tile_7ID131.collider:SetAxes(0.6, 0, -0.8, 0, -1, -0, -0.8, 0, -0.6)
+level07.colliders.C_Parent_Tile_7ID131.collider:SetHalfLengths(0.3,5.24173,2.5)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID131.collider)
 level07.colliders.C_Parent_Tile_7ID132 = {}
 level07.colliders.C_Parent_Tile_7ID132.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID132.collider:SetOffset(382,105.671,700.5)
-level07.colliders.C_Parent_Tile_7ID132.collider:SetAxes(0.6, 0, -0.8, 0, -1, -0, -0.8, 0, -0.6)
-level07.colliders.C_Parent_Tile_7ID132.collider:SetHalfLengths(0.3,5.24173,2.5)
+level07.colliders.C_Parent_Tile_7ID132.collider:SetOffset(375,105.429,696.5)
+level07.colliders.C_Parent_Tile_7ID132.collider:SetAxes(0.447214, 0, -0.894427, 0, -1, -0, -0.894427, 0, -0.447214)
+level07.colliders.C_Parent_Tile_7ID132.collider:SetHalfLengths(0.3,6.20862,5.59017)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID132.collider)
 level07.colliders.C_Parent_Tile_7ID133 = {}
 level07.colliders.C_Parent_Tile_7ID133.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID133.collider:SetOffset(375,105.429,696.5)
-level07.colliders.C_Parent_Tile_7ID133.collider:SetAxes(0.447214, 0, -0.894427, 0, -1, -0, -0.894427, 0, -0.447214)
-level07.colliders.C_Parent_Tile_7ID133.collider:SetHalfLengths(0.3,6.20862,5.59017)
+level07.colliders.C_Parent_Tile_7ID133.collider:SetOffset(366,104.462,700)
+level07.colliders.C_Parent_Tile_7ID133.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
+level07.colliders.C_Parent_Tile_7ID133.collider:SetHalfLengths(0.3,5.24172,1)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID133.collider)
 level07.colliders.C_Parent_Tile_7ID134 = {}
 level07.colliders.C_Parent_Tile_7ID134.collider = OBBCollider.Create(-1)
-level07.colliders.C_Parent_Tile_7ID134.collider:SetOffset(366,104.462,700)
-level07.colliders.C_Parent_Tile_7ID134.collider:SetAxes(0, 0, -1, -0, -1, -0, -1, 0, 0)
-level07.colliders.C_Parent_Tile_7ID134.collider:SetHalfLengths(0.3,5.24172,1)
+level07.colliders.C_Parent_Tile_7ID134.collider:SetOffset(182.625,193.233,772)
+level07.colliders.C_Parent_Tile_7ID134.collider:SetAxes(1, 0, 0, 0, -1, 0, 0, 0, 1)
+level07.colliders.C_Parent_Tile_7ID134.collider:SetHalfLengths(6.10427,8.45151,6.54575)
 level07.colliders.C_Parent_Tile_7ID124.collider:AddChild(level07.colliders.C_Parent_Tile_7ID134.collider)
+level07.colliders.C_Parent_Tile_7ID135 = {}
+level07.colliders.C_Parent_Tile_7ID135.collider = AABBCollider.Create(-1)
+level07.colliders.C_Parent_Tile_7ID135.collider:SetOffset(0,0,0)
+level07.colliders.C_Parent_Tile_7ID135.collider:SetMinPos(349.834,93.4188,751.75)
+level07.colliders.C_Parent_Tile_7ID135.collider:SetMaxPos(371.166,104.386,766.25)
+level07.colliders.C_Parent_Tile_7ID112.collider:AddChild(level07.colliders.C_Parent_Tile_7ID135.collider)
+level07.colliders.C_Parent_Tile_7ID136 = {}
+level07.colliders.C_Parent_Tile_7ID136.collider = OBBCollider.Create(-1)
+level07.colliders.C_Parent_Tile_7ID136.collider:SetOffset(360.5,98.9023,759)
+level07.colliders.C_Parent_Tile_7ID136.collider:SetAxes(0.5547, -0, 0.83205, 0, -1, -0, 0.83205, 0, -0.5547)
+level07.colliders.C_Parent_Tile_7ID136.collider:SetHalfLengths(0.3,5.48345,12.6194)
+level07.colliders.C_Parent_Tile_7ID135.collider:AddChild(level07.colliders.C_Parent_Tile_7ID136.collider)
 CollisionHandler.AddAABB(level07.colliders.C_Parent_Tile_7ID.collider, 3)
 level07.colliders.C_Parent_Tile_7ID1 = nil
 level07.colliders.C_Parent_Tile_7ID2 = nil
@@ -7537,6 +7990,80 @@ level07.colliders.C_Parent_Tile_7ID131 = nil
 level07.colliders.C_Parent_Tile_7ID132 = nil
 level07.colliders.C_Parent_Tile_7ID133 = nil
 level07.colliders.C_Parent_Tile_7ID134 = nil
+level07.colliders.C_Parent_Tile_7ID135 = nil
+level07.colliders.C_Parent_Tile_7ID136 = nil
+level07.triggers.BlockerTrigger12ID = {}
+level07.triggers.BlockerTrigger12ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger12ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger12ID.collider:SetAxes(0.663779, 0, -0.747929, 0, -1, 0, 0.747929, 0, 0.663779)
+level07.triggers.BlockerTrigger12ID.collider:SetHalfLengths(9.57697,13.5245,22.4036)
+level07.triggers.BlockerTrigger12ID.collider:SetPos(295.293,96.5625,690.565)
+sluice18 = CreateSluice(level07.triggers.BlockerTrigger12ID.collider, level07.props.BlockerClosedNature4ID.transformID, level07.props.BlockerClosedNature4ID, level07.props.BlockerOpenNature4ID.transformID)
+level07.triggers.BlockerTrigger12ID.collider.OnEnter = function(self) SluiceEnter(sluice18) end
+level07.triggers.BlockerTrigger12ID.collider.OnExit = function(self) SluiceExit(sluice18) end
+level07.triggers.BlockerTrigger12ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice18) end
+level07.triggers.BlockerTrigger12ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger12ID.collider, 4)
+level07.triggers.BlockerTrigger13ID = {}
+level07.triggers.BlockerTrigger13ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger13ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger13ID.collider:SetAxes(0.784145, 0, -0.620578, 0, -1, 0, 0.620578, 0, 0.784145)
+level07.triggers.BlockerTrigger13ID.collider:SetHalfLengths(12.9171,23.5948,9.88232)
+level07.triggers.BlockerTrigger13ID.collider:SetPos(219.679,115.5,596.831)
+sluice19 = CreateSluice(level07.triggers.BlockerTrigger13ID.collider, level07.props.BlockerClosedNature5ID.transformID, level07.props.BlockerClosedNature5ID, level07.props.BlockerOpenNature5ID.transformID)
+level07.triggers.BlockerTrigger13ID.collider.OnEnter = function(self) SluiceEnter(sluice19) end
+level07.triggers.BlockerTrigger13ID.collider.OnExit = function(self) SluiceExit(sluice19) end
+level07.triggers.BlockerTrigger13ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice19) end
+level07.triggers.BlockerTrigger13ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger13ID.collider, 4)
+level07.triggers.BlockerTrigger14ID = {}
+level07.triggers.BlockerTrigger14ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger14ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger14ID.collider:SetAxes(0.99678, 0, -0.080188, 0, -1, 0, 0.080188, 0, 0.99678)
+level07.triggers.BlockerTrigger14ID.collider:SetHalfLengths(28.5138,19.3845,10.0422)
+level07.triggers.BlockerTrigger14ID.collider:SetPos(235.233,86.1875,737.352)
+sluice20 = CreateSluice(level07.triggers.BlockerTrigger14ID.collider, level07.props.BlockerClosedFire4ID.transformID, level07.props.BlockerClosedFire4ID, level07.props.BlockerOpenFire4ID.transformID)
+level07.triggers.BlockerTrigger14ID.collider.OnEnter = function(self) SluiceEnter(sluice20) end
+level07.triggers.BlockerTrigger14ID.collider.OnExit = function(self) SluiceExit(sluice20) end
+level07.triggers.BlockerTrigger14ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice20) end
+level07.triggers.BlockerTrigger14ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger14ID.collider, 4)
+level07.triggers.BlockerTrigger15ID = {}
+level07.triggers.BlockerTrigger15ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger15ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger15ID.collider:SetAxes(0.950682, 0, 0.310166, 0, -1, 0, -0.310166, 0, 0.950682)
+level07.triggers.BlockerTrigger15ID.collider:SetHalfLengths(12.0506,16.3252,6.61011)
+level07.triggers.BlockerTrigger15ID.collider:SetPos(359.206,117.375,678.393)
+sluice21 = CreateSluice(level07.triggers.BlockerTrigger15ID.collider, level07.props.BlockerClosedIce4ID.transformID, level07.props.BlockerClosedIce4ID, level07.props.BlockerOpenIce4ID.transformID)
+level07.triggers.BlockerTrigger15ID.collider.OnEnter = function(self) SluiceEnter(sluice21) end
+level07.triggers.BlockerTrigger15ID.collider.OnExit = function(self) SluiceExit(sluice21) end
+level07.triggers.BlockerTrigger15ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice21) end
+level07.triggers.BlockerTrigger15ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger15ID.collider, 4)
+level07.triggers.BlockerTrigger16ID = {}
+level07.triggers.BlockerTrigger16ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger16ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger16ID.collider:SetAxes(0.998421, 0, -0.0561746, 0, -1, 0, 0.0561746, 0, 0.998421)
+level07.triggers.BlockerTrigger16ID.collider:SetHalfLengths(10.5968,12.8873,12.2036)
+level07.triggers.BlockerTrigger16ID.collider:SetPos(325.904,136.25,578.422)
+sluice23 = CreateSluice(level07.triggers.BlockerTrigger16ID.collider, level07.props.BlockerClosedIce5ID.transformID, level07.props.BlockerClosedIce5ID, level07.props.BlockerOpenIce5ID.transformID)
+level07.triggers.BlockerTrigger16ID.collider.OnEnter = function(self) SluiceEnter(sluice23) end
+level07.triggers.BlockerTrigger16ID.collider.OnExit = function(self) SluiceExit(sluice23) end
+level07.triggers.BlockerTrigger16ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice23) end
+level07.triggers.BlockerTrigger16ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger16ID.collider, 4)
+level07.triggers.BlockerTrigger17ID = {}
+level07.triggers.BlockerTrigger17ID.collider = OBBCollider.Create(-1)
+level07.triggers.BlockerTrigger17ID.collider:SetOffset(0,0,0)
+level07.triggers.BlockerTrigger17ID.collider:SetAxes(0.939347, 0, 0.342968, 0, -1, 0, -0.342968, 0, 0.939347)
+level07.triggers.BlockerTrigger17ID.collider:SetHalfLengths(4.22369,26.4925,24.6726)
+level07.triggers.BlockerTrigger17ID.collider:SetPos(154.775,120.573,604.051)
+sluice24 = CreateSluice(level07.triggers.BlockerTrigger17ID.collider, level07.props.BlockerClosedFire5ID.transformID, level07.props.BlockerClosedFire5ID, level07.props.BlockerOpenFire5ID.transformID)
+level07.triggers.BlockerTrigger17ID.collider.OnEnter = function(self) SluiceEnter(sluice24) end
+level07.triggers.BlockerTrigger17ID.collider.OnExit = function(self) SluiceExit(sluice24) end
+level07.triggers.BlockerTrigger17ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice24) end
+level07.triggers.BlockerTrigger17ID.collider.triggered = false
+CollisionHandler.AddOBB(level07.triggers.BlockerTrigger17ID.collider, 4)
 end
 level07.unload = function()
 level07.props.tile7ID = nil
@@ -7717,6 +8244,49 @@ level07.colliders.Tile7_wallNr95ID = nil
 level07.colliders.Tile7_wallNr94ID = nil
 level07.colliders.Tile7_wallNr14ID = nil
 level07.colliders.Tile7_wallNr15ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedNature4ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerClosedNature4ID = nil
+level07.triggers.BlockerTrigger12ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenNature4ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerOpenNature4ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedNature5ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerClosedNature5ID = nil
+level07.props.New2ID = nil
+level07.triggers.BlockerTrigger13ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenNature5ID.transformID)
+Assets.UnloadModel('Models/Grass_Branch_blocker.model')
+level07.props.BlockerOpenNature5ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenFire4ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerOpenFire4ID = nil
+level07.triggers.BlockerTrigger14ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedFire4ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerClosedFire4ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedIce4ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerClosedIce4ID = nil
+level07.triggers.BlockerTrigger15ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenIce4ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerOpenIce4ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedIce5ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerClosedIce5ID = nil
+level07.triggers.BlockerTrigger16ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenIce5ID.transformID)
+Assets.UnloadModel('Models/Ice_Branch_blocker.model')
+level07.props.BlockerOpenIce5ID = nil
+Gear.UnbindInstance(level07.props.BlockerClosedFire5ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerClosedFire5ID = nil
+level07.triggers.BlockerTrigger17ID = nil
+Gear.UnbindInstance(level07.props.BlockerOpenFire5ID.transformID)
+Assets.UnloadModel('Models/Fire_Branch_blocker.model')
+level07.props.BlockerOpenFire5ID = nil
 level07.colliders.C_Parent_Tile_71ID = nil
 level07.colliders.C_Parent_Tile_72ID = nil
 level07.colliders.C_Parent_Tile_73ID = nil
@@ -7731,6 +8301,7 @@ level07.colliders.C_Parent_Tile_711ID = nil
 level07.colliders.C_Parent_Tile_712ID = nil
 level07.colliders.C_Parent_Tile_713ID = nil
 level07.colliders.C_Parent_Tile_714ID = nil
+level07.colliders.C_Parent_Tile_715ID = nil
 level07.colliders.C_Parent_Tile_7ID = nil
 level07.props = nil
 level07.colliders = nil
@@ -8198,7 +8769,7 @@ level08.colliders.C_Parent_Tile_8ID56.collider:AddChild(level08.colliders.C_Pare
 level08.colliders.C_Parent_Tile_8ID66 = {}
 level08.colliders.C_Parent_Tile_8ID66.collider = OBBCollider.Create(-1)
 level08.colliders.C_Parent_Tile_8ID66.collider:SetOffset(360.5,127.479,440.5)
-level08.colliders.C_Parent_Tile_8ID66.collider:SetAxes(-0.995893, 0, -0.0905358, -0, -1, 0, -0.0905358, 0, 0.995893)
+level08.colliders.C_Parent_Tile_8ID66.collider:SetAxes(-0.995893, 0, -0.0905357, -0, -1, 0, -0.0905357, 0, 0.995893)
 level08.colliders.C_Parent_Tile_8ID66.collider:SetHalfLengths(0.3,5.16553,5.52268)
 level08.colliders.C_Parent_Tile_8ID56.collider:AddChild(level08.colliders.C_Parent_Tile_8ID66.collider)
 level08.colliders.C_Parent_Tile_8ID67 = {}
