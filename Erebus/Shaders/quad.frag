@@ -2,13 +2,13 @@
 
 in vec2 frag_uv;
 
-uniform sampler2D texture;
+uniform sampler2D diffuse;
 
-out vec3 out_color;
+out vec4 out_color;
 
 void main() {
 
-	vec3 FragPos = vec3(texture2D(texture, frag_uv)).rgb;
+	vec3 FragPos = vec3(texture2D(diffuse, frag_uv).rgb);
 
-	out_color = FragPos;
+	out_color = vec4(FragPos,1);
 }

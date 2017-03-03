@@ -457,6 +457,8 @@ namespace Collisions
 		collisionLayers = new CollisionLayers(layerAmount);
 		leafHitboxIDSaver = new std::vector<std::vector<int>>();
 		leafHitboxIDSaver->resize(layerAmount);
+
+		this->setHardcodedSettings();
 	}
 	bool CollisionHandler::isHitboxCollidingWithLayer(HitBox* hitbox, int layer) 
 	{
@@ -490,6 +492,6 @@ namespace Collisions
 		}
 		this->setLayerCollisionMatrix(STATIC_LAYER, TRIGGER_LAYER, false);
 		this->setLayerCollisionMatrix(ENEMY_LAYER, TRIGGER_LAYER, false);
-		this->setLayerCollisionMatrix(SPELLS_LAYER, TRIGGER_LAYER, false);
+		//this->setLayerCollisionMatrix(SPELLS_LAYER, TRIGGER_LAYER, false);
 	}
 }

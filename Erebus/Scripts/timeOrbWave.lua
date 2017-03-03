@@ -9,7 +9,7 @@ function CreateTimeOrbWave(entity)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifetime = TIMEORBWAVEDURATION
-	spell.damage = 3
+	spell.damage = 3 * LEVEL_ROUND
 	spell.alive = false
 	spell.hudtexture = Assets.LoadTexture("Textures/TimeOrbTexture.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
@@ -27,7 +27,7 @@ function CreateTimeOrbWave(entity)
 				if hits[i].Hurt then
 					local effect = effectTable[self.effect]()
 					hits[i]:Apply(effect)
-					--hits[i]:Hurt(self.damage, self.owner)
+					hits[i]:Hurt(self.damage, self.owner, self.element)
 				end
 			end
 			if self.lifetime < 0 then

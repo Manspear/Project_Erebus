@@ -17,6 +17,9 @@ namespace Importer
 		IMPORTER_API void unload() override;
 		IMPORTER_API void upload() override;
 
+		IMPORTER_API void incrementReferenceCount() override;
+		IMPORTER_API void decrementReferenceCount() override;
+
 		IMPORTER_API hModel* getHeader();
 		IMPORTER_API hMesh* getMesh(int index) const;
 		IMPORTER_API sBBox* getBoundingBox(int joint) const;

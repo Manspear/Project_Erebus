@@ -27,6 +27,8 @@ namespace Collisions
 		COLLISIONS_EXPORTS void setXAxis(glm::vec3 xAxis);
 		COLLISIONS_EXPORTS void setYAxis(glm::vec3 yAxis);
 		COLLISIONS_EXPORTS void setZAxis(glm::vec3 zAxis);
+		//All of the axes need to create a coordinate system with axes perpendicular
+		COLLISIONS_EXPORTS void setAllAxis(glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis);
 
 		//Overrides
 		COLLISIONS_EXPORTS virtual int getID() const override;

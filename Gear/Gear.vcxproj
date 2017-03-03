@@ -154,10 +154,12 @@
     <ClInclude Include="AnimationEnums.h" />
     <ClInclude Include="BaseIncludes.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CascadedShadowMap.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="DebugHandler.h" />
     <ClInclude Include="FloatingDamage.h" />
     <ClInclude Include="Gear.h" />
+    <ClInclude Include="GearStructs.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Light.h" />
@@ -178,6 +180,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CascadedShadowMap.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="DebugHandler.cpp" />
     <ClCompile Include="FloatingDamage.cpp" />

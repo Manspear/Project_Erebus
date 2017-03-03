@@ -93,6 +93,7 @@ function GetCombined()
 			player2.spells[player2.currentSpell]:Change()
 		elseif activateCombineRay == false then
 			player2.friendCharger:EndChargeBeam()
+			player2.friendCharger:resetCooldown()
 		end
 	end
 end
@@ -268,9 +269,9 @@ function UpdatePlayer2(dt)
 		ChargeDir.y = (ChargeDir.y /a)
 		ChargeDir.z = (ChargeDir.z /a)
 
-		player2.friendCharger:FireChargeBeam(dt, ChargeDir, player2.spells[player2.currentSpell].element, len)
+		local chargeBeamResult = player2.friendCharger:FireChargeBeam(dt, ChargeDir, player2.spells[player2.currentSpell].element, len)
 
-		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) and not player.isCombined then
+		if Inputs.ButtonDown(SETTING_KEYBIND_CHARGED_ATTACK) and not player.isCombined and chargeBeamResult then
 			player.isCombined = true
 			player.combinedSpell = player2.spells[player2.currentSpell].spellListId
 			player.spells[player.currentSpell]:Combine(player2.spells[player2.currentSpell]:GetEffect(), player2.spells[player2.currentSpell].damage)

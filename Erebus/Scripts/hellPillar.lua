@@ -20,8 +20,6 @@ function CreateHellPillar(entity)
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	spell.minChargeTime = MIN_CHARGE_TIME_PILLAR
 	
-	spell.effects = {}
-	table.insert(spell.effects, FIRE_EFFECT_INDEX)
 	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
 	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
@@ -178,7 +176,7 @@ function CreateHellPillar(entity)
 				end
 			end
 			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
-				boss:Hurt(self.damage, owner)
+				boss:Hurt(self.damage, self.owner, self.element)
 				for i = 1, #self.effects do
 					local effect = effectTable[self.effects[i]](self.owner)
 					boss:Apply(effect)

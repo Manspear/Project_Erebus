@@ -443,9 +443,10 @@ function Controls(dt)
 		if Inputs.KeyDown(SETTING_KEYBIND_RIGHT) then
 			player.left = -player.moveSpeed
 		end
-		if Inputs.KeyDown(SETTING_KEYBIND_PING) then
+		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
+			Sky.Override(true)
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
@@ -476,6 +477,7 @@ function Controls(dt)
 					if player2.charging == true and result == true then
 						player2.isCombined = true
 						player2.combinedSpell = player.spells[player.currentSpell].spellListId
+						player2.spells[player.currentSpell]:Combine(player.spells[player.currentSpell]:GetEffect(), player.spells[player.currentSpell].damage)
 					end
 				else 
 					player.friendCharger:EndChargeBeam()
@@ -559,16 +561,16 @@ function Controls(dt)
 	end
 	
 
-	if player.globalSpellSwitchingCooldownTimerStarted == true then 
-		player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+	--if player.globalSpellSwitchingCooldownTimerStarted == true then 
+		--player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
 
 		if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
 			player.globalSpellSwitchingCooldownTimerStarted = false
 			player.globalSpellSwitchingCooldownTimer = 0
 		end
-	end
+	--end
 
-	if player.globalSpellSwitchingCooldownTimerStarted == false then 
+	if player.charging == false then 
 		if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
