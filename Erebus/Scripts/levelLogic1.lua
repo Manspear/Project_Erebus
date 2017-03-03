@@ -39,7 +39,7 @@ function TutorialBarrier(TutorialObject,dt)
 		local pos = Transform.GetPosition(TutorialObject.transformID)
 		showTutorialImage(pos.x+2,pos.y+7,pos.z+15,dt)
 
-		if player.combinedSpellIDs ~= nil then
+		--if player.combinedSpellIDs ~= nil then
 			local colID = TutorialObject.collider:GetID()
 			local collisionIDs = TutorialObject.collider:GetCollisionIDs()
 
@@ -47,7 +47,7 @@ function TutorialBarrier(TutorialObject,dt)
 				--for o = 1, #player.combinedSpellIDs do
 				--	if collisionIDs[i] == player.combinedSpellIDs[o] then
 				--		
-				--		OBBCollider.SetActive(TutorialObject.collider,false)
+				--		
 				--		player.combinedSpellIDs = nil
 				--		TUTORIAL_DONE = true
 				--		TUTORIAL_START_ANIM = true
@@ -57,24 +57,24 @@ function TutorialBarrier(TutorialObject,dt)
 				--end
 				for curID = 1, 3 do
 					if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
-						if #player.spells[curID].effects == 1 then 
+						if #player.spells[curID].effects == 2 then 
+							OBBCollider.SetActive(TutorialObject.collider,false)
 							TUTORIAL_DONE = true
 							TUTORIAL_START_ANIM = true
 							TUTORIAL_OBJECT = TutorialObject
-							return
 						end
 					end
 					if player2.spells[curID]:GetCollider()[1] == collisionIDs[i] then
-						if #player2.spells[curID].effects == 1 then 
+						if #player2.spells[curID].effects == 2 then 
+							OBBCollider.SetActive(TutorialObject.collider,false)
 							TUTORIAL_DONE = true
 							TUTORIAL_START_ANIM = true
 							TUTORIAL_OBJECT = TutorialObject
-							return
 						end
 					end
 				end
 			end
-		end
+		--end
 	end
 end
 --TUTORIAL_DONE = true
