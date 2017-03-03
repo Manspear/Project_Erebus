@@ -73,6 +73,7 @@ function LoadBoss()
 			levels[2].load()
 			loadedLevels[1] = true
 			Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
+			Sky.SetTime(20)
 		end
 	end
 	function boss:Apply(effect)
