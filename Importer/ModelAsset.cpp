@@ -207,6 +207,15 @@ namespace Importer
 		}
 	}
 
+	void ModelAsset::incrementReferenceCount()
+	{
+		Asset::incrementReferenceCount();
+
+		//if( referenceCount > 1 && material )
+		if( material )
+			material->incrementReferenceCount();
+	}
+
 	hModel* ModelAsset::getHeader()
 	{
 		return &header;
