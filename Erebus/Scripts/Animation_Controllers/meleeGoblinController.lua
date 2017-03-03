@@ -83,7 +83,7 @@ function CreateEnemyController(enemy)
 	end
 
 	function controller:doNothing()
-		self.currentAnimation = 0
+		self.currentAnimation = 8
 	end
 		
 	function controller:doStartLeap()
