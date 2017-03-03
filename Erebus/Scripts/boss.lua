@@ -66,13 +66,19 @@ function LoadBoss()
 			for levelIndex,level in pairs(levels) do
 				if loadedLevels[levelIndex] then
 					level.unload()
+					print("unloaded level ".. levelIndex)
 				end
 				loadedLevels[levelIndex] = false
 			end
 			levels[1].load()
-			levels[2].load()
 			loadedLevels[1] = true
-			Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
+			for _,v in pairs(levels[1].surrounding) do
+				levels[v].load()
+				loadedLevels[v] = true
+				print("level: " .. v .. " loaded!")
+			end
+			Transform.SetPosition(player.transformID, {x=32.9063, y=7.48828, z=145.625})
+			player:ChangeHeightmap(1)
 			Sky.SetTime(20)
 		end
 	end
