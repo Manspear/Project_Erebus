@@ -527,6 +527,10 @@
     <None Include="Scripts\lifeStealEffect.lua">
       <Filter>Scripts\effects</Filter>
     </None>
+    <None Include="Scripts\level01.lua" />
+    <None Include="Scripts\assets_debug.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
