@@ -59,7 +59,7 @@ function LoadBoss()
 	end
 	function boss:Kill()
 		if boss.alive then
-			boss.alive = false
+			boss.health = 500
 			--UnloadGameplay()
 			--LEVEL_ROUND = LEVEL_ROUND + 1
 			--EnterGameplay()
