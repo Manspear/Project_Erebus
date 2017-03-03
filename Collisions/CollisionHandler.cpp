@@ -226,26 +226,18 @@ namespace Collisions
 		std::vector<OBBCollider*>* obbColliders = this->collisionLayers->getOBBColliders(layer);
 		std::vector<RayCollider*>* rayColliders = this->collisionLayers->getRayColliders(layer);
 
-		for (size_t i = 0; i < sphereColliders->size() && !colliding; i++) // sphere
-		{
-			colliding = this->collisionChecker.collisionCheck(hitbox,sphereColliders->operator[](i));
+		std::vector<glm::vec3> normals;
+		this->allColliders;
 
-		}
-		
-		for (size_t i = 0; i < aabbColliders->size() && !colliding; i++) // aabb
-		{
-			colliding = this->collisionChecker.collisionCheck(hitbox, aabbColliders->operator[](i));
-		}
+		colliding = this->checkAnyCollisionBoolNoSave(hitbox, sphereColliders,normals);
 
-		for (size_t i = 0; i < obbColliders->size() && !colliding; i++) // obb
-		{
-			colliding = this->collisionChecker.collisionCheck(hitbox, obbColliders->operator[](i));
-		}
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, aabbColliders, normals);
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, obbColliders, normals);
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, rayColliders, normals);
 
-		for (size_t i = 0; i < rayColliders->size() && !colliding; i++) // ray
-		{
-			colliding = this->collisionChecker.collisionCheck(hitbox, rayColliders->operator[](i));
-		}
 
 		return colliding;
 	}
