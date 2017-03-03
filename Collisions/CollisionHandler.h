@@ -28,6 +28,7 @@ namespace Collisions
 
 		// Collision check
 		COLLISIONS_EXPORTS void checkCollisions();
+		COLLISIONS_EXPORTS bool checkCollisionsBetweenHitboxAndLayer(HitBox* hitbox, int layer);
 
 		//delete
 		COLLISIONS_EXPORTS void deleteAllOldCollisions();
