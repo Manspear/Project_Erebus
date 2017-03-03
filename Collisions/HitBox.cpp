@@ -15,7 +15,7 @@ namespace Collisions
 		this->colliding = false;
 	}
 
-	HitBox::HitBox(unsigned int ID, int IDTransform)
+	HitBox::HitBox(const unsigned int & ID, const int & IDTransform)
 	{
 		this->ID = ID;
 		this->IDTransform = IDTransform;
@@ -27,7 +27,7 @@ namespace Collisions
 		this->colliding = false;
 	}
 
-	HitBox::HitBox(int IDTransform)
+	HitBox::HitBox(const int & IDTransform)
 	{
 		this->ID = -1;
 		this->IDTransform = IDTransform;
@@ -53,7 +53,7 @@ namespace Collisions
 
 	}
 
-	void HitBox::insertCollisionID(unsigned int collisionID)
+	void HitBox::insertCollisionID(const unsigned int & collisionID)
 	{
 		this->colliding = true;
 		this->IDCollisions.push_back(collisionID);
@@ -73,7 +73,7 @@ namespace Collisions
 		}
 	}
 
-	void HitBox::setPos(glm::vec3 pos)
+	void HitBox::setPos(const glm::vec3 & pos)
 	{
 		this->transformPos = pos;
 		this->pos = transformPos + this->localPos;
@@ -87,12 +87,12 @@ namespace Collisions
 		}
 	}
 
-	void HitBox::setIDTransform(unsigned int ID)
+	void HitBox::setIDTransform(const unsigned int & ID)
 	{
 		this->IDTransform = ID;
 	}
 
-	void HitBox::setID(unsigned int ID)
+	void HitBox::setID(const unsigned int & ID)
 	{
 		this->ID = ID;
 	}
@@ -102,7 +102,7 @@ namespace Collisions
 		return this->colliding;
 	}
 
-	bool HitBox::checkSpecificCollision(unsigned int target)
+	bool HitBox::checkSpecificCollision(const unsigned int & target)
 	{
 		bool collision = false;
 		for (int i = 0; i < IDCollisions.size(); i++)
@@ -113,7 +113,7 @@ namespace Collisions
 		return collision;
 	}
 
-	void HitBox::setActive(bool active)
+	void HitBox::setActive(const bool & active)
 	{
 		this->active = active;
 	}
@@ -123,12 +123,12 @@ namespace Collisions
 		return this->active;
 	}
 
-	void HitBox::setTypeFlag(int flag)
+	void HitBox::setTypeFlag(const int & flag)
 	{
 		this->typeFlag = flag;
 	}
 
-	void HitBox::setLocalPos(glm::vec3 pos)
+	void HitBox::setLocalPos(const glm::vec3 & pos)
 	{
 		this->localPos = pos;
 		if (this->parent != nullptr)
@@ -145,12 +145,12 @@ namespace Collisions
 		}
 	}
 
-	void HitBox::setCollision(bool colliding)
+	void HitBox::setCollision(const bool & colliding)
 	{
 		this->colliding = colliding;
 	}
 
-	void HitBox::setAllParentCollision(bool colliding)
+	void HitBox::setAllParentCollision(const bool & colliding)
 	{
 		if (this->parent != nullptr) // if we have a parent set the colliding bool
 		{
