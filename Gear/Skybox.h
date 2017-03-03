@@ -51,6 +51,7 @@ namespace Gear
 		GEAR_API bool isShadowsEnabled();
 		GEAR_API void setShadowsEnabled(bool enabled);
 		GEAR_API int numCascades();
+		GEAR_API void blurShadow();
 
 		GEAR_API CascadedShadowMap* getShadow() { return &this->shadowMap; }
 

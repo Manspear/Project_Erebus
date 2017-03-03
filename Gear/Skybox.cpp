@@ -297,6 +297,11 @@ GEAR_API int Gear::Skybox::numCascades()
 	return this->shadowMap.getNumCascades();
 }
 
+GEAR_API void Gear::Skybox::blurShadow()
+{
+	shadowMap.blur();
+}
+
 GEAR_API void Gear::Skybox::readyShadowForDraw(int cascadeIndex, ShaderProgram * geomerty, ShaderProgram * animation)
 {
 	geomerty->use();
