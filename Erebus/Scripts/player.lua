@@ -402,16 +402,16 @@ function SendCombine(spell)
 end
 
 function EnemyCollisionChecks()
+	local allMiss = true
 	if not player.invulnerable then
 		local collisionIDs = player.sphereCollider:GetCollisionIDs()
-		local allMiss = true
 		for curID = 1, #collisionIDs do	
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					allMiss = false
 					local enmyPos = Transform.GetPosition(enemies[curEnemy].transformID)
 					if vec3lengthFnG(vec3sub(enmyPos, player.position)) < vec3lengthFnG(vec3sub(enmyPos, player.lastPosition)) then
-						player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].sphereCollider:GetRadius()-- - player.sphereCollider:GetRadius()
+						player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].collider:GetRadius()-- - player.sphereCollider:GetRadius()
 					else
 						player.moveSpeed = PLAYER_MOVESPEED
 					end			
@@ -419,8 +419,8 @@ function EnemyCollisionChecks()
 			end
 		end	
 		player.lastPosition = player.position
-		if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
 	end
+	if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
 end
 
 function Controls(dt)
@@ -600,11 +600,10 @@ function Controls(dt)
 				else
 					player.useRayAttack = true
 				end
-
+				player.spells[player.currentSpell]:ChargeCast(player)
 				if player.charging == true then
 					player.spellDirection = Camera.GetDirection()
-					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-					player.spells[player.currentSpell]:ChargeCast(player)
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)		
 					player.charger:EndCharge()
 					player.charging = false
 					player.isCombined = false

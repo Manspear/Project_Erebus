@@ -7,10 +7,10 @@ namespace Collisions
 	{
 	public:
 		COLLISIONS_EXPORTS SphereCollider();
-		COLLISIONS_EXPORTS SphereCollider(glm::vec3 pos, float radius);
-		COLLISIONS_EXPORTS SphereCollider(int IDTransform, glm::vec3 pos, float radius);
-		COLLISIONS_EXPORTS SphereCollider(int IDTransform, float x, float y, float z, float radius);
-		COLLISIONS_EXPORTS SphereCollider(int IDTransform);
+		COLLISIONS_EXPORTS SphereCollider(const glm::vec3 & pos, const float & radius);
+		COLLISIONS_EXPORTS SphereCollider(const int & IDTransform, const glm::vec3 & pos, const float & radius);
+		COLLISIONS_EXPORTS SphereCollider(const int & IDTransform, const float & x, const float & y, const float & z, const float & radius);
+		COLLISIONS_EXPORTS SphereCollider(const int & IDTransform);
 		COLLISIONS_EXPORTS virtual ~SphereCollider();
 
 		//overrides
@@ -22,7 +22,7 @@ namespace Collisions
 		COLLISIONS_EXPORTS const float& getRadius();
 		COLLISIONS_EXPORTS float getRadiusSquared() const;
 
-		COLLISIONS_EXPORTS void setRadius(float radius);
+		COLLISIONS_EXPORTS void setRadius(const float & radius);
 
 	private:
 		float radius, radiusSquared;

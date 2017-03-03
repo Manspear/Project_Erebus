@@ -11,33 +11,33 @@ namespace Collisions
 
 	public:
 		COLLISIONS_EXPORTS HitBox();
-		COLLISIONS_EXPORTS HitBox(unsigned int ID, int IDTransform);
-		COLLISIONS_EXPORTS HitBox(int IDTransform);
+		COLLISIONS_EXPORTS HitBox(const unsigned int & ID, const int & IDTransform);
+		COLLISIONS_EXPORTS HitBox(const int & IDTransform);
 		COLLISIONS_EXPORTS virtual ~HitBox();
 		COLLISIONS_EXPORTS virtual int getID() const = 0;
 		COLLISIONS_EXPORTS virtual int getIDTransform() const = 0;
 		COLLISIONS_EXPORTS virtual std::vector<int>* getIDCollisionsRef() = 0;
-		COLLISIONS_EXPORTS virtual void insertCollisionID(unsigned int collisionID);
+		COLLISIONS_EXPORTS virtual void insertCollisionID(const unsigned int & collisionID);
 		COLLISIONS_EXPORTS virtual void clearCollisionIDs();
 
 		//setters
-		COLLISIONS_EXPORTS virtual void setPos(glm::vec3 pos);
-		COLLISIONS_EXPORTS virtual void setIDTransform(unsigned int ID);
-		COLLISIONS_EXPORTS virtual void setID(unsigned int ID);
-		COLLISIONS_EXPORTS virtual void setActive(bool active);
+		COLLISIONS_EXPORTS virtual void setPos(const glm::vec3 & pos);
+		COLLISIONS_EXPORTS virtual void setIDTransform(const unsigned int & ID);
+		COLLISIONS_EXPORTS virtual void setID(const unsigned int & ID);
+		COLLISIONS_EXPORTS virtual void setActive(const bool & active);
 		// The flags are: 0 = sphereCollider, 1 = aabbCollider, 2 = obbCollider, 3 = ray
-		COLLISIONS_EXPORTS virtual void setTypeFlag(int flag);
-		COLLISIONS_EXPORTS virtual void setLocalPos(glm::vec3 pos);
+		COLLISIONS_EXPORTS virtual void setTypeFlag(const int & flag);
+		COLLISIONS_EXPORTS virtual void setLocalPos(const glm::vec3 & pos);
 		//setting if the hitbox is colliding or not
 		// Is used to know if a parents children have any collision without checking all the children
 		// otherwise we need to insert a scrap value in the parents collisionIds to simulate a collision
-		COLLISIONS_EXPORTS virtual void setCollision(bool colliding);
-		COLLISIONS_EXPORTS virtual void setAllParentCollision(bool colliding);
+		COLLISIONS_EXPORTS virtual void setCollision(const bool & colliding);
+		COLLISIONS_EXPORTS virtual void setAllParentCollision(const bool & colliding);
 
 		//getters
 		//Returns if we have a collision or not
 		COLLISIONS_EXPORTS virtual bool checkCollision();
-		COLLISIONS_EXPORTS virtual bool checkSpecificCollision(unsigned int target);
+		COLLISIONS_EXPORTS virtual bool checkSpecificCollision(const unsigned int & target);
 		COLLISIONS_EXPORTS virtual bool isActive();
 		COLLISIONS_EXPORTS virtual bool isSphereCollider();
 		COLLISIONS_EXPORTS virtual bool isAabbCollider();

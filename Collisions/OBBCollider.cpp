@@ -13,7 +13,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	OBBCollider::OBBCollider(int transformID) : HitBox(transformID)
+	OBBCollider::OBBCollider(const int & transformID) : HitBox(transformID)
 	{
 		this->pos = glm::vec3(0, 0, 0);
 		this->xAxis = glm::vec3(1, 0, 0);
@@ -23,7 +23,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	OBBCollider::OBBCollider(glm::vec3 pos, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox()
+	OBBCollider::OBBCollider(const  glm::vec3 & pos, const float & xHalfLength, const float & yHalfLength, const float & zHalfLength) : HitBox()
 	{
 		this->pos = pos;
 		this->xAxis = glm::vec3(1, 0, 0);
@@ -33,7 +33,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	OBBCollider::OBBCollider(int transformID, float xHalfLength, float yHalfLength, float zHalfLength) : HitBox(transformID)
+	OBBCollider::OBBCollider(const int & transformID, const float & xHalfLength, const float & yHalfLength, const float & zHalfLength) : HitBox(transformID)
 	{
 		this->pos = glm::vec3(0, 0, 0);
 		this->xAxis = glm::vec3(1, 0, 0);
@@ -48,55 +48,55 @@ namespace Collisions
 	{
 	}
 
-	void OBBCollider::rotateAroundX(float radianAngle)
+	void OBBCollider::rotateAroundX(const float & radianAngle)
 	{
 		this->xAxis = glm::rotateX(this->xAxis, radianAngle);
 		this->yAxis = glm::rotateX(this->yAxis, radianAngle);
 		this->zAxis = glm::rotateX(this->zAxis, radianAngle);
 	}
 
-	void OBBCollider::rotateAroundY(float radianAngle)
+	void OBBCollider::rotateAroundY(const float & radianAngle)
 	{
 		this->xAxis = glm::rotateY(this->xAxis, radianAngle);
 		this->yAxis = glm::rotateY(this->yAxis, radianAngle);
 		this->zAxis = glm::rotateY(this->zAxis, radianAngle);
 	}
 
-	void OBBCollider::rotateAroundZ(float radianAngle)
+	void OBBCollider::rotateAroundZ(const float & radianAngle)
 	{
 		this->xAxis = glm::rotateZ(this->xAxis, radianAngle);
 		this->yAxis = glm::rotateZ(this->yAxis, radianAngle);
 		this->zAxis = glm::rotateZ(this->zAxis, radianAngle);
 	}
 
-	void OBBCollider::setSize(float xHalfLength, float yHalfLength, float zHalfLength)
+	void OBBCollider::setSize(const float & xHalfLength, const float & yHalfLength, const float & zHalfLength)
 	{
 		this->halfLengths.x = xHalfLength / 2;
 		this->halfLengths.y = yHalfLength / 2;
 		this->halfLengths.z = zHalfLength / 2;
 	}
 
-	void OBBCollider::setSize(glm::vec3 size)
+	void OBBCollider::setSize(const glm::vec3 & size)
 	{
 		this->halfLengths = size;
 	}
 
-	void OBBCollider::setXHalfLength(float length)
+	void OBBCollider::setXHalfLength(const float & length)
 	{
 		this->halfLengths.x = length;
 	}
 
-	void OBBCollider::setYHalfLength(float length)
+	void OBBCollider::setYHalfLength(const float & length)
 	{
 		this->halfLengths.y = length;
 	}
 
-	void OBBCollider::setZHalfLength(float length)
+	void OBBCollider::setZHalfLength(const float & length)
 	{
 		this->halfLengths.z = length;
 	}
 
-	void OBBCollider::setXAxis(glm::vec3 xAxis)
+	void OBBCollider::setXAxis(const glm::vec3 & xAxis)
 	{
 		this->xAxis = glm::normalize(xAxis);
 		if (xAxis != glm::vec3(0, 1, 0))
@@ -107,7 +107,7 @@ namespace Collisions
 		this->yAxis = glm::normalize(glm::cross(xAxis, zAxis));
 	}
 
-	void OBBCollider::setYAxis(glm::vec3 yAxis)
+	void OBBCollider::setYAxis(const glm::vec3 & yAxis)
 	{
 		this->yAxis = glm::normalize(yAxis);
 		if (yAxis != glm::vec3(0, 1, 0))
@@ -118,7 +118,7 @@ namespace Collisions
 		this->xAxis = glm::normalize(glm::cross(yAxis, zAxis));
 	}
 
-	void OBBCollider::setZAxis(glm::vec3 zAxis)
+	void OBBCollider::setZAxis(const glm::vec3 & zAxis)
 	{
 		this->zAxis = glm::normalize(zAxis);
 		if (zAxis != glm::vec3(0, 1, 0))
@@ -129,7 +129,7 @@ namespace Collisions
 		this->yAxis = glm::normalize(glm::cross(zAxis, xAxis));
 	}
 
-	void OBBCollider::setAllAxis(glm::vec3 xAxis, glm::vec3 yAxis, glm::vec3 zAxis)
+	void OBBCollider::setAllAxis(const glm::vec3 & xAxis, const glm::vec3 & yAxis, const glm::vec3 & zAxis)
 	{
 		this->xAxis = glm::normalize(xAxis);
 		this->yAxis = glm::normalize(yAxis);
