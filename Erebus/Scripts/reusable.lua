@@ -115,3 +115,29 @@ function TriggerChecks(dt)
 		end
 	end	
 end
+
+function Rewind()
+	boss.health = 500
+	--UnloadGameplay()
+	LEVEL_ROUND = LEVEL_ROUND + 1
+	--EnterGameplay()
+	for levelIndex,level in pairs(levels) do
+		if loadedLevels[levelIndex] then
+			level.unload()
+			print("unloaded level ".. levelIndex)
+		end
+		loadedLevels[levelIndex] = false
+	end
+	UnloadEnemies()
+	levels[1].load()
+	loadedLevels[1] = true
+	for _,v in pairs(levels[1].surrounding) do
+		levels[v].load()
+		loadedLevels[v] = true
+		print("level: " .. v .. " loaded!")
+	end
+	Transform.SetPosition(player.transformID, {x=32.9063, y=7.48828, z=145.625})
+	player:ChangeHeightmap(1)
+	Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+	boss.alive = true
+end

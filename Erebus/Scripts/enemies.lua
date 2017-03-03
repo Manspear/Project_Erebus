@@ -191,14 +191,12 @@ function CreateEnemy(type, position, element)
 		--end
 	end
 	enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
-		print("i just goit acalled")
 		self.health = health * LEVEL_ROUND
 		self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
 		self.visionRange = visionRange
 	end
 
 	enemies[i].Spawn = function(self,position)
-		print("eyy i got spawnerd")
 		self.alive = true
 		self.health = 20
 		self.position.x = position.x
