@@ -311,7 +311,7 @@ function BaseCheckCollision(spell)
 	local playSound = false
 	for curID = 1, #collisionIDs do
 		for curEnemy=1, #enemies do
-			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+			if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 				if not spell.enemiesHit[enemies[curEnemy].transformID] then
 					enemies[curEnemy]:Hurt(spell.damage, spell.owner)				
 					for stuff = 1, #spell.effects do
