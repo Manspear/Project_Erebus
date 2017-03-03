@@ -120,12 +120,12 @@ namespace Importer
 		if( normalTexture )
 			normalTexture->decrementReferenceCount();*/
 
-		if( !diffuseName.empty() )
+		/*if( !diffuseName.empty() )
 			assets->unload<TextureAsset>( diffuseName );
 		if( !specularName.empty() )
 			assets->unload<TextureAsset>( specularName );
 		if( !normalName.empty() )
-			assets->unload<TextureAsset>( normalName );
+			assets->unload<TextureAsset>( normalName );*/
 	}
 
 	void MaterialAsset::upload()
@@ -136,12 +136,15 @@ namespace Importer
 	{
 		Asset::incrementReferenceCount();
 
-		if( diffuseTexture )
-			diffuseTexture->incrementReferenceCount();
-		if( specularTexture )
-			specularTexture->incrementReferenceCount();
-		if( normalTexture )
-			normalTexture->incrementReferenceCount();
+		if( referenceCount > 1 )
+		{
+			if( diffuseTexture )
+				diffuseTexture->incrementReferenceCount();
+			if( specularTexture )
+				specularTexture->incrementReferenceCount();
+			if( normalTexture )
+				normalTexture->incrementReferenceCount();
+		}
 	}
 
 	void MaterialAsset::decrementReferenceCount()
