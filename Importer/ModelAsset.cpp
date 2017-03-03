@@ -216,6 +216,14 @@ namespace Importer
 			material->incrementReferenceCount();
 	}
 
+	void ModelAsset::decrementReferenceCount()
+	{
+		Asset::decrementReferenceCount();
+
+		if( material )
+			assets->unload<MaterialAsset>( "Materials/" + std::string(header.materialName) );
+	}
+
 	hModel* ModelAsset::getHeader()
 	{
 		return &header;
