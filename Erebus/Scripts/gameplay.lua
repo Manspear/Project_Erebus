@@ -145,7 +145,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Adam_test.lua" )
+		dofile( "Scripts/level01.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do

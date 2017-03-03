@@ -63,7 +63,7 @@ function state.followState.update(enemy,player,dt)
 		end
 	
 	elseif enemy.subPathtarget ~= 0 then
-			local pos = Transform.GetPosition(enemy.transformID)
+			local pos = enemy.pos
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
@@ -108,7 +108,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 	enemy.actionCountDown = enemy.actionCountDown - dt
 
 	if enemy.subPathtarget ~= nil then
-		local pos = Transform.GetPosition(enemy.transformID)
+		local pos = enemy.pos
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 		--Transform.SetLookAt(enemy.transformID,direction)
@@ -195,7 +195,7 @@ function state.positioningOuterState.update(enemy,player,dt)
 	if (enemy.playerTarget.nrOfInnerCircleEnemies >= 3) then
 		if enemy.subPathtarget ~= nil then
 
-			local pos = Transform.GetPosition(enemy.transformID)
+			local pos = enemy.pos
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 				--Transform.SetLookAt(enemy.transformID,direction)
@@ -268,7 +268,7 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		end
 	else
 
-		local pos = Transform.GetPosition(enemy.transformID)
+		local pos = enemy.pos
 		local direction = AI.NormalizeDir(enemy.transformID, enemy.playerTarget.position)
 		
 		--Transform.SetLookAt(enemy.transformID,direction)
@@ -318,7 +318,7 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 			enemy.subPathtarget = enemy.playerTarget.position
 			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 			enemy.tempVariable = length
-			local pos = Transform.GetPosition(enemy.transformID)
+			local pos = enemy.pos
 			enemy.whatEver = pos.y
 		end
 	
@@ -327,7 +327,7 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 
 			--length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 
-				local pos = Transform.GetPosition(enemy.transformID)
+				local pos =enemy.pos
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 		
 				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
@@ -460,7 +460,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 		--- Keep on walking sunshine
 		if enemy.subPathtarget ~= nil then
 			enemy.animationController:doWalk()
-			local pos = Transform.GetPosition(enemy.transformID)
+			local pos = enemy.pos
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			--Transform.SetLookAt(enemy.transformID,direction)

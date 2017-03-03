@@ -68,7 +68,7 @@ function CreateEnemy(type, position, element)
 	enemies[i].visionRange = 100
 	enemies[i].subPathtarget = nil
 	enemies[i].pathTarget = nil
-
+	enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
 	enemies[i].insideInnerCircleRange = false
 
 	enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -268,6 +268,7 @@ function UpdateEnemies(dt)
 	--end
 
 	for i = 1, #enemies do
+		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
 		if enemies[i].damagedTint.a > 0 then
 			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
 			if enemies[i].type ~= ENEMY_DUMMY then
@@ -323,30 +324,30 @@ function UpdateEnemies(dt)
 				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
-				local pos = Transform.GetPosition(enemies[i].transformID)
+				
 
 				local heightmapIndex = 1
 
 				for i = 1, #heightmaps do
-					if heightmaps[i].asset:Inside(pos) then
+					if heightmaps[i].asset:Inside(enemies[i].pos) then
 						heightmapIndex = i
 					end
 				end
 
 				if  enemies[i].stateName ~= DEAD_STATE then
-					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-					pos.y = pos.y - 10*dt
-					if pos.y < height then
-						pos.y = height
+					local height = heightmaps[heightmapIndex].asset:GetHeight(enemies[i].pos.x,enemies[i].pos.z)+0.7
+					enemies[i].pos.y = enemies[i].pos.y - 10*dt
+					if enemies[i].pos.y < height then
+						enemies[i].pos.y = height
 					end
 				end
-				Transform.SetPosition(enemies[i].transformID, pos)
+				Transform.SetPosition(enemies[i].transformID, enemies[i].pos)
 
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
 				if shouldSendNewTransform == true then
-					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+					Network.SendAITransformPacket(enemies[i].transformID, enemies[i].pos, direction, rotation)
 				end
 			elseif enemies[i].stateName == DUMMY_STATE then
 				if  enemies[i].stateName ~= DEAD_STATE then
