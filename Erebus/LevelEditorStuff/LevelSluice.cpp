@@ -12,7 +12,8 @@ const char* LevelSluice::wallOpenBaseName = "BlockerOpen";
 const char* LevelSluice::wallClosedBaseName = "BlockerClosed";
 
 LevelSluice::LevelSluice() {
-	this->cSluiceID = SluiceID++;
+	this->cSluiceID = SluiceID;
+	LevelSluice::SluiceID = LevelSluice::SluiceID + 1;
 	this->slussName = "sluice" + std::to_string(this->cSluiceID);
 	this->wallClosedName = "";
 	this->wallOpenName = "";
@@ -132,7 +133,10 @@ void LevelSluice::initialize(tinyxml2::XMLElement* element) {
 		this->combineRemoveObject = element->FirstChildElement("wallCombine")->Attribute("name");
 	}
 
-	this->cSluiceID = std::stof(element->FirstChildElement("sluiceID")->Attribute("id"));
+	int tempID = std::stof(element->FirstChildElement("sluiceID")->Attribute("id"));
+	if (!this->doesSluiceIDExist(tempID)) {
+		this->cSluiceID = tempID;
+	}
 	this->slussName = "sluice" + std::to_string(this->cSluiceID);
 
 	if (SluiceID <= cSluiceID)
@@ -276,4 +280,26 @@ void  LevelSluice::setCombineName(std::string name) {
 }
 std::string LevelSluice::getCombineName() {
 	return this->combineRemoveObject;
+}
+
+int LevelSluice::getSluiceID()
+{
+	return this->cSluiceID;
+}
+
+bool LevelSluice::doesSluiceIDExist(unsigned int sluiceID)
+{
+	bool exists = false;
+
+	for (auto it : LevelActorHandler::getInstance()->getActors()) {
+		LevelSluice* sluiceRef = it.second->getComponent<LevelSluice>();
+		if (sluiceRef != nullptr) {
+			if (sluiceRef->getSluiceID() == sluiceID) {
+				exists = true;
+				break;
+			}
+		}
+	}
+
+	return exists;
 }

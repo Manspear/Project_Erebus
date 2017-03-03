@@ -37,6 +37,8 @@ private:
 
 		return result;
 	}
+
+
 	
 public:
 	static const char* wallOpenBaseName;
@@ -65,4 +67,8 @@ public:
 
 	SluiceType getSluiceType();
 	void setSluiceType(SluiceType type);
+
+	int getSluiceID();
+
+	bool doesSluiceIDExist(unsigned int sluiceID);
 };
