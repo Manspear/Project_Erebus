@@ -516,7 +516,6 @@ function UpdateEnemies(dt)
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
 			end
-
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
 					enemies[i].effects[j]:Deapply(enemies[i])
