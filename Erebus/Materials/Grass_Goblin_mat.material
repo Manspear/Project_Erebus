@@ -4,4 +4,4 @@ Specular color: 0.500000 0.500000 0.500000
 Shiny factor: 6.311791
 Diffuse texture: Grass_Goblin.dds
 Specular texture: goblin_spec.dds
-Normal texture: goblin4_normals.png
+Normal texture: goblin_normal.dds

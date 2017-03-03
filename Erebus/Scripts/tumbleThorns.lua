@@ -138,7 +138,7 @@ function CreateTumblethorns(entity)
 			end	
 			if collisionIDs[curID] == boss.collider:GetID() then
 				if not self.enemiesHit[boss.transformID] then
-					boss:Hurt(self.damage, self.owner)				
+					boss:Hurt(self.damage, self.owner, self.element)				
 					for stuff = 1, #self.effects do
 						local effect = effectTable[self.effects[stuff]](self.owner)
 						boss:Apply(effect)

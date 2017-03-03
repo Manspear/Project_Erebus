@@ -16,8 +16,8 @@ function CreateSluice(triggerID, transformID, colliderClose, transformIDclose)
 	sluice.transformIDclose = transformIDclose
 	sluice.position2 = Transform.GetPosition(transformIDclose)
 	sluice.lookAt2 = Transform.GetLookAt(transformIDclose)
-	local hitboxDir = vec3cross(sluice.lookAt, {x = 0, y = 1, z = 0})
-	OBBCollider.SetXAxis(colliderClose.collider, hitboxDir.x, hitboxDir.y, hitboxDir.z)
+	--local hitboxDir = vec3cross(sluice.lookAt, {x = 0, y = 1, z = 0})
+	--OBBCollider.SetXAxis(colliderClose.collider, hitboxDir.x, hitboxDir.y, hitboxDir.z)
 	return sluice
 end
 
@@ -44,7 +44,7 @@ function SluiceUpdate(dt, sluice)
 			Transform.SetPosition(sluice.transformIDclose, vec3add(shakeIt2, sluice.position2))
 			if sluice.sluiceTime < 0 then
 				sluice.colliderClose.collider:SetPos(sluice.position2.x, sluice.position2.y + 4, sluice.position2.z)
-				local hitboxDir = vec3cross(sluice.lookAt2, {x = 0, y = 1, z = 0})	
+				--local hitboxDir = vec3cross(sluice.lookAt2, {x = 0, y = 1, z = 0})	
 				sluice.position2 = 	Transform.GetPosition(sluice.transformIDclose)	
 				Transform.ActiveControl(sluice.transformIDopen, false)
 				SphereCollider.SetActive(sluice.colliderIDopen, false)
