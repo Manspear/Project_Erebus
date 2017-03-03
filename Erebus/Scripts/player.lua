@@ -561,16 +561,16 @@ function Controls(dt)
 	end
 	
 
-	if player.globalSpellSwitchingCooldownTimerStarted == true then 
-		player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+	--if player.globalSpellSwitchingCooldownTimerStarted == true then 
+		--player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
 
 		if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
 			player.globalSpellSwitchingCooldownTimerStarted = false
 			player.globalSpellSwitchingCooldownTimer = 0
 		end
-	end
+	--end
 
-	if player.globalSpellSwitchingCooldownTimerStarted == false then 
+	if player.charging == false then 
 		if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
