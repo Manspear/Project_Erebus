@@ -1055,25 +1055,7 @@ Transform.SetPosition(level01.props.Lantern6ID.transformID, {x=19.7806, y=4.8515
 Transform.SetScaleNonUniform(level01.props.Lantern6ID.transformID, 1, 1, 1)
 Transform.SetRotation(level01.props.Lantern6ID.transformID, {x=-0, y=-1.1856, z=-0})
 Light.addLight(18.9806, 8.60156, 181.844, 1, 0.576471, 0.160784, 10,2)
-level01.enemies.GoblinNeutralID = CreateEnemy(ENEMY_MELEE, {x=13.7969, y=6.71875, z=148}, 3)
-level01.enemies.GoblinNeutralID.moveSpeed = 9
-level01.enemies.GoblinNeutralID.health = 50
-level01.enemies.GoblinNeutralID.visionRange = 30
 
-level01.enemies.GoblinFireID = CreateEnemy(ENEMY_MELEE, {x=15.7578, y=6.375, z=158}, 0)
-level01.enemies.GoblinFireID.moveSpeed = 9
-level01.enemies.GoblinFireID.health = 50
-level01.enemies.GoblinFireID.visionRange = 30
-
-level01.enemies.GoblinIceID = CreateEnemy(ENEMY_MELEE, {x=17.8281, y=6.36719, z=154.5}, 2)
-level01.enemies.GoblinIceID.moveSpeed = 9
-level01.enemies.GoblinIceID.health = 50
-level01.enemies.GoblinIceID.visionRange = 30
-
-level01.enemies.GoblinNatureID = CreateEnemy(ENEMY_MELEE, {x=11.2656, y=6.83594, z=153.75}, 1)
-level01.enemies.GoblinNatureID.moveSpeed = 9
-level01.enemies.GoblinNatureID.health = 50
-level01.enemies.GoblinNatureID.visionRange = 30
 
 level01.triggers.NewID = {}
 level01.triggers.NewID.collider = SphereCollider.Create(-1)
@@ -1324,10 +1306,6 @@ level01.props.Lantern5ID = nil
 Gear.UnbindInstance(level01.props.Lantern6ID.transformID)
 Assets.UnloadModel('Models/Lantern_Post.model')
 level01.props.Lantern6ID = nil
-DestroyEnemy(level01.enemies.GoblinNeutralID)
-DestroyEnemy(level01.enemies.GoblinFireID)
-DestroyEnemy(level01.enemies.GoblinIceID)
-DestroyEnemy(level01.enemies.GoblinNatureID)
 level01.props = nil
 level01.colliders = nil
 level01.triggers = nil
