@@ -408,23 +408,25 @@ function SendCombine(spell)
 end
 
 function EnemyCollisionChecks()
-	local collisionIDs = player.sphereCollider:GetCollisionIDs()
-	local allMiss = true
-	for curID = 1, #collisionIDs do	
-		for curEnemy=1, #enemies do
-			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
-				allMiss = false
-				local enmyPos = Transform.GetPosition(enemies[curEnemy].transformID)
-				if vec3lengthFnG(vec3sub(enmyPos, player.position)) < vec3lengthFnG(vec3sub(enmyPos, player.lastPosition)) then
-					player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].sphereCollider:GetRadius()-- - player.sphereCollider:GetRadius()
-				else
-					player.moveSpeed = PLAYER_MOVESPEED
-				end			
+	if not player.invulnerable then
+		local collisionIDs = player.sphereCollider:GetCollisionIDs()
+		local allMiss = true
+		for curID = 1, #collisionIDs do	
+			for curEnemy=1, #enemies do
+				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+					allMiss = false
+					local enmyPos = Transform.GetPosition(enemies[curEnemy].transformID)
+					if vec3lengthFnG(vec3sub(enmyPos, player.position)) < vec3lengthFnG(vec3sub(enmyPos, player.lastPosition)) then
+						player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].sphereCollider:GetRadius()-- - player.sphereCollider:GetRadius()
+					else
+						player.moveSpeed = PLAYER_MOVESPEED
+					end			
+				end
 			end
-		end
-	end	
-	player.lastPosition = player.position
-	if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
+		end	
+		player.lastPosition = player.position
+		if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
+	end
 end
 
 function Controls(dt)
