@@ -102,6 +102,10 @@ function UnloadHUD()
 	Assets.UnloadTexture( "Textures/TUTORIALCharge2.dds" )
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend1.dds" )
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend2.dds" )
+
+	SHOW_TUTORIAL_IMAGE = -1
+	SHOW_TUTORIAL_IMAGE2 = -1
+	SHOW_WAITING_FOR_PLAYER2 = -1
 end
 
 function UpdateHUD(dt)
