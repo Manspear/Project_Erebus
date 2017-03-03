@@ -144,6 +144,18 @@ namespace Importer
 			normalTexture->incrementReferenceCount();
 	}
 
+	void MaterialAsset::decrementReferenceCount()
+	{
+		Asset::decrementReferenceCount();
+
+		if( !diffuseName.empty() )
+			assets->unload<TextureAsset>( diffuseName );
+		if( !specularName.empty() )
+			assets->unload<TextureAsset>( specularName );
+		if( !normalName.empty() )
+			assets->unload<TextureAsset>( normalName );
+	}
+
 	glm::vec3 MaterialAsset::parseVec3( char** cursor )
 	{
 		glm::vec3 result;
