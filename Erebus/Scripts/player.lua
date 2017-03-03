@@ -89,7 +89,7 @@ function LoadPlayer()
 	player.firstRayAttack = true
 
 	--Used as a delay hindering rampant spellswitching
-	player.globalSpellSwitchingCooldownTimerThreshHold = 1
+	player.globalSpellSwitchingCooldownTimerThreshHold = 0.4
 	player.globalSpellSwitchingCooldownTimer = 0
 	player.globalSpellSwitchingCooldownTimerStarted = false
 
@@ -208,6 +208,7 @@ function UnloadPlayer()
 	effectTable = {}
 
 	Assets.UnloadModel( "Models/player1.model" )
+	Assets.UnloadModel( "Models/nothing.model" )
 	Assets.UnloadTexture( "Textures/ping.dds" )
 	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 
@@ -497,49 +498,61 @@ function Controls(dt)
 	end
 
 	if not player.charging then
-		--ATTACK DELAY TIMER
-		player.attackDelayTimer = player.attackDelayTimer + dt
-			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
-			if player.spells[player.currentSpell].hasSpamAttack == true then 
-				if player.spells[player.currentSpell].isRay == false then  
-					player.useRayAttack = false
-					player.charger:EndCharge()
-					player.spamCasting = true
-				
-					if player.firstAttack == true then 		
-						if player.attackDelayTimerStarted == false then 
-							player.attackDelayTimerStarted = true
-							player.attackDelayTimer = 0
-							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
-							player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
-							player.firstAttack = false	
-						end 
-					elseif player.firstAttack == false then 
-						if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
-							local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
-							player.attackDelayTimer = overTime
-							player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
-						
-							player.spellDirection = Camera.GetDirection()
-							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-							player.spells[player.currentSpell]:Cast(player)	
-						end 
-					end
-				elseif player.spells[player.currentSpell].chargeAlive == false then   
-					if player.firstRayAttack == true and player.spells[player.currentSpell].cooldown < 0.0 then 
-						player.spells[player.currentSpell].cooldown = -1 --Makes the spell actually cast once. 
-						player.firstRayAttack = false
-					elseif player.firstRayAttack == false then 
-						player.spells[player.currentSpell].cooldown = 0.2
-					end
 
-					if(player.spells[player.currentSpell].chargeAlive == false) then 
-						player.spells[player.currentSpell].lifeTime = 1
-					end
-					player.spamCasting = true
-					player.useRayAttack = true
+		if player.globalSpellSwitchingCooldownTimerStarted == true then 
+		player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
+
+			if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
+				player.globalSpellSwitchingCooldownTimerStarted = false
+				player.globalSpellSwitchingCooldownTimer = 0
+			end
+		end
+
+		if player.globalSpellSwitchingCooldownTimerStarted == false then
+		--ATTACK DELAY TIMER
+				player.attackDelayTimer = player.attackDelayTimer + dt
+				if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				if player.spells[player.currentSpell].hasSpamAttack == true then 
+					if player.spells[player.currentSpell].isRay == false then  
+						player.useRayAttack = false
+						player.charger:EndCharge()
+						player.spamCasting = true
+				
+						if player.firstAttack == true then 		
+							if player.attackDelayTimerStarted == false then 
+								player.attackDelayTimerStarted = true
+								player.attackDelayTimer = 0
+								player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
+								player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
+								player.firstAttack = false	
+							end 
+						elseif player.firstAttack == false then 
+							if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
+								local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
+								player.attackDelayTimer = overTime
+								player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
+						
+								player.spellDirection = Camera.GetDirection()
+								Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
+								player.spells[player.currentSpell]:Cast(player)	
+							end 
+						end
+					elseif player.spells[player.currentSpell].chargeAlive == false then   
+						if player.firstRayAttack == true and player.spells[player.currentSpell].cooldown < 0.0 then 
+							player.spells[player.currentSpell].cooldown = -1 --Makes the spell actually cast once. 
+							player.firstRayAttack = false
+						elseif player.firstRayAttack == false then 
+							player.spells[player.currentSpell].cooldown = 0.2
+						end
+
+						if(player.spells[player.currentSpell].chargeAlive == false) then 
+							player.spells[player.currentSpell].lifeTime = 1
+						end
+						player.spamCasting = true
+						player.useRayAttack = true
 					
-					player.spells[player.currentSpell]:Cast(player)	
+						player.spells[player.currentSpell]:Cast(player)	
+					end
 				end
 			end
 		end
@@ -561,16 +574,7 @@ function Controls(dt)
 	end
 	
 
-	if player.globalSpellSwitchingCooldownTimerStarted == true then 
-		player.globalSpellSwitchingCooldownTimer = player.globalSpellSwitchingCooldownTimer + dt
-
-		if player.globalSpellSwitchingCooldownTimer >= player.globalSpellSwitchingCooldownTimerThreshHold then 
-			player.globalSpellSwitchingCooldownTimerStarted = false
-			player.globalSpellSwitchingCooldownTimer = 0
-		end
-	end
-
-	if player.globalSpellSwitchingCooldownTimerStarted == false then 
+	if player.charging == false then 
 		if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) or Inputs.KeyPressed(SETTING_KEYBIND_SPELL_THREE) then
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_ONE) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 1	player.spells[player.currentSpell]:Change() end
 			if Inputs.KeyPressed(SETTING_KEYBIND_SPELL_TWO) then	player.spells[player.currentSpell]:Change()	player.currentSpell = 2	player.spells[player.currentSpell]:Change()	end
