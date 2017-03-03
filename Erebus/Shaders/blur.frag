@@ -19,9 +19,6 @@ void main() {
 	color += texture2D(filterTexture, frag_uv + (vec2(2.0) * blurScale.xy))  * (6.0/64.0);
 	color += texture2D(filterTexture, frag_uv + (vec2(3.0) * blurScale.xy))  * (1.0/64.0);
 	
-	if(texture2D(filterTexture, frag_uv).r > 0)
-		out_color = color;
-	else
-		out_color = vec4(0,0,0,0);
+	out_color = vec4(0,0,1,1.0);
 
 }
