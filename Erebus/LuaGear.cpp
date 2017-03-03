@@ -116,6 +116,7 @@ namespace LuaGear
 			{ "GetHours", getHours },
 			{ "GetMinutes", getMinutes },
 			{ "Shadows", setShadow },
+			{ "SetAmbient", setAmbient },
 			{ NULL, NULL }
 		};
 
@@ -785,6 +786,18 @@ namespace LuaGear
 		bool shadowEnabled = lua_toboolean(lua, 1);
 
 		g_skybox->setShadowsEnabled(shadowEnabled);
+		return 0;
+	}
+
+	int setAmbient(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+
+		float r = (float)lua_tonumber(lua, 1);
+		float g = (float)lua_tonumber(lua, 2);
+		float b = (float)lua_tonumber(lua, 3);
+
+		g_skybox->setAmbient(glm::vec3(r, g, b));
 		return 0;
 	}
 

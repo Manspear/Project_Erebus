@@ -215,7 +215,7 @@ function CreateSiphon(entity)
 						end
 					end
 					if collisionIDs[curID] == boss.collider:GetID() then
-						boss:Hurt(self.damage, self.owner)
+						boss:Hurt(self.damage, self.owner, self.element)
 						for i = 1, #self.effects do
 							local effect = effectTable[self.effects[i]](self.owner, 3)
 							boss:Apply(effect)

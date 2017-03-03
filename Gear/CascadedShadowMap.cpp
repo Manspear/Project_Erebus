@@ -4,6 +4,7 @@
 
 CascadedShadowMap::CascadedShadowMap()
 {
+	blurShader = 0;
 }
 
 
@@ -14,6 +15,9 @@ CascadedShadowMap::~CascadedShadowMap()
 		glDeleteTextures(1, &textureIDs[i]);
 	}
 	glDeleteFramebuffers(1, &framebufferID);
+
+	if (blurShader)
+		delete blurShader;
 }
 
 void CascadedShadowMap::Init(int textureWidth, int textureHeight, Lights::DirLight* light)
@@ -26,6 +30,8 @@ void CascadedShadowMap::Init(int textureWidth, int textureHeight, Lights::DirLig
 	this->nearPlane = 0.1f;
 	this->farPlane = 2000.f;
 	this->initFramebuffer(textureWidth, textureHeight);
+
+	//blurShader =
 }
 
 void CascadedShadowMap::bind(int cascadeIndex)
@@ -175,6 +181,39 @@ glm::mat4 * CascadedShadowMap::getShadowMatrix()
 float * CascadedShadowMap::getSplitDistance()
 {
 	return splitDistance;
+}
+
+void CascadedShadowMap::blur()
+{
+
+}
+
+void CascadedShadowMap::drawQuad()
+{
+	glDepthMask(GL_FALSE);
+	if (quadVAO == 0) { //just draws a quad on the screen
+		GLfloat quadVertices[] = {
+			-1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+			1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		};
+
+		glGenVertexArrays(1, &quadVAO);
+		glGenBuffers(1, &quadVBO);
+		glBindVertexArray(quadVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	}
+
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+	glDepthMask(GL_TRUE);
 }
 
 void CascadedShadowMap::initFramebuffer(int textureWidth, int textureHeight)
