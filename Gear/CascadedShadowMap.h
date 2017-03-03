@@ -32,7 +32,6 @@ private:
 	GLuint framebufferID;
 	GLuint renderBuffer;
 
-	ShaderProgram shader;
 	Lights::DirLight* light;
 
 	//Screen quad data
@@ -40,6 +39,8 @@ private:
 	GLuint quadVBO;
 
 	void drawQuad(); //Draw Screen quad
+
+	ShaderProgram* blurShader;
 
 	void initFramebuffer(int textureWidth, int textureHeight);
 
@@ -54,5 +55,6 @@ public:
 	int getNumCascades() { return this->num_cascades; }
 	glm::mat4* getShadowMatrix();
 	float* getSplitDistance();
+	void blur();
 };
 
