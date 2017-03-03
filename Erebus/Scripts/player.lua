@@ -477,6 +477,7 @@ function Controls(dt)
 					if player2.charging == true and result == true then
 						player2.isCombined = true
 						player2.combinedSpell = player.spells[player.currentSpell].spellListId
+						player2.spells[player.currentSpell]:Combine(player.spells[player.currentSpell]:GetEffect(), player.spells[player.currentSpell].damage)
 					end
 				else 
 					player.friendCharger:EndChargeBeam()

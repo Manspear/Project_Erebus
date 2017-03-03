@@ -241,7 +241,9 @@ function UnloadEnemies()
 	AI.Unload()
 
 	for i=1, #enemies do
-		DestroyEnemyController(enemies[i].animationController)
+		if enemies[i].type ~= ENEMY_DUMMY then
+			DestroyEnemyController(enemies[i].animationController)
+		end
 		Gear.UnbindInstance(enemies[i].transformID)
 		Assets.UnloadModel( enemies[i].modelName )
 	end
@@ -509,10 +511,11 @@ function UpdateEnemies(dt)
 
 			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
 			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
-
-			enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-			enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
-
+				
+			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
+			end
 			for j = #enemies[i].effects, 1, -1 do 
 				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
 					enemies[i].effects[j]:Deapply(enemies[i])
