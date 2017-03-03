@@ -1,0 +1,19 @@
+<LevelActor type="Post" displayName="TutorialPost" tileID="1" exportType="8">
+    <LevelCollider type="0">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1208" parentID="0"/>
+        <Behavior Type="1" OnEnter="" OnExit="" OnTriggering=""/>
+        <GenParent value="true"/>
+        <Radius r="2.3"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>SignPost</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="26.491646" y="6.0820313" z="157.06996"/>
+        <Rotation x="0" y="-3.5578148" z="0"/>
+        <Scale x="2" y="2" z="2"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

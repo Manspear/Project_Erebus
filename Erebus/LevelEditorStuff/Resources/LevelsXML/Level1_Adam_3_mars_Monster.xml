@@ -14483,28 +14483,6 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="TempLight" tileID="2" exportType="1">
-        <LevelCollider type="0">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1139" parentID="0"/>
-            <Behavior Type="0"/>
-            <GenParent value="false"/>
-            <Radius r="3"/>
-        </LevelCollider>
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="1" z="1"/>
-            <Radius r="500"/>
-            <Intensity i="1"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="158.75" y="86.947258" z="211"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="false"/>
-        </LevelTransform>
-    </LevelActor>
     <LevelActor type="Blocker" displayName="BlockerClosedFire" tileID="2" exportType="1">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
@@ -15431,29 +15409,6 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="New (2)" tileID="7" exportType="1">
-        <LevelCollider type="2">
-            <Offset x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <IDs ID="1186" parentID="0"/>
-            <Behavior Type="0"/>
-            <GenParent value="true"/>
-            <Rotation x="0" y="0" z="0"/>
-            <HalfLengths x="0.5" y="0.5" z="0.5"/>
-        </LevelCollider>
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="1" z="1"/>
-            <Radius r="1000"/>
-            <Intensity i="1"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="182.625" y="193.23349" z="772"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="12.208542" y="16.903015" z="13.091492"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (13)" tileID="7" exportType="8">
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
@@ -15786,6 +15741,1778 @@
             <Position x="223.5" y="107.31372" z="621.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="247.25" y="36.5" z="135.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (1)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="244.875" y="35.78125" z="145.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (2)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="242.375" y="36.75" z="139.125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (3)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="224" y="36.125" z="164.625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (4)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="223.75" y="35.8125" z="158.125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (5)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="232.375" y="36.0625" z="159.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="182.25" y="55.96875" z="99.5625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (1)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="185.5" y="55.4375" z="105.125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (2)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="192.625" y="55.40625" z="106.5625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (3)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="188.125" y="55.90625" z="98.6875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (4)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="259" y="40.5" z="49.78125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (5)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="246.75" y="42.75" z="49.5625"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (6)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="247.25" y="43.125" z="43.4375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (7)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="240.875" y="44.125" z="43.78125"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="247.5" y="59.375" z="241.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (1)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="255.375" y="59.34375" z="242"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (2)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="256.5" y="59.625" z="238"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (3)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="257.75" y="58.875" z="244.25"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (4)" tileID="2" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="251.375" y="59.1875" z="244.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (5)" tileID="3" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="341.5" y="50.09375" z="233.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (6)" tileID="3" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="349.75" y="46.71875" z="224.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (7)" tileID="3" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="342.75" y="47.3125" z="224.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (6)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="577" y="57.03125" z="469"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (7)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="579.5" y="55.90625" z="461.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (8)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="573.5" y="58.28125" z="475"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (9)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="584" y="59.375" z="475.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (10)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="570" y="55.90625" z="466.75"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (11)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="605.5" y="82.625" z="580.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (12)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="602" y="79.875" z="566"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (13)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="592" y="79.6875" z="564.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (14)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="595" y="81.25" z="574"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (15)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="602.5" y="81.375" z="574.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (16)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="605.5" y="80.875" z="570.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (17)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="596" y="79.125" z="564"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (8)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="510.75" y="61.3125" z="516.5"/>
+            <Rotation x="0.019525146" y="-0.027947236" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (9)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="517.5" y="69.4375" z="537.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (10)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="500.5" y="63.8125" z="527"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (11)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="511.25" y="62.90625" z="522"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (12)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="505.75" y="66.5625" z="533"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (13)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="511.5" y="69.3125" z="539"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (8)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="422.25" y="83.75" z="548.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (9)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="408.5" y="83.625" z="542.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (10)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="421" y="83.9375" z="540"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (11)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="412.25" y="83.75" z="534.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (12)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="415.75" y="84" z="546"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (13)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="414.75" y="84.0625" z="537"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (14)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="403.5" y="82.9375" z="537"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (15)" tileID="5" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="417.25" y="84" z="542.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (14)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="168.125" y="96.625" z="750"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (15)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="178.625" y="91.9375" z="736"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (16)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="178.75" y="96.875" z="753"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (17)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="157.875" y="96.25" z="747.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (18)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="182.25" y="94.375" z="745"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (19)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="181.875" y="88.6875" z="726.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (20)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="181.375" y="93.25" z="741"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinFire (21)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="0"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Fire_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="163.875" y="93.25" z="737.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="175.25" y="127.5" z="548.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (1)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="189.125" y="126.75" z="556.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (2)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="192.875" y="127" z="539.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (3)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="174.25" y="127.3125" z="556.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (4)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="194.125" y="126.1875" z="563"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (5)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="184.75" y="127.1875" z="542"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (6)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="178.125" y="127" z="564"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (16)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="232.375" y="100.0625" z="652"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (17)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="249.5" y="96.75" z="657"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (18)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="265.75" y="98.0625" z="641.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (19)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="246.625" y="102.3125" z="632"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (20)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="236.375" y="101.9375" z="640"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (21)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="236.625" y="97.5" z="661"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (22)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="254.125" y="98.9375" z="643.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNature (23)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="1"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Grass_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="236.25" y="103" z="635"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (18)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="367.75" y="129.375" z="625.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (19)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="355.25" y="126.875" z="633.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (20)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="368.5" y="125" z="649"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (21)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="374" y="129.25" z="630"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (22)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="357.5" y="130.5" z="615.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (23)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="351" y="127.375" z="628.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (24)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="363.75" y="126.8125" z="638"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (25)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="368" y="128" z="633.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (26)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="370.5" y="131.5" z="614.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinIce (27)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="2"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Ice_Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="355.25" y="127.9375" z="627.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (7)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="326.5" y="102" z="736.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (8)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="342.5" y="101.75" z="749"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (9)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="344.25" y="103" z="728.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (10)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="335.75" y="103.1875" z="716.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (11)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="327" y="102.5" z="727"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (12)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="328.75" y="101.5625" z="745.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Enemy" displayName="GoblinNeutral (13)" tileID="7" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="0"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="339.25" y="102.5" z="735.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Tutorial" displayName="CombinationBarrier" tileID="1" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="917" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="false"/>
+            <Rotation x="0" y="1.6" z="0"/>
+            <HalfLengths x="3" y="5" z="1"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Tut_Branch_blocker</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="31.90625" y="11.187771" z="196"/>
+            <Rotation x="0" y="-0.96797734" z="0"/>
+            <Scale x="1" y="0.80000001" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="CombineBlocker" displayName="BlockerCombiner" tileID="1" exportType="8">
+        <LevelCollider type="2">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="1"/>
+            <IDs ID="1139" parentID="0"/>
+            <Behavior Type="1" OnEnter="" OnExit="function(self) hideCombinationImage() end" OnTriggering="function(dt) TutorialBarrier(level01.props.CombinationBarrier, dt) end"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="2" y="3" z="4"/>
+        </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="1"/>
+            <wallCombine name="CombinationBarrier"/>
+            <sluiceID id="25"/>
+        </LevelSluice>
+        <LevelTransform>
+            <Position x="30.625" y="10.889096" z="194.625"/>
+            <Rotation x="0" y="-0.90277481" z="0"/>
+            <Scale x="1" y="1.5130196" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="20.5" y="4.1445313" z="195.25"/>
+            <Rotation x="0" y="-2.7486651" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2) (1)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="14.625" y="3.5917969" z="198"/>
+            <Rotation x="0" y="-2.9423573" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2) (2)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="9.5" y="3.5332031" z="199.375"/>
+            <Rotation x="0" y="-3.2438958" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2) (3)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="51.356163" y="7.9023438" z="171.85204"/>
+            <Rotation x="0" y="-1.9207153" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2) (4)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="50" y="7.7617188" z="177.625"/>
+            <Rotation x="0" y="-2.3495181" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Empty" displayName="New (2) (5)" tileID="1" exportType="2">
+        <LevelEnemy>
+            <MoveSpeed amount="9"/>
+            <Health amount="50"/>
+            <VisionRange amount="30"/>
+            <Type amount="2"/>
+            <Element amount="3"/>
+        </LevelEnemy>
+        <LevelModel>
+            <ModelName>Goblin</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="44.46875" y="7.671875" z="181.75"/>
+            <Rotation x="0" y="-2.7029161" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Post" displayName="TutorialPost" tileID="1" exportType="8">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1208" parentID="0"/>
+            <Behavior Type="1" OnEnter="" OnExit="function() hideTutorialImage() end" OnTriggering="function(dt) showTutorialImage(26.5, 6, 147, dt) end"/>
+            <GenParent value="true"/>
+            <Radius r="2.3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>SignPost</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="27.501385" y="6.0820313" z="152.60539"/>
+            <Rotation x="0" y="-3.8256941" z="0"/>
+            <Scale x="2" y="2" z="2"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Post" displayName="TutorialPost (1)" tileID="1" exportType="8">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1210" parentID="0"/>
+            <Behavior Type="1" OnEnter="" OnExit="function() hideTutorialImage2() end" OnTriggering="function(dt) showTutorialImage2(12, 6.7, 153, dt) end"/>
+            <GenParent value="true"/>
+            <Radius r="2.3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>SignPost</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="11.914063" y="6.78125" z="152.875"/>
+            <Rotation x="0" y="-4.3085108" z="0"/>
+            <Scale x="2" y="2" z="2"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
