@@ -76,8 +76,7 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 	if(type==ENEMY_DUMMY)
 		ss << name << " = CreateEnemy(" << "ENEMY_DUMMY" << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "})" << endl;
 	else {
-		int elementExportNr = this->element + 1;
-		ss  << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<<elementExportNr<<")" << endl;
+		ss  << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<< element <<")" << endl;
 	}
 		
 
