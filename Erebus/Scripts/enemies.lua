@@ -162,7 +162,7 @@ function CreateEnemy(type, position, element)
 
 	enemies[i].Kill = function(self)
 		local pos = Transform.GetPosition(self.transformID)
-		SphereCollider.SetActive(self.sphereCollider, false)
+		SphereCollider.SetActive(self.collider, false)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
@@ -216,9 +216,9 @@ function CreateEnemy(type, position, element)
 	end
 
 	Transform.SetPosition(enemies[i].transformID, position)
-	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-	enemies[i].sphereCollider:SetRadius(1)
-	CollisionHandler.AddSphere(enemies[i].sphereCollider)
+	enemies[i].collider = SphereCollider.Create(enemies[i].transformID)
+	enemies[i].collider:SetRadius(1)
+	CollisionHandler.AddSphere(enemies[i].collider)
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
@@ -250,7 +250,7 @@ end
 
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
-	SphereCollider.SetActive(enemy.sphereCollider, false)
+	SphereCollider.SetActive(enemy.collider, false)
 	enemy.alive = false
 end
 function UpdateEnemies(dt)
