@@ -257,9 +257,8 @@ function DestroyEnemy(enemy)
 	enemy.alive = false
 end
 function UpdateEnemies(dt)
-
 	--for i = 1, #heightmaps do
-	AI.DrawDebug()
+	--AI.DrawDebug()
 	--end
 
 	for i = 1, #enemies do
