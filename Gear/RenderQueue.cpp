@@ -546,9 +546,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 
 	ModelAsset* modelAsset;
 	int meshes;
-	int numInstance;
 	size_t size = sizeof(Importer::sVertex);
-	bool atLeastOne = false;
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -564,16 +562,13 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 
 	int numTextures = 0;
 	std::vector<Importer::TextureAsset*> tA;
-	numInstance = 0;
 	int modelIndex = 0;
 
 	for (int i = 0; i < textureBlends->size(); i++)
 	{
-		modelIndex = textureBlends->at(i).modelIndex;
-		numInstance = blendingModels->at(modelIndex).getActiveTransforms();
-		
-		if( numInstance > 0 )
+		if (textureBlends->at(i).active)
 		{
+			modelIndex = textureBlends->at(i).modelIndex;
 			modelAsset = blendingModels->at(modelIndex).getAsset();
 			meshes = modelAsset->getHeader()->numMeshes;
 
@@ -581,7 +576,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 			tA = textureBlends->at(i).textureVector;
 
 			//uniforms for how many textures to send to the frag shader
-			allShaders[TEXTURE_BLENDING]->setUniform4cfv(glm::value_ptr(blendingModels->at(modelIndex).getWorldMatrix(0)), "worldMatrices", numInstance);
+			allShaders[TEXTURE_BLENDING]->setUniform4cfv(glm::value_ptr(blendingModels->at(modelIndex).getWorldMatrix(0)), "worldMatrices", 1);
 
 			for (int k = 0; k < numTextures; k++)
 			{
@@ -597,11 +592,13 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 				glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 3));
 				glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size, (void*)(sizeof(float) * 6));
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, modelAsset->getIndexBuffer(l));
-				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(l), GL_UNSIGNED_INT, 0, numInstance);
+				glDrawElementsInstanced(GL_TRIANGLES, modelAsset->getBufferSize(l), GL_UNSIGNED_INT, 0, 1);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
+			
 		}
+		textureBlends->at(i).active = false;
 	}
 
 	allShaders[TEXTURE_BLENDING]->unUse();

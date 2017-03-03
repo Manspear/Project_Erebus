@@ -32,6 +32,7 @@ struct TextureBlendings
 	int numTextures;
 	std::vector<TextureAsset*> textureVector;
 	glm::vec2 blendFactor[3];
+	bool active;
 };
 
 enum
