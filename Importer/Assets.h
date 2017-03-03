@@ -38,7 +38,7 @@ namespace Importer
 		virtual void upload() = 0;
 
 		IMPORTER_API virtual void incrementReferenceCount();
-		IMPORTER_API void decrementReferenceCount();
+		IMPORTER_API virtual void decrementReferenceCount();
 
 		IMPORTER_API void setAssets( Assets* assets );
 

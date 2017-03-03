@@ -106,10 +106,12 @@ function UnloadHUD()
 	SHOW_TUTORIAL_IMAGE = -1
 	SHOW_TUTORIAL_IMAGE2 = -1
 	SHOW_WAITING_FOR_PLAYER2 = -1
+	TUTORIAL_DONE = false
+	TUTORIAL_START_ANIM = false
+	TUTORIAL_COUNTER = 0 
 end
 
 function UpdateHUD(dt)
-
 	if playerHealthCurrent > player.health then
 		playerHealthCurrent = playerHealthCurrent - (50 * dt)
 		if  playerHealthCurrent < player.health then
@@ -160,7 +162,6 @@ function UpdateHUD(dt)
 	end
 
 	DrawHUD()
-
 end
 
 function DrawHUD()
@@ -184,7 +185,6 @@ function DrawHUD()
 	if crosshairIsVisible then 
 		UI.drawImage(screenImages["crosshair"], imageTextures["crosshair"])
 	end
-
 
 	if SHOW_TUTORIAL_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE], tutorialTexture[SHOW_TUTORIAL_IMAGE])
@@ -211,6 +211,7 @@ function DrawHUD()
 	if player2.ping > 0 then
 		UI.drawWorldImage(player2.pingImage, player2.pingTexture);
 	end
+
 	if player.charging then
 		UI.drawWorldImage(player.chargeImage, player.spells[player.currentSpell].hudtexture);
 		if (player.isCombined and player.combinedSpell ~= -1) then
@@ -223,11 +224,12 @@ function DrawHUD()
 			UI.drawWorldImage(player2.combineImage, SpellList[player2.combinedSpell].texture);
 		end
 	end
-	if(player.isAlive == false) then
+
+	if player.isAlive == false then
 		UI.drawWorldImage(player.deathImage, player.deathTexture);
 	end
 
-	if(player2.isAlive == false) then
+	if player2.isAlive == false then
 		UI.drawWorldImage(player2.deathImage, player2.deathTexture);
 	end
 
