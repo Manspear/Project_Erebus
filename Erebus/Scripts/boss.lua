@@ -60,9 +60,19 @@ function LoadBoss()
 	function boss:Kill()
 		if boss.alive then
 			boss.alive = false
-			UnloadGameplay()
-			LEVEL_ROUND = LEVEL_ROUND + 1
-			EnterGameplay()
+			--UnloadGameplay()
+			--LEVEL_ROUND = LEVEL_ROUND + 1
+			--EnterGameplay()
+			for levelIndex,level in pairs(levels) do
+				if loadedLevels[levelIndex] then
+					level.unload()
+				end
+				loadedLevels[levelIndex] = false
+			end
+			levels[1].load()
+			levels[2].load()
+			loadedLevels[1] = true
+			Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
 		end
 	end
 	function boss:Apply(effect)
