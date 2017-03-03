@@ -3,7 +3,7 @@ local baseReturn ={}
 state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},runAwayState = {},dummyState = {}}
 
 function state.idleState.enter(enemy,player)
-	enemy.animationState = 1
+	enemy.animationController:doNothing()
 end
 
 function state.idleState.update(enemy,player,dt,enemyManager)

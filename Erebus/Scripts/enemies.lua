@@ -74,13 +74,10 @@ function CreateEnemy(type, position, element)
 	enemies[i].maxActionCountDown = 3
 	enemies[i].actionCountDown = 3
 
-	enemies[i].animationState = 1
 	enemies[i].range = 4
 	enemies[i].target = nil
 
 	enemies[i].playerTarget = player
-
-	enemies[i].animationState = 1
 
 	enemies[i].tempVariable = 0
 
@@ -224,13 +221,19 @@ function CreateEnemy(type, position, element)
 
 	if Network.GetNetworkHost() == true then
 		enemies[i].state =  stateScript.state.idleState
+		
 		if type == ENEMY_DUMMY then
 			stateScript.changeToState(enemies[i], player, DUMMY_STATE)
+		else
+			stateScript.changeToState(enemies[i], player, IDLE_STATE)
 		end
 	else
 		enemies[i].state = clientAIScript.clientAIState.idleState
+		
 		if type == ENEMY_DUMMY then
 			clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+		else
+			clientAIScript.setAIState(enemies[i], player, IDLE_STATE)
 		end
 	end
 

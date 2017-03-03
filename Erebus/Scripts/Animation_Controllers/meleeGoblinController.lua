@@ -75,7 +75,7 @@ function CreateEnemyController(enemy)
 	end
 
 	function controller:doAttack()
-		self.currentAnimation = 7
+		self.currentAnimation = 5
 	end
 
 	function controller:doWalk()	
@@ -87,13 +87,13 @@ function CreateEnemyController(enemy)
 	end
 		
 	function controller:doStartLeap()
-		self.currentAnimation = 4
+		self.currentAnimation = 3
 	end
 	function controller:doLeap()
-		self.currentAnimation = 5
+		self.currentAnimation = 4
 	end
 	function controller:doEndLeap()
-		self.currentAnimation = 6
+		self.currentAnimation = 5
 	end
 	--Use this to initialize oldWatch
 	controller:copyWatch()
