@@ -428,8 +428,13 @@ std::string LevelCollider::printChildren(std::string name, std::string depth, in
 			ss << "OBBCollider.Create(-1)" << endl;
 			ss << fullName << ":SetOffset(" << totalOffset.x << "," << totalOffset.y << "," << totalOffset.z << ")" << endl;
 
-			ss << fullName << ":SetZAxis(" << this->childColliders[i]->obbColider->getZAxis().x << "," <<
-				this->childColliders[i]->obbColider->getZAxis().y << "," << this->childColliders[i]->obbColider->getZAxis().z << ")" << endl;
+
+			ss << fullName << ":SetAxes(" << this->childColliders[i]->obbColider->getXAxis().x << ", " << this->childColliders[i]->obbColider->getXAxis().y << ", "
+				<< this->childColliders[i]->obbColider->getXAxis().z << ", "
+				<< this->childColliders[i]->obbColider->getYAxis().x << ", " << this->childColliders[i]->obbColider->getYAxis().y << ", "
+				<< this->childColliders[i]->obbColider->getYAxis().z << ", "
+				<< this->childColliders[i]->obbColider->getZAxis().x << ", " << this->childColliders[i]->obbColider->getZAxis().y << ", "
+				<< this->childColliders[i]->obbColider->getZAxis().z << ")" << endl;
 
 			ss << fullName << ":SetHalfLengths(" << this->childColliders[i]->obbColider->getHalfLengths().x / childScale.x << ","
 				<< this->childColliders[i]->obbColider->getHalfLengths().y / childScale.y << "," << this->childColliders[i]->obbColider->getHalfLengths().z / childScale.z << ")" << endl;
@@ -507,8 +512,19 @@ std::string LevelCollider::toLuaLoad(std::string name)
 
 		ss << fullName << ":SetOffset(" << offset.x << "," << offset.y << "," << offset.z << ")" << endl;
 
-		ss << fullName << ":SetZAxis(" << this->obbColider->getZAxis().x << "," <<
-			this->obbColider->getZAxis().y << "," << this->obbColider->getZAxis().z << ")" << endl;
+		ss << fullName << ":SetAxes(" << this->obbColider->getXAxis().x << ", " << this->obbColider->getXAxis().y<<", "
+			<< this->obbColider->getXAxis().z << ", "
+			<< this->obbColider->getYAxis().x << ", " << this->obbColider->getYAxis().y << ", "
+			<< this->obbColider->getYAxis().z << ", "
+			<< this->obbColider->getZAxis().x << ", " << this->obbColider->getZAxis().y << ", "
+			<< this->obbColider->getZAxis().z << ")"<<endl;
+
+		//ss << fullName << ":SetZAxis(" << this->obbColider->getZAxis().x << "," <<
+		//	this->obbColider->getZAxis().y << "," << this->obbColider->getZAxis().z << ")" << endl;
+		//ss << fullName << ":SetXAxis(" << this->obbColider->getXAxis().x << "," <<
+		//	this->obbColider->getXAxis().y << "," << this->obbColider->getXAxis().z << ")" << endl;
+		//ss << fullName << ":SetYAxis(" << this->obbColider->getYAxis().x << "," <<
+		//	this->obbColider->getYAxis().y << "," << this->obbColider->getYAxis().z << ")" << endl;
 
 		ss << fullName << ":SetHalfLengths(" << this->obbColider->getHalfLengths().x << ","
 			<< this->obbColider->getHalfLengths().y << "," << this->obbColider->getHalfLengths().z << ")" << endl;
