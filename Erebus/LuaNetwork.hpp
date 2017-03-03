@@ -40,8 +40,10 @@ namespace LuaNetwork
 	int getPlayerHealthPacket(lua_State* lua);
 	int sendRessurectionPacket(lua_State* lua);
 	int getRessurectionPacket(lua_State* lua);
-	int sendDamageTextPacket(lua_State* lua);
-	int getDamageTextPacket(lua_State* lua);
+	int sendAIDamageTextPacket(lua_State* lua);
+	int getAIDamageTextPacket(lua_State* lua);
+	int sendBossDamageTextPacket(lua_State* lua);
+	int getBossDamageTextPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);

@@ -199,6 +199,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\assets_debug.lua" />
     <None Include="Scripts\healthOrb.lua" />
     <None Include="Scripts\keybinding.lua" />
     <None Include="Scripts\keybindingUI.lua" />
@@ -235,6 +236,7 @@
     <None Include="Scripts\ipconnect.lua" />
     <None Include="Scripts\ipconnectUI.lua" />
     <None Include="Scripts\level.lua" />
+    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\main.lua" />
     <None Include="Scripts\main_menu.lua" />
     <None Include="Scripts\MenuUI.lua" />

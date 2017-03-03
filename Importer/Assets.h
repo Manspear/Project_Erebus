@@ -37,7 +37,7 @@ namespace Importer
 		virtual void unload() = 0;
 		virtual void upload() = 0;
 
-		IMPORTER_API void incrementReferenceCount();
+		IMPORTER_API virtual void incrementReferenceCount();
 		IMPORTER_API void decrementReferenceCount();
 
 		IMPORTER_API void setAssets( Assets* assets );
@@ -47,10 +47,10 @@ namespace Importer
 
 	protected:
 		Assets* assets;
+		int referenceCount;
 
 	private:
 		FileInfo fileInfo;
-		int referenceCount;
 	};
 
 	class AssetID
@@ -85,6 +85,9 @@ namespace Importer
 			// But it should be good enough for our limited purposes
 			AssetID id( path, typeid(T).hash_code() );
 
+			if( path == "Models/Stone2.model" )
+				int f = 0;
+
 			std::map<AssetID, Asset*>::iterator it = assets.find( id );
 			if( it != assets.end() )
 				result = (T*)it->second;
@@ -107,6 +110,9 @@ namespace Importer
 
 			if( result )
 			{
+				if( path == "Materials/Stone2Material.material" )
+					int f = 0;
+
 				result->setAssets( this );
 				result->incrementReferenceCount();
 			}
