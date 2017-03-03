@@ -688,7 +688,7 @@ namespace AGI
 			else
 			{
 
-				InfluenceNode *openList[200];
+				InfluenceNode *openList[MAXSIZEPATH];
 				int sizeOfOpenList = 0;
 
 				InfluenceNode *closedList[MAXSIZEPATH];
@@ -708,13 +708,13 @@ namespace AGI
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList,sizeOfOpenList, closedList, sizeOfClosedList);
 					int superCounter = 0;
-					while (finishNode == nullptr && superCounter < MAXSIZEPATH)
+					while (finishNode == nullptr && superCounter < MAXSIZEPATH - 14)
 					{
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
 						superCounter++;
 					}
 
-					if (superCounter < MAXSIZEPATH)
+					if (superCounter < MAXSIZEPATH - 14)
 					{
 						float countDown = 66;
 						if (finishNode != nullptr)
@@ -735,6 +735,7 @@ namespace AGI
 							finishNode = finishNode->getParent();
 						}
 					}
+
 
 					//addInfluenceAroundPath(enemyPos);
 				}
