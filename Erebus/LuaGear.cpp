@@ -788,6 +788,18 @@ namespace LuaGear
 		return 0;
 	}
 
+	int setAmbient(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+
+		float r = (float)lua_tonumber(lua, 1);
+		float g = (float)lua_tonumber(lua, 2);
+		float b = (float)lua_tonumber(lua, 3);
+
+		g_skybox->setAmbient(glm::vec3(r, g, b));
+		return 0;
+	}
+
 	int printDamageNumer(lua_State * lua)
 	{
 		assert(lua_gettop(lua) == 5);
