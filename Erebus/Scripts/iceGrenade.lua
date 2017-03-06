@@ -39,6 +39,7 @@ function CreateIceGrenade(entity)
 	spell.maxChargeTime = MAX_CHARGE_TIME_ICENADE		spell.minChargeTime = 0
 	spell.owner = entity
 	spell.nades = {}
+	spell.effects = {}
 	spell.spamcd = SPAM_CD_ICENADE
 	spell.chargedTime = 0
 	spell.combo = 0
