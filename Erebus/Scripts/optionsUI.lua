@@ -9,6 +9,8 @@ function LoadOptionsUI()
 
 	imageTextures["debugOff"] = Assets.LoadTexture("Textures/buttonDebugOff.dds");
 	imageTextures["debugOn"] = Assets.LoadTexture("Textures/buttonDebugOn.dds");
+	imageTextures["shadowsOff"] = Assets.LoadTexture("Textures/buttonShadowsOff.dds");
+	imageTextures["shadowsOn"] = Assets.LoadTexture("Textures/buttonShadowsOn.dds");
 	imageTextures["back"] = Assets.LoadTexture("Textures/buttonReturn.dds");
 	imageTextures["keybinding"] = Assets.LoadTexture("Textures/buttonKeybinding.dds");
 
@@ -85,9 +87,9 @@ function DrawOptionsUI()
 	end
 
 	if SETTING_SHADOW then
-		UI.drawImage(screenImages["shadows"], imageTextures["debugOn"]);
+		UI.drawImage(screenImages["shadows"], imageTextures["shadowsOn"]);
 	else
-		UI.drawImage(screenImages["shadows"], imageTextures["debugOff"]);
+		UI.drawImage(screenImages["shadows"], imageTextures["shadowsOff"]);
 	end
 
 	UI.drawImage(screenImages["keybinding"], imageTextures["keybinding"]);
