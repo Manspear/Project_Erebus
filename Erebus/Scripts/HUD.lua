@@ -59,8 +59,8 @@ function LoadHUD()
 	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
 	tutorialTexture[12] = Assets.LoadTexture("Textures/TUTORIALWhenFriendIsCharging.dds")
 
-	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(11.9, 10.4, 152.9, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
 	
 	
@@ -106,6 +106,11 @@ function UnloadHUD()
 	Assets.UnloadTexture( "Textures/TUTORIALCharge2.dds" )
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend1.dds" )
 	Assets.UnloadTexture( "Textures/TUTORIALChargeFriend2.dds" )
+
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_0.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_1.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_2.dds")
+	Assets.UnloadTexture("Textures/WaitingForPlayer2_3.dds")
 
 	SHOW_TUTORIAL_IMAGE = -1
 	SHOW_TUTORIAL_IMAGE2 = -1
@@ -250,13 +255,22 @@ function DrawHUD()
 			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
 		end
 	end
+	--Moves the ping icon
+	UI.reposWorld(player.pingImage, player.position.x, player.position.y+1.5, player.position.z)
+	UI.reposWorld(player.deathImage, player.position.x, player.position.y+2.1, player.position.z)
+
+	right = Camera.GetRight()
+	UI.reposWorld(player.chargeImage, player.position.x - right.x * 0.30, player.position.y+1.5, player.position.z - right.z * 0.30)
+	UI.reposWorld(player.combineImage, player.position.x + right.x * 0.30, player.position.y+1.5, player.position.z + right.z * 0.30)
 end
 
  
 function showTutorialImage(x,y,z,dt)
 
 	TutorialCounter = TutorialCounter + dt
-	
+	finalX = x - 5
+	finalZ = z + 20
+	finalY = y + 5
 	if TutorialCounter < 2  then
 		index = 1
 	elseif TutorialCounter < 4 then
@@ -268,12 +282,16 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 7, 7)
 	SHOW_TUTORIAL_IMAGE = index
 end
 
 function showTutorialImage2(x,y,z,dt)
 	TutorialCounter2 = TutorialCounter2 + dt
+
+	finalX = x - 6
+	finalZ = z + 6
+	finalY = y + 5
 	
 	if TutorialCounter2 < 2  then
 		index = 4
@@ -285,7 +303,7 @@ function showTutorialImage2(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 

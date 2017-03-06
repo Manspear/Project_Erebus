@@ -13,6 +13,10 @@ BOSS_ATTACK_INTERVAL = 1
 
 BOSS_DEAD = false
 
+TIMETABLE = {}
+table.insert(TIMETABLE, 17)
+table.insert(TIMETABLE, 20)
+
 function LoadBoss()
 	boss.spells[1] = CreateTimeOrbWave()
 	boss.spellinfo[1] = {cd = 0, interval = {0,10}}
@@ -60,19 +64,7 @@ function LoadBoss()
 	function boss:Kill()
 		if boss.alive then
 			boss.alive = false
-			--UnloadGameplay()
-			--LEVEL_ROUND = LEVEL_ROUND + 1
-			--EnterGameplay()
-			for levelIndex,level in pairs(levels) do
-				if loadedLevels[levelIndex] then
-					level.unload()
-				end
-				loadedLevels[levelIndex] = false
-			end
-			levels[1].load()
-			levels[2].load()
-			loadedLevels[1] = true
-			Transform.SetPosition(player.transformID, {x=28, y=0, z=153})
+			Rewind()
 		end
 	end
 	function boss:Apply(effect)

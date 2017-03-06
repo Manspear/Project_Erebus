@@ -218,6 +218,30 @@ namespace Collisions
 
 	}
 
+	bool CollisionHandler::checkCollisionsBetweenHitboxAndLayer(HitBox * hitbox, int layer)
+	{
+		bool colliding = false;
+		std::vector<SphereCollider*>* sphereColliders = this->collisionLayers->getSphereColliders(layer);
+		std::vector<AABBCollider*>* aabbColliders = this->collisionLayers->getAABBColliders(layer);
+		std::vector<OBBCollider*>* obbColliders = this->collisionLayers->getOBBColliders(layer);
+		std::vector<RayCollider*>* rayColliders = this->collisionLayers->getRayColliders(layer);
+
+		std::vector<glm::vec3> normals;
+		this->allColliders;
+
+		colliding = this->checkAnyCollisionBoolNoSave(hitbox, sphereColliders,normals);
+
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, aabbColliders, normals);
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, obbColliders, normals);
+		if(!colliding)
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, rayColliders, normals);
+
+
+		return colliding;
+	}
+
 
 	void CollisionHandler::incrementHitboxID()
 	{

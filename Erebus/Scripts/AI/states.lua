@@ -3,7 +3,7 @@ local baseReturn ={}
 state = {idleState = {},followState = {},attackState = {},positioningInnerState = {},positioningOuterState = {},leapState = {},deadState = {},doNothingState = {},runAwayState = {},dummyState = {}}
 
 function state.idleState.enter(enemy,player)
-	enemy.animationState = 1
+	enemy.animationController:doNothing()
 end
 
 function state.idleState.update(enemy,player,dt,enemyManager)
@@ -387,6 +387,7 @@ end
 function state.deadState.enter(enemy,player)
 	enemy.actionCountDown = 3
 	SpawnNewHealthOrb(Transform.GetPosition(enemy.transformID))
+	enemy.animationController:doDeath()
 end
 
 function state.deadState.update(enemy,player,dt)	
@@ -400,7 +401,6 @@ function state.deadState.update(enemy,player,dt)
 		Transform.SetPosition(enemy.transformID,pos)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
-		SphereCollider.SetActive(enemy.sphereCollider, false)
 		enemy.alive = false
 	end
 end
@@ -427,6 +427,7 @@ function state.runAwayState.enter(enemy, playerTarget)
 	print("Lets Runaway together!!")
 	enemy.insideInnerCircleRange = false
 	-------
+
 end
 
 function state.runAwayState.update(enemy, playerTarget, dt)
@@ -442,6 +443,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 	
 	if length > 8 and enemy.actionCountDown <0 then
 		-----------HEAL
+		enemy.animationController:doNothing()
 		enemy.currentHealth = enemy.currentHealth +2
 		enemy.health = enemy.health +2
 		enemy.actionCountDown = 3
@@ -456,6 +458,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 	else
 		--- Keep on walking sunshine
 		if enemy.subPathtarget ~= nil then
+			enemy.animationController:doWalk()
 			local pos = Transform.GetPosition(enemy.transformID)
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 

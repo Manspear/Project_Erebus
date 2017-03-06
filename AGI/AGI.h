@@ -10,6 +10,7 @@
 #include"RadiusInfluenceNode.h"
 #include"InfluenceNode.h"
 #include"AStarNode.h"
+#include "CollisionHandler.h"
 
 #include"WorkQueue.h"
 
@@ -210,7 +211,7 @@ namespace AGI
 		}
 
 
-		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, int width, int height)
+		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, Collisions::CollisionHandler* collisionHandler,int width, int height)
 		{
 			destroyInfluenceMap();
 
@@ -234,7 +235,7 @@ namespace AGI
 					float w = (float)x / (resolution);
 					float h = (float)y / (resolution);
 
-					if (checkSurroundingHeightMap(heightmaps, x, y))
+					if (checkSurroundingHeightMap(heightmaps, collisionHandler, x, y))
 					{
 						dynamicInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
 						staticInfluenceMap[x][y] = new InfluenceNode(glm::vec2(w, h), 0);
@@ -341,7 +342,7 @@ namespace AGI
 			}
 		}
 
-		AGI_API bool checkSurroundingHeightMap(Importer::HeightMap** heightmaps, int x, int y)
+		AGI_API bool checkSurroundingHeightMap(Importer::HeightMap** heightmaps, Collisions::CollisionHandler* collisionHandler, int x, int y)
 		{
 			float doJump = 1.0f;
 
@@ -509,7 +510,8 @@ namespace AGI
 			if (glm::abs(centerHeight - maxHeight) >1.9f || centerHeight <= 3)
 				return false;
 
-			return true;
+			Collisions::SphereCollider temp(glm::vec3(w, centerHeight, h), 8);
+			return !collisionHandler->checkCollisionsBetweenHitboxAndLayer(&temp, 3);
 		}
 
 		AGI_API void resetIM(glm::vec3 inPos, float inStr)
@@ -688,7 +690,7 @@ namespace AGI
 			else
 			{
 
-				InfluenceNode *openList[200];
+				InfluenceNode *openList[MAXSIZEPATH];
 				int sizeOfOpenList = 0;
 
 				InfluenceNode *closedList[MAXSIZEPATH];
@@ -708,13 +710,13 @@ namespace AGI
 
 					addToClosedList(starterNode, xPlayerPos, yPlayerPos, openList,sizeOfOpenList, closedList, sizeOfClosedList);
 					int superCounter = 0;
-					while (finishNode == nullptr && superCounter < MAXSIZEPATH)
+					while (finishNode == nullptr && superCounter < MAXSIZEPATH - 14)
 					{
 						finishNode = checkOpenList(xPlayerPos, yPlayerPos, openList, sizeOfOpenList, closedList, sizeOfClosedList);
 						superCounter++;
 					}
 
-					if (superCounter < MAXSIZEPATH)
+					if (superCounter < MAXSIZEPATH - 14)
 					{
 						float countDown = 66;
 						if (finishNode != nullptr)
@@ -735,6 +737,7 @@ namespace AGI
 							finishNode = finishNode->getParent();
 						}
 					}
+
 
 					//addInfluenceAroundPath(enemyPos);
 				}

@@ -22,15 +22,13 @@ function CreateCombineRay(entity)
 	
 	local rayFire = Assets.LoadModel( "Models/CombineBeamFire.model" )
 	ray.transformID = Gear.BindBlendingInstance(rayFire)
-	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
+	ray.blendingIndex = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
 
-	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
-	ray.transformID2 = Gear.BindBlendingInstance(rayNature)
-	ray.blendingIndex2 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
+	ray.transformID2 = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex2 = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 	
-	local rayIce = Assets.LoadModel("Models/CombineBeamIce.model")
-	ray.transformID3 = Gear.BindBlendingInstance(rayIce)
-	ray.blendingIndex3 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
+	ray.transformID3 = Gear.BindBlendingInstance(rayFire)
+	ray.blendingIndex3 = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SpellIce.dds"),Assets.LoadTexture("Textures/SpellIceBlend.dds"))
 	
 	Transform.ActiveControl(ray.transformID, false)
 	Transform.ActiveControl(ray.transformID2, false)
@@ -87,7 +85,6 @@ function CreateCombineRay(entity)
 			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
 
-			print(self.blendValue1.x)
 			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
 			return true
 		else 
@@ -116,6 +113,14 @@ function DestroyCombineRay(ray)
 	Assets.UnloadModel( "Models/CombineBeamIce.model" )
 	Assets.UnloadModel( "Models/CombineBeamFire.model" )
 	Assets.UnloadModel( "Models/CombineBeamNature.model" )
+
+	Assets.UnloadTexture( "Textures/SpellFire.dds" )
+	Assets.UnloadTexture( "Textures/SpellFireBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellNature.dds" )
+	Assets.UnloadTexture( "Textures/SpellNatureBlend.dds" )
+	Assets.UnloadTexture( "Textures/SpellIce.dds" )
+	Assets.UnloadTexture( "Textures/SpellIceBlend.dds" )
+
 	ray = nil
 end
 
@@ -193,7 +198,7 @@ function CreateChargeEggs(entity)
 		self.firstCombine = false
 		
 		if self.light then
-			self.light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
+			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
 			self.particles:update(self.pos)	
 		end	
 		self.timer = self.timer + dt		
@@ -304,7 +309,7 @@ function BaseCheckCollision(spell)
 	local playSound = false
 	for curID = 1, #collisionIDs do
 		for curEnemy=1, #enemies do
-			if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+			if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 				if not spell.enemiesHit[enemies[curEnemy].transformID] then
 					enemies[curEnemy]:Hurt(spell.damage, spell.owner)				
 					for stuff = 1, #spell.effects do
