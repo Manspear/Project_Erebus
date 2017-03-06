@@ -1,5 +1,6 @@
 --CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
-CHRONOBALLLIFETIME = 0.9
+CHRONOBALLLIFETIME = 0.9 / 4.5
+CHRONOBALLSPEED = 35 * 4
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
@@ -8,14 +9,15 @@ CHRONOBALL_DAMAGE = 0
 function CreateChronoBall(entity)
 	local spell = {}
 	spell.element = NATURE
-	local model = Assets.LoadModel( "Models/ChronoBall.model" )
+	local model = Assets.LoadModel( "Models/blackHole.model" )
 	spell.type = CreateProjectileType(model)
+	spell.type.sphereCollider:SetRadius(3)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifeTime = CHRONOBALLLIFETIME
 	spell.alive = false
 	spell.hitflag = false
-	spell.speed = 35
+	spell.speed = CHRONOBALLSPEED
 	spell.rotatingAngle = 0
 	spell.particles = GetNextFireEffectParticle() --particles
 	spell.effectFlag = false
