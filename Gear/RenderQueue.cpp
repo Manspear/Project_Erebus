@@ -543,7 +543,7 @@ float tempHej = 0.1;
 void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels)
 {
 	allShaders[TEXTURE_BLENDING]->use();
-
+	glDepthMask(GL_FALSE);
 	ModelAsset* modelAsset;
 	int meshes;
 	size_t size = sizeof(Importer::sVertex);
@@ -600,7 +600,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 		}
 		textureBlends->at(i).active = false;
 	}
-
+	glDepthMask(GL_TRUE);
 	allShaders[TEXTURE_BLENDING]->unUse();
 }
 
