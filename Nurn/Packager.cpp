@@ -25,6 +25,7 @@ Packager::Packager()
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
 	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
 	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
+	this->bossHealthQueue = new PacketQueue<HealthPacket>(30);
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -117,6 +118,11 @@ Packager::~Packager()
 		delete this->bossDamageTextQueue;
 		this->bossDamageTextQueue = 0;
 	}
+	if (this->bossHealthQueue)
+	{
+		delete this->bossHealthQueue;
+		this->bossHealthQueue = 0;
+	}
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -165,6 +171,7 @@ void Packager::buildNetPacket()
 	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->ressurectionQueue, RESSURECTION_PACKET);
 	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->aiDamageTextQueue, AI_DAMAGE_TEXT_PACKET);
 	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->bossDamageTextQueue, BOSS_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->bossHealthQueue, BOSS_HEALTH_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -253,6 +260,11 @@ void Packager::pushAIDamageTextPacket(const DamagePacket& packet)
 void Packager::pushBossDamageTextPacket(const DamagePacket& packet)
 {
 	this->bossDamageTextQueue->push(packet);
+}
+
+void Packager::pushBossHealthPacket(const HealthPacket& packet)
+{
+	this->bossHealthQueue->push(packet);
 }
 
 template<class packetType>

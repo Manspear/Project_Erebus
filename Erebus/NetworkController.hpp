@@ -76,6 +76,9 @@ public:
 	void sendBossDamageTextPacket(const DamagePacket& packet);
 	bool fetchBossDamageTextPacket(DamagePacket& packet);
 
+	void sendBossHealthPacket(const HealthPacket& packet);
+	bool fetchBossHealthPacket(HealthPacket& packet);
+
 
 #ifdef DEBUGGING_NETWORK
 	float getPing();

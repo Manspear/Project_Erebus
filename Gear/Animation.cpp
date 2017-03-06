@@ -34,6 +34,11 @@ void Animation::setAsset(Importer::ModelAsset * asset)
 	this->asset = asset;
 	Importer::hModel* model = asset->getHeader();
 
+	if (finalList) delete[] finalList;
+	if (blendFromKeys) delete[] blendFromKeys;
+	if (blendToKeys) delete[] blendToKeys;
+	if (blendedList) delete[] blendedList;
+
 	numJoints = model->numJoints;
 	finalList = new sKeyFrame[numJoints];
 	blendFromKeys = new sKeyFrame[numJoints];
