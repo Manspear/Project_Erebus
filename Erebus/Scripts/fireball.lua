@@ -97,6 +97,10 @@ function CreateFireball(entity)
 						self:SpamFireball(i)
 					end
 				end
+				local hm = GetHeightmap(self.smallFB[i].type.position)
+				if hm then
+					if self.smallFB[i].type.position.y < hm.asset:GetHeight(self.smallFB[i].type.position.x, self.smallFB[i].type.position.z) then self:SpamFireball(i) end
+				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
 				if(self.smallFB[i].lifeTime < 0) then 
 					self:SpamFireball(i)
