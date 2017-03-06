@@ -13,7 +13,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	AABBCollider::AABBCollider(int IDTransform) : HitBox(IDTransform)
+	AABBCollider::AABBCollider(const int & IDTransform) : HitBox(IDTransform)
 	{
 		this->minPos = glm::vec3(-1, -1, -1);
 		this->maxPos = glm::vec3(1, 1, 1);
@@ -23,7 +23,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	AABBCollider::AABBCollider(int IDTransform, glm::vec3 minPos, glm::vec3 maxPos) : HitBox(IDTransform)
+	AABBCollider::AABBCollider(const int & IDTransform, const glm::vec3 & minPos, const glm::vec3 & maxPos) : HitBox(IDTransform)
 	{
 		this->minPos = minPos;
 		this->maxPos = maxPos;
@@ -33,7 +33,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	AABBCollider::AABBCollider(glm::vec3 minPos, glm::vec3 maxPos, glm::vec3 centerPos) : HitBox()
+	AABBCollider::AABBCollider(const glm::vec3 &minPos, const glm::vec3 &maxPos, const glm::vec3 &centerPos) : HitBox()
 	{
 		this->minPos = minPos;
 		this->maxPos = maxPos;
@@ -99,19 +99,19 @@ namespace Collisions
 		return &this->IDCollisions;
 	}
 
-	void AABBCollider::setPos(glm::vec3 pos)
+	void AABBCollider::setPos(const glm::vec3 & pos)
 	{
 		HitBox::setPos(pos);
 		this->maxPosTotal = this->maxPos + this->pos;
 		this->minPosTotal = this->minPos + this->pos;
 	}
 
-	void AABBCollider::setMinPos(glm::vec3 minPos)
+	void AABBCollider::setMinPos(const glm::vec3 & minPos)
 	{
 		this->minPos = minPos;
 	}
 
-	void AABBCollider::setMaxPos(glm::vec3 maxPos)
+	void AABBCollider::setMaxPos(const glm::vec3 & maxPos)
 	{
 		this->maxPos = maxPos;
 	}

@@ -7,11 +7,12 @@
 #include"HeightMap.h"
 #include"Debug.h"
 #include "TransformHandler.h"
+#include "CollisionHandler.h"
 
 namespace LuaAI
 {
 	
-	void registerFunctions(lua_State* lua, AGI::AGIEngine*,Importer::Assets* assets, TransformHandler* transformHandler);
+	void registerFunctions(lua_State* lua, AGI::AGIEngine*,Importer::Assets* assets, TransformHandler* transformHandler, Collisions::CollisionHandler* collisionHandler);
 	int followPlayer(lua_State * lua);
 	int navigateMesh(lua_State * lua);
 	int distanceTransTrans(lua_State * lua);

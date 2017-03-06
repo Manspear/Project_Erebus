@@ -25,7 +25,7 @@ function CreateRayType(model)
 		Transform.SetPosition(self.transformID, self.position)
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					table.insert(result, enemies[curEnemy])
 				end
 			end

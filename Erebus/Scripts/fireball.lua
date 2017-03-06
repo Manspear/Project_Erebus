@@ -2,8 +2,8 @@
 FIRESPAM_COOLDOWN = 0.2
 FIREBALL_COOLDOWN = 6
 FIRESPAM_SPEED = 80
-FIREBALL_SPEED = 18
-FIREBALL_LIFETIME = 8
+FIREBALL_SPEED = 40
+FIREBALL_LIFETIME = 4
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
 FIRESPAM_DAMAGE = 50
@@ -57,11 +57,11 @@ function CreateFireball(entity)
 	spell.bigBallActive = false
 	local model = Assets.LoadModel( "Models/projectile1.model" )
 	spell.ballParticles = CreateFireEffectParticles()
-	spell.bigBallID = Gear.BindForwardInstance(model)
-	spell.sphereCollider = SphereCollider.Create(spell.bigBallID)
+	spell.transformID = Gear.BindForwardInstance(model)
+	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
-	Transform.ActiveControl(spell.bigBallID, false)
+	Transform.ActiveControl(spell.transformID, false)
 
 	spell.lifeTime = FIREBALL_LIFETIME
 	spell.explodeTime = 0.5
@@ -87,7 +87,7 @@ function CreateFireball(entity)
 				local collisionIDs = self.smallFB[i].type.sphereCollider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
-						if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+						if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner, self.element)
 							self:SpamFireball(i)
 						end
@@ -96,6 +96,10 @@ function CreateFireball(entity)
 						boss:Hurt(self.smallFB[i].damage, self.owner, self.element)
 						self:SpamFireball(i)
 					end
+				end
+				local hm = GetHeightmap(self.smallFB[i].type.position)
+				if hm then
+					if self.smallFB[i].type.position.y < hm.asset:GetHeight(self.smallFB[i].type.position.x, self.smallFB[i].type.position.z) then self:SpamFireball(i) end
 				end
 				self.smallFB[i].lifeTime = self.smallFB[i].lifeTime - dt		
 				if(self.smallFB[i].lifeTime < 0) then 
@@ -132,7 +136,8 @@ function CreateFireball(entity)
 			self:EngageExplode()
 		end
 		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then
-			if self.owner == player then	
+			if self.owner == player then
+				camera.toFollow = self
 				ZoomOutCamera()	
 			end
 			self.lifeTime = FIREBALL_LIFETIME
@@ -141,8 +146,8 @@ function CreateFireball(entity)
 			self.bigBallActive = true
 			self.position = entity.position
 			SphereCollider.SetActive(self.sphereCollider, true)
-			Transform.ActiveControl(self.bigBallID, true)
-			Transform.SetPosition(self.bigBallID, self.position)
+			Transform.ActiveControl(self.transformID, true)
+			Transform.SetPosition(self.transformID, self.position)
 			self.damage = FIREBALL_BASE_DMG * self.chargedTime
 			self.light = Light.addLight(124, 32, 220, 1, 0, 0, FIREBALL_LIGHTRADIUS, 3, true)
 			self.ballParticles:Cast()
@@ -165,33 +170,40 @@ function CreateFireball(entity)
 		self.position.x = self.position.x + direction.x * FIREBALL_SPEED * dt
 		self.position.y = self.position.y + direction.y * FIREBALL_SPEED * dt
 		self.position.z = self.position.z + direction.z * FIREBALL_SPEED * dt
-		Transform.SetPosition(self.bigBallID, self.position)
+		Transform.SetPosition(self.transformID, self.position)
+		Transform.SetLookAt(self.transformID, direction)
 		self.damage = self.damage + 3 * dt
 		self.ballParticles:Update(self.position)
 		local hm = GetHeightmap(self.position)
 		if hm then
 			if self.position.y < hm.asset:GetHeight(self.position.x, self.position.z) then self:EngageExplode() end
-		end	
+		else
+			self:EngageExplode()
+		end
 		Light.updatePos(self.light, self.position.x, self.position.y, self.position.z, true)
 
-		local collisionIDs = self.sphereCollider:GetCollisionIDs()
-		for curID = 1, #collisionIDs do
-			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+		if CollisionHandler.IsHitboxCollidingWithLayer(self.sphereCollider, 3) then 
+			self:EngageExplode() 
+		else
+			local collisionIDs = self.sphereCollider:GetCollisionIDs()
+			for curID = 1, #collisionIDs do
+				for curEnemy=1, #enemies do
+					if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
+						self:EngageExplode()
+						return
+					end
+				end
+				if collisionIDs[curID] == boss.collider:GetID() then
 					self:EngageExplode()
 					return
 				end
-			end
-			if collisionIDs[curID] == boss.collider:GetID() then
-				self:EngageExplode()
-				return
-			end
-		end		
+			end	
+		end	
 	end
 
 	function spell:EngageExplode()
 		SphereCollider.SetRadius(self.sphereCollider, 3)
-		Transform.SetScale(self.bigBallID, 3)
+		Transform.SetScale(self.transformID, 3)
 		self.lifeTime = -1
 		self.lightRadius = FIREBALL_LIGHTRADIUS * 5
 		Light.updateRadius(self.light, self.lightRadius , true)
@@ -199,6 +211,9 @@ function CreateFireball(entity)
 
 	function spell:Exploding(dt)
 		self.explodeTime = self.explodeTime - dt
+		if self.owner == player then
+			camera.toFollow = self.owner
+		end
 		if self.explodeTime < 0 then 
 			self:Kill() 
 			return
@@ -208,7 +223,7 @@ function CreateFireball(entity)
 		local collisionIDs = self.sphereCollider:GetCollisionIDs()
 		for curID = 1, #collisionIDs do
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					if not self.enemiesHit[enemies[curEnemy].transformID] then
 						enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 						for stuff = 1, #self.effects do
@@ -249,9 +264,9 @@ function CreateFireball(entity)
 		self.bigBallActive = false
 		self.ballParticles:Die(self.position)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
-		Transform.SetScale(self.bigBallID, 1)
+		Transform.SetScale(self.transformID, 1)
 		SphereCollider.SetActive(self.sphereCollider, false)
-		Transform.ActiveControl(self.bigBallID, false)
+		Transform.ActiveControl(self.transformID, false)
 		self.damage = FIREBALL_BASE_DMG	
 		if #self.effects > 1 then
 			table.remove(self.effects)
@@ -290,7 +305,7 @@ function DestroyFireball(fireball)
 
 	DestroyFireEffectParticles(fireball.spell.ballParticles)
 
-	Gear.UnbindInstance(fireball.bigBallID)
+	Gear.UnbindInstance(fireball.transformID)
 
 	Assets.UnloadModel( "Models/projectile1.model" )
 	Assets.UnloadTexture( "Textures/IconFireball.dds" )

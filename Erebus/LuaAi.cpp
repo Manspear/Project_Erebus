@@ -7,16 +7,17 @@ namespace LuaAI
 	static AGI::AGIEngine * AI = nullptr;
 	static TransformHandler* g_transformHandler = nullptr;
 	static Assets* g_assets = nullptr;
+	static Collisions::CollisionHandler* g_collisionHandler = nullptr;
 
 	static HeightMap ** heightMaps = nullptr;
 	static int nrOfHM = 0;
 
-	void registerFunctions(lua_State * L,AGI::AGIEngine * inAI, Assets* assets, TransformHandler* transformHandler)
+	void registerFunctions(lua_State * L,AGI::AGIEngine * inAI, Assets* assets, TransformHandler* transformHandler, Collisions::CollisionHandler* collisionHandler)
 	{
 		AI = inAI;
 		g_assets = assets;
 		g_transformHandler = transformHandler;
-
+		g_collisionHandler = collisionHandler;
 		luaL_newmetatable(L, "aiTable");
 		luaL_Reg regs[] =
 		{
@@ -211,7 +212,7 @@ namespace LuaAI
 	{
 		if (lua_gettop(lua) >= 3)
 		{
-			AI->createInfluenceMap(heightMaps,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+			AI->createInfluenceMap(heightMaps, g_collisionHandler,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
 			
 		}
 		return 0;

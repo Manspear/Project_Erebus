@@ -1,5 +1,6 @@
 --Slusskoden följer här!!!
 SLUICE_OPEN_TIME = 3
+sluiceDownSpeed = 1
 
 function CreateSluice(triggerID, transformID, colliderClose, transformIDclose)
 	local sluice = {}
@@ -16,6 +17,7 @@ function CreateSluice(triggerID, transformID, colliderClose, transformIDclose)
 	sluice.transformIDclose = transformIDclose
 	sluice.position2 = Transform.GetPosition(transformIDclose)
 	sluice.lookAt2 = Transform.GetLookAt(transformIDclose)
+	sluice.sluiceDownSpeed = Transform.GetScaleNonUniform(transformIDclose).y
 	--local hitboxDir = vec3cross(sluice.lookAt, {x = 0, y = 1, z = 0})
 	--OBBCollider.SetXAxis(colliderClose.collider, hitboxDir.x, hitboxDir.y, hitboxDir.z)
 	return sluice
@@ -36,7 +38,7 @@ function SluiceUpdate(dt, sluice)
 		if playersInside.p1 or playersInside.p2 then
 			hideWaitingForPlayer2(dt)
 			sluice.sluiceTime = sluice.sluiceTime - dt
-			sluice.lowering = sluice.lowering - dt * 2
+			sluice.lowering = sluice.lowering - dt * 2 * sluice.sluiceDownSpeed
 			shakeShifter = shakeShifter * -1
 			local shakeIt = {x = shakeShifter * (sluice.lookAt.x * dt), y = sluice.lowering, z = shakeShifter * (sluice.lookAt.z * dt)}
 			Transform.SetPosition(sluice.transformIDopen, vec3add(shakeIt, sluice.position))

@@ -39,202 +39,304 @@ ENEMY_HEALTHBAR_HEIGHT = 0.15
 function CreateEnemy(type, position, element)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or type == ENEMY_DUMMY, "Invalid enemy type." )
 
-	local i = #enemies+1
-	enemies[i] = {}
-	enemies[i].timeScalar = 1.0
-	enemies[i].type = type
-	enemies[i].elementType = element or NEUTRAL
-	--enemies[i].transformID = Transform.Bind()
-	enemies[i].movementSpeed = 8--math.random(5,20)
-	enemies[i].maxHealth = 20
-	enemies[i].health = enemies[i].maxHealth
-	enemies[i].alive = true
-	enemies[i].effects = {}
-	enemies[i].attackCountdown = 0
-	enemies[i].aggro = false
-	enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
-
-	enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
-	enemies[i].currentHealth = enemies[i].health
-	enemies[i].hurtCountdown = 0
-
-	enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
-	enemies[i].damagedTintDuration = 0.3
-
-	enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-	enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-	enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-
-	enemies[i].visionRange = 100
-	enemies[i].subPathtarget = nil
-	enemies[i].pathTarget = nil
-	enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
-	enemies[i].insideInnerCircleRange = false
-
-	enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-	enemies[i].maxActionCountDown = 3
-	enemies[i].actionCountDown = 3
-
-	enemies[i].range = 4
-	enemies[i].target = nil
-
-	enemies[i].playerTarget = player
-
-	enemies[i].tempVariable = 0
-
-	enemies[i].modelName = ""
-	if type == ENEMY_MELEE then
-		if enemies[i].elementType == NEUTRAL then
-			enemies[i].modelName = "Models/Fire_Goblin.model"
-		elseif enemies[i].elementType == FIRE then
-			enemies[i].modelName = "Models/Fire_Goblin.model"
-		elseif enemies[i].elementType == NATURE then
-			enemies[i].modelName = "Models/Grass_Goblin.model"
-		elseif enemies[i].elementType == ICE then
-			enemies[i].modelName = "Models/Ice_Goblin.model"
+	local i = -1
+	for ii = 1, #enemies do
+		if not enemies[ii].alive 
+		and enemies[ii].type == type 
+		and enemies[ii].elementType == element 
+		then
+			i = ii
+			break
 		end
-	elseif type== ENEMY_DUMMY then
-		enemies[i].modelName = "Models/Dummy.model"
-	else
-		enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
 	end
 
-	local model = Assets.LoadModel(enemies[i].modelName)
+	if i == -1 then
+		-- create new enemy
+		i = #enemies+1
+		--print("creating "..i)
+		enemies[i] = {}
+		enemies[i].timeScalar = 1.0
+		enemies[i].type = type
+		enemies[i].elementType = element or NEUTRAL
+		--enemies[i].transformID = Transform.Bind()
+		enemies[i].movementSpeed = 8--math.random(5,20)
+		enemies[i].maxHealth = 20
+		enemies[i].health = enemies[i].maxHealth
+		enemies[i].alive = true
+		enemies[i].effects = {}
+		enemies[i].attackCountdown = 0
+		enemies[i].aggro = false
+		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 
-	assert( model, "Failed to load model Models/Goblin.model" )
-	
-	if type ~= ENEMY_DUMMY then
-		enemies[i].animationController = CreateEnemyController(enemies[i])
-		enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
-	else
-		enemies[i].transformID = Gear.BindStaticInstance(model)
-	end
+		enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
+		enemies[i].currentHealth = enemies[i].health
+		enemies[i].hurtCountdown = 0
 
-	enemies[i].Hurt = function(self, damage, source, element)
-		local pos = Transform.GetPosition(self.transformID)
+		enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
+		enemies[i].damagedTintDuration = 0.3
 
-		if source ~= player2 then
-			if Network.GetNetworkHost() == true then
-				if self.alive == true then
-					damage = self.elementType ~= element and damage or damage * 0.5
-					self.health = self.health - damage
-					Network.SendAIHealthPacket(self.transformID, self.health)
-					self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
-					self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
-					if element then
-						Network.SendAIDamageTextPacket(self.transformID, damage, element)
-						Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
-					end
-					if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
-						inState = FOLLOW_STATE
-						stateScript.changeToState(self, player, inState)
-						self.aggro = true
+		enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 
-						if self.health < 1 then
+		enemies[i].visionRange = 100
+		enemies[i].subPathtarget = nil
+		enemies[i].pathTarget = nil
+	enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].insideInnerCircleRange = false
 
-							--print("Dead for host", enemies[i].transformID)
-							self.health = 0
-							self:Kill()
-						elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-							self.health = self.maxHealth
-							self.currentHealth = self.maxHealth
+		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].maxActionCountDown = 3
+		enemies[i].actionCountDown = 3
+
+		enemies[i].range = 4
+		enemies[i].target = nil
+
+		enemies[i].playerTarget = player
+
+		enemies[i].tempVariable = 0
+
+		enemies[i].modelName = ""
+		if type == ENEMY_MELEE then
+			if enemies[i].elementType == NEUTRAL then
+				enemies[i].modelName = "Models/Fire_Goblin.model"
+			elseif enemies[i].elementType == FIRE then
+				enemies[i].modelName = "Models/Fire_Goblin.model"
+			elseif enemies[i].elementType == NATURE then
+				enemies[i].modelName = "Models/Grass_Goblin.model"
+			elseif enemies[i].elementType == ICE then
+				enemies[i].modelName = "Models/Ice_Goblin.model"
+			end
+		elseif type== ENEMY_DUMMY then
+			enemies[i].modelName = "Models/Dummy.model"
+		else
+			enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
+		end
+
+		local model = Assets.LoadModel(enemies[i].modelName)
+
+		assert( model, "Failed to load model Models/Goblin.model" )
+		
+		if type ~= ENEMY_DUMMY then
+			enemies[i].animationController = CreateEnemyController(enemies[i])
+			enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
+		else
+			enemies[i].transformID = Gear.BindStaticInstance(model)
+		end
+
+		enemies[i].Hurt = function(self, damage, source, element)
+			local pos = Transform.GetPosition(self.transformID)
+
+			if source ~= player2 then
+				if Network.GetNetworkHost() == true then
+					if self.alive == true then
+						damage = self.elementType ~= element and damage or damage * 0.5
+						self.health = self.health - damage
+						Network.SendAIHealthPacket(self.transformID, self.health)
+						self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+						self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+						if element then
+							Network.SendAIDamageTextPacket(self.transformID, damage, element)
+							Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
+						end
+						if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+							inState = FOLLOW_STATE
+							stateScript.changeToState(self, player, inState)
+							self.aggro = true
+
+							if self.health < 1 then
+
+								--print("Dead for host", enemies[i].transformID)
+								self.health = 0
+								self:Kill()
+							elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+								self.health = self.maxHealth
+								self.currentHealth = self.maxHealth
+							end
 						end
 					end
+				else
+					--print("Sending damage", self.transformID, damage)
+					Network.SendDamagePacket(self.transformID, damage, element)
 				end
-			else
-				--print("Sending damage", self.transformID, damage)
-				Network.SendDamagePacket(self.transformID, damage, element)
-			end
-		end		
-	end
-
-	if Network.GetNetworkHost() == true then
-		enemies[i].ChangeToState = function(self,inState)
-			stateScript.changeToState(self, player, inState)
+			end		
 		end
-	else
-		enemies[i].ChangeToState = function(self,inState)
-			clientAIScript.setAIState(self, player, inState)
-		end
-	end
-
-	enemies[i].Kill = function(self)
-		local pos = Transform.GetPosition(self.transformID)
-		SphereCollider.SetActive(self.sphereCollider, false)
-		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
-		for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
-
-		if self.stateName == LEAP_STATE or self.stateName == ATTACK_STATE or self.stateName == POSITIONING_INNER_STATE or self.stateName == POSITIONING_OUTER_STATE then
-			aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
-			player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
-			self.insideInnerCircleRange = false
-		end
-
-		AI.ClearMap(enemies[i].lastPos,0)
 
 		if Network.GetNetworkHost() == true then
-			inState = DEAD_STATE
-			stateScript.changeToState(self, player, inState)
+			enemies[i].ChangeToState = function(self,inState)
+				stateScript.changeToState(self, player, inState)
+			end
+		else
+			enemies[i].ChangeToState = function(self,inState)
+				clientAIScript.setAIState(self, player, inState)
+			end
 		end
-		if self.type ~= ENEMY_DUMMY then
-			self.animationController:AnimationUpdate(0) -- play death animation
-		end
-	end
 
-	enemies[i].Apply = function(self, effect)
-		--if self.alive == true then
-			table.insert(self.effects, effect)
-			effect:Apply(self)
-		--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
+		enemies[i].Kill = function(self)
+			local pos = Transform.GetPosition(self.transformID)
+			--SphereCollider.SetActive(self.collider, false)
+			for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
+			for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
+
+			if self.stateName == LEAP_STATE or self.stateName == ATTACK_STATE or self.stateName == POSITIONING_INNER_STATE or self.stateName == POSITIONING_OUTER_STATE then
+				aiScript.enemyManager.actionEnemy = enemyManager.actionEnemy -1
+				player.nrOfInnerCircleEnemies = player.nrOfInnerCircleEnemies  -1
+				self.insideInnerCircleRange = false
+			end
+
+			AI.ClearMap(enemies[i].lastPos,0)
+
+			if Network.GetNetworkHost() == true then
+				inState = DEAD_STATE
+				stateScript.changeToState(self, self.playerTarget, inState)
+			end
+			if self.type ~= ENEMY_DUMMY then
+				self.animationController:AnimationUpdate(0) -- play death animation
+			end
+		end
+
+		enemies[i].Apply = function(self, effect)
+			--if self.alive == true then
+				table.insert(self.effects, effect)
+				effect:Apply(self)
+			--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
+			--end
+		end
+		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
+			self.health = health * LEVEL_ROUND
+			self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
+			self.visionRange = visionRange
+		end
+
+		enemies[i].Spawn = function(self,position)
+			self.alive = true
+			self.health = 20
+			self.position.x = position.x
+			self.position.y = position.y
+			self.position.z = position.z
+			Transform.ActiveControl(self.transformID,true)
+		end
+		
+		if Network.GetNetworkHost() == true then
+			enemies[i].SetState = function(self,inState)
+				stateScript.changeToState(self, self.playerTarget, inState)
+			end
+		else
+			enemies[i].SetState = function(self,inState)
+				clientAIScript.setAIState(self,  self.playerTarget, inState)
+			end
+		end
+
+		Transform.SetPosition(enemies[i].transformID, position)
+		enemies[i].collider = SphereCollider.Create(enemies[i].transformID)
+		enemies[i].collider:SetRadius(1)
+		CollisionHandler.AddSphere(enemies[i].collider)
+
+		if Network.GetNetworkHost() == true then
+			enemies[i].state =  stateScript.state.idleState
+			
+			if type == ENEMY_DUMMY then
+				stateScript.changeToState(enemies[i],  enemies[i].playerTarget, DUMMY_STATE)
+			else
+				stateScript.changeToState(enemies[i],  enemies[i].playerTarget, IDLE_STATE)
+			end
+		else
+			enemies[i].state = clientAIScript.clientAIState.idleState
+			
+			if type == ENEMY_DUMMY then
+				clientAIScript.setAIState(enemies[i],  enemies[i].playerTarget, DUMMY_STATE)
+			else
+				clientAIScript.setAIState(enemies[i],  enemies[i].playerTarget, IDLE_STATE)
+			end
+		end
+	else
+		-- reuse dead enemy
+		--print("reusing "..i)
+		--Gear.UnbindInstance(enemies[i].transformID)
+
+		enemies[i].timeScalar = 1.0
+		enemies[i].elementType = element or NEUTRAL
+		--enemies[i].transformID = Transform.Bind()
+		enemies[i].movementSpeed = 8--math.random(5,20)
+		enemies[i].maxHealth = 20
+		enemies[i].health = enemies[i].maxHealth
+		enemies[i].alive = true
+		enemies[i].attackCountdown = 0
+		enemies[i].aggro = false
+		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+
+		enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
+		enemies[i].currentHealth = enemies[i].health
+		enemies[i].hurtCountdown = 0
+
+		enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
+		enemies[i].damagedTintDuration = 0.3
+
+		enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+
+		enemies[i].visionRange = 100
+		enemies[i].subPathtarget = nil
+		enemies[i].pathTarget = nil
+
+		enemies[i].insideInnerCircleRange = false
+
+		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].maxActionCountDown = 3
+		enemies[i].actionCountDown = 3
+
+		enemies[i].range = 4
+		enemies[i].target = nil
+
+		enemies[i].tempVariable = 0
+
+		--enemies[i].modelName = ""
+		--if type == ENEMY_MELEE then
+		--	if enemies[i].elementType == NEUTRAL then
+		--		enemies[i].modelName = "Models/Fire_Goblin.model"
+		--	elseif enemies[i].elementType == FIRE then
+		--		enemies[i].modelName = "Models/Fire_Goblin.model"
+		--	elseif enemies[i].elementType == NATURE then
+		--		enemies[i].modelName = "Models/Grass_Goblin.model"
+		--	elseif enemies[i].elementType == ICE then
+		--		enemies[i].modelName = "Models/Ice_Goblin.model"
+		--	end
+		--elseif type== ENEMY_DUMMY then
+		--	enemies[i].modelName = "Models/Dummy.model"
+		--else
+		--	enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
 		--end
-	end
-	enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
-		print("i just goit acalled")
-		self.health = health * LEVEL_ROUND
-		self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
-		self.visionRange = visionRange
-	end
-
-	enemies[i].Spawn = function(self,position)
-		print("eyy i got spawnerd")
-		self.alive = true
-		self.health = 20
-		self.position.x = position.x
-		self.position.y = position.y
-		self.position.z = position.z
-		Transform.ActiveControl(self.transformID,true)
-	end
-	
-	if Network.GetNetworkHost() == true then
-		enemies[i].SetState = function(self,inState)
-			stateScript.changeToState(self, player, inState)
-		end
-	else
-		enemies[i].SetState = function(self,inState)
-			clientAIScript.setAIState(self, player, inState)
-		end
-	end
-
-	Transform.SetPosition(enemies[i].transformID, position)
-	enemies[i].sphereCollider = SphereCollider.Create(enemies[i].transformID)
-	enemies[i].sphereCollider:SetRadius(1)
-	CollisionHandler.AddSphere(enemies[i].sphereCollider)
-
-	if Network.GetNetworkHost() == true then
-		enemies[i].state =  stateScript.state.idleState
+		--
+		--local model = Assets.LoadModel(enemies[i].modelName)
+		--
+		--assert( model, "Failed to load model Models/Goblin.model" )
 		
-		if type == ENEMY_DUMMY then
-			stateScript.changeToState(enemies[i], player, DUMMY_STATE)
+		--if type ~= ENEMY_DUMMY then
+		--	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
+		--else
+		--	enemies[i].transformID = Gear.BindStaticInstance(model)
+		--end
+
+		Transform.SetPosition(enemies[i].transformID, position)
+		SphereCollider.SetActive(enemies[i].collider, true)
+
+		if Network.GetNetworkHost() == true then
+			enemies[i].state =  stateScript.state.idleState
+			
+			if type == ENEMY_DUMMY then
+				stateScript.changeToState(enemies[i], player, DUMMY_STATE)
+			else
+				stateScript.changeToState(enemies[i], player, IDLE_STATE)
+			end
 		else
-			stateScript.changeToState(enemies[i], player, IDLE_STATE)
-		end
-	else
-		enemies[i].state = clientAIScript.clientAIState.idleState
-		
-		if type == ENEMY_DUMMY then
-			clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
-		else
-			clientAIScript.setAIState(enemies[i], player, IDLE_STATE)
+			enemies[i].state = clientAIScript.clientAIState.idleState
+			
+			if type == ENEMY_DUMMY then
+				clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+			else
+				clientAIScript.setAIState(enemies[i], player, IDLE_STATE)
+			end
 		end
 	end
 
@@ -243,7 +345,6 @@ end
 
 function UnloadEnemies()
 	AI.Unload()
-
 	for i=1, #enemies do
 		if enemies[i].type ~= ENEMY_DUMMY then
 			DestroyEnemyController(enemies[i].animationController)
@@ -257,16 +358,13 @@ end
 
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
-	SphereCollider.SetActive(enemy.sphereCollider, false)
-
-	enemy.alive = false
+	if enemy.type ~= ENEMY_DUMMY then enemy.alive = false end
+	--print("destroying "..enemy.transformID)
 end
 function UpdateEnemies(dt)
-
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
-
 	for i = 1, #enemies do
 		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
 		if enemies[i].damagedTint.a > 0 then
@@ -321,7 +419,9 @@ function UpdateEnemies(dt)
 			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
-				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+				if enemies[i].playerTarget ~= nil then
+					aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+				end
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
 				
@@ -424,7 +524,7 @@ function UpdateEnemies(dt)
 	
 		while newAIStateValue == true do
 			for i=1, #enemies do
-				if enemies[i].transformID == aiState_transformID then
+				if enemies[i].transformID == aiState_transformID and enemies[i].playerTarget ~= nil then
 					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
@@ -505,30 +605,35 @@ function UpdateEnemies(dt)
 
 
 		for i=1, #enemies do
-			pos = Transform.GetPosition(enemies[i].transformID)
-			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
-			tempdt = dt * enemies[i].timeScalar
 
-			if enemies[i].currentHealth > enemies[i].health then
-				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
-				if enemies[i].currentHealth < 0 then
-					enemies[i].currentHealth = 0;
-				end
-			end
+				pos = Transform.GetPosition(enemies[i].transformID)
+				UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 
-			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
-			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
-				
-			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
-				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
-			end
-			for j = #enemies[i].effects, 1, -1 do 
-				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
-					enemies[i].effects[j]:Deapply(enemies[i])
-					table.remove(enemies[i].effects, j)
+				tempdt = dt * enemies[i].timeScalar
+
+				if enemies[i].currentHealth > enemies[i].health then
+					enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+					if enemies[i].currentHealth < 0 then
+						enemies[i].currentHealth = 0;
+					end
 				end
-			end
+				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+
+				if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE and enemies[i].animationController then
+					enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+					if enemies[i].playerTarget ~= nil then
+						enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
+					end
+				end
+
+				for j = #enemies[i].effects, 1, -1 do 
+					if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+						enemies[i].effects[j]:Deapply(enemies[i])
+						table.remove(enemies[i].effects, j)
+					end
+				end
+			
 		end
 	end
 end

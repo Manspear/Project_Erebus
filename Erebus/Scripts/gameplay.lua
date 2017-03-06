@@ -145,7 +145,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/level01.lua" )
+		dofile( "Scripts/OskarTutorialTest.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
@@ -155,6 +155,8 @@ function EnterGameplay()
 		--levels[1].load()
 		loadedGameplay = true
 	end
+	LEVEL_ROUND = 1
+	Sky.SetTime(8)
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()

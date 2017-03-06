@@ -267,8 +267,10 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 			changeToState(enemy,enemy.playerTarget,inState)
 		end
 	else
-
-		local pos = enemy.pos
+		if enemy.actionCountDown <0 then
+			inState = POSITIONING_INNER_STATE
+			changeToState(enemy,enemy.playerTarget,inState)
+		end
 		local direction = AI.NormalizeDir(enemy.transformID, enemy.playerTarget.position)
 		
 		--Transform.SetLookAt(enemy.transformID,direction)
@@ -401,7 +403,6 @@ function state.deadState.update(enemy,player,dt)
 		Transform.SetPosition(enemy.transformID,pos)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
-		SphereCollider.SetActive(enemy.sphereCollider, false)
 		enemy.alive = false
 	end
 end

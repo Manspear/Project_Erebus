@@ -201,6 +201,7 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 	TextureBlendings tBlend;
 	gearEngine->textureBlend.push_back(tBlend);
 	gearEngine->textureBlend.at(gearEngine->textureBlend.size()-1).modelIndex = modelIndex;
+	gearEngine->textureBlend.at(gearEngine->textureBlend.size() - 1).active = false;
 
 	int transformIndex = instances[INSTANCE_BLENDING]->at(modelIndex).pushStaticInstance( DEFAULT_TRANSFORM, glm::mat4() );
 
@@ -263,6 +264,7 @@ void TransformHandler::deactivateTransform( int index )
 	if( handle.active )
 	{
 		instances[handle.instanceIndex]->at(handle.modelIndex).setActive(handle.transformIndex,false);
+		instances[handle.instanceIndex]->at(handle.modelIndex).setWorldMatrix( handle.transformIndex, glm::mat4() );
 		//instances[handle.instanceIndex]->at(handle.modelIndex).decrActiveTransforms();
 		handle.active = false;
 	}
