@@ -85,6 +85,7 @@ namespace LuaGear
 			{ "UpdateShaderMatrices", assembleAnimationsIntoShadermatrices },
 			{ "SetTransitionTimes", setTransitionTimes },
 			{ "SetAnimationSegments", setAnimationSegments },
+			{ "SetAnimationModel", setAnimationModel },
 			{ "QuickBlend", quickBlend },
 			{ "SetSegmentState", setSegmentState },
 			{ "SetQuickBlend", setQuickBlend },
@@ -404,6 +405,19 @@ namespace LuaGear
 		animation->setAnimationSegments(numberOfSegments);
 
 		return 1;
+	}
+
+	int setAnimationModel(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+
+		ModelAsset* model = (ModelAsset*)lua_touserdata(lua, 1);
+		lua_getfield(lua, 2, "__self");
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		animation->setAsset(model);
+
+		return 0;
 	}
 
 	int assembleAnimationsIntoShadermatrices(lua_State * lua)

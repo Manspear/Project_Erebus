@@ -19,6 +19,7 @@
 #define RESSURECTION_PACKET 14
 #define AI_DAMAGE_TEXT_PACKET 15
 #define BOSS_DAMAGE_TEXT_PACKET 16
+#define BOSS_HEALTH_PACKET 17
 
 
 // Only used when DEBUGGING_NETWORK in NetworkDefines == 1
