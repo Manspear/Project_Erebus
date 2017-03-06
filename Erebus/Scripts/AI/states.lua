@@ -394,15 +394,16 @@ end
 
 function state.deadState.update(enemy,player,dt)	
 	enemy.actionCountDown= enemy.actionCountDown - dt	
-	local pos = Transform.GetPosition(enemy.transformID)
+	
 
 	if enemy.actionCountDown > 0 then		
-		pos.x = pos.x + math.random(-3,3) * dt
-		pos.y = pos.y - 0.6 * dt
-		pos.z = pos.z + math.random(-3,3)  * dt
-		Transform.SetPosition(enemy.transformID,pos)
+		enemy.pos.x = enemy.pos.x + math.random(-3,3) * dt
+		enemy.pos.y = enemy.pos.y - 0.6 * dt
+		enemy.pos.z = enemy.pos.z + math.random(-3,3)  * dt
+		--Transform.SetPosition(enemy.transformID,pos)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
+		SphereCollider.SetActive(enemy.collider, false)
 		enemy.alive = false
 	end
 end

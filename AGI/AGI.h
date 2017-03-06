@@ -174,7 +174,7 @@ namespace AGI
 					if (dynamicInfluenceMap[w][h] != nullptr)
 					{
 
-						int stupid = 6;
+						int stupid = 1;
 
 					/*	for (int n = 0; n < 8; n++)
 						{*/
@@ -513,7 +513,7 @@ namespace AGI
 			w = ((float)x) / (resolution);
 			h = ((float)y) / (resolution);
 
-			Collisions::SphereCollider temp(glm::vec3(w, centerHeight,h), 0.6f);
+			Collisions::SphereCollider temp(glm::vec3(w, centerHeight,h), 1.4f);
 			return !collisionHandler->checkCollisionsBetweenHitboxAndLayer(&temp, 3);
 		}
 
