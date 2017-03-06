@@ -389,7 +389,7 @@ function UpdatePlayer(dt)
 			Controls(dt)
 		end
 	else
-		Transform.CopyTransform(player2.transformID, player.dummyTrans.transformID)
+		Transform.CopyPosition(player2.transformID, player.dummyTrans.transformID)
 	end
 
 	-- check collision against triggers and call their designated function
