@@ -388,6 +388,8 @@ function UpdatePlayer(dt)
 		if not console.visible then
 			Controls(dt)
 		end
+	else
+		Transform.CopyTransform(player2.transformID, player.dummyTrans.transformID)
 	end
 
 	-- check collision against triggers and call their designated function
