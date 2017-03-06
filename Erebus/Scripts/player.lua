@@ -338,6 +338,7 @@ function UpdatePlayer(dt)
 		end
 		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
+			
 		end
 		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false, 0, 0, 0)
@@ -454,6 +455,10 @@ function Controls(dt)
 		end
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			
+			local pos = player.position
+			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
+
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -549,6 +554,7 @@ function Controls(dt)
 							player.spamCasting = true
 							player.useRayAttack = true
 					
+							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 							player.spells[player.currentSpell]:Cast(player)	
 						end
 					end
@@ -606,7 +612,6 @@ function Controls(dt)
 				else
 					player.useRayAttack = true
 				end
-				player.spells[player.currentSpell]:ChargeCast(player)
 				if player.charging == true then
 					player.spellDirection = Camera.GetDirection()
 					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)		
@@ -615,6 +620,7 @@ function Controls(dt)
 					player.isCombined = false
 					player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 				end
+				player.spells[player.currentSpell]:ChargeCast(player)
 			end
 		end
 

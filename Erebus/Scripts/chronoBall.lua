@@ -40,7 +40,7 @@ function CreateChronoBall(entity)
 			--self.particles.update(self.type.position.x, self.type.position.y, self.type.position.z, anglex, 0, anglez)
 
 			for index = 1, #hits do
-				if not hits[index].invulnerable then
+				if not hits[index].invulnerable and hits[index].isAlive then
 					if not self.hitflag then
 						local effect = effectTable[self.effect]()
 						hits[index]:Apply(effect)

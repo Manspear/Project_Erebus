@@ -25,6 +25,7 @@ PacketFilter::PacketFilter()
 	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
 	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
 	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
+	this->bossHealthQueue = new PacketQueue<HealthPacket>(30);
 }
 
 PacketFilter::~PacketFilter()
@@ -114,6 +115,11 @@ PacketFilter::~PacketFilter()
 		delete this->bossDamageTextQueue;
 		this->bossDamageTextQueue = 0;
 	}
+	if (this->bossHealthQueue)
+	{
+		delete this->bossHealthQueue;
+		this->bossHealthQueue = 0;
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -184,6 +190,9 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 					break;
 				case BOSS_DAMAGE_TEXT_PACKET:
 					this->bossDamageTextQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of bossDamageTextPacket data to the correct queue
+					break;
+				case BOSS_HEALTH_PACKET:
+					this->bossHealthQueue->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes); // Add x bytes of bossHealthPacket data to the correct queue
 					break;
 
 #ifdef DEBUGGING_NETWORK
@@ -306,4 +315,9 @@ PacketQueue<DamagePacket> * PacketFilter::getAIDamageTextQueue()
 PacketQueue<DamagePacket> * PacketFilter::getBossDamageTextQueue()
 {
 	return this->bossDamageTextQueue;
+}
+
+PacketQueue<HealthPacket> * PacketFilter::getBossHealthQueue()
+{
+	return this->bossHealthQueue;
 }

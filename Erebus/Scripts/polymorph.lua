@@ -86,7 +86,7 @@ function CreatePolymorph(entity)
 				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					enemies[curEnemy]:Hurt(self.damage, self.owner, self.element)
 					for stuff = 1, #self.effects do
-						local effect = effectTable[self.effects[stuff]](self.chargedTime)
+						local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
 						enemies[curEnemy]:Apply(effect)
 					end
 					self:Kill()

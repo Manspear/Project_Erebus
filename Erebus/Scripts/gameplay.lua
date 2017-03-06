@@ -112,6 +112,7 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
+	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
 	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
