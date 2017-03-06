@@ -337,6 +337,7 @@ function UpdatePlayer(dt)
 		end
 		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
+			
 		end
 		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false, 0, 0, 0)
@@ -449,6 +450,10 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			
+			local pos = player.position
+			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
+
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
