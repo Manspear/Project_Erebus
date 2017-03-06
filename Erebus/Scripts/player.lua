@@ -448,8 +448,11 @@ function Controls(dt)
 			Sky.Override(true)
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
-			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
 			SendCombine(player.spells[player.currentSpell])
+		end
+
+		if Inputs.KeyDown("O") then
+			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
 			levels[8].load()
 			player:ChangeHeightmap(8)
 		end
