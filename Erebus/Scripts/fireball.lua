@@ -136,8 +136,8 @@ function CreateFireball(entity)
 			self:EngageExplode()
 		end
 		if self.cooldown < 0.0 and MIN_CHARGETIME_FIREBALL < self.chargedTime and not self.bigBallActive then
-			camera.toFollow = self
-			if self.owner == player then	
+			if self.owner == player then
+				camera.toFollow = self
 				ZoomOutCamera()	
 			end
 			self.lifeTime = FIREBALL_LIFETIME
@@ -211,7 +211,9 @@ function CreateFireball(entity)
 
 	function spell:Exploding(dt)
 		self.explodeTime = self.explodeTime - dt
-		camera.toFollow = self.owner
+		if self.owner == player then
+			camera.toFollow = self.owner
+		end
 		if self.explodeTime < 0 then 
 			self:Kill() 
 			return
