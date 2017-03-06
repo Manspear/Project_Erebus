@@ -44,6 +44,8 @@ namespace LuaNetwork
 			{ "GetAIDamageTextPacket", getAIDamageTextPacket },
 			{ "SendBossDamageTextPacket", sendBossDamageTextPacket },
 			{ "GetBossDamageTextPacket", getBossDamageTextPacket },
+			{ "SendBossHealthPacket", sendBossHealthPacket },
+			{ "GetBossHealthPacket", getBossHealthPacket },
 			{ "GetRessurectionPacket", getRessurectionPacket },
 			{ "GetNetworkHost", getNetworkHost },
 			{ "ShouldSendNewTransform", shouldSendNewTransform },
@@ -677,6 +679,35 @@ namespace LuaNetwork
 		return 4;
 	}
 
+	int sendBossHealthPacket(lua_State* lua)
+	{
+		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		g_networkController->sendBossHealthPacket(HealthPacket(transformID, health));
+
+		return 0;
+	}
+
+	int getBossHealthPacket(lua_State* lua)
+	{
+		HealthPacket bossHealthPacket;
+
+		if (g_networkController->fetchBossHealthPacket(bossHealthPacket))
+		{
+			lua_pushboolean(lua, true);
+			lua_pushnumber(lua, bossHealthPacket.data.transformID);
+			lua_pushnumber(lua, bossHealthPacket.data.health);
+		}
+		else
+		{
+			lua_pushboolean(lua, false);
+			lua_pushnumber(lua, 0);
+			lua_pushnumber(lua, 0);
+		}
+
+		return 3;
+	}
 
 	int getNetworkHost(lua_State* lua)
 	{
