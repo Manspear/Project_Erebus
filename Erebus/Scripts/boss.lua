@@ -162,6 +162,9 @@ function UpdateBoss(dt)
 				boss:Hurt(bossHealth, player, elementID) 
 			else
 				boss.health = bossHealth
+				if boss.health <= 0 then
+					boss.Kill()
+				end
 			end
 		end
 
