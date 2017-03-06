@@ -318,6 +318,16 @@ bool NetworkController::fetchBossDamageTextPacket(DamagePacket& packet)
 	return network.fetchBossDamageTextPacket(packet);
 }
 
+void NetworkController::sendBossHealthPacket(const HealthPacket& packet)
+{
+	network.pushBossHealthPacket(packet);
+}
+
+bool NetworkController::fetchBossHealthPacket(HealthPacket& packet)
+{
+	return network.fetchBossHealthPacket(packet);
+}
+
 double NetworkController::timeSinceLastTransformPacket()
 {
 	return (counter.getCurrentTime() - transformpackTime);

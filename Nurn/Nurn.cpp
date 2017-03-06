@@ -351,6 +351,17 @@ namespace Nurn
 	{
 		return this->packetFilter->getBossDamageTextQueue()->pop(packet);
 	}
+
+	void NurnEngine::pushBossHealthPacket(const HealthPacket& packet)
+	{
+		this->packager->pushBossHealthPacket(packet);
+	}
+	
+	bool NurnEngine::fetchBossHealthPacket(HealthPacket& packet)
+	{
+		return this->packetFilter->getBossHealthQueue()->pop(packet);
+	}
+
 	
 #ifdef DEBUGGING_NETWORK
 	float NurnEngine::getPing()
