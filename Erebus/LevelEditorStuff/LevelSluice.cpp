@@ -107,7 +107,7 @@ void TW_CALL onGenCombineTrigger(void* args)
 
 		std::string onEnterString = "";
 		std::string onExitString = "function(self) hideCombinationImage() end";
-		std::string onTriggeringString = "function(dt) TutorialBarrier("+ combineFullName + "ID, dt) end";
+		std::string onTriggeringString = "function(self, dt) TutorialBarrier("+ combineFullName + "ID, dt) end";
 
 		colRef->setOnEnterString(onEnterString);
 		colRef->setOnExitString(onExitString);
