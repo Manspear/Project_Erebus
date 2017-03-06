@@ -264,6 +264,7 @@ void TransformHandler::deactivateTransform( int index )
 	if( handle.active )
 	{
 		instances[handle.instanceIndex]->at(handle.modelIndex).setActive(handle.transformIndex,false);
+		instances[handle.instanceIndex]->at(handle.modelIndex).setWorldMatrix( handle.transformIndex, glm::mat4() );
 		//instances[handle.instanceIndex]->at(handle.modelIndex).decrActiveTransforms();
 		handle.active = false;
 	}

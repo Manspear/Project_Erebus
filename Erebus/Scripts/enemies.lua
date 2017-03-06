@@ -41,14 +41,12 @@ function CreateEnemy(type, position, element)
 
 	local i = -1
 	for ii = 1, #enemies do
-		if enemies[ii].reuse
-		--and enemies[ii].type == type 
-		then
+		if enemies[ii].reuse then
 			i = ii
 			break
 		end
 	end
-	print("i"..i.." type"..type.." elem"..(element or NEUTRAL))
+	--print("i"..i.." type"..type.." elem"..(element or NEUTRAL))
 	if i == -1 then
 		-- create new enemy
 		i = #enemies+1
@@ -173,7 +171,7 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].Kill = function(self)
 			local pos = Transform.GetPosition(self.transformID)
-			SphereCollider.SetActive(self.collider, false)
+			--SphereCollider.SetActive(self.collider, false)
 			for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 			for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
 
@@ -187,7 +185,7 @@ function CreateEnemy(type, position, element)
 
 			if Network.GetNetworkHost() == true then
 				inState = DEAD_STATE
-				stateScript.changeToState(self, player, inState)
+				stateScript.changeToState(self, self.playerTarget, inState)
 			end
 			if self.type ~= ENEMY_DUMMY then
 				self.animationController:AnimationUpdate(0) -- play death animation
@@ -218,11 +216,11 @@ function CreateEnemy(type, position, element)
 		
 		if Network.GetNetworkHost() == true then
 			enemies[i].SetState = function(self,inState)
-				stateScript.changeToState(self, player, inState)
+				stateScript.changeToState(self, self.playerTarget, inState)
 			end
 		else
 			enemies[i].SetState = function(self,inState)
-				clientAIScript.setAIState(self, player, inState)
+				clientAIScript.setAIState(self,  self.playerTarget, inState)
 			end
 		end
 
@@ -235,17 +233,17 @@ function CreateEnemy(type, position, element)
 			enemies[i].state =  stateScript.state.idleState
 			
 			if type == ENEMY_DUMMY then
-				stateScript.changeToState(enemies[i], player, DUMMY_STATE)
+				stateScript.changeToState(enemies[i],  enemies[i].playerTarget, DUMMY_STATE)
 			else
-				stateScript.changeToState(enemies[i], player, IDLE_STATE)
+				stateScript.changeToState(enemies[i],  enemies[i].playerTarget, IDLE_STATE)
 			end
 		else
 			enemies[i].state = clientAIScript.clientAIState.idleState
 			
 			if type == ENEMY_DUMMY then
-				clientAIScript.setAIState(enemies[i], player, DUMMY_STATE)
+				clientAIScript.setAIState(enemies[i],  enemies[i].playerTarget, DUMMY_STATE)
 			else
-				clientAIScript.setAIState(enemies[i], player, IDLE_STATE)
+				clientAIScript.setAIState(enemies[i],  enemies[i].playerTarget, IDLE_STATE)
 			end
 		end
 
@@ -289,8 +287,6 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].range = 4
 		enemies[i].target = nil
-
-		enemies[i].playerTarget = player
 
 		enemies[i].tempVariable = 0
 
@@ -377,7 +373,6 @@ function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
 	--AI.DrawDebug()
 	--end
-
 	for i = 1, #enemies do
 		if enemies[i].damagedTint.a > 0 then
 			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
@@ -431,7 +426,9 @@ function UpdateEnemies(dt)
 			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
 				--Transform.Follow(player.transformID, enemies[i].transformID, enemies[i].movementSpeed, dt)
 				--AI.AddIP(enemies[i].transformID,-1)
-				aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+				if enemies[i].playerTarget ~= nil then
+					aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
+				end
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
 				local pos = Transform.GetPosition(enemies[i].transformID)
@@ -534,7 +531,7 @@ function UpdateEnemies(dt)
 	
 		while newAIStateValue == true do
 			for i=1, #enemies do
-				if enemies[i].transformID == aiState_transformID then
+				if enemies[i].transformID == aiState_transformID and enemies[i].playerTarget ~= nil then
 					clientAIScript.setAIState(enemies[i], enemies[i].playerTarget, aiState)
 					break
 				end
@@ -615,30 +612,35 @@ function UpdateEnemies(dt)
 
 
 		for i=1, #enemies do
-			pos = Transform.GetPosition(enemies[i].transformID)
-			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
-			tempdt = dt * enemies[i].timeScalar
 
-			if enemies[i].currentHealth > enemies[i].health then
-				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
-				if enemies[i].currentHealth < 0 then
-					enemies[i].currentHealth = 0;
-				end
-			end
+				pos = Transform.GetPosition(enemies[i].transformID)
+				UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 
-			a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
-			UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
-				
-			if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE then
-				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
-			end
-			for j = #enemies[i].effects, 1, -1 do 
-				if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
-					enemies[i].effects[j]:Deapply(enemies[i])
-					table.remove(enemies[i].effects, j)
+				tempdt = dt * enemies[i].timeScalar
+
+				if enemies[i].currentHealth > enemies[i].health then
+					enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
+					if enemies[i].currentHealth < 0 then
+						enemies[i].currentHealth = 0;
+					end
 				end
-			end
+				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
+				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
+
+				if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE and enemies[i].animationController then
+					enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+					if enemies[i].playerTarget ~= nil then
+						enemies[i].state.update(enemies[i], enemies[i].playerTarget, dt)
+					end
+				end
+
+				for j = #enemies[i].effects, 1, -1 do 
+					if not enemies[i].effects[j]:Update(enemies[i], tempdt) then
+						enemies[i].effects[j]:Deapply(enemies[i])
+						table.remove(enemies[i].effects, j)
+					end
+				end
+			
 		end
 	end
 end
