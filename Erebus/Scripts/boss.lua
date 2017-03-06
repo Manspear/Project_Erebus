@@ -64,7 +64,7 @@ function LoadBoss()
 	function boss:Kill()
 		if boss.alive then
 			boss.alive = false
-			Rewind()
+			--Rewind()
 		end
 	end
 	function boss:Apply(effect)
