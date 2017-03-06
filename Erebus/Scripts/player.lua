@@ -391,7 +391,6 @@ function UpdatePlayer(dt)
 	else
 		Transform.CopyPosition(player2.transformID, player.dummyTrans.transformID)
 	end
-
 	-- check collision against triggers and call their designated function
 	TriggerChecks(dt)
 	EnemyCollisionChecks()		
