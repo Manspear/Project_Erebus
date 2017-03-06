@@ -164,9 +164,6 @@ function CreateSiphon(entity)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
 		self.uvPush.y = self.uvPush.y - dt
-		--local rot = Transform.GetRotation(self.transformID)
-		--rot.x = rot.x +dt/2
-		--Transform.SetRotation(self.transformID, rot)
 		if self.spamming and not self.chained then
 			self:rotatetoowner()
 			self.spamduration = self.spamduration - dt
@@ -192,7 +189,6 @@ function CreateSiphon(entity)
 			end
 			if self.spamduration < 0 then
 				self.spamming = false
-				print("siphon deaded")
 				Transform.ActiveControl(self.transformID, false)
 				if self.isActiveSpell and self.owner == player then
 					ZoomOutCamera()
