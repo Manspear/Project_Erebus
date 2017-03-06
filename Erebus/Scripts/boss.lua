@@ -15,6 +15,15 @@ TIMEORBWAVE_INDEX = 1
 CHRONOBALL_INDEX = 2
 TIMELASER_INDEX = 3
 
+BOSS_AGGRO_WINDUP = 0.83
+bossAggroWindupDone = false
+BOSS_AGGRO_FLYUP = 0.66
+bossAggroFlyupDone = false
+BOSS_AGGRO_FLYDOWN = 1.66
+bossAggroFlyDownDone = false
+BOSS_AGGRO_TIMEONGROUND = 2.08
+bossAggroTimeOnGroundDone = false
+
 BOSS_DEAD = false
 
 TIMETABLE = {}
@@ -65,6 +74,7 @@ function LoadBoss()
 	boss.firstTimeLoad = true
 
 	boss.position = {}
+	boss.aggroAnimationTimer = 0
 
 	Transform.ActiveControl(boss.transformID, true)
 	
@@ -105,6 +115,14 @@ function LoadBoss()
 		if boss.alive then
 			boss.alive = false
 			boss.combatStarted = false
+
+			--bossAggroWindupDone = true
+			--bossAggroFlyupDone = false
+			--bossAggroFlyDownDone = false
+			--bossAggroTimeOnGroundDone = false
+
+			--boss.firstTimeLoad = true
+
 			Rewind()
 		end
 	end
@@ -162,12 +180,47 @@ function UpdateBoss(dt)
 		if boss.firstTimeLoad then 
 			local hm = GetHeightmap({x=321.2,y=0,z=435.7})
 			if hm then
-				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+5, z=435.7 })
+				--                                                                                was +5
+				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
 				boss.firstTimeLoad = false
 			end
 		end
 
 		if boss.combatStarted then 
+			--if boss just entered combat, do the jump-thing
+			boss.position = Transform.GetPosition(boss.transformID)
+			
+			if bossAggroWindupDone == false then
+				boss.aggroAnimationTimer = boss.aggroAnimationTimer + dt
+				if boss.aggroAnimationTimer >= BOSS_AGGRO_WINDUP then 
+					bossAggroWindupDone = true
+					boss.aggroAnimationTimer = 0
+				end
+			elseif bossAggroFlyupDone == false then 
+				boss.position.y = boss.position.y + 39 * dt
+				boss.aggroAnimationTimer = boss.aggroAnimationTimer + dt
+				if boss.aggroAnimationTimer >= BOSS_AGGRO_FLYUP then 
+					bossAggroFlyupDone = true
+					boss.aggroAnimationTimer = 0
+				end
+			elseif bossAggroFlyDownDone == false then
+				boss.position.y = boss.position.y + -5 * dt
+				boss.aggroAnimationTimer = boss.aggroAnimationTimer + dt
+				if boss.aggroAnimationTimer >= BOSS_AGGRO_FLYDOWN then 
+					bossAggroFlyDownDone = true
+					boss.aggroAnimationTimer = 0
+				end
+			elseif bossAggroTimeOnGroundDone == false then
+				boss.aggroAnimationTimer = boss.aggroAnimationTimer + dt
+				if boss.aggroAnimationTimer >= BOSS_AGGRO_FLYDOWN then 
+					bossAggroFlyDownDone = true
+					boss.aggroAnimationTimer = 0
+				end
+			end
+			
+			Transform.SetPosition(boss.transformID, { x = boss.position.x, y = boss.position.y , z = boss.position.z })
+
+
 			pos = Transform.GetPosition(boss.transformID)
 			UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
 			if boss.currentHealth > boss.health then
