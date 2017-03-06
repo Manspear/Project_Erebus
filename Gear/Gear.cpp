@@ -350,17 +350,13 @@ namespace Gear
 		skybox->update(camera);
 		skybox->draw();
 
-		queue.particlePass(particleSystem, particleEmitters);
-		
-		queue.textureBlendingPass(&textureBlend, blendModels);
-
-		queue.forwardPass(forwardModels, &uniValues);
-
 		floatingDamage->draw(camera);
 
 		worldImage.update(camera);
 		worldImage.draw();
-
+		queue.particlePass(particleSystem, particleEmitters);		
+		queue.forwardPass(forwardModels, &uniValues);
+		queue.textureBlendingPass(&textureBlend, blendModels);
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		
