@@ -203,7 +203,7 @@ void CascadedShadowMap::blur()
 	//drawQuad();
 	//quadShader->unUse();
 
-	//Horizontal Blur
+	//Vertical Blur
 	blurShader->use();
 
 	glActiveTexture(GL_TEXTURE0);
@@ -211,17 +211,15 @@ void CascadedShadowMap::blur()
 
 	glBindFramebuffer(GL_FRAMEBUFFER, blurHorizontalFramebufferID);
 	bindTexture(blurShader, "filterTexture", 0, 0);
-	//glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
-	glm::vec3 blurScale = glm::vec3(0, 1.0 / (0.9f * (height)), 0);
-	//glm::vec3 blurScale = glm::vec3(1.0 / (0.9f * width), 0, 0);
+	glm::vec3 blurScale = glm::vec3(0, 1.0 / (2.5f * (height)), 0);
 	blurShader->setUniform(blurScale, "blurScale");
 	drawQuad();
 
-	//Vertical Blur
-	//glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
+	//Horizontal Blur
 	glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
 	bind(0);
-	blurScale = glm::vec3(1.0 / (0.9f * width), 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	blurScale = glm::vec3(1.0 / (2.5f * width), 0, 0);
 	blurShader->setUniform(blurScale, "blurScale");
 	drawQuad();
 
@@ -230,10 +228,10 @@ void CascadedShadowMap::blur()
 	////Upsample
 	//quadShader->use();
 	//bind(0);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glActiveTexture(GL_TEXTURE0);
 	//glUniform1i(uniformQuad, 0);
-	//glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
-
+	//glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
 	//drawQuad();
 	//quadShader->unUse();
 }
