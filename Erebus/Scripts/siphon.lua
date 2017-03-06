@@ -164,15 +164,17 @@ function CreateSiphon(entity)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
 		self.uvPush.y = self.uvPush.y - dt
-		Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
-		local rot = Transform.GetRotation(self.transformID)
-		rot.x = rot.x +dt/2
-		Transform.SetRotation(self.transformID, rot)
+		--local rot = Transform.GetRotation(self.transformID)
+		--rot.x = rot.x +dt/2
+		--Transform.SetRotation(self.transformID, rot)
 		if self.spamming and not self.chained then
+			self:rotatetoowner()
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt
 			hit = self:getcollisions()
 			if hit then
+				Transform.ActiveControl(self.transformID, true)
+				Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 				if self.interval < 0 then
 					hit:Hurt(self.damage, self.owner, self.element)
 					if(self.owner.health < 100) then
@@ -181,7 +183,6 @@ function CreateSiphon(entity)
 					elseif (self.owner.health > 100) then
 						self.owner.health = 100
 					end
-					Transform.ActiveControl(self.transformID, true)
 					self.interval = SIPHON_DAMAGE_INTERVAL
 				end
 				self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, hit.transformID)
@@ -191,6 +192,7 @@ function CreateSiphon(entity)
 			end
 			if self.spamduration < 0 then
 				self.spamming = false
+				print("siphon deaded")
 				Transform.ActiveControl(self.transformID, false)
 				if self.isActiveSpell and self.owner == player then
 					ZoomOutCamera()
@@ -202,6 +204,7 @@ function CreateSiphon(entity)
 			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)	
 			self.duration = self.duration - dt
 			self.chaininterval = self.chaininterval - dt
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 			if self.chaininterval < 0 then
 				local collisionIDs = self.collider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
@@ -237,8 +240,6 @@ function CreateSiphon(entity)
 					table.remove(self.effects)
 				end
 			end
-		else
-			self:rotatetoowner()
 		end
 	end
 	function spell:Kill()
