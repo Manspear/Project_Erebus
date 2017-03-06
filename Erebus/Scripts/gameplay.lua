@@ -59,6 +59,21 @@ function LoadGameplay()
 	end
 end
 
+function CreateIM()
+		for i = 1, 8 do
+			levels[i].load()
+			loadedLevels[i] = true
+		end
+
+		AI.CreateIM()--,#heightmaps,widthTest,heightTest)
+
+		for i = 1, 8 do
+			levels[i].unload()
+			loadedLevels[i] = false
+		end
+		loadedLevels = {}
+end
+
 function UnloadGameplay()
 	print("unloading gameplay")
 	if loadedGameplay then
@@ -145,7 +160,14 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/OskarTutorialTest.lua" )
+		dofile( "Scripts/Adam_test.lua" )
+
+		CreateIM()
+
+		--for i = 1, 7 do
+		--	levels[1].unload()
+		--end
+
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
@@ -153,6 +175,7 @@ function EnterGameplay()
 			loadedLevels[v] = true
 		end
 		--levels[1].load()
+		
 		loadedGameplay = true
 	end
 	LEVEL_ROUND = 1
