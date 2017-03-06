@@ -25,8 +25,10 @@ function LoadBoss()
 	boss.spells[3] = CreateTimeLaser(boss)
 	boss.spellinfo[3] = {cd = 0, interval = {60,80}}
 	--boss.transformID = Transform.Bind()
-	local model = Assets.LoadModel( "Models/THe_Timelord.model" )
-	boss.transformID = Gear.BindStaticInstance(model)
+
+	boss.animationController = CreateBossController(boss)
+	local model = Assets.LoadModel( "Models/The_Timelord.model" )
+	boss.transformID = Gear.BindAnimatedInstance(model, boss.animationController.animation)
 	boss.maxHealth = 500
 	boss.health = boss.maxHealth
 	boss.alive = true
@@ -87,6 +89,8 @@ function UnloadBoss()
 end
 
 function UpdateBoss(dt)
+	boss.animationController:AnimationUpdate(dt, Network)
+
 	if boss.alive then
 		dt = dt * boss.timeScalar
 		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
