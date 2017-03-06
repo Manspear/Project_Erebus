@@ -112,7 +112,7 @@ function clientAIState.deadState.update(enemy, playerTarget, dt)
 		Transform.SetPosition(enemy.transformID,pos)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
-		SphereCollider.SetActive(enemy.sphereCollider, false)
+		enemy.alive = false
 	end
 end
 

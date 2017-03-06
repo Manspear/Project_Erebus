@@ -13,7 +13,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	RayCollider::RayCollider(glm::vec3 position, glm::vec3 direction) : HitBox()
+	RayCollider::RayCollider(const glm::vec3 & position, const glm::vec3 & direction) : HitBox()
 	{
 		this->position = position;
 		this->direction = glm::normalize(direction);
@@ -23,7 +23,7 @@ namespace Collisions
 		this->typeFlag = FLAG;
 	}
 
-	RayCollider::RayCollider(int IDTransform, glm::vec3 direction) : HitBox(IDTransform)
+	RayCollider::RayCollider(const int & IDTransform, const glm::vec3 & direction) : HitBox(IDTransform)
 	{
 		this->position = glm::vec3(0, 0, 0);
 		this->direction = direction;
@@ -38,17 +38,17 @@ namespace Collisions
 	{
 	}
 
-	void RayCollider::setPosition(glm::vec3 position)
+	void RayCollider::setPosition(const glm::vec3 & position)
 	{
 		this->position = position;
 	}
 
-	void RayCollider::setDirection(glm::vec3 direction)
+	void RayCollider::setDirection(const glm::vec3 & direction)
 	{
 		this->direction = glm::normalize(direction);
 	}
 
-	void RayCollider::hit(glm::vec3 intersectionPoint, float hitDistance)
+	void RayCollider::hit(const glm::vec3 & intersectionPoint, const float & hitDistance)
 	{
 		this->colliding = true;
 		this->intersectionPoint = intersectionPoint;
@@ -102,12 +102,12 @@ namespace Collisions
 		return &this->IDCollisions;
 	}
 
-	void RayCollider::setIDTransform(unsigned int ID)
+	void RayCollider::setIDTransform(const unsigned int & ID)
 	{
 		this->IDTransform = ID;
 	}
 
-	void RayCollider::setID(unsigned int ID)
+	void RayCollider::setID(const unsigned int & ID)
 	{
 		this->ID = ID;
 	}

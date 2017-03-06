@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\Threading</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include;$(SolutionDir)\Gear;$(SolutionDir)\Importer;$(SolutionDir)\Threading;$(SolutionDir)Collisions</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -104,7 +104,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)\Threading;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(SolutionDir)Gear;$(SolutionDir)Importer;$(SolutionDir)\Threading;$(SolutionDir)Collisions;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -118,6 +118,9 @@
     <ClInclude Include="RadiusInfluenceNode.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Collisions\Collisions.vcxproj">
+      <Project>{3bfda7b1-8a9d-43a7-ab0b-8cfed790145e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Gear\Gear.vcxproj">
       <Project>{7ae8f691-75c9-447c-ae7b-63364e8daa79}</Project>
     </ProjectReference>

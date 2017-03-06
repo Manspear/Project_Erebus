@@ -1,9 +1,11 @@
 SHOW_TUTORIAL_IMAGE = -1
 SHOW_TUTORIAL_IMAGE2 = -1
 SHOW_WAITING_FOR_PLAYER2 = -1
+SHOW_COMBINE_BARRIER_IMAGE = -1
 local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
+local CombinationBarrierImages = {}
 local tutorialTexture = {}
 local pingImages = {}
 local playerHealthCurrent = 100;
@@ -11,6 +13,7 @@ local healthBarLength = 470;
 local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
+local CombinationBarrierCounter = 0;
 local WaitingForP2Counter = 0
 local showHealthbar = true;
 local crosshairIsVisible = false
@@ -54,9 +57,10 @@ function LoadHUD()
 	tutorialTexture[9] = Assets.LoadTexture("Textures/WaitingForPlayer2_1.dds")
 	tutorialTexture[10] = Assets.LoadTexture("Textures/WaitingForPlayer2_2.dds")
 	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
+	tutorialTexture[12] = Assets.LoadTexture("Textures/TUTORIALWhenFriendIsCharging.dds")
 
-	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(11.9, 10.4, 152.9, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
 	
 	
@@ -111,6 +115,7 @@ function UnloadHUD()
 	SHOW_TUTORIAL_IMAGE = -1
 	SHOW_TUTORIAL_IMAGE2 = -1
 	SHOW_WAITING_FOR_PLAYER2 = -1
+	SHOW_COMBINE_BARRIER_IMAGE = -1
 	TUTORIAL_DONE = false
 	TUTORIAL_START_ANIM = false
 	TUTORIAL_COUNTER = 0 
@@ -206,6 +211,10 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[1], player.pingTexture);
 	end
 
+	if SHOW_COMBINE_BARRIER_IMAGE ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_COMBINE_BARRIER_IMAGE], tutorialTexture[SHOW_COMBINE_BARRIER_IMAGE])
+	end
+
 	if SHOW_WAITING_FOR_PLAYER2 ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_WAITING_FOR_PLAYER2], tutorialTexture[SHOW_WAITING_FOR_PLAYER2])
 	end
@@ -257,8 +266,11 @@ end
 
  
 function showTutorialImage(x,y,z,dt)
+
 	TutorialCounter = TutorialCounter + dt
-	
+	finalX = x - 5
+	finalZ = z + 20
+	finalY = y + 5
 	if TutorialCounter < 2  then
 		index = 1
 	elseif TutorialCounter < 4 then
@@ -270,29 +282,28 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 7, 7)
 	SHOW_TUTORIAL_IMAGE = index
 end
 
 function showTutorialImage2(x,y,z,dt)
 	TutorialCounter2 = TutorialCounter2 + dt
+
+	finalX = x - 6
+	finalZ = z + 6
+	finalY = y + 5
 	
 	if TutorialCounter2 < 2  then
 		index = 4
 	elseif TutorialCounter2 < 4 then
 		index = 5
-	elseif TutorialCounter2 < 6 then
-		index = 6
-	elseif TutorialCounter2 < 8 then
-		index = 7
+
 	else
 		TutorialCounter2 = 0
 		index = 1
 	end
 
-
-
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
@@ -316,11 +327,39 @@ function showWaitingForPlayer2(dt)
 	end
 
 
-	local pos = Transform.GetPosition(player)
-	--tutorialImages[index] = UI.load(player.position.x, player.position.y+1.4, player.position.z, 1.3, 1.3)
+	local pos = player.position
 	tutorialImages[index] = UI.load(pos.x, pos.y+1.4, pos.z, 1.3, 1.3)
 	SHOW_WAITING_FOR_PLAYER2 = index
 end
+
+function showCombineBarrierImage(dt)
+	CombinationBarrierCounter = CombinationBarrierCounter + dt
+
+	if CombinationBarrierCounter < 2  then
+		index =  6
+
+	elseif CombinationBarrierCounter < 2.3 then
+	index = -1
+
+	elseif CombinationBarrierCounter < 4.1 then
+		index = 12
+
+	elseif CombinationBarrierCounter < 5.9 then
+		index = 7
+	
+	elseif CombinationBarrierCounter < 6.4 then
+	index = -1
+
+	else
+		CombinationBarrierCounter = 0
+		index = 6
+	end
+
+	local pos = player.position
+	tutorialImages[index] = UI.load(pos.x, pos.y+2, pos.z, 2, 2)
+	SHOW_COMBINE_BARRIER_IMAGE = index
+end
+
 
 function hideTutorialImage()
 	SHOW_TUTORIAL_IMAGE = -1
@@ -329,6 +368,10 @@ end
 
 function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
+end
+
+function hideCombinationImage()
+	SHOW_COMBINE_BARRIER_IMAGE = -1
 end
 
 function hideWaitingForPlayer2()
@@ -343,9 +386,7 @@ function HideCrosshair()
 	crosshairIsVisible = false
 end
 
-function hideCombinationImage()
-	return
-end
+
 
 
 return { Load = LoadHUD, Unload = UnloadHUD, Update = UpdateHUD }

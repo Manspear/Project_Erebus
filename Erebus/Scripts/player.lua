@@ -337,6 +337,7 @@ function UpdatePlayer(dt)
 		end
 		if Inputs.KeyDown("R") then 
 			player.revive:Update(dt)
+			
 		end
 		if Inputs.KeyReleased("R") then 
 			Network.SendChargeSpellPacket(player.transformID, 0, false, 0, 0, 0)
@@ -388,8 +389,9 @@ function UpdatePlayer(dt)
 		if not console.visible then
 			Controls(dt)
 		end
+	else
+		Transform.CopyPosition(player2.transformID, player.dummyTrans.transformID)
 	end
-
 	-- check collision against triggers and call their designated function
 	TriggerChecks(dt)
 	EnemyCollisionChecks()		
@@ -402,16 +404,16 @@ function SendCombine(spell)
 end
 
 function EnemyCollisionChecks()
+	local allMiss = true
 	if not player.invulnerable then
 		local collisionIDs = player.sphereCollider:GetCollisionIDs()
-		local allMiss = true
 		for curID = 1, #collisionIDs do	
 			for curEnemy=1, #enemies do
-				if collisionIDs[curID] == enemies[curEnemy].sphereCollider:GetID() then
+				if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
 					allMiss = false
 					local enmyPos = Transform.GetPosition(enemies[curEnemy].transformID)
 					if vec3lengthFnG(vec3sub(enmyPos, player.position)) < vec3lengthFnG(vec3sub(enmyPos, player.lastPosition)) then
-						player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].sphereCollider:GetRadius()-- - player.sphereCollider:GetRadius()
+						player.moveSpeed = vec3length(vec3sub(player.position, enmyPos)) - enemies[curEnemy].collider:GetRadius()-- - player.sphereCollider:GetRadius()
 					else
 						player.moveSpeed = PLAYER_MOVESPEED
 					end			
@@ -419,8 +421,8 @@ function EnemyCollisionChecks()
 			end
 		end	
 		player.lastPosition = player.position
-		if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
 	end
+	if allMiss then player.moveSpeed = PLAYER_MOVESPEED  end
 end
 
 function Controls(dt)
@@ -448,6 +450,10 @@ function Controls(dt)
 			SendCombine(player.spells[player.currentSpell])
 		end
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
+			
+			local pos = player.position
+			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
+
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -600,16 +606,15 @@ function Controls(dt)
 				else
 					player.useRayAttack = true
 				end
-
 				if player.charging == true then
 					player.spellDirection = Camera.GetDirection()
-					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
-					player.spells[player.currentSpell]:ChargeCast(player)
+					Network.SendChargeSpellPacket(player.transformID, player.currentSpell, true, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)		
 					player.charger:EndCharge()
 					player.charging = false
 					player.isCombined = false
 					player.combinedSpellIDs = player.spells[player.currentSpell]:GetCollider()
 				end
+				player.spells[player.currentSpell]:ChargeCast(player)
 			end
 		end
 
