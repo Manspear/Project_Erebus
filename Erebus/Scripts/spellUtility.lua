@@ -24,7 +24,7 @@ function CreateCombineRay(entity)
 	ray.transformID = Gear.BindBlendingInstance(rayFire)
 	ray.blendingIndex = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellFire.dds"),Assets.LoadTexture("Textures/SpellFireBlend.dds"))
 
-	local rayNature = Assets.LoadModel( "Models/CombineBeamNature.model" )
+	local rayNature = Assets.LoadModel("Models/CombineBeamNature.model")
 	ray.transformID2 = Gear.BindBlendingInstance(rayNature)
 	ray.blendingIndex2 = Gear.SetBlendTextures(1, 2, Assets.LoadTexture("Textures/SpellNature.dds"),Assets.LoadTexture("Textures/SpellNatureBlend.dds"))
 	
@@ -87,6 +87,7 @@ function CreateCombineRay(entity)
 			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
 
+			print(self.blendValue1.x)
 			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
 			return true
 		else 
