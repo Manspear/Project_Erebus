@@ -143,10 +143,6 @@ namespace Gear
 
 		//Shaders
 		ShaderProgram *effectShader;
-		ShaderProgram *gloomCompute;
-
-		//Effects stuff
-		GLuint gloomTexture;
 
 		std::vector<GLuint> lightDirectionLocations;
 		std::vector<GLuint> lightColorLocations;
