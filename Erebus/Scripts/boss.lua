@@ -54,7 +54,11 @@ function LoadBoss()
 			boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 			if Network.GetNetworkHost() == true then
 				boss.health = boss.health - damage
-				Network.SendBossHealthPacket(element, boss.health) -- Much cheating
+				if boss.health > 0 then
+					Network.SendBossHealthPacket(element, boss.health) -- Much cheating
+				else
+					Network.SendBossHealthPacket(element, 0) -- Much cheating
+				end
 				if element then
 					Network.SendBossDamageTextPacket(boss.transformID, damage, element)
 					Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
@@ -105,10 +109,9 @@ function UpdateBoss(dt)
 		end
 
 		if Network.GetNetworkHost() == true then
-
 			local newBossDamageText, bossDamageTextID, bossDamage, bossDamageElement = Network.GetBossDamageTextPacket()
 
-			if netBossDamageText == true then
+			if newBossDamageText == true then
 				local pos = Transform.GetPosition(boss.transformID)
 				Gear.PrintDamage(bossDamage, bossDamageElement, pos.x, pos.y+10, pos.z )
 			end
