@@ -75,20 +75,31 @@ function LoadBoss()
 	AABBCollider.SetMinPos(boss.collider, -1, -5, -1)
 	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
 	function boss:Hurt(damage, source, element)
-		if boss.combatStarted then 
-			local pos = Transform.GetPosition(boss.transformID)
-			boss.health = boss.health - damage
-			boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
-			if element then
-				Network.SendBossDamageTextPacket(boss.transformID, damage, element)
-				Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
-				print("printed some dmg")
+		if source ~= player2 then
+			if boss.combatStarted then 		
+				local pos = Transform.GetPosition(boss.transformID)
+				boss.health = boss.health - damage
+				boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+				if Network.GetNetworkHost() == true then
+					boss.health = boss.health - damage
+					if boss.health > 0 then
+						Network.SendBossHealthPacket(element, boss.health) -- Much cheating
+					else
+						Network.SendBossHealthPacket(element, 0) -- Much cheating
+					end
+					if element then
+						Network.SendBossDamageTextPacket(boss.transformID, damage, element)
+						Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
+					else
+						Network.SendBossHealthPacket(element, damage) -- Very bad
+					end
+				end
+				if boss.health < 0 then
+					boss.Kill()
+					boss.combatStarted = false	
+				end
 			end
-			if boss.health < 0 then
-				boss.Kill()
-				boss.combatStarted = false
-			end	
-		end 
+		end
 	end
 	function boss:Kill()
 		if boss.alive then
@@ -116,7 +127,7 @@ function UnloadBoss()
 	boss.spellinfo = {}
 end
 
-function UpdateBoss(dt)
+function UpdateBoss(dt)	
 	boss.animationController:AnimationUpdate(dt, Network)
 	
 	local player1BossDistance = Transform.GetDistanceBetweenTrans(player.transformID, boss.transformID)
@@ -126,6 +137,25 @@ function UpdateBoss(dt)
 	end
 
 	if boss.alive then
+		local newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
+
+		if newBossHealth == true then
+			if Network.GetNetworkHost() == true then
+				boss:Hurt(bossHealth, player, elementID) 
+			else
+				boss.health = bossHealth
+			end
+		end
+
+		if Network.GetNetworkHost() == true then
+			local newBossDamageText, bossDamageTextID, bossDamage, bossDamageElement = Network.GetBossDamageTextPacket()
+
+			if newBossDamageText == true then
+				local pos = Transform.GetPosition(boss.transformID)
+				Gear.PrintDamage(bossDamage, bossDamageElement, pos.x, pos.y+10, pos.z )
+			end
+		end
+
 		dt = dt * boss.timeScalar
 
 		--if first time boss is loaded, get his position form the heightmap
