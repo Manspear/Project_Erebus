@@ -1,30 +1,52 @@
 function LoadLogic()
-	
+	bossKill = {}
+	bossKill.notAGameState = false
+	bossKill.tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
+	Transform.SetScale(bossKill.tranny, 15)
+	bossKill.someTimer = 2
+	bossKill.stage1 = false
+	bossKill.stage2 = false
 end
 
 function UpdateLogic(dt)
-	if not boss.alive and not notAGameState then
-		notAGameState = true
+	RewindEvent(dt)
+end
+
+function RewindEvent(dt)
+	if not boss.alive and not bossKill.stage1 then
+		bossKill.stage1 = true
 		player.isControlable = false
-		tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
-		Transform.SetScale(tranny, 15)
-		Transform.ActiveControl(tranny, true)
+		--Transform.ActiveControl(tranny, true)
 		local pos = player.position
 		pos.y = pos.y + 150
 		Transform.SetPosition(tranny, pos)
-		someTimer = 10
+		camera.toFollow = player.dummyTrans
+		bossKill.someTimer = 2
 	end
-	if notAGameState then
+	if bossKill.stage1 then
+		bossKill.someTimer = bossKill.someTimer - dt
+		if bossKill.someTimer < 0 then
+			bossKill.stage1 = false
+			bossKill.stage2 = true
+			Transform.ActiveControl(bossKill.tranny, true)
+			Sky.SetAmbient({r = 0.1, g = 0.1, b = 0.1})
+			bossKill.someTimer = 8
+		end
+	end
+	if bossKill.stage2 then
 		someTimer = someTimer - dt
 		Transform.CopyPosition(tranny, player.transformID)
+		Transform.CopyPosition(player.transformID, player.dummyTrans.transformID)
 		UpdateCamera(0)
 		if someTimer < 0 then
-			Gear.UnbindInstance( tranny )
+			Gear.UnbindInstance( bossKill.tranny )
 			Assets.UnloadModel("Models/blackHole_Sphere.model")
+			camera.toFollow = player
 			notAGameState = nil
 			player.isControlable = true
-			someTimer = nil
+			bossKill.someTimer = nil
 			Rewind()
+			Particle.Explode(player.dashEndParticles, player.position)			
 		end
 	end
 end
