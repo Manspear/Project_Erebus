@@ -14,6 +14,7 @@ namespace LuaParticles
 	int explode(lua_State* lua);
 	int setDirection(lua_State* lua);
 	int setExtro(lua_State* lua);
+	int setFocus(lua_State* lua);
 
 	int bindEm(lua_State* lua);
 	int unbindEm(lua_State* lua);
