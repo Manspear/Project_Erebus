@@ -44,6 +44,8 @@ namespace LuaNetwork
 	int getAIDamageTextPacket(lua_State* lua);
 	int sendBossDamageTextPacket(lua_State* lua);
 	int getBossDamageTextPacket(lua_State* lua);
+	int sendBossHealthPacket(lua_State* lua);
+	int getBossHealthPacket(lua_State* lua);
 	int getNetworkHost(lua_State* lua);
 	int shouldSendNewAITransform(lua_State* lua);
 	int shouldSendNewTransform(lua_State* lua);
