@@ -43,7 +43,7 @@ function CreateEnemy(type, position, element)
 	for ii = 1, #enemies do
 		if not enemies[ii].alive 
 		and enemies[ii].type == type 
-		and enemies[ii].element == element 
+		and enemies[ii].elementType == element 
 		then
 			i = ii
 			break
