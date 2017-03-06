@@ -90,9 +90,7 @@ function CreateTumblethorns(entity)
 		return result
 	end
 	function spell:ChargeCast()
-		if self.cooldown < 0.0 then
-		
-		end
+		self:Cast()
 	end
 
 	function spell:Kill()

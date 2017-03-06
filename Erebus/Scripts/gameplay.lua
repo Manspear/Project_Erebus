@@ -111,6 +111,7 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
+	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
 	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
@@ -145,7 +146,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/OskarTutorialTest.lua" )
+		dofile( "Scripts/Adam_test.lua" )
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do

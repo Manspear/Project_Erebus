@@ -41,19 +41,15 @@ function CreateEnemy(type, position, element)
 
 	local i = -1
 	for ii = 1, #enemies do
-		if not enemies[ii].alive 
-		and enemies[ii].type == type 
-		and enemies[ii].elementType == element 
-		then
+		if enemies[ii].reuse then
 			i = ii
 			break
 		end
 	end
-
+	--print("i"..i.." type"..type.." elem"..(element or NEUTRAL))
 	if i == -1 then
 		-- create new enemy
 		i = #enemies+1
-		--print("creating "..i)
 		enemies[i] = {}
 		enemies[i].timeScalar = 1.0
 		enemies[i].type = type
@@ -67,6 +63,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].attackCountdown = 0
 		enemies[i].aggro = false
 		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+		enemies[i].reuse = false
 
 		enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 		enemies[i].currentHealth = enemies[i].health
@@ -249,9 +246,10 @@ function CreateEnemy(type, position, element)
 				clientAIScript.setAIState(enemies[i],  enemies[i].playerTarget, IDLE_STATE)
 			end
 		end
+
+		--print("creating "..enemies[i].transformID)
 	else
 		-- reuse dead enemy
-		--print("reusing "..i)
 		--Gear.UnbindInstance(enemies[i].transformID)
 
 		enemies[i].timeScalar = 1.0
@@ -264,6 +262,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].attackCountdown = 0
 		enemies[i].aggro = false
 		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
+		enemies[i].reuse = false
 
 		enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 		enemies[i].currentHealth = enemies[i].health
@@ -291,26 +290,28 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].tempVariable = 0
 
-		--enemies[i].modelName = ""
-		--if type == ENEMY_MELEE then
-		--	if enemies[i].elementType == NEUTRAL then
-		--		enemies[i].modelName = "Models/Fire_Goblin.model"
-		--	elseif enemies[i].elementType == FIRE then
-		--		enemies[i].modelName = "Models/Fire_Goblin.model"
-		--	elseif enemies[i].elementType == NATURE then
-		--		enemies[i].modelName = "Models/Grass_Goblin.model"
-		--	elseif enemies[i].elementType == ICE then
-		--		enemies[i].modelName = "Models/Ice_Goblin.model"
-		--	end
-		--elseif type== ENEMY_DUMMY then
-		--	enemies[i].modelName = "Models/Dummy.model"
-		--else
-		--	enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
-		--end
-		--
-		--local model = Assets.LoadModel(enemies[i].modelName)
-		--
-		--assert( model, "Failed to load model Models/Goblin.model" )
+		enemies[i].modelName = ""
+		if type == ENEMY_MELEE then
+			if enemies[i].elementType == NEUTRAL then
+				enemies[i].modelName = "Models/Fire_Goblin.model"
+			elseif enemies[i].elementType == FIRE then
+				enemies[i].modelName = "Models/Fire_Goblin.model"
+			elseif enemies[i].elementType == NATURE then
+				enemies[i].modelName = "Models/Grass_Goblin.model"
+			elseif enemies[i].elementType == ICE then
+				enemies[i].modelName = "Models/Ice_Goblin.model"
+			end
+		elseif type== ENEMY_DUMMY then
+			enemies[i].modelName = "Models/Dummy.model"
+		else
+			enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
+		end
+		
+		local model = Assets.LoadModel(enemies[i].modelName)
+		
+		assert( model, "Failed to load model Models/Goblin.model" )
+
+		Animation.SetAnimationModel(model, enemies[i].animationController.animation)
 		
 		--if type ~= ENEMY_DUMMY then
 		--	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
@@ -318,6 +319,7 @@ function CreateEnemy(type, position, element)
 		--	enemies[i].transformID = Gear.BindStaticInstance(model)
 		--end
 
+		Transform.ActiveControl(enemies[i].transformID, true)
 		Transform.SetPosition(enemies[i].transformID, position)
 		SphereCollider.SetActive(enemies[i].collider, true)
 
@@ -338,6 +340,8 @@ function CreateEnemy(type, position, element)
 				clientAIScript.setAIState(enemies[i], player, IDLE_STATE)
 			end
 		end
+
+		--print("reusing "..enemies[i].transformID)
 	end
 
 	return enemies[i]
@@ -358,7 +362,11 @@ end
 
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
-	if enemy.type ~= ENEMY_DUMMY then enemy.alive = false end
+	if enemy.type ~= ENEMY_DUMMY then 
+		enemy.alive = false 
+		enemy.reuse = true
+	end
+
 	--print("destroying "..enemy.transformID)
 end
 function UpdateEnemies(dt)
@@ -618,8 +626,7 @@ function UpdateEnemies(dt)
 				end
 				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
 				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
-				
-				print("BY Update")
+
 				if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE and enemies[i].animationController then
 					enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 					if enemies[i].playerTarget ~= nil then

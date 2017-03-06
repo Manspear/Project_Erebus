@@ -1,4 +1,3 @@
---SIPHON_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconSiphon.dds");
 SIPHON_DAMAGE = 2
 SIPHON_CHAIN_DURATION = 5
 SIPHON_COOLDOWN = 15
@@ -19,7 +18,6 @@ function CreateSiphon(entity)
 	spell.hudtexture = Assets.LoadTexture("Textures/IconSiphon.dds");
 	spell.effects = {}
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
-	--spell.transformID = Transform.Bind()
 	local model = Assets.LoadModel( "Models/Siphon.model" )
 	spell.transformID = Gear.BindBlendingInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
@@ -30,8 +28,6 @@ function CreateSiphon(entity)
 	spell.length = SIPHON_HITBOX_LENGTH
 
 	spell.collider.SetSize(spell.collider, SIPHON_HITBOX_LENGTH, 1, 1)
-	--local model = Assets.LoadModel( "Models/Siphon.model" )
-	--spell.modelIndex = Gear.AddForwardInstance(model, spell.transformID)
 	spell.isActiveSpell = false
 	spell.hits = {}
 	spell.alive = false
@@ -58,8 +54,6 @@ function CreateSiphon(entity)
 	spell.castTimeAttack = 0.5 * SIPHON_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * SIPHON_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * SIPHON_CASTSPEED_MULTIPLE
-	--Gear.SetUniformLocation(spell.transformID, "aValue");
-	--Gear.AddStaticInstance(model2, spell.type.transformID)
 	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, SIPHON_TEXTURE1, SIPHON_TEXTURE2)
 	function spell:Cast()
 		if self.spamcooldown < 0 then
@@ -71,7 +65,6 @@ function CreateSiphon(entity)
 			self.spamcooldown = SIPHON_SPAM_COOLDOWN
 		end
 		self:rotatetoowner()
-		--Transform.ActiveControl(self.transformID, true)
 		self.alive = true
 	end
 
@@ -118,23 +111,16 @@ function CreateSiphon(entity)
 	function spell:rotatetoowner()
 		local direction = Transform.GetLookAt(self.owner.transformID)
 		local pos = Transform.GetPosition(self.owner.transformID)
-		--pos.x = pos.x + direction.x * self.length/2 
-		--pos.y = pos.y + direction.y * self.length/2
-		--pos.z = pos.z + direction.z * self.length/2
 		Transform.SetPosition(self.transformID, pos)
 		
 		local oobpos = {x=0,y=0,z=0}
 		oobpos.x = direction.x * (SIPHON_HITBOX_LENGTH )
 		oobpos.y = direction.y * (SIPHON_HITBOX_LENGTH )
 		oobpos.z =  direction.z * (SIPHON_HITBOX_LENGTH )
-		--local xoffset = self.length/2 * direction.x
-		--local yoffset = self.length/2 * direction.y
-		--local zoffset = self.length/2 * direction.z
+
 		OBBCollider.SetXAxis(self.collider, direction.x, direction.y, direction.z)
 		OBBCollider.SetOffset(self.collider, oobpos.x, oobpos.y, oobpos.z)
-		--[[local theRotation = Transform.GetRotation(self.owner.transformID) 
-		Transform.SetRotation(self.transformID, theRotation)
-		Transform.SetLookAt(self.transformID, direction)]]
+	
 		Transform.RotateToVector(self.transformID, direction)
 	end
 	function spell:rotatetotarget()
@@ -143,12 +129,9 @@ function CreateSiphon(entity)
 				self.temppos = Transform.GetPosition(self.chained.transformID)
 			end
 			local direction = Math.GetDir( Transform.GetPosition(self.owner.transformID), self.temppos)
-			--self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, self.temppos)
 			self.length = Transform.GetDistanceBetweenTransAndPos(self.owner.transformID, self.temppos)
 			local pos = Transform.GetPosition(self.owner.transformID)
-			--pos.x = pos.x + direction.x * self.length/2 
-			--pos.y = pos.y + direction.y * self.length/2
-			--pos.z = pos.z + direction.z * self.length/2
+	
 			local xoffset = self.length/2 * direction.x
 			local yoffset = self.length/2 * direction.y
 			local zoffset = self.length/2 * direction.z
@@ -164,15 +147,14 @@ function CreateSiphon(entity)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
 		self.uvPush.y = self.uvPush.y - dt
-		Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
-		local rot = Transform.GetRotation(self.transformID)
-		rot.x = rot.x +dt/2
-		Transform.SetRotation(self.transformID, rot)
 		if self.spamming and not self.chained then
+			self:rotatetoowner()
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt
 			hit = self:getcollisions()
 			if hit then
+				Transform.ActiveControl(self.transformID, true)
+				Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 				if self.interval < 0 then
 					hit:Hurt(self.damage, self.owner, self.element)
 					if(self.owner.health < 100) then
@@ -181,7 +163,6 @@ function CreateSiphon(entity)
 					elseif (self.owner.health > 100) then
 						self.owner.health = 100
 					end
-					Transform.ActiveControl(self.transformID, true)
 					self.interval = SIPHON_DAMAGE_INTERVAL
 				end
 				self.length = Transform.GetDistanceBetweenTrans(self.owner.transformID, hit.transformID)
@@ -202,6 +183,7 @@ function CreateSiphon(entity)
 			OBBCollider.SetSize(self.collider, self.length/2, 1, 1)	
 			self.duration = self.duration - dt
 			self.chaininterval = self.chaininterval - dt
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, {x=0,y=0}, self.uvPush)
 			if self.chaininterval < 0 then
 				local collisionIDs = self.collider:GetCollisionIDs()
 				for curID = 1, #collisionIDs do
@@ -237,29 +219,21 @@ function CreateSiphon(entity)
 					table.remove(self.effects)
 				end
 			end
-		else
-			self:rotatetoowner()
 		end
 	end
 	function spell:Kill()
 		Transform.ActiveControl(self.transformID, false)
 
 		self.hits = {}
-		--self.owner.moveSpeed = self.owner.moveSpeed / BLACK_HOLE_CASTER_SLOW --if you want the player to be "unable" to walk while casting black hole
 		self.alive = false
 		self.shooting = false
 	end
 	
 	function spell:Aim()	
-		--local lookAt = Transform.GetLookAt(self.caster)
-		--local aPos = Transform.GetPosition(self.caster)
-		--self.aimPos = {x = aPos.x + lookAt.x *10, y = aPos.y + lookAt.y *10, z = aPos.z + lookAt.z *10 }
-		--player.aim:SetPos(self.aimPos)
 	end
 
 	function spell:Change()
 		self.isActiveSpell = not self.isActiveSpell
-		--Transform.ActiveControl(self.owner.aim.transformID, self.isActiveSpell)
 		
 		OBBCollider.SetActive(spell.collider, self.isActiveSpell);
 	end
