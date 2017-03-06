@@ -66,7 +66,7 @@ function LoadBoss()
 			else
 				Network.SendBossHealthPacket(element, damage) -- Very bad
 			end
-			if boss.health < 0 then
+			if boss.health <= 0 then
 				boss.Kill()
 			end
 		end
@@ -108,7 +108,7 @@ function UpdateBoss(dt)
 			end
 		end
 
-		if Network.GetNetworkHost() == true then
+		if Network.GetNetworkHost() == false then
 			local newBossDamageText, bossDamageTextID, bossDamage, bossDamageElement = Network.GetBossDamageTextPacket()
 
 			if newBossDamageText == true then
