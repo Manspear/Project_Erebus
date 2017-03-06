@@ -55,8 +55,8 @@ function LoadHUD()
 	tutorialTexture[10] = Assets.LoadTexture("Textures/WaitingForPlayer2_2.dds")
 	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
 
-	pingImages[0] = UI.load(20.8, 9.6, 147.75, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(30.1, 9.7, 156.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(11.9, 10.4, 152.9, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	
 	
 	
@@ -258,7 +258,9 @@ end
  
 function showTutorialImage(x,y,z,dt)
 	TutorialCounter = TutorialCounter + dt
-	
+	finalX = x - 5
+	finalZ = z + 20
+	finalY = y + 5
 	if TutorialCounter < 2  then
 		index = 1
 	elseif TutorialCounter < 4 then
@@ -270,12 +272,16 @@ function showTutorialImage(x,y,z,dt)
 		index = 1
 	end
 
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 7, 7)
 	SHOW_TUTORIAL_IMAGE = index
 end
 
 function showTutorialImage2(x,y,z,dt)
 	TutorialCounter2 = TutorialCounter2 + dt
+
+	finalX = x - 6
+	finalZ = z + 6
+	finalY = y + 5
 	
 	if TutorialCounter2 < 2  then
 		index = 4
@@ -292,7 +298,7 @@ function showTutorialImage2(x,y,z,dt)
 
 
 
-	tutorialImages[index] = UI.load(x, y, z, 7, 7)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
