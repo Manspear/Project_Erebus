@@ -25,8 +25,6 @@ function destroyIceGrenadeParticles(p)
 	p = nil
 end
 
---FIREBALL_PARTICLES_TEX = Assets.LoadTexture("Textures/fireSpellRed.dds")
-
 function CreateFireEffectParticles()
 	local fire = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
@@ -50,7 +48,6 @@ end
 function DestroyFireEffectParticles(p)
 	Emitter.Unbind(p.ID)
 	p = nil
-
 	Assets.UnloadTexture( "Textures/fireSpellRed.dds" )
 end
 
@@ -63,7 +60,6 @@ function CreateFireballParticles()
 	function particle:Die()
 		Particle.SetDead(self.burn)
 	end
-
 	function particle:Update(pos)
 		Particle.SetPosition(self.burn, pos)
 	end
@@ -75,39 +71,6 @@ function DestroyFireballParticles(p)
 	p = nil
 end
 
---[[function createChargeParticles()
-	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt
-	local charge = {}
-	charge.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)  
-	Emitter.SetTexture(charge.ID, Assets.LoadTexture("Textures/fireSpell.dds"))
-	function charge:cast()
-		Emitter.SetAlive(self.ID)
-	end
-
-	function charge:die()
-		Emitter.SetDead(self.ID)	
-	end
-
-	function charge:update(pos)
-		Emitter.SetPosition(self.ID, pos)
-	end
-
-	function charge:extrovert(yesNo)
-		Emitter.SetExtro(self.ID, yesNo)
-	end
-
-	return charge
-end
-
-function destroyChargeParticles(p)
-	Emitter.Unbind(p.ID)
-	p = nil
-
-	Assets.UnloadTexture( "Textures/fireSpell.dds" )
-end--]]
-
---STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.png");
---STAR_PARTICLES_TEX = Assets.LoadTexture("Textures/stars.dds");
 function createSparklyParticles()
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
 	local sparkles = {}
@@ -160,7 +123,6 @@ end
 function destroySparklyParticles2(p)
 	Emitter.Unbind(p.ID)
 	p = nil
-
 	Assets.UnloadTexture("Textures/stars.dds")
 end
 
@@ -179,6 +141,12 @@ function  createTumbleParticles()
 
 	function tumbleParticles:update(pos)
 		Particle.SetPosition(self.fly, pos)
+	end
+	function tumbleParticles:explode(pos)
+		Particle.Explode(self.fly, pos)
+	end
+	function tumbleParticles:setFocus(focus)
+		Particle.SetFocus(self.fly, focus)
 	end
 	return tumbleParticles
 end
@@ -243,9 +211,6 @@ function destroyTimeslowParticles(p)
 	p = nil
 end
 
---CHARGE_FIRE_TEX = Assets.LoadTexture("Textures/fireSpell.dds") --element = 1
---CHARGE_NATURE_TEX = Assets.LoadTexture("Textures/greenDot.dds") --element = 2
---CHARGE_ICE_TEX = Assets.LoadTexture("Textures/brightParticle.dds") --element = 3
 function createParticlesByElement()
 	local chargePart = {}
 	chargePart.ID = Emitter.Bind(38, 0.5, 25, 75, 1, 0, 0, 0, 1)

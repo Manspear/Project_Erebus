@@ -22,6 +22,7 @@ namespace Gear
 		GEAR_API int getNrOfActive();
 		GEAR_API void explode(glm::vec3 position);
 		GEAR_API void setExtroversion(bool yesNo);
+		GEAR_API void setFocus(float focus);
 
 		ParticleEmitter* particleEmitters;
 		bool isActive;
