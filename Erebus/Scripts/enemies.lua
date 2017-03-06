@@ -618,8 +618,7 @@ function UpdateEnemies(dt)
 				end
 				a = (enemies[i].currentHealth * ENEMY_HEALTHBAR_WIDTH) / enemies[i].maxHealth;
 				UI.resizeWorld(enemies[i].healthbar, a, ENEMY_HEALTHBAR_HEIGHT)
-				
-				print("BY Update")
+
 				if enemies[i].alive and enemies[i].stateName ~= DUMMY_STATE and enemies[i].animationController then
 					enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 					if enemies[i].playerTarget ~= nil then
