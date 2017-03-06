@@ -549,6 +549,7 @@ function Controls(dt)
 							player.spamCasting = true
 							player.useRayAttack = true
 					
+							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 							player.spells[player.currentSpell]:Cast(player)	
 						end
 					end
