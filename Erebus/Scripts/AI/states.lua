@@ -63,18 +63,18 @@ function state.followState.update(enemy,player,dt)
 		end
 	
 	elseif enemy.subPathtarget ~= 0 then
-			local pos = enemy.pos
+			--local pos = enemy.pos
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
 			--vec3print(direction)
 			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
 			
-			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+			enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
-			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+			enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
 
-			Transform.SetPosition(enemy.transformID,pos)
+			--Transform.SetPosition(enemy.transformID,pos)
 
 			if AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget) < 0.8 then
 				enemy.subPathtarget = nil
@@ -278,10 +278,10 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
 			
 		
-		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
-		pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+		enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
+		enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
 		
-		Transform.SetPosition(enemy.transformID,pos)
+		--Transform.SetPosition(enemy.transformID,pos)
 	end
 	if length > 8 then
 		inState = FOLLOW_STATE
@@ -329,28 +329,28 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 
 			--length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 
-				local pos =enemy.pos
+
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 		
 				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
 			
 		
-				pos.x = pos.x + direction.x * (enemy.movementSpeed+4) * dt
-				pos.z = pos.z + direction.z * (enemy.movementSpeed+4) * dt
+				enemy.pos.x = enemy.pos.x + direction.x * (enemy.movementSpeed+4) * dt
+				enemy.pos.z = enemy.pos.z + direction.z * (enemy.movementSpeed+4) * dt
 
 				local maxHeight = 12
 
 				local checker =  length/enemy.tempVariable
 
 				if checker > 0.5 then
-					pos.y  = enemy.whatEver + (maxHeight * (1-checker))
+					enemy.pos.y  = enemy.whatEver + (maxHeight * (1-checker))
 				else
-					pos.y  = enemy.whatEver + (maxHeight * (checker))
+					enemy.pos.y  = enemy.whatEver + (maxHeight * (checker))
 					enemy.animationController:doEndLeap()
 				end
 
 		
-				Transform.SetPosition(enemy.transformID,pos)
+				--Transform.SetPosition(enemy.transformID,pos)
 
 			--if enemy.actionCountDown <0 then
 			--	--player:Hurt(12)
@@ -462,17 +462,17 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 		--- Keep on walking sunshine
 		if enemy.subPathtarget ~= nil then
 			enemy.animationController:doWalk()
-			local pos = enemy.pos
+			--local pos = enemy.pos
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
 			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
 			
 		
-			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
-			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+			enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
+			enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
 		
-			Transform.SetPosition(enemy.transformID,pos)
+			--Transform.SetPosition(enemy.transformID,pos)
 
 			rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 			if rangeTest < 0.8 then
