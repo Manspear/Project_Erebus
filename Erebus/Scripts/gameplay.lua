@@ -62,18 +62,18 @@ function LoadGameplay()
 end
 
 function CreateIM()
-		for i = 1, 8 do
-			levels[i].load()
-			loadedLevels[i] = true
-		end
+	for i = 1, 8 do
+		levels[i].load()
+		loadedLevels[i] = true
+	end
 
-		AI.CreateIM()--,#heightmaps,widthTest,heightTest)
+	AI.CreateIM()--,#heightmaps,widthTest,heightTest)
 
-		for i = 1, 8 do
-			levels[i].unload()
-			loadedLevels[i] = false
-		end
-		loadedLevels = {}
+	for i = 1, 8 do
+		levels[i].unload()
+		loadedLevels[i] = false
+	end
+	loadedLevels = {}
 end
 
 function UnloadGameplay()
