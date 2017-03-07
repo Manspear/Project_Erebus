@@ -46,6 +46,7 @@ function CreateEnemy(type, position, element)
 		and (enemies[temp].type == type) 
 		and (enemies[temp].elementType == elem) 
 		then
+			if type == ENEMY_DUMMY then print("reusing dummy") end
 			i = temp
 			break
 		end
@@ -203,11 +204,8 @@ function CreateEnemy(type, position, element)
 		end
 
 		enemies[i].Apply = function(self, effect)
-			--if self.alive == true then
 				table.insert(self.effects, effect)
 				effect:Apply(self)
-			--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
-			--end
 		end
 		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
 			self.maxHealth = health * LEVEL_ROUND
@@ -264,70 +262,20 @@ function CreateEnemy(type, position, element)
 		--print("creating "..enemies[i].transformID.." elem:"..elemTo)
 	else
 		-- reuse dead enemy
-		--enemies[i].timeScalar = 1.0
-		--enemies[i].movementSpeed = 8--math.random(5,20)
-		--enemies[i].maxHealth = 20
-		--enemies[i].health = enemies[i].maxHealth
 		enemies[i].alive = true
-		enemies[i].attackCountdown = 0
 		enemies[i].aggro = false
 		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 		enemies[i].reuse = false
-
-		--enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 		enemies[i].currentHealth = enemies[i].health
-		enemies[i].hurtCountdown = 0
-
-		--enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
-		--enemies[i].damagedTintDuration = 0.3
 
 		--enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 		--enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 		--enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 
-		--enemies[i].visionRange = 100
-		--enemies[i].subPathtarget = nil
-		--enemies[i].pathTarget = nil
-
+		enemies[i].subPathtarget = nil
+		enemies[i].pathTarget = nil
+		enemies[i].target = nil
 		enemies[i].insideInnerCircleRange = false
-
-		--enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-		--enemies[i].maxActionCountDown = 3
-		--enemies[i].actionCountDown = 3
-
-		--enemies[i].range = 4
-		--enemies[i].target = nil
-
-		--enemies[i].tempVariable = 0
-
-		--enemies[i].modelName = ""
-		--if type == ENEMY_MELEE then
-		--	if enemies[i].elementType == NEUTRAL then
-		--		enemies[i].modelName = "Models/Fire_Goblin.model"
-		--	elseif enemies[i].elementType == FIRE then
-		--		enemies[i].modelName = "Models/Fire_Goblin.model"
-		--	elseif enemies[i].elementType == NATURE then
-		--		enemies[i].modelName = "Models/Grass_Goblin.model"
-		--	elseif enemies[i].elementType == ICE then
-		--		enemies[i].modelName = "Models/Ice_Goblin.model"
-		--	end
-		--elseif type == ENEMY_DUMMY then
-		--	enemies[i].modelName = "Models/Dummy.model"
-		--else
-		--	enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
-		--end
-		--
-		--local model = Assets.LoadModel(enemies[i].modelName)
-		--
-		--assert( model, "Failed to load model Models/Goblin.model" )
-		--
-		--Animation.SetAnimationModel(model, enemies[i].animationController.animation)
-		
-		--if type ~= ENEMY_DUMMY then
-		--	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
-		--else
-		--	enemies[i].transformID = Gear.BindStaticInstance(model)
-		--end
 
 		Transform.ActiveControl(enemies[i].transformID, true)
 		Transform.SetPosition(enemies[i].transformID, position)
