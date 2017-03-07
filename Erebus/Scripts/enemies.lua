@@ -260,6 +260,7 @@ function CreateEnemy(type, position, element)
 	else
 		-- reuse dead enemy
 		--Gear.UnbindInstance(enemies[i].transformID)
+		Assets.UnloadModel(enemies[i].modelName)
 
 		enemies[i].timeScalar = 1.0
 		enemies[i].elementType = element or NEUTRAL
