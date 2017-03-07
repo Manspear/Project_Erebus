@@ -46,7 +46,6 @@ function CreateEnemy(type, position, element)
 		and (enemies[temp].type == type) 
 		and (enemies[temp].elementType == elem) 
 		then
-			if type == ENEMY_DUMMY then print("reusing dummy") end
 			i = temp
 			break
 		end
@@ -323,10 +322,8 @@ end
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
 	SphereCollider.SetActive(enemy.collider, false)
-	if enemy.type ~= ENEMY_DUMMY then 
-		enemy.alive = false 
-		enemy.reuse = true
-	end
+	enemy.alive = false 
+	enemy.reuse = true
 
 	--print("destroying "..enemy.transformID.." elem:"..enemy.elementType)
 end
