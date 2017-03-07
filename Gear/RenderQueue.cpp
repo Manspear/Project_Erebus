@@ -271,13 +271,12 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	int meshes, numInstance;
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		modelAsset = dynamicModels->at(i).getAsset();
-		if (modelAsset == nullptr)continue;
-		meshes = modelAsset->getHeader()->numMeshes;
-
 		numInstance = dynamicModels->at(i).getActiveTransforms();
 		if( numInstance > 0 )
 		{
+			modelAsset = dynamicModels->at(i).getAsset();
+			meshes = modelAsset->getHeader()->numMeshes;
+
 			assert( modelAsset->getMaterial() );
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRY]->getProgramID());
 
@@ -386,13 +385,11 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	int meshes, numInstance;
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
-		modelAsset = dynamicModels->at(i).getAsset();
-		if (modelAsset == nullptr)continue;
-		meshes = modelAsset->getHeader()->numMeshes;
-
 		numInstance = dynamicModels->at(i).getActiveTransforms();
 		if (numInstance > 0)
 		{
+			modelAsset = dynamicModels->at(i).getAsset();
+			meshes = modelAsset->getHeader()->numMeshes;
 			assert(modelAsset->getMaterial());
 			modelAsset->getMaterial()->bindTextures(allShaders[GEOMETRYSHADOW]->getProgramID());
 
