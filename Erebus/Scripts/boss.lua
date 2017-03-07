@@ -88,7 +88,6 @@ function LoadBoss()
 		if source ~= player2 then
 			if boss.combatStarted then 		
 				local pos = Transform.GetPosition(boss.transformID)
-				boss.health = boss.health - damage
 				boss.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 				if Network.GetNetworkHost() == true then
 					boss.health = boss.health - damage
@@ -100,9 +99,9 @@ function LoadBoss()
 					if element then
 						Network.SendBossDamageTextPacket(boss.transformID, damage, element)
 						Gear.PrintDamage(damage, element, pos.x, pos.y+10, pos.z )
-					else
-						Network.SendBossHealthPacket(element, damage) -- Very bad
 					end
+				else
+					Network.SendBossHealthPacket(element, damage) -- Very bad
 				end
 				if boss.health <= 0 then				
 					boss.Kill()
