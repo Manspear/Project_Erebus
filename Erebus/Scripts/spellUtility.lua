@@ -33,6 +33,7 @@ function CreateCombineRay(entity)
 	Transform.ActiveControl(ray.transformID, false)
 	Transform.ActiveControl(ray.transformID2, false)
 	Transform.ActiveControl(ray.transformID3, false)
+
 	ray.blendValue1 = {x = 0.0, y = 0.0}
 	ray.blendValue2 = {x = 0.0, y = 0.0}
 

@@ -1,7 +1,10 @@
 function CreateRayType(model)
 	local ray = {}
 	--ray.transformID = Transform.Bind()
-	ray.transformID = Gear.BindForwardInstance(model)
+	ray.transformID2 = Gear.BindForwardInstance(model)
+	ray.transformID = Gear.BindBlendingInstance(model)
+	ray.modelBlendingIndex = Gear.SetBlendTextures(-1, 2, Assets.LoadTexture("Textures/SunRayBase.dds"),Assets.LoadTexture("Textures/SunRayBlend.dds"))
+
 	ray.position = {x=0,y=0,z=0}
 	ray.direction = {x=0,y=0,z=0}
 
