@@ -97,7 +97,7 @@ function CreateWindknockback(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true
 				end
 			end
-			if collisionIDs[curID] == boss.collider:GetID() then
+			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
 				if not self.enemiesHit[boss.transformID] then
 					boss:Hurt(self.damage, self.owner, self.element)
 					for stuff = 1, #self.effects do
@@ -115,6 +115,7 @@ function CreateWindknockback(entity)
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.enemiesHit = {}
+		self.damage = 0
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end

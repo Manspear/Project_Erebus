@@ -229,14 +229,14 @@ namespace Collisions
 		std::vector<glm::vec3> normals;
 		this->allColliders;
 
-		colliding = this->checkAnyCollisionBoolNoSave(hitbox, sphereColliders,normals);
+		colliding = this->checkAnyCollisionBoolNoSave(hitbox, sphereColliders,normals,false);
 
 		if(!colliding)
-			colliding = this->checkAnyCollisionBoolNoSave(hitbox, aabbColliders, normals);
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, aabbColliders, normals, false);
 		if(!colliding)
-			colliding = this->checkAnyCollisionBoolNoSave(hitbox, obbColliders, normals);
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, obbColliders, normals, false);
 		if(!colliding)
-			colliding = this->checkAnyCollisionBoolNoSave(hitbox, rayColliders, normals);
+			colliding = this->checkAnyCollisionBoolNoSave(hitbox, rayColliders, normals, false);
 
 
 		return colliding;

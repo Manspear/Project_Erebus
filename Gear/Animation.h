@@ -13,7 +13,7 @@ Have the ability to interpolate between two animation states
 Which means that interpolation needs to be implemented individually for both animation states,
 and then interpolation needs to be done between those two animation states.
 */
-#define MAXJOINTCOUNT 64
+#define MAXJOINTCOUNT 128
 #define EMPTYELEMENT -1337
 #define MAXNUMSEGMENTS 5
 

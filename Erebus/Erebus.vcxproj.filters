@@ -533,6 +533,9 @@
     <None Include="Scripts\assets_debug.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="Scripts\Animation_Controllers\bossController.lua">
+      <Filter>Animation Controllers</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

@@ -101,15 +101,6 @@ namespace Gear
 
 	void GearEngine::shaderInit()
 	{
-		
-		glGenTextures(1, &gloomTexture);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, gloomTexture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, (GLsizei)WINDOW_WIDTH, (GLsizei)WINDOW_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
-
 		ShaderProgram *shader = queue.getShaderProgram(ShaderType::LIGHT_PASS);
 		for (int i = 0; i < shadow.getNumCascades(); i++)
 		{
@@ -350,17 +341,13 @@ namespace Gear
 		skybox->update(camera);
 		skybox->draw();
 
-		queue.particlePass(particleSystem, particleEmitters);
-		
-		queue.textureBlendingPass(&textureBlend, blendModels);
-
-		queue.forwardPass(forwardModels, &uniValues);
-
 		floatingDamage->draw(camera);
 
 		worldImage.update(camera);
 		worldImage.draw();
-
+		queue.particlePass(particleSystem, particleEmitters);		
+		queue.forwardPass(forwardModels, &uniValues);
+		queue.textureBlendingPass(&textureBlend, blendModels);
 		staticModels = &defaultModelList;
 		dynamicModels = &defaultModelList;
 		

@@ -107,6 +107,8 @@ void FloatingDamage::updateBuffer()
 
 void FloatingDamage::addDamage(float damage, int damageType, glm::vec3 positionOverHead)
 {
+	if (damage < 1)
+		damage = 1;
 	positionOverHead.x += xOffsetRandom[currentOffset];
 	positionOverHead.y += yOffsetRandom[currentOffset];
 	positionOverHead.z += xOffsetRandom[currentOffset];

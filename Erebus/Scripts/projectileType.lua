@@ -7,6 +7,7 @@ function CreateProjectileType(model)
 
 	projectile.sphereCollider = SphereCollider.Create(projectile.transformID)
 	CollisionHandler.AddSphere(projectile.sphereCollider, 2)
+	
 	SphereCollider.SetActive(projectile.sphereCollider, false)
 	Transform.ActiveControl(projectile.transformID, false)
 

@@ -51,6 +51,7 @@ public:
 	PacketQueue<HealthPacket> * getRessurectionQueue();
 	PacketQueue<DamagePacket> * getAIDamageTextQueue();
 	PacketQueue<DamagePacket> * getBossDamageTextQueue();
+	PacketQueue<HealthPacket> * getBossHealthQueue();
 
 private:
 	PacketQueue<TransformPacket> * transformQueue;
@@ -70,7 +71,7 @@ private:
 	PacketQueue<HealthPacket> * ressurectionQueue;
 	PacketQueue<DamagePacket> * aiDamageTextQueue;
 	PacketQueue<DamagePacket> * bossDamageTextQueue;
-
+	PacketQueue<HealthPacket> * bossHealthQueue;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

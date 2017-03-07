@@ -1,4 +1,11 @@
 MAX_FIRE_EFFECT_PARTICLES = 50
+
+TIME_TABLE = {}
+TIME_TABLE[1] = 10.0
+TIME_TABLE[2] = 16.0
+TIME_TABLE[3] = 19.0
+TIME_TABLE[4] = 22.0
+
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
@@ -121,25 +128,30 @@ function Rewind()
 	--UnloadGameplay()
 	LEVEL_ROUND = LEVEL_ROUND + 1
 	--EnterGameplay()
-	for levelIndex,level in pairs(levels) do
-		if loadedLevels[levelIndex] then
-			level.unload()
-			print("unloaded level ".. levelIndex)
+	if LEVEL_ROUND > 3 then
+		--WIN
+	else
+		for levelIndex,level in pairs(levels) do
+			if loadedLevels[levelIndex] then
+				level.unload()
+				print("unloaded level ".. levelIndex)
+			end
+			loadedLevels[levelIndex] = false
 		end
-		loadedLevels[levelIndex] = false
+		UnloadEnemies()
+		levels[1].load()
+		loadedLevels[1] = true
+		for _,v in pairs(levels[1].surrounding) do
+			levels[v].load()
+			loadedLevels[v] = true
+			print("level: " .. v .. " loaded!")
+		end
+		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
+		player:ChangeHeightmap(1)
+		Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+		boss.alive = true
+		player.health = 100
+		player.effects = {}
 	end
-	UnloadEnemies()
-	levels[1].load()
-	loadedLevels[1] = true
-	for _,v in pairs(levels[1].surrounding) do
-		levels[v].load()
-		loadedLevels[v] = true
-		print("level: " .. v .. " loaded!")
-	end
-	Transform.SetPosition(player.transformID, {x=32.9063, y=7.48828, z=145.625})
-	player:ChangeHeightmap(1)
-	Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
-	boss.alive = true
-	player.health = 100
-	player.effects = {}
+
 end

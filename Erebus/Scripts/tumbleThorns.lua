@@ -11,7 +11,7 @@ function CreateTumblethorns(entity)
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = 10
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
-	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 0
+	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 1
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
 	spell.direction = {x = 0, y = 0, z = 0}		spell.position = {x = 0, y = 0, z = 0}
 	spell.isActiveSpell = false
@@ -35,6 +35,8 @@ function CreateTumblethorns(entity)
 	spell.effects = {} 
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	spell.particles = createTumbleParticles()
+	spell.explodeParticles = createTumbleParticles()
+	spell.explodeParticles:setFocus(0)
 
 	function spell:Update(dt)
 		if self.alive then
@@ -90,13 +92,27 @@ function CreateTumblethorns(entity)
 		return result
 	end
 	function spell:ChargeCast()
-		self:Cast()
+		if self.rollin then
+			self.explodeParticles:explode(self.position)
+			self:Kill()
+		end
+		if self.minChargeTime < self.chargedTime then
+			TUMBLETHORN_RADIUS = 1
+			Transform.SetScale(self.transformID, 2)
+			SphereCollider.SetRadius(self.sphereCollider, 2)
+			self.damage = 20
+			self:Cast()
+		end
 	end
 
 	function spell:Kill()
 		self.alive = false
 		SphereCollider.SetActive(spell.sphereCollider, false)
 		Transform.ActiveControl(self.transformID, false)
+		Transform.SetScale(self.transformID, 1)
+		SphereCollider.SetRadius(self.sphereCollider, 1)
+		TUMBLETHORN_RADIUS = 0.5
+		self.damage = 10
 		self.particles:die()
 		self.canRollBack = true
 		self.rollin = false
@@ -134,7 +150,7 @@ function CreateTumblethorns(entity)
 					self.enemiesHit[enemies[curEnemy].transformID] = true		
 				end
 			end	
-			if collisionIDs[curID] == boss.collider:GetID() then
+			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
 				if not self.enemiesHit[boss.transformID] then
 					boss:Hurt(self.damage, self.owner, self.element)				
 					for stuff = 1, #self.effects do
@@ -148,7 +164,6 @@ function CreateTumblethorns(entity)
 	end
 
 	spell.Charge = BaseCharge
-	spell.ChargeCast = BaseChargeCast
 	spell.GetEffect = BaseGetEffect
 	spell.Combine = BaseCombine
 	return spell

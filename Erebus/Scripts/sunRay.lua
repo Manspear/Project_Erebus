@@ -214,7 +214,7 @@ function CreateSunRay(entity)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
-		
+		self.damage = SUNRAY_DAMAGE
 		self.owner.moveSpeed = self.owner.moveSpeed / self.moveImpairment
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()

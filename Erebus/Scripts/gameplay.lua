@@ -14,6 +14,7 @@ local scriptFiles =
 	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
 	"Scripts/Animation_Controllers/meleeGoblinController.lua",
+	"Scripts/Animation_Controllers/bossController.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/grenadeType.lua",
@@ -57,6 +58,21 @@ function LoadGameplay()
 	for i = 1, 8 do
 		levelScripts[i] = dofile("Scripts/levelLogic"..i..".lua")
 	end
+end
+
+function CreateIM()
+		for i = 1, 8 do
+			levels[i].load()
+			loadedLevels[i] = true
+		end
+
+		AI.CreateIM()--,#heightmaps,widthTest,heightTest)
+
+		for i = 1, 8 do
+			levels[i].unload()
+			loadedLevels[i] = false
+		end
+		loadedLevels = {}
 end
 
 function UnloadGameplay()
@@ -111,6 +127,7 @@ function UpdateGameplay(dt)
 		value.Update(dt)
 	end
 
+	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
 	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
@@ -146,6 +163,13 @@ function EnterGameplay()
 		end
 
 		dofile( "Scripts/Adam_test.lua" )
+
+		CreateIM()
+
+		--for i = 1, 7 do
+		--	levels[1].unload()
+		--end
+
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
@@ -153,6 +177,7 @@ function EnterGameplay()
 			loadedLevels[v] = true
 		end
 		--levels[1].load()
+		
 		loadedGameplay = true
 	end
 	LEVEL_ROUND = 1

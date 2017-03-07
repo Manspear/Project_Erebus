@@ -55,6 +55,8 @@ public:
 	void pushRessurectionPacket(const HealthPacket& packet);
 	void pushAIDamageTextPacket(const DamagePacket& packet);
 	void pushBossDamageTextPacket(const DamagePacket& packet);
+	void pushBossHealthPacket(const HealthPacket& packet);
+
 
 private:
 	unsigned char * memory;
@@ -76,6 +78,8 @@ private:
 	PacketQueue<HealthPacket> * ressurectionQueue;
 	PacketQueue<DamagePacket> * aiDamageTextQueue;
 	PacketQueue<DamagePacket> * bossDamageTextQueue;
+	PacketQueue<HealthPacket> * bossHealthQueue;
+
 
 	uint16_t currentNetPacketSize;
 
