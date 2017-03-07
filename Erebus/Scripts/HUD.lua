@@ -402,6 +402,10 @@ function hideTutorialImage2()
 	SHOW_TUTORIAL_IMAGE2 = -1
 end
 
+function hideTutorialRevive()
+	SHOW_TUTORIAL_REVIVE = -1
+end
+
 function hideCombinationImage()
 	SHOW_COMBINE_BARRIER_IMAGE = -1
 end
