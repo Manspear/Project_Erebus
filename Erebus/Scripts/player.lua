@@ -279,6 +279,11 @@ function FindHeightmap(position)
 				levels[v].load()
 				loadedLevels[v] = true
 			end
+
+			--new time of day :)
+			local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
+			Sky.SetTime(newtime)
+			print(newtime .. " levelindex: " .. player.levelIndex)
 		end
 	end
 end

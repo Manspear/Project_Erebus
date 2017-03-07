@@ -178,18 +178,26 @@ GEAR_API void Gear::Skybox::update(float dt)
 		SetDawn();
 	}
 
-	float deltaTime = 0.0f;
-	if (luaOverride)
+	float deltaTime = dt;
+	if (luaOverride && timeHasChanged)
 	{
-		if ((currentCycleTime > targetTime + 1 || currentCycleTime < targetTime - 1))
+		if (lerpTime <= lerpMaxTime)
 		{
 			deltaTime = dt * 25;
-			currentCycleTime += dt * 25;
+			lerpTime += dt;
+
+			currentCycleTime = (startTime + (lerpTime/ lerpMaxTime) * (targetTime - startTime));
 			currentCycleTime = fmod(currentCycleTime, dayCycleLength);
 			UpdateWorldTime();
 			UpdateFog();
 			UpdateLight();
 			UpdateBlendFactor();
+
+			
+		}
+		else
+		{
+			timeHasChanged = false;
 		}
 	}
 	else if (!luaOverride) {
@@ -334,6 +342,9 @@ GEAR_API void Gear::Skybox::setTime(int hours, bool force)
 	}
 
 	targetTime = fmod(((hours * hourToCycleTime) - (dawnTimeOffset + 2) * hourToCycleTime), dayCycleLength);
+	timeHasChanged = true;
+	startTime = currentCycleTime;
+	lerpTime = 0.0f;
 	if (force)
 	{
 		currentCycleTime = targetTime;
