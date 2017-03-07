@@ -31,7 +31,7 @@ namespace Gear
 
 		debugHandler = new DebugHandler();
 		debugHandler->addDebuger(Debugger::getInstance());
-
+		this->blendModels = new std::vector<ModelInstance>();
 	}
 
 	GearEngine::~GearEngine()

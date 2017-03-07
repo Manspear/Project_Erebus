@@ -1,0 +1,20 @@
+<LevelActor type="Asset_WoodBarrel" displayName="WoodenBarrel" tileID="5" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="1" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1390" parentID="0"/>
+        <Behavior Type="0"/>
+        <GenParent value="true"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.80000001" y="1" z="0.80000001"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>WoodenBarrel</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="491.5" y="60.65625" z="513"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

@@ -1,0 +1,11 @@
+<LevelActor type="Asset_WoodChoop" displayName="WoodChopping" tileID="5" exportType="1">
+    <LevelModel>
+        <ModelName>WoodChopping</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="499.88058" y="62.15625" z="518.87457"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

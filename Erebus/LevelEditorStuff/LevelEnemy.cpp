@@ -79,10 +79,11 @@ std::string LevelEnemy::toLuaLoad(std::string name){
 		ss  << name << " = CreateEnemy(" << (type == ENEMY_MELEE ? "ENEMY_MELEE" : "ENEMY_RANGED") << ", {x=" << pos.x << ", y=" << pos.y << ", z=" << pos.z << "}, "<< element <<")" << endl;
 	}
 		
+	ss << name << ":SetStats("<< moveSpeed<<", "<< health<< ", "<<visionRange<< ")" << std::endl;
 
-	ss << name << ".moveSpeed = " << moveSpeed << endl;
-	ss << name << ".health = " << health << endl;
-	ss << name << ".visionRange = " << visionRange << endl;
+	//ss << name << ".moveSpeed = " << moveSpeed << endl;
+	//ss << name << ".health = " << health << endl;
+	//ss << name << ".visionRange = " << visionRange << endl;
 
 	return ss.str();
 }

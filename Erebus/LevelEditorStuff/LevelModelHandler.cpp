@@ -13,12 +13,14 @@ LevelModelHandler::LevelModelHandler(LevelTransformHandler* transHandlerRef,
 	this->assetsRef = assetRef;
 	//modelToActorID.resize(100);
 	modelInstanceAgentIDs.resize(200);
+	
 	this->animatedModels = std::vector<AnimatedInstance>();
 	this->models = std::vector<ModelInstance>();
 }
 
 LevelModelHandler::~LevelModelHandler()
 {
+	
 }
 
 std::vector<ModelInstance>* LevelModelHandler::getModels() {
@@ -53,6 +55,13 @@ int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 		instance.asset = testModel;
 
 		index = models.size();
+
+
+
+
+		if (models.size() > 62 && models.size()<68) {
+			std::cout << "at: " << models.size() << " name: " << modelName << std::endl;
+		}
 		models.push_back(instance);
 	}
 

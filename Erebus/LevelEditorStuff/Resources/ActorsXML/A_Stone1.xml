@@ -1,0 +1,20 @@
+<LevelActor type="Asset_Stone" displayName="Asset_Stone1" tileID="5" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="0.5" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="1382" parentID="0"/>
+        <Behavior Type="0"/>
+        <GenParent value="true"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="0.60000002" y="0.5" z="0.60000002"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>stone_1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="500.75" y="72.449081" z="532.5"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

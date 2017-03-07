@@ -1,0 +1,20 @@
+<LevelActor type="Asset_House" displayName="House" tileID="1" exportType="1">
+    <LevelCollider type="2">
+        <Offset x="0" y="3" z="0"/>
+        <Color x="0" y="1" z="0"/>
+        <IDs ID="447" parentID="0"/>
+        <Behavior Type="0"/>
+        <GenParent value="true"/>
+        <Rotation x="0" y="0" z="0"/>
+        <HalfLengths x="3.5" y="3" z="2"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>House1</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="36.887039" y="7.9609375" z="130.83415"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1.6220474" y="1.6072598" z="1.3719635"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
