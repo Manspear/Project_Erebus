@@ -1,7 +1,7 @@
 --TIMEORB_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
 TIMEORB_SPELL_TEXTURE = "Textures/TimeOrbTexture.dds"
 TIMEORB_MODEL = "Models/TimeOrb.model"
-TIMEORBWAVEDURATION = 6
+TIMEORBWAVEDURATION = 12 --was 6
 
 function CreateTimeOrbWave(entity)
 	local spell = {}

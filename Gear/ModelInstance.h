@@ -17,6 +17,7 @@ namespace Gear
 		GEAR_API void allocateBuffer();
 		GEAR_API void bindBuffers();
 		GEAR_API void bufferData();
+		GEAR_API void unloadBuffers();
 		 
 		GEAR_API void updateWorldMatrices();
 		 

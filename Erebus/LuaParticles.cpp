@@ -22,6 +22,7 @@ namespace LuaParticles
 			{ "Explode",		explode},
 			{ "SetDirection",	setDirection},
 			{ "SetExtro",		setExtro},
+			{ "SetFocus",       setFocus},
 			{ NULL, NULL }
 		};
 		luaL_setfuncs(lua, regs, 0);
@@ -160,6 +161,13 @@ namespace LuaParticles
 	{
 		assert(lua_gettop(lua) == 2);
 		g_systems->at((int)lua_tointeger(lua, 1))->setExtroversion((bool)lua_toboolean(lua, 2));
+		return 0;
+	}
+
+	int setFocus(lua_State* lua)
+	{
+		assert(lua_gettop(lua) == 2);
+		g_systems->at((int)lua_tointeger(lua, 1))->setFocus((bool)lua_toboolean(lua, 2));
 		return 0;
 	}
 

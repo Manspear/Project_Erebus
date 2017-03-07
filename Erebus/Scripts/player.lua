@@ -107,6 +107,7 @@ function LoadPlayer()
 	player.dashTimer = player.dashTimer * DASH_SPEED_MULTIPLE 
 
 	player.lastPos = Transform.GetPosition(player.transformID)
+
 	player.effects = {}
 
 	player.nrOfInnerCircleEnemies = 0
@@ -449,6 +450,13 @@ function Controls(dt)
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
 		end
+
+		if Inputs.KeyDown("O") then
+			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
+			levels[8].load()
+			player:ChangeHeightmap(8)
+		end
+
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
 			local pos = player.position

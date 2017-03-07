@@ -137,4 +137,11 @@ namespace Gear
 			particleEmitters[i].setExtrovert(yesNo);
 		}
 	}
+	GEAR_API void ParticleSystem::setFocus(float focus)
+	{
+		for (size_t i = 0; i < nrOfEmitters; i++)
+		{
+			particleEmitters[i].setFocus(focus);
+		}
+	}
 }
