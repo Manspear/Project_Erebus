@@ -200,7 +200,8 @@ function CreateEnemy(type, position, element)
 			--end
 		end
 		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
-			self.health = health * LEVEL_ROUND
+			self.maxHealth = health * LEVEL_ROUND
+			self.health = self.maxHealth
 			self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
 			self.visionRange = visionRange
 		end
