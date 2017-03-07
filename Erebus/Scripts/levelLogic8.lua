@@ -1,16 +1,16 @@
-bossKill = {}
-bossKill.notAGameState = false
-bossKill.tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
-Transform.SetScale(bossKill.tranny, 15)
-bossKill.someTimer = 2
-bossKill.stage1 = false
-bossKill.stage2 = false
+--bossKill = {}
+--bossKill.notAGameState = false
+--bossKill.tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
+--Transform.SetScale(bossKill.tranny, 15)
+--bossKill.someTimer = 2
+--bossKill.stage1 = false
+--bossKill.stage2 = false
 function LoadLogic()
 	
 end
 
 function UpdateLogic(dt)
-	RewindEvent(dt)
+	--RewindEvent(dt)
 end
 
 function RewindEvent(dt)

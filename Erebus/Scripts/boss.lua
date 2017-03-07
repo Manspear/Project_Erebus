@@ -114,7 +114,7 @@ function LoadBoss()
 		if boss.alive then
 			boss.alive = false
 			boss.combatStarted = false
-			--Rewind()
+			Rewind()
 
 			--bossAggroWindupDone = true
 			--bossAggroFlyupDone = false

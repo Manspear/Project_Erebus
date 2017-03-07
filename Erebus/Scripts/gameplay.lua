@@ -41,7 +41,8 @@ local scriptFiles =
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
 	"Scripts/reusable.lua",
-	"Scripts/sluice.lua"
+	"Scripts/sluice.lua",
+	"Scripts/rewinder.lua"
 }
 
 loadedLevels = {}

@@ -8298,7 +8298,6 @@ levels[7] = level07
 level08 = {}
 level08.surrounding = { 7 }
 level08.load = function()
-levelScripts[8].Load()
 level08.props = {}
 level08.colliders = {}
 level08.triggers = {}
@@ -9011,7 +9010,6 @@ Transform.SetScaleNonUniform(level08.props.Tile8_FenceID.transformID, 1, 1, 1)
 Transform.SetRotation(level08.props.Tile8_FenceID.transformID, {x=-0, y=0, z=-0})
 end
 level08.unload = function()
-levelScripts[8].Unload()
 level08.props.tile8ID = nil
 Gear.UnbindInstance(level08.props.t8s1ID.transformID)
 Assets.UnloadModel('Models/tile8_s1.model')
