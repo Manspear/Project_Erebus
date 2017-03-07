@@ -110,7 +110,7 @@ namespace AGI
 
 			imWidth = 0;
 			imHeight = 0;
-			resolution = 0.4f;  // Never above 1
+			resolution = 0.5f;  // Never above 1
 
 			dynamicInfluenceMap = nullptr;
 			staticInfluenceMap = nullptr;
@@ -355,7 +355,6 @@ namespace AGI
 
 			for (int n = 0; n < 8; n++)
 			{
-
 				if (heightmaps[n]->inside(glm::vec3(w, 0, h)))
 				{
 					stupid = n;
@@ -506,14 +505,20 @@ namespace AGI
 							maxHeight = glm::abs(inHeight - centerHeight);
 			#pragma endregion
 
-						
-			if (centerHeight <= 3)
-				return false;
-
 			w = ((float)x) / (resolution);
 			h = ((float)y) / (resolution);
 
-			Collisions::SphereCollider temp(glm::vec3(w, centerHeight,h), 1.4f);
+
+			if (centerHeight-heightmaps[stupid]->getPosition().y < 0.7f) {
+				return false;
+			}
+
+			if (centerHeight <= 3)
+				return false;
+
+
+
+			Collisions::SphereCollider temp(glm::vec3(w, centerHeight,h), 1/resolution);
 			return !collisionHandler->checkCollisionsBetweenHitboxAndLayer(&temp, 3);
 		}
 
