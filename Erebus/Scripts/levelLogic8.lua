@@ -1,11 +1,12 @@
+bossKill = {}
+bossKill.notAGameState = false
+bossKill.tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
+Transform.SetScale(bossKill.tranny, 15)
+bossKill.someTimer = 2
+bossKill.stage1 = false
+bossKill.stage2 = false
 function LoadLogic()
-	bossKill = {}
-	bossKill.notAGameState = false
-	bossKill.tranny = Gear.BindForwardInstance(Assets.LoadModel( "Models/blackHole_Sphere.model" ) )
-	Transform.SetScale(bossKill.tranny, 15)
-	bossKill.someTimer = 2
-	bossKill.stage1 = false
-	bossKill.stage2 = false
+	
 end
 
 function UpdateLogic(dt)
@@ -14,9 +15,9 @@ end
 
 function RewindEvent(dt)
 	if not boss.alive and not bossKill.stage1 then
+	print(bossKill)
 		bossKill.stage1 = true
 		player.isControlable = false
-		--Transform.ActiveControl(tranny, true)
 		local pos = player.position
 		pos.y = pos.y + 150
 		Transform.SetPosition(tranny, pos)
@@ -29,22 +30,19 @@ function RewindEvent(dt)
 			bossKill.stage1 = false
 			bossKill.stage2 = true
 			Transform.ActiveControl(bossKill.tranny, true)
-			Sky.SetAmbient({r = 0.1, g = 0.1, b = 0.1})
+			Sky.SetAmbient({r = 0.0, g = 0.0, b = 0.0})
 			bossKill.someTimer = 8
 		end
 	end
 	if bossKill.stage2 then
-		someTimer = someTimer - dt
+		bossKill.someTimer = bossKill.someTimer - dt
 		Transform.CopyPosition(tranny, player.transformID)
 		Transform.CopyPosition(player.transformID, player.dummyTrans.transformID)
 		UpdateCamera(0)
-		if someTimer < 0 then
-			Gear.UnbindInstance( bossKill.tranny )
-			Assets.UnloadModel("Models/blackHole_Sphere.model")
+		if bossKill.someTimer < 0 then		
 			camera.toFollow = player
-			notAGameState = nil
+			notAGameState = false
 			player.isControlable = true
-			bossKill.someTimer = nil
 			Rewind()
 			Particle.Explode(player.dashEndParticles, player.position)			
 		end
@@ -52,7 +50,8 @@ function RewindEvent(dt)
 end
 
 function UnloadLogic()
-
+	--Gear.UnbindInstance( bossKill.tranny )
+	--Assets.UnloadModel("Models/blackHole_Sphere.model")
 end
 
 return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }

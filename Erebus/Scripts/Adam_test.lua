@@ -836,7 +836,7 @@ level01.props.Stone3ID.collider:SetRadius(1)
 level01.props.Stone3ID.collider:SetPos(6.41381,7.04375,142.217)
 CollisionHandler.AddSphere(level01.props.Stone3ID.collider, 3)
 level01.props.Stone1ID = {}
-level01.props.Stone1ID.model = Assets.LoadModel('Models/Stone2.model')
+level01.props.Stone1ID.model = Assets.LoadModel('Models/Stone4.model')
 level01.props.Stone1ID.transformID = Gear.BindStaticInstance(level01.props.Stone1ID.model)
 Transform.SetPosition(level01.props.Stone1ID.transformID, {x=3.73525, y=6.76953, z=145.076})
 Transform.SetScaleNonUniform(level01.props.Stone1ID.transformID, 1.6774, 1.68557, 1.1635)
@@ -870,7 +870,7 @@ level01.props.HouseID.collider:SetHalfLengths(5.67717,4.82178,2.74393)
 level01.props.HouseID.collider:SetPos(36.887,10.9609,130.834)
 CollisionHandler.AddOBB(level01.props.HouseID.collider, 3)
 level01.props.Stone11ID = {}
-level01.props.Stone11ID.model = Assets.LoadModel('Models/Stone2.model')
+level01.props.Stone11ID.model = Assets.LoadModel('Models/Stone4.model')
 level01.props.Stone11ID.transformID = Gear.BindStaticInstance(level01.props.Stone11ID.model)
 Transform.SetPosition(level01.props.Stone11ID.transformID, {x=3.52792, y=3.78483, z=188.422})
 Transform.SetScaleNonUniform(level01.props.Stone11ID.transformID, 1.51213, 1.79035, 1.59059)
@@ -926,7 +926,7 @@ level01.props.Stone34ID.collider:SetRadius(1)
 level01.props.Stone34ID.collider:SetPos(3.03896,3.89922,190.737)
 CollisionHandler.AddSphere(level01.props.Stone34ID.collider, 3)
 level01.props.Stone12ID = {}
-level01.props.Stone12ID.model = Assets.LoadModel('Models/Stone2.model')
+level01.props.Stone12ID.model = Assets.LoadModel('Models/Stone4.model')
 level01.props.Stone12ID.transformID = Gear.BindStaticInstance(level01.props.Stone12ID.model)
 Transform.SetPosition(level01.props.Stone12ID.transformID, {x=3.2186, y=3.70508, z=193.414})
 Transform.SetScaleNonUniform(level01.props.Stone12ID.transformID, 1.01499, 1.34828, 1.3712)
@@ -1365,7 +1365,7 @@ Gear.UnbindInstance(level01.props.Stone3ID.transformID)
 Assets.UnloadModel('Models/Stone4.model')
 level01.props.Stone3ID = nil
 Gear.UnbindInstance(level01.props.Stone1ID.transformID)
-Assets.UnloadModel('Models/Stone2.model')
+Assets.UnloadModel('Models/Stone4.model')
 level01.props.Stone1ID = nil
 Gear.UnbindInstance(level01.props.Stone31ID.transformID)
 Assets.UnloadModel('Models/Stone4.model')
@@ -1374,7 +1374,7 @@ Gear.UnbindInstance(level01.props.HouseID.transformID)
 Assets.UnloadModel('Models/House1.model')
 level01.props.HouseID = nil
 Gear.UnbindInstance(level01.props.Stone11ID.transformID)
-Assets.UnloadModel('Models/Stone2.model')
+Assets.UnloadModel('Models/Stone4.model')
 level01.props.Stone11ID = nil
 Gear.UnbindInstance(level01.props.Stone21ID.transformID)
 Assets.UnloadModel('Models/Stone3.model')
@@ -1389,7 +1389,7 @@ Gear.UnbindInstance(level01.props.Stone34ID.transformID)
 Assets.UnloadModel('Models/Stone4.model')
 level01.props.Stone34ID = nil
 Gear.UnbindInstance(level01.props.Stone12ID.transformID)
-Assets.UnloadModel('Models/Stone2.model')
+Assets.UnloadModel('Models/Stone4.model')
 level01.props.Stone12ID = nil
 Light.removeLight(level01.props.LanternID.lightIndex)
 Gear.UnbindInstance(level01.props.LanternID.transformID)
@@ -7340,7 +7340,7 @@ level07.colliders.Tile7_wallNr97ID.collider:SetHalfLengths(0.3,5.72517,20)
 level07.colliders.Tile7_wallNr97ID.collider:SetPos(315,142.171,553)
 CollisionHandler.AddOBB(level07.colliders.Tile7_wallNr97ID.collider, 3)
 level07.props.RockID = {}
-level07.props.RockID.model = Assets.LoadModel('Models/Stone2.model')
+level07.props.RockID.model = Assets.LoadModel('Models/Stone4.model')
 level07.props.RockID.transformID = Gear.BindStaticInstance(level07.props.RockID.model)
 Transform.SetPosition(level07.props.RockID.transformID, {x=390.664, y=123.514, z=630.811})
 Transform.SetScaleNonUniform(level07.props.RockID.transformID, 8.00562, 10.6213, 14.9332)
@@ -8140,7 +8140,7 @@ level07.colliders.Tile7_wallNr93ID = nil
 level07.colliders.Tile7_wallNr96ID = nil
 level07.colliders.Tile7_wallNr97ID = nil
 Gear.UnbindInstance(level07.props.RockID.transformID)
-Assets.UnloadModel('Models/Stone2.model')
+Assets.UnloadModel('Models/Stone4.model')
 level07.props.RockID = nil
 Gear.UnbindInstance(level07.props.Rock1ID.transformID)
 Assets.UnloadModel('Models/Stone3.model')
