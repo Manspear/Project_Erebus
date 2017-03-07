@@ -123,13 +123,17 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].Hurt = function(self, damage, source, element)
 			local pos = Transform.GetPosition(self.transformID)
-
+			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
 			if source ~= player2 then
 				if Network.GetNetworkHost() == true then
 					if self.alive == true then
 						damage = self.elementType ~= element and damage or damage * 0.5
 						self.health = self.health - damage
-						Network.SendAIHealthPacket(self.transformID, self.health)
+						if self.health > 0 then
+							Network.SendAIHealthPacket(self.transformID, self.health)
+						else
+							Network.SendAIHealthPacket(self.transformID, 0)
+						end
 						self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 						self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 						if element then
@@ -146,10 +150,11 @@ function CreateEnemy(type, position, element)
 								--print("Dead for host", enemies[i].transformID)
 								self.health = 0
 								self:Kill()
-							elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-								self.health = self.maxHealth
-								self.currentHealth = self.maxHealth
 							end
+						elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+							self.health = self.maxHealth
+							self.currentHealth = self.maxHealth
+							
 						end
 					end
 				else
@@ -200,14 +205,18 @@ function CreateEnemy(type, position, element)
 			--end
 		end
 		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
-			self.health = health * LEVEL_ROUND
+			self.maxHealth = health * LEVEL_ROUND
+			self.health = self.maxHealth
+			self.currentHealth = self.maxHealth
 			self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
 			self.visionRange = visionRange
 		end
 
 		enemies[i].Spawn = function(self,position)
 			self.alive = true
-			self.health = 20
+			self.maxHealth = 20
+			self.health = self.maxHealth
+			self.currentHealth = self.maxHealth
 			self.pos.x = position.x
 			self.pos.y = position.y
 			self.pos.z = position.z
