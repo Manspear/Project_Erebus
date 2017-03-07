@@ -141,8 +141,6 @@ namespace Gear
 		ShaderProgram gBuffer;
 		ShaderProgram particleFBO;
 
-		//Effects stuff
-		GLuint gloomTexture;
 
 		std::vector<GLuint> lightDirectionLocations;
 		std::vector<GLuint> lightColorLocations;

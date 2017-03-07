@@ -17,6 +17,7 @@ namespace Gear
 		GEAR_API void allocateBuffer();
 		GEAR_API void bindBuffers();
 		GEAR_API void bufferData();
+		GEAR_API void unloadBuffers();
 		 
 		GEAR_API void updateWorldMatrices();
 		 
@@ -52,6 +53,7 @@ namespace Gear
 		GEAR_API Animation* getAnimation( int index );
 		GEAR_API bool getActive( int index );
 		GEAR_API bool getCulled( int index );
+		GEAR_API bool getVacant( int index );
 		GEAR_API const std::vector<TransformStruct>* getTransforms();
 		
 	private:

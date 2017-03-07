@@ -124,11 +124,24 @@ namespace Importer
 
 	float HeightMap::getPos(float x, float z)
 	{
+
 		float firstX = x;
 		float firstZ = z;
 
 		x = x - position.x;
 		z = z - position.z;
+
+		if (z > this->mapHeight - 2) {
+			z = this->mapHeight - 2.0f;
+		}
+		else if (z < 0)
+			z = 0;
+		
+		if (x > this->mapWidth - 2) {
+			x = this->mapWidth - 2.0f;
+		}
+		else if (x < 0)
+			x = 0;
 
 		if( x < 0 || z < 0 || x >= mapWidth-1 || z >= mapHeight-1 )
 			return -5;

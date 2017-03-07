@@ -174,7 +174,7 @@ namespace AGI
 					if (dynamicInfluenceMap[w][h] != nullptr)
 					{
 
-						int stupid = 0;
+						int stupid = 1;
 
 					/*	for (int n = 0; n < 8; n++)
 						{*/
@@ -209,7 +209,6 @@ namespace AGI
 		{
 			debugRef = bugg;
 		}
-
 
 		AGI_API void createInfluenceMap(Importer::HeightMap** heightmaps, Collisions::CollisionHandler* collisionHandler,int width, int height)
 		{
@@ -347,7 +346,8 @@ namespace AGI
 			float doJump = 1.0f;
 
 			float maxHeight = 0.0f;
-
+			//x -= 0.4f;
+			//y += 1.5f;
 			float w = ((float)x) / (resolution);
 			float h = ((float)y) / (resolution);
 
@@ -506,11 +506,14 @@ namespace AGI
 							maxHeight = glm::abs(inHeight - centerHeight);
 			#pragma endregion
 
-
-			if (glm::abs(centerHeight - maxHeight) >1.9f || centerHeight <= 3)
+						
+			if (centerHeight <= 3)
 				return false;
 
-			Collisions::SphereCollider temp(glm::vec3(w, centerHeight, h), 8);
+			w = ((float)x) / (resolution);
+			h = ((float)y) / (resolution);
+
+			Collisions::SphereCollider temp(glm::vec3(w, centerHeight,h), 1.4f);
 			return !collisionHandler->checkCollisionsBetweenHitboxAndLayer(&temp, 3);
 		}
 

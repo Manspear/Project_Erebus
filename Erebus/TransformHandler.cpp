@@ -50,6 +50,15 @@ void TransformHandler::checkReset()
 {
 	if( shouldReset )
 	{
+		for( int i=0; i<instances[INSTANCE_DYNAMIC]->size(); i++ )
+			removables.push_back( instances[INSTANCE_DYNAMIC]->at(i) );
+		for( int i=0; i<instances[INSTANCE_ANIMATED]->size(); i++ )
+			removables.push_back( instances[INSTANCE_ANIMATED]->at(i) );
+		for( int i=0; i<instances[INSTANCE_FORWARD]->size(); i++ )
+			removables.push_back( instances[INSTANCE_DYNAMIC]->at(i) );
+		for( int i=0; i<instances[INSTANCE_BLENDING]->size(); i++ )
+			removables.push_back( instances[INSTANCE_BLENDING]->at(i) );
+
 		instances[INSTANCE_DYNAMIC]->clear();
 		instances[INSTANCE_ANIMATED]->clear();
 
@@ -61,6 +70,16 @@ void TransformHandler::checkReset()
 
 		shouldReset = false;
 	}
+}
+
+void TransformHandler::checkRemove()
+{
+	for( int i=0; i<removables.size(); i++ )
+	{
+		removables[i].unloadBuffers();
+	}
+
+	removables.clear();
 }
 
 int TransformHandler::bindStaticInstance( ModelAsset* asset )
@@ -76,6 +95,7 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		modelIndex = findVacantModelIndex( INSTANCE_DYNAMIC );
 		if( modelIndex >= 0 )
 		{
+			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
 			uses[INSTANCE_DYNAMIC].at(modelIndex) = 1;
 		}
@@ -131,6 +151,7 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 		modelIndex = findVacantModelIndex( INSTANCE_ANIMATED );
 		if( modelIndex >= 0 )
 		{
+			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
 			uses[INSTANCE_ANIMATED].at(modelIndex) = 1;
 		}
@@ -187,6 +208,7 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 		modelIndex = findVacantModelIndex( INSTANCE_FORWARD );
 		if( modelIndex >= 0 )
 		{
+			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
 			uses[INSTANCE_FORWARD].at(modelIndex) = 1;
 			gearEngine->uniValues.at( modelIndex ) = { "NULL", {0,0} };
@@ -244,6 +266,7 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 		modelIndex = findVacantModelIndex( INSTANCE_BLENDING );
 		if( modelIndex >= 0 )
 		{
+			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
 			uses[INSTANCE_BLENDING].at(modelIndex) = 1;
 		}
