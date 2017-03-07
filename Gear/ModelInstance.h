@@ -53,6 +53,7 @@ namespace Gear
 		GEAR_API Animation* getAnimation( int index );
 		GEAR_API bool getActive( int index );
 		GEAR_API bool getCulled( int index );
+		GEAR_API bool getVacant( int index );
 		GEAR_API const std::vector<TransformStruct>* getTransforms();
 		
 	private:

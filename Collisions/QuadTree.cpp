@@ -58,30 +58,33 @@ namespace Collisions
 
 		for (size_t i = 0; i < models->size(); i++) // for every type of model
 		{
-
 			ModelAsset* tempModelAsset = models->at(i).getAsset(); // get model asset
 
 			for (size_t j = 0; j < models->operator[](i).getTransforms()->size(); j++) // for every transform
 			{
-				TransformStruct* tempTransform = models->operator[](i).getTransform(j);
-
-
-				if (tempTransform->active)
+				if (!models->operator[](i).getVacant(j)) // if not vacant
 				{
-					AABBCollider* modelCollider = new AABBCollider(tempModelAsset->getMinPosition() * tempTransform->scale, tempModelAsset->getMaxPosition() * tempTransform->scale, tempTransform->pos);
+					TransformStruct* tempTransform = models->operator[](i).getTransform(j);
 
-					if (this->collisionChecker.collisionCheck(this->baseNode->collider, modelCollider)) // if the model is colliding with the quadtree
+
+					if (tempTransform->active)
 					{
-						ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
-						this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
-						this->addDynamicModelsToQuadtree(this->baseNode, tempCombiner);
-						
+						AABBCollider* modelCollider = new AABBCollider(tempModelAsset->getMinPosition() * tempTransform->scale, tempModelAsset->getMaxPosition() * tempTransform->scale, tempTransform->pos);
+
+						if (this->collisionChecker.collisionCheck(this->baseNode->collider, modelCollider)) // if the model is colliding with the quadtree
+						{
+							ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
+							this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
+							this->addDynamicModelsToQuadtree(this->baseNode, tempCombiner);
+
+						}
+
+						else
+							delete modelCollider;
+
 					}
-
-					else
-						delete modelCollider;
-
 				}
+
 
 			}
 		}
@@ -169,13 +172,13 @@ namespace Collisions
 					}
 				}
 
-				for (size_t j = 0; j <  currentNode->getAnimatedModelAmount(); j++) // for all animted models in that node
+				for (size_t j = 0; j < currentNode->getAnimatedModelAmount(); j++) // for all animted models in that node
 				{
 					for (size_t k = 0; k < this->animatedModels->size(); k++) // for every animated model
 					{
 						if (this->animatedModels->operator[](k).getAsset() == currentNode->animatedModels->operator[](j)->asset) // we found asset in animated models
 						{
-							this->animatedModels->operator[](k).setCulled(currentNode->animatedModels->operator[](j)->index,false);
+							this->animatedModels->operator[](k).setCulled(currentNode->animatedModels->operator[](j)->index, false);
 						}
 
 					}
@@ -295,7 +298,7 @@ namespace Collisions
 
 	void QuadTree::addAnimatedHitboxToQuadtree(QuadTreeNode * parent, ModelHitboxCombiner * model)
 	{
-				AABBCollider* childCollider = model->collider;
+		AABBCollider* childCollider = model->collider;
 		if (parent->children[0] != nullptr) // if we have children
 		{
 			QuadTreeNode* topLeftChild = parent->children[TOP_LEFT_NODE];

@@ -50,7 +50,7 @@ void TransformHandler::checkReset()
 {
 	if( shouldReset )
 	{
-		for( int i=0; i<instances[INSTANCE_DYNAMIC]->size(); i++ )
+		/*for( int i=0; i<instances[INSTANCE_DYNAMIC]->size(); i++ )
 			removables.push_back( instances[INSTANCE_DYNAMIC]->at(i) );
 		for( int i=0; i<instances[INSTANCE_ANIMATED]->size(); i++ )
 			removables.push_back( instances[INSTANCE_ANIMATED]->at(i) );
@@ -67,6 +67,25 @@ void TransformHandler::checkReset()
 
 		instances[INSTANCE_BLENDING]->clear();
 		gearEngine->textureBlend.clear();
+
+		uses[INSTANCE_DYNAMIC].clear();
+		uses[INSTANCE_ANIMATED].clear();
+		uses[INSTANCE_FORWARD].clear();
+		uses[INSTANCE_BLENDING].clear();
+
+		handles.clear();*/
+
+		for( int i=0; i<MAX_INSTANCE_TYPES; i++ )
+		{
+			for( int j=0; j<instances[i]->size(); j++ )
+				removables.push_back( instances[i]->at(j) );
+			instances[i]->clear();
+			uses[i].clear();
+		}
+
+		gearEngine->uniValues.clear();
+		gearEngine->textureBlend.clear();
+		handles.clear();
 
 		shouldReset = false;
 	}

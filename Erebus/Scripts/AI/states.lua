@@ -163,7 +163,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 
 			end
 			
-			if enemy.health<8 then
+			if enemy.health< enemy.maxHealth*0.4 then
 				randomNum = math.random(0, 2)
 				if randomNum == 2 then
 					inState = RUN_AWAY_STATE 

@@ -215,6 +215,7 @@ function CreateSiphon(entity)
 				Transform.ActiveControl(self.transformID, false)
 				self.length = SIPHON_HITBOX_LENGTH
 				OBBCollider.SetSize(self.collider, self.length, 1, 1)
+				self.damage = SIPHON_DAMAGE
 				if #self.effects > 1 then
 					table.remove(self.effects)
 				end
