@@ -79,7 +79,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].visionRange = 100
 		enemies[i].subPathtarget = nil
 		enemies[i].pathTarget = nil
-
+		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
 		enemies[i].insideInnerCircleRange = false
 
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -208,9 +208,9 @@ function CreateEnemy(type, position, element)
 		enemies[i].Spawn = function(self,position)
 			self.alive = true
 			self.health = 20
-			self.position.x = position.x
-			self.position.y = position.y
-			self.position.z = position.z
+			self.pos.x = position.x
+			self.pos.y = position.y
+			self.pos.z = position.z
 			Transform.ActiveControl(self.transformID,true)
 		end
 		
@@ -323,6 +323,8 @@ function CreateEnemy(type, position, element)
 		Transform.SetPosition(enemies[i].transformID, position)
 		SphereCollider.SetActive(enemies[i].collider, true)
 
+		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+
 		if Network.GetNetworkHost() == true then
 			enemies[i].state =  stateScript.state.idleState
 			
@@ -374,6 +376,7 @@ function UpdateEnemies(dt)
 	--AI.DrawDebug()
 	--end
 	for i = 1, #enemies do
+		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
 		if enemies[i].damagedTint.a > 0 then
 			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
 			if enemies[i].type ~= ENEMY_DUMMY then
@@ -409,8 +412,8 @@ function UpdateEnemies(dt)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
-			pos = Transform.GetPosition(enemies[i].transformID)
-			UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
+			enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+			UI.reposWorld(enemies[i].healthbar, enemies[i].pos.x, enemies[i].pos.y+1.5, enemies[i].pos.z)
 
 			if enemies[i].currentHealth > enemies[i].health then
 				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
@@ -431,30 +434,30 @@ function UpdateEnemies(dt)
 				end
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
-				local pos = Transform.GetPosition(enemies[i].transformID)
+				
 
 				local heightmapIndex = 1
 
-				for i = 1, #heightmaps do
-					if heightmaps[i].asset:Inside(pos) then
-						heightmapIndex = i
+				for o = 1, #heightmaps do
+					if heightmaps[o].asset:Inside(enemies[i].pos) then
+						heightmapIndex = o
 					end
 				end
 
 				if  enemies[i].stateName ~= DEAD_STATE then
-					local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-					pos.y = pos.y - 10*dt
-					if pos.y < height then
-						pos.y = height
+					local height = heightmaps[heightmapIndex].asset:GetHeight(enemies[i].pos.x,enemies[i].pos.z)+0.7
+					enemies[i].pos.y = enemies[i].pos.y - 10*dt
+					if enemies[i].pos.y < height then
+						enemies[i].pos.y = height
 					end
 				end
-				Transform.SetPosition(enemies[i].transformID, pos)
+				Transform.SetPosition(enemies[i].transformID, enemies[i].pos)
 
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
 				if shouldSendNewTransform == true then
-					Network.SendAITransformPacket(enemies[i].transformID, pos, direction, rotation)
+					Network.SendAITransformPacket(enemies[i].transformID, enemies[i].pos, direction, rotation)
 				end
 			elseif enemies[i].stateName == DUMMY_STATE then
 				if  enemies[i].stateName ~= DEAD_STATE then
