@@ -11,10 +11,6 @@ namespace Gear
 
 	ModelInstance::~ModelInstance()
 	{
-		if (instanceVAO != 0)
-			glDeleteVertexArrays( 1, &instanceVAO );
-		if (instanceVBO != 0)
-			glDeleteBuffers(1, &instanceVBO);
 	}
 
 	void ModelInstance::init()
@@ -107,6 +103,14 @@ namespace Gear
 		{
 			glBufferData( GL_ARRAY_BUFFER, sizeof(glm::mat4), NULL, GL_STREAM_DRAW );
 		}
+	}
+
+	void ModelInstance::unloadBuffers()
+	{
+		if (instanceVAO != 0)
+			glDeleteVertexArrays( 1, &instanceVAO );
+		if (instanceVBO != 0)
+			glDeleteBuffers(1, &instanceVBO);
 	}
 
 	void ModelInstance::updateWorldMatrices()
@@ -356,6 +360,11 @@ namespace Gear
 	bool ModelInstance::getCulled( int index )
 	{
 		return culled.at(index);
+	}
+
+	bool ModelInstance::getVacant( int index )
+	{
+		return vacant.at(index);
 	}
 
 	const std::vector<TransformStruct>* ModelInstance::getTransforms()

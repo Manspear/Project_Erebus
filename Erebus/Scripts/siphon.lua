@@ -101,7 +101,7 @@ function CreateSiphon(entity)
 					break
 				end
 			end
-			if collisionIDs[curID] == boss.collider:GetID() then
+			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
 				hit = boss
 			end
 		end
@@ -196,7 +196,7 @@ function CreateSiphon(entity)
 							end
 						end
 					end
-					if collisionIDs[curID] == boss.collider:GetID() then
+					if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
 						boss:Hurt(self.damage, self.owner, self.element)
 						for i = 1, #self.effects do
 							local effect = effectTable[self.effects[i]](self.owner, 3)
@@ -215,6 +215,7 @@ function CreateSiphon(entity)
 				Transform.ActiveControl(self.transformID, false)
 				self.length = SIPHON_HITBOX_LENGTH
 				OBBCollider.SetSize(self.collider, self.length, 1, 1)
+				self.damage = SIPHON_DAMAGE
 				if #self.effects > 1 then
 					table.remove(self.effects)
 				end

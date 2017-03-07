@@ -12,8 +12,16 @@ SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
 
 function CreateSunRay(entity)
 	local sunRay = {}
-	sunRay.element=FIRE
-	local model = Assets.LoadModel( "Models/SunRayOuter.model" )
+	sunRay.element = FIRE
+
+	local model = Assets.LoadModel( "Models/SunRayRedone.model" )
+	
+
+
+	sunRay.blendValue1 = {x = 0.0, y = 0.0}
+	sunRay.blendValue2 = {x = 0.0, y = 0.0}
+
+
 	sunRay.type = CreateRayType(model)
 	sunRay.effects = {} 
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
@@ -60,6 +68,10 @@ function CreateSunRay(entity)
 	function sunRay:Update(dt)
 		if self.alive then
 			self:MoveWithPlayer(dt)
+			local speed= dt * 4
+			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
+			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
+			Gear.SetBlendUniformValue(self.type.modelBlendingIndex, 2, self.blendValue1,self.blendValue2)		
 			if self.spam then
 				self:Blasting(dt)
 			else 
@@ -202,7 +214,7 @@ function CreateSunRay(entity)
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		Sound.Stop(self.hitID)
 		Erebus.CameraSensitivity(1 / self.cameraSlow)
-		
+		self.damage = SUNRAY_DAMAGE
 		self.owner.moveSpeed = self.owner.moveSpeed / self.moveImpairment
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()

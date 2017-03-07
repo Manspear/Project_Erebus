@@ -101,7 +101,7 @@ function CreateHellPillar(entity)
 			self.maxScale = 6
 			Transform.SetScale(self.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
-			self.damage = 50
+			self.damage = 50 --TODO nerf
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
@@ -175,7 +175,7 @@ function CreateHellPillar(entity)
 					Sound.Play(HELLPILLAR_HIT_SFX, 1, self.pos)
 				end
 			end
-			if collisionIDs[curID] == boss.collider:GetID() then --boss collision
+			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then --boss collision
 				boss:Hurt(self.damage, self.owner, self.element)
 				for i = 1, #self.effects do
 					local effect = effectTable[self.effects[i]](self.owner)

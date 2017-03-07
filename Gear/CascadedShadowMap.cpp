@@ -167,7 +167,7 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		lightM[3][2] -= glm::mod(lightM[3][2], 2.f * radius / width);
 
 		/*glm::mat4 projection = glm::ortho(frustumMin.x, frustumMax.x, frustumMin.y, frustumMax.y, frustumMin.z * 6, frustumMax.z * 6);*/
-		glm::mat4 projection = glm::ortho(-radius, radius, -radius, radius, -radius * 2, radius * 2);
+		glm::mat4 projection = glm::ortho(-radius, radius, -radius, radius, -radius * 6, radius * 6);
 
 		shadowWVPMatrices[CascadeID] = projection * lightM;
 	}

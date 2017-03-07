@@ -1,4 +1,11 @@
 MAX_FIRE_EFFECT_PARTICLES = 50
+
+TIME_TABLE = {}
+TIME_TABLE[1] = 10.0
+TIME_TABLE[2] = 16.0
+TIME_TABLE[3] = 19.0
+TIME_TABLE[4] = 22.0
+
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)

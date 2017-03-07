@@ -210,11 +210,11 @@ namespace LuaAI
 
 	int createIM(lua_State * lua)
 	{
-		if (lua_gettop(lua) >= 3)
-		{
-			AI->createInfluenceMap(heightMaps, g_collisionHandler,lua_tointeger(lua, 2), lua_tointeger(lua, 3));
+		//if (lua_gettop(lua) >= 3)
+		//{
+			AI->createInfluenceMap(heightMaps, g_collisionHandler,0, 0);
 			
-		}
+		//}
 		return 0;
 	}
 

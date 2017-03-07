@@ -107,6 +107,7 @@ function LoadPlayer()
 	player.dashTimer = player.dashTimer * DASH_SPEED_MULTIPLE 
 
 	player.lastPos = Transform.GetPosition(player.transformID)
+
 	player.effects = {}
 
 	player.nrOfInnerCircleEnemies = 0
@@ -278,6 +279,11 @@ function FindHeightmap(position)
 				levels[v].load()
 				loadedLevels[v] = true
 			end
+
+			--new time of day :)
+			local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
+			Sky.SetTime(newtime)
+			print(newtime .. " levelindex: " .. player.levelIndex)
 		end
 	end
 end
@@ -390,7 +396,7 @@ function UpdatePlayer(dt)
 			Controls(dt)
 		end
 	else
-		Transform.CopyPosition(player2.transformID, player.dummyTrans.transformID)
+		Transform.CopyPosition(player.transformID, player.dummyTrans.transformID) -- varför var den player2? wtf dood? vem?
 	end
 	-- check collision against triggers and call their designated function
 	TriggerChecks(dt)
@@ -449,8 +455,16 @@ function Controls(dt)
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
 		end
+
+		if Inputs.KeyDown("O") then
+			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
+			levels[8].load()
+			player:ChangeHeightmap(8)
+		end
+
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
+			showTutorialRevive(player.position.x,player.position.y,player.position.z,dt)
 			local pos = player.position
 			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
 
