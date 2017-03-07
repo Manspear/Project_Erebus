@@ -111,7 +111,7 @@ function CreatePolymorph(entity)
 	function spell:Combine(effect,damage)
 		if #self.effects < 2 then
 			table.insert(self.effects, effect)
-			self.damage = self.damage + damage
+			self.damage = self.damage + 2 * damage
 		end
 	end
 
@@ -124,6 +124,7 @@ function CreatePolymorph(entity)
 		self.alive = false
 		self.chargedTime = 0
 		self.particles:die(self.position)
+		self.damage = 1
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
