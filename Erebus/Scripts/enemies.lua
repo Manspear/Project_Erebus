@@ -328,7 +328,7 @@ function DestroyEnemy(enemy)
 		enemy.reuse = true
 	end
 
-	print("destroying "..enemy.transformID.." elem:"..enemy.elementType)
+	--print("destroying "..enemy.transformID.." elem:"..enemy.elementType)
 end
 function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do
