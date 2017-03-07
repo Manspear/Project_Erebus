@@ -3,7 +3,7 @@ BOSS_SPELLCD[1] = 25
 BOSS_SPELLCD[2] = 1
 BOSS_SPELLCD[3] = 10
 
-boss = {}
+boss = {alive = false}
 boss.spells = {}
 boss.spellinfo = {}
 
@@ -300,4 +300,4 @@ function UpdateBoss(dt)
 		BOSS_DEAD = true
 	end
 end
-return { Load = LoadBoss, Unload = UnloadBoss, Update = UpdateBoss }
+return { Load = function()end, Unload = function()end, Update = function()end }
