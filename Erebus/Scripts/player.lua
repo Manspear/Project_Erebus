@@ -391,7 +391,7 @@ function UpdatePlayer(dt)
 			Controls(dt)
 		end
 	else
-		Transform.CopyPosition(player2.transformID, player.dummyTrans.transformID)
+		Transform.CopyPosition(player.transformID, player.dummyTrans.transformID) -- varför var den player2? wtf dood? vem?
 	end
 	-- check collision against triggers and call their designated function
 	TriggerChecks(dt)
