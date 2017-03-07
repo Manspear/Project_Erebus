@@ -93,7 +93,7 @@ function CreatePolymorph(entity)
 					break
 				end
 			end
-			if collisionIDs[curID] == boss.collider:GetID() then -- boss collison
+			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then -- boss collison
 				boss:Hurt(self.damage, self.owner, self.element)
 				for stuff = 1, #self.effects do
 					local effect = effectTable[self.effects[stuff]](self.chargedTime)
