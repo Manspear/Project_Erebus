@@ -362,6 +362,11 @@ namespace Gear
 		return culled.at(index);
 	}
 
+	bool ModelInstance::getVacant( int index )
+	{
+		return vacant.at(index);
+	}
+
 	const std::vector<TransformStruct>* ModelInstance::getTransforms()
 	{
 		return &this->transforms;
