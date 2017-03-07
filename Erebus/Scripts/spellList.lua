@@ -20,14 +20,14 @@ RemoveListPlayer2 = {}
 
 function LoadSpellbook()
 	local Hellpillar = {texture =  Assets.LoadTexture("Textures/IconHellPiller.dds"),
-						info = wrap("Creates a pillar of fire. \n Can be charged for a bigger and more powerful pillar.", 30, "",""),
+						info = wrap("Hell Pillar \n\nCreates a pillar of fire. Charge for a bigger and more powerful pillar.", 30, "",""),
 						spell = CreateHellPillar(player)}
 	Hellpillar.spell.spellListId = 1
 	table.insert(SpellList, Hellpillar)
 	RemoveList.Hellpillar = Hellpillar
 
 	local BlackHole = {	texture =  Assets.LoadTexture("Textures/IconBlackHole.dds"),
-						info = wrap("No such thing as a weak black hole, therefore a black hole can only be charged", 30, "",""),
+						info = wrap("Black Hole \n\nNo such thing as a weak black hole, therefore a black hole can only be charged", 30, "",""),
 						spell = CreateBlackHole(player)
 	}
 	BlackHole.spell.spellListId = 2
@@ -35,7 +35,7 @@ function LoadSpellbook()
 	RemoveList.BlackHole = BlackHole
 
 	local FireBall = {texture =  Assets.LoadTexture("Textures/IconFireball.dds"),
-					info = wrap("Shoot balls of fire, or charge up for a big controlable fireball.", 30, "",""),
+					info = wrap("Fireball \n\nShoot balls of fire, or charge up for a big controlable fireball.", 30, "",""),
 					spell = CreateFireball(player)
 	}
 	FireBall.spell.spellListId = 3
@@ -43,7 +43,7 @@ function LoadSpellbook()
 	RemoveList.FireBall = FireBall
 
 	local IceGrenade = {texture =  Assets.LoadTexture("Textures/IconIceGrenade.dds"),
-						info = wrap("Lob a grenade of ice at your enemies, or charge it up to deal more damage and slow your foes", 30, "",""),
+						info = wrap("Ice Grenade \n\nLob a grenade of ice at your enemies.", 30, "",""),
 						spell = CreateIceGrenade(player)
 	}
 	IceGrenade.spell.spellListId = 4
@@ -51,7 +51,7 @@ function LoadSpellbook()
 	RemoveList.IceGrenade = IceGrenade
 
 	local SunRay = {texture =  Assets.LoadTexture("Textures/IconSunRay.dds"),
-					info = wrap("Powerful ray of light that burns through enemies. Need power? Just charge!", 30, "",""),
+					info = wrap("Sun Ray \n\nPowerful ray of light that burns through enemies.", 30, "",""),
 					spell = CreateSunRay(player)
 	}
 	SunRay.spell.spellListId = 5
@@ -59,7 +59,7 @@ function LoadSpellbook()
 	RemoveList.SunRay = SunRay
 
 	local siphon = {texture =  Assets.LoadTexture("Textures/IconSiphon.dds"),
-					info = wrap("Drain life from others. Or charge up to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link", 30, "",""),
+					info = wrap("Life Syphon \n\nDrain life from an enemy. Charge to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link", 30, "",""),
 					spell = CreateSiphon(player)
 	}
 	siphon.spell.spellListId = 6
@@ -67,7 +67,7 @@ function LoadSpellbook()
 	RemoveList.siphon = siphon
 
 	local polymorph = {texture =  Assets.LoadTexture("Textures/IconPolymorph.dds"),
-					info = wrap("Are goblins too ugly? Turn them into something else. Charge if you want them to stay something else for a longer time", 30, "",""),
+					info = wrap("Polymorph \n\nAre goblins too ugly? Charge to turn them into something else.", 30, "",""),
 					spell = CreatePolymorph(player)
 	}
 	table.insert(SpellList, polymorph)
@@ -75,7 +75,7 @@ function LoadSpellbook()
 	RemoveList.polymorph = polymorph
 
 	local tumblethorns = {texture =  Assets.LoadTexture("Textures/IconTumblethorne.dds"),
-					info = wrap("Send out a rolling thornbush to hurt foes. If you miss your plant you can call it back to your position.", 30, "",""),
+					info = wrap("Tumble Thorn \n\nSend out a rolling thornbush to hurt foes. If you miss your plant you can call it back to your position.", 30, "",""),
 					spell = CreateTumblethorns(player)
 	}
 	tumblethorns.spell.spellListId = 8
@@ -83,7 +83,7 @@ function LoadSpellbook()
 	RemoveList.tumblethorns = tumblethorns
 
 	local windknockback = {texture =  Assets.LoadTexture("Textures/IconWindKnockback.dds"),
-					info = wrap("Blow away anybody that bugs you!", 30, "",""),
+					info = wrap("Wind Knockback \n\nBlow away anybody that bugs you!", 30, "",""),
 					spell = CreateWindknockback(player)
 	}
 	table.insert(SpellList, windknockback)
