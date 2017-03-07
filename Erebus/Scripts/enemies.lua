@@ -129,7 +129,11 @@ function CreateEnemy(type, position, element)
 					if self.alive == true then
 						damage = self.elementType ~= element and damage or damage * 0.5
 						self.health = self.health - damage
-						Network.SendAIHealthPacket(self.transformID, self.health)
+						if self.health > 0 then
+							Network.SendAIHealthPacket(self.transformID, self.health)
+						else
+							Network.SendAIHealthPacket(self.transformID, 0)
+						end
 						self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
 						self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
 						if element then
