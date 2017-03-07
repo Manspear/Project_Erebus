@@ -58,7 +58,11 @@ namespace Gear
 
 		//Lua target values
 		bool luaOverride = true;
+		bool timeHasChanged = false;
+		float lerpTime = 0.0f;
+		float startTime = 0.0f;
 		float targetTime = 0.0f;
+		float lerpMaxTime = 2.f;
 		glm::vec3 targetFog = glm::vec3(0,0,0);
 		float targetBlend = 0.0f;
 
