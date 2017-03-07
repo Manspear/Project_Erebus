@@ -1,7 +1,9 @@
 SHOW_TUTORIAL_IMAGE = -1
 SHOW_TUTORIAL_IMAGE2 = -1
+SHOW_TUTORIAL_REVIVE = -1
 SHOW_WAITING_FOR_PLAYER2 = -1
 SHOW_COMBINE_BARRIER_IMAGE = -1
+
 local screenImages = {}
 local imageTextures = {}
 local tutorialImages = {}
@@ -13,6 +15,7 @@ local healthBarLength = 470;
 local spellHeight = 40;
 local TutorialCounter = 0;
 local TutorialCounter2 = 0;
+local TutorialReviveCounter = 0
 local CombinationBarrierCounter = 0;
 local WaitingForP2Counter = 0
 local showHealthbar = true;
@@ -204,6 +207,10 @@ function DrawHUD()
 		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_IMAGE2], tutorialTexture[SHOW_TUTORIAL_IMAGE2])
 	end
 
+	if SHOW_TUTORIAL_REVIVE ~= -1 then
+		UI.drawWorldImage(tutorialImages[SHOW_TUTORIAL_REVIVE], tutorialTexture[SHOW_TUTORIAL_REVIVE])
+	end
+
 	if SHOW_TUTORIAL_IMAGE == -1 then
 		UI.drawWorldImage(pingImages[0], player.pingTexture);
 	end
@@ -266,7 +273,7 @@ end
 
  
 function showTutorialImage(x,y,z,dt)
-
+	local index
 	TutorialCounter = TutorialCounter + dt
 	finalX = x - 5
 	finalZ = z + 20
@@ -287,6 +294,7 @@ function showTutorialImage(x,y,z,dt)
 end
 
 function showTutorialImage2(x,y,z,dt)
+	local index
 	TutorialCounter2 = TutorialCounter2 + dt
 
 	finalX = x - 6
@@ -307,7 +315,30 @@ function showTutorialImage2(x,y,z,dt)
 	SHOW_TUTORIAL_IMAGE2 = index
 end
 
+function showTutorialRevive(x,y,z,dt)
+	local index
+	TutorialReviveCounter = TutorialReviveCounter + dt
+
+	finalX = x - 6
+	finalZ = z + 6
+	finalY = y + 5
+	
+	if TutorialReviveCounter < 2  then
+		index = 4
+	elseif TutorialReviveCounter < 4 then
+		index = 5
+
+	else
+		TutorialReviveCounter = 0
+		index = 1
+	end
+
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
+	SHOW_TUTORIAL_REVIVE = index
+end
+
 function showWaitingForPlayer2(dt)
+	local index
 	WaitingForP2Counter = WaitingForP2Counter + dt
 	
 	if WaitingForP2Counter < 0.7  then
@@ -333,6 +364,7 @@ function showWaitingForPlayer2(dt)
 end
 
 function showCombineBarrierImage(dt)
+	local index
 	CombinationBarrierCounter = CombinationBarrierCounter + dt
 
 	if CombinationBarrierCounter < 2  then
