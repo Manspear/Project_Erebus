@@ -123,7 +123,7 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].Hurt = function(self, damage, source, element)
 			local pos = Transform.GetPosition(self.transformID)
-
+			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
 			if source ~= player2 then
 				if Network.GetNetworkHost() == true then
 					if self.alive == true then
@@ -208,7 +208,8 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].Spawn = function(self,position)
 			self.alive = true
-			self.health = 20
+			self.maxHealth = 20
+			self.health = self.maxHealth
 			self.position.x = position.x
 			self.position.y = position.y
 			self.position.z = position.z
