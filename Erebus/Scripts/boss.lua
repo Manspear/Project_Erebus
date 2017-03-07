@@ -225,8 +225,8 @@ function UpdateBoss(dt)
 
 			pos = Transform.GetPosition(boss.transformID)
 			UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
-			if boss.currentHealth > boss.health then
-				boss.currentHealth  = boss.currentHealth - (50 * dt);
+			if boss.currentHealth ~= boss.health then
+				boss.currentHealth  = boss.currentHealth + (boss.health - boss.currentHealth) * dt;
 				if boss.currentHealth < 0 then
 					boss.currentHealth = 0;
 				end
