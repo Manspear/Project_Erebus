@@ -2,6 +2,6 @@ Ambient color: 0.400000 0.400000 0.400000
 Diffuse color: 1.000000 1.000000 1.000000
 Specular color: 0.000000 0.000000 0.000000
 Shiny factor: 0.000000
-Diffuse texture: House_Book3.png
+Diffuse texture: Spellbook_asset.dds
 Specular texture: NOTEXTURE
-Normal texture: House_Book3_norm.png
+Normal texture: Spellbook_asset_normal.dds

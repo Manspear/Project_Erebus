@@ -14,6 +14,7 @@ local scriptFiles =
 	"Scripts/sunRay.lua",
 	"Scripts/Animation_Controllers/playerController.lua",
 	"Scripts/Animation_Controllers/meleeGoblinController.lua",
+	"Scripts/Animation_Controllers/bossController.lua",
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/grenadeType.lua",

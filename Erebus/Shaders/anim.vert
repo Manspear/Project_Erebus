@@ -19,7 +19,7 @@ layout (std140, binding = 0) uniform vpBuffer
 };
 
 uniform mat4 worldMatrices[105];
-uniform mat4 jointMatrices[64];
+uniform mat4 jointMatrices[128];
 
 void main()
 {	
