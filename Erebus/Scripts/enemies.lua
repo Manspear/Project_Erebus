@@ -146,10 +146,11 @@ function CreateEnemy(type, position, element)
 								--print("Dead for host", enemies[i].transformID)
 								self.health = 0
 								self:Kill()
-							elseif self.health < 1 and self.stateName == DUMMY_STATE  then
-								self.health = self.maxHealth
-								self.currentHealth = self.maxHealth
 							end
+						elseif self.health < 1 and self.stateName == DUMMY_STATE  then
+							self.health = self.maxHealth
+							self.currentHealth = self.maxHealth
+							
 						end
 					end
 				else
@@ -202,6 +203,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
 			self.maxHealth = health * LEVEL_ROUND
 			self.health = self.maxHealth
+			self.currentHealth = self.maxHealth
 			self.movementSpeed = moveSpeed * (LEVEL_ROUND+2)/3
 			self.visionRange = visionRange
 		end
@@ -210,6 +212,7 @@ function CreateEnemy(type, position, element)
 			self.alive = true
 			self.maxHealth = 20
 			self.health = self.maxHealth
+			self.currentHealth = self.maxHealth
 			self.position.x = position.x
 			self.position.y = position.y
 			self.position.z = position.z
