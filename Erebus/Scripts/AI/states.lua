@@ -438,7 +438,7 @@ end
 
 function state.runAwayState.update(enemy, playerTarget, dt)
 	---------
-	if enemy.health > enemy.maxHealth -4 then
+	if enemy.health > enemy.maxHealth * 0.7 then
 		inState = FOLLOW_STATE 
 		changeToState(enemy,enemy.playerTarget,inState)
 		do return end
@@ -447,17 +447,16 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 	enemy.actionCountDown= enemy.actionCountDown - dt	
 	length =  AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
 	
-	if length > 8 and enemy.actionCountDown <0 then
-		-------HEAL
-		enemy.animationController:doNothing()
-		enemy.currentHealth = enemy.currentHealth +2
-		enemy.health = enemy.health +2
-		enemy.actionCountDown = 3
+	if length > 8 then
+		if enemy.actionCountDown <0 then
+			enemy.animationController:doNothing()
+			enemy.currentHealth = enemy.currentHealth +1
+			enemy.health = enemy.health +1
+			enemy.actionCountDown = 0.4
 
-		--Network.SendAIDamageTextPacket(self.transformID, 2, element)
-		Gear.PrintDamage(2,4, enemy.pos.x, enemy.pos.y+1, enemy.pos.z )
-
-	-----------
+			--Network.SendAIDamageTextPacket(self.transformID, 2, element)
+			Gear.PrintDamage(1,4, enemy.pos.x, enemy.pos.y+1, enemy.pos.z )
+		end
 	else
 		if enemy.subPathtarget ~= nil then
 			enemy.animationController:doWalk()
@@ -483,21 +482,14 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 			end
 		else
 			if  enemy.pathTarget ~= nil then
-			
-				length =  AI.DistanceTransPos(enemy.playerTarget.transformID,enemy.pathTarget)
-
-				if length < 9 then
-					enemy.pathTarget = nil
-					do return end
-				end
-
 				local dir = AI.NavigateMesh(enemy.transformID)
 				if dir.y ~= -1 then
 					enemy.subPathtarget = dir
 				else
-					enemypathTarget = nil
+					enemy.pathTarget = nil
 				end
 			else
+
 				littleRangecountDown = 24
 				local dirAngle = 0
 				while enemy.pathTarget == nil and littleRangecountDown ~= 0 do
