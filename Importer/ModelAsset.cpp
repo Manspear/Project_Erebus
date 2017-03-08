@@ -284,6 +284,7 @@ namespace Importer
 
 	GLuint ModelAsset::getVertexBuffer(int mesh) const
 	{
+		//std::cout << "\nmodel " << header.materialName;
 		return vertexBuffers[mesh];
 	}
 

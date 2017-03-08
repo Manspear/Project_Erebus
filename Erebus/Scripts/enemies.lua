@@ -125,6 +125,7 @@ function CreateEnemy(type, position, element)
 		end
 
 		enemies[i].Hurt = function(self, damage, source, element)
+
 			local pos = Transform.GetPosition(self.transformID)
 			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
 			if source ~= player2 then
@@ -258,7 +259,7 @@ function CreateEnemy(type, position, element)
 			end
 		end
 
-		--print("creating "..enemies[i].transformID.." elem:"..elemTo)
+		--print("creating "..enemies[i].transformID.." elem:"..enemies[i].elementType)
 	else
 		-- reuse dead enemy
 		enemies[i].alive = true
@@ -324,7 +325,6 @@ function DestroyEnemy(enemy)
 	SphereCollider.SetActive(enemy.collider, false)
 	enemy.alive = false 
 	enemy.reuse = true
-
 	--print("destroying "..enemy.transformID.." elem:"..enemy.elementType)
 end
 function UpdateEnemies(dt)
