@@ -60,6 +60,7 @@ function LoadHUD()
 	tutorialTexture[9] = Assets.LoadTexture("Textures/WaitingForPlayer2_1.dds")
 	tutorialTexture[10] = Assets.LoadTexture("Textures/WaitingForPlayer2_2.dds")
 	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
+
 	tutorialTexture[12] = Assets.LoadTexture("Textures/TUTORIALWhenFriendIsCharging.dds")
 
 	tutorialTexture[13] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown.dds")
@@ -67,9 +68,9 @@ function LoadHUD()
 	tutorialTexture[15] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown3.dds")
 
 	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(11.9, 10.4, 152.9, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(10.5, 9.7, 152.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[2] = UI.load(53.0289, 13, 142.926, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-
+	pingImages[3] = UI.load(12, 9.6, 169, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 
 end
 
@@ -118,13 +119,24 @@ function UnloadHUD()
 	Assets.UnloadTexture("Textures/WaitingForPlayer2_2.dds")
 	Assets.UnloadTexture("Textures/WaitingForPlayer2_3.dds")
 
+	Assets.UnloadTexture("Textures/TUTORIALWhenFriendIsCharging.dds")
+
+	Assets.UnloadTexture("Textures/TUTORIALIfFriendDown.dds")
+	Assets.UnloadTexture("Textures/TUTORIALIfFriendDown2.dds")
+	Assets.UnloadTexture("Textures/TUTORIALIfFriendDown3.dds")
+
 	SHOW_TUTORIAL_IMAGE = -1
 	SHOW_TUTORIAL_IMAGE2 = -1
+	SHOW_TUTORIAL_REVIVE = -1
 	SHOW_WAITING_FOR_PLAYER2 = -1
 	SHOW_COMBINE_BARRIER_IMAGE = -1
 	TUTORIAL_DONE = false
 	TUTORIAL_START_ANIM = false
 	TUTORIAL_COUNTER = 0 
+	TutorialCounter2 = 0;
+	TutorialReviveCounter = 0
+	CombinationBarrierCounter = 0;
+	WaitingForP2Counter = 0
 end
 
 function UpdateHUD(dt)
@@ -221,6 +233,9 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[1], player.pingTexture);
 	end
 
+	if SHOW_TUTORIAL_REVIVE == -1 then
+		UI.drawWorldImage(pingImages[3], player.pingTexture);
+	end
 	UI.drawWorldImage(pingImages[2], player.pingTexture);
 
 	if SHOW_COMBINE_BARRIER_IMAGE ~= -1 then
@@ -303,7 +318,6 @@ end
 function showTutorialImage2(x,y,z,dt)
 	local index
 	TutorialCounter2 = TutorialCounter2 + dt
-
 	finalX = x - 6
 	finalZ = z + 6
 	finalY = y + 5
@@ -315,7 +329,7 @@ function showTutorialImage2(x,y,z,dt)
 
 	else
 		TutorialCounter2 = 0
-		index = 1
+		index = 4
 	end
 
 	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
@@ -325,7 +339,6 @@ end
 function showTutorialRevive(x,y,z,dt)
 	local index
 	TutorialReviveCounter = TutorialReviveCounter + dt
-
 	finalX = x + 1
 	finalZ = z + 6
 	finalY = y + 5
@@ -374,7 +387,7 @@ function showWaitingForPlayer2(dt)
 	SHOW_WAITING_FOR_PLAYER2 = index
 end
 
-function showCombineBarrierImage(dt)
+function showCombineBarrierImage(dt,x,y,z)
 	local index
 	CombinationBarrierCounter = CombinationBarrierCounter + dt
 
@@ -391,7 +404,7 @@ function showCombineBarrierImage(dt)
 		index = 7
 	
 	elseif CombinationBarrierCounter < 6.4 then
-	index = -1
+		index = -1
 
 	else
 		CombinationBarrierCounter = 0
@@ -399,7 +412,7 @@ function showCombineBarrierImage(dt)
 	end
 
 	local pos = player.position
-	tutorialImages[index] = UI.load(pos.x, pos.y+2, pos.z, 2, 2)
+	tutorialImages[index] = UI.load(x, y, z-2.5, 2.3, 2.3)
 	SHOW_COMBINE_BARRIER_IMAGE = index
 end
 

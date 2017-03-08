@@ -101,7 +101,7 @@ function CreateHellPillar(entity)
 			self.maxScale = 6
 			Transform.SetScale(self.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
-			self.damage = 50 --TODO nerf
+			self.damage = MAX_DAMAGE_PILLAR * (self.chargedTime / self.maxChargeTime) --TODO nerf
 			self.aliveCharged = true		self.growAgain = true	
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)

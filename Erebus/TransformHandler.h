@@ -47,7 +47,7 @@ private:
 
 	Gear::GearEngine* gearEngine;
 	std::vector<ModelInstance>* instances[MAX_INSTANCE_TYPES];
-	std::vector<int> uses[MAX_INSTANCE_TYPES];
+	//std::vector<int> uses[MAX_INSTANCE_TYPES];
 	std::vector<ModelInstance> removables;
 
 	std::vector<TransformHandle> handles;

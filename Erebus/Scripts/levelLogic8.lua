@@ -5,8 +5,10 @@ end
 function UpdateLogic(dt)
 	if rewinder.rewinding then
 		rewinder:Update(dt)
+		boss.animationController:AnimationUpdate(dt, Network)
+	else
+		BossStuff(dt)
 	end
-	BossStuff(dt)
 end
 
 function BossStuff(dt)
@@ -16,8 +18,8 @@ function BossStuff(dt)
 		if not boss.combatStarted then
 			StartingBoss()
 		end
-		UpdateBoss(dt)
 	end
+	UpdateBoss(dt)
 end
 
 function StartingBoss()
