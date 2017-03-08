@@ -257,6 +257,7 @@ namespace LuaLight {
 		{
 			int index = lua_tointeger(lua, 1);
 			float i = (float)lua_tonumber(lua, 2);
+			std::cout << i << std::endl;
 			g_gearEngine->updateLightIntensity(index, i);
 		}
 
