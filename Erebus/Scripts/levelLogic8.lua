@@ -5,18 +5,17 @@ end
 function UpdateLogic(dt)
 	if rewinder.rewinding then
 		rewinder:Update(dt)
-	else
-		BossStuff(dt)
 	end
+	BossStuff(dt)
 end
 
 function BossStuff(dt)
 	if not boss.loaded then LoadBoss() end
 
-	if not boss.combatStarted then
-		StartingBoss()
-	end
 	if not boss.realDead then
+		if not boss.combatStarted then
+			StartingBoss()
+		end
 		UpdateBoss(dt)
 	end
 end
