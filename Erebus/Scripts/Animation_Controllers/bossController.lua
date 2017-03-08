@@ -6,6 +6,7 @@ TIMEORBWAVE_HITTIME = 2.5
 TIMEORBWAVE_ANIMATIONTIME = 5
 CHRONOORB_ANIMATIONTIME = 2.5
 TIMELASER_ANIMATIONTIME = 2.5
+DYING_TIME_EFTER_JA = 5
 
 COMBATSTART_ANIMATIONTIME = 5
 
@@ -35,7 +36,7 @@ function CreateBossController(boss)
 	controller.timeLaserTimer = 0
 
 	--When boss is dead
-	controller.deathTimerThreshhold = 5
+	controller.deathTimerThreshhold = DYING_TIME_EFTER_JA
 	controller.deathTimer = 0
 
 	controller.firstTimePlay = true

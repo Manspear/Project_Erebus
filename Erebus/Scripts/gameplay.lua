@@ -41,7 +41,8 @@ local scriptFiles =
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
 	"Scripts/reusable.lua",
-	"Scripts/sluice.lua"
+	"Scripts/sluice.lua",
+	"Scripts/rewinder.lua"
 }
 
 loadedLevels = {}
@@ -61,18 +62,18 @@ function LoadGameplay()
 end
 
 function CreateIM()
-		for i = 1, 8 do
-			levels[i].load()
-			loadedLevels[i] = true
-		end
+	for i = 1, 8 do
+		levels[i].load()
+		loadedLevels[i] = true
+	end
 
-		AI.CreateIM()--,#heightmaps,widthTest,heightTest)
+	AI.CreateIM()--,#heightmaps,widthTest,heightTest)
 
-		for i = 1, 8 do
-			levels[i].unload()
-			loadedLevels[i] = false
-		end
-		loadedLevels = {}
+	for i = 1, 8 do
+		levels[i].unload()
+		loadedLevels[i] = false
+	end
+	loadedLevels = {}
 end
 
 function UnloadGameplay()
@@ -128,6 +129,7 @@ function UpdateGameplay(dt)
 	end
 
 	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
+	
 	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
