@@ -137,6 +137,7 @@ function LoadBoss()
 	function boss:RealKill()
 		boss.combatStarted = false
 		boss.realDead = true
+		boss.animationController.deathTimer = 0
 		rewinder:Cast()
 	end
 
