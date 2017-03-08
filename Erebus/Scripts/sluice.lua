@@ -62,7 +62,7 @@ function SluiceUpdate(dt, sluice)
 end
 
 function SluiceOpened(sluiceNumber)
-	for i = 1, #openSluices then
+	for i = 1, #openSluices do
 		if openSluices[i] == sluiceNumber then
 			return true
 		end
