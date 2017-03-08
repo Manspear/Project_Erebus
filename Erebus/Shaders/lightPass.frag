@@ -21,7 +21,7 @@ struct DirLight {
 	vec3 color;
 };
 
-const int NR_POINT_LIGHTS  = 150;
+const int NR_POINT_LIGHTS  = 270;
 const int NR_DIR_LIGHTS  = 1;
 layout(std430, binding = 0) readonly buffer LightBuffer {
 	PointLight data[];

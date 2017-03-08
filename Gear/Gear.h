@@ -71,7 +71,7 @@ namespace Gear
 		//----------------------
 
 	private:
-		const int NUM_LIGHTS = 150; //number of lights should be the same in lightPass.frag
+		const int NUM_LIGHTS = 270; //number of lights should be the same in lightPass.frag
 		const glm::vec3 LIGHT_MIN_BOUNDS = glm::vec3(-0.0f, 10.0f, -0.0f); //the bounds that the lights can get randomly positioned at
 		const glm::vec3 LIGHT_MAX_BOUNDS = glm::vec3(255.0f, 25.0f, 255.0f);
 
