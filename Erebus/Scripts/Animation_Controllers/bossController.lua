@@ -39,6 +39,9 @@ function CreateBossController(boss)
 	controller.deathTimerThreshhold = DYING_TIME_EFTER_JA
 	controller.deathTimer = 0
 
+	controller.waitForRewindTimerThreshhold = DYING_TIME_EFTER_JA
+	controller.waitForRewindTimer = 0
+
 	controller.firstTimePlay = true
 
 	local animationTransitionTimes = {}
@@ -94,13 +97,26 @@ function CreateBossController(boss)
 			self.animationState1 = 3
 		end
 
+		--controller.waitForRewindTimerThreshhold = DYING_TIME_EFTER_JA
+		--controller.waitForRewindTimer = 0
 		if self.watch.health <= 0 then 
-			self.deathTimer = self.deathTimer + dt
-			if self.deathTimer < self.deathTimerThreshhold then 
-				self.animationState1 = 7
-			else 
-				--Play the nonexistent "stayDead"-animation
-				self.animation:StopAnimationUpdating(true)
+			if BOSS_DEAD then 
+				self.deathTimer = self.deathTimer + dt
+				if self.deathTimer < self.deathTimerThreshhold then 
+					self.animationState1 = 7
+				else 
+					self.animation:StopAnimationUpdating(true)
+				end
+			elseif self.waitForRewindTimer < self.waitForRewindTimerThreshhold then 
+				self.waitForRewindTimer = self.waitForRewindTimer + dt
+				self.animationState1 = 3
+			elseif self.waitForRewindTimer < 10 then 
+				self.waitForRewindTimer = self.waitForRewindTimer + dt
+				self.animation:SetSegmentPlayTime(15, 0)
+				self.animationState1 = 6
+			else
+				self.waitForRewindTimer = 0
+				self.animation:ResetSegmentPlayTime(0)
 			end
 		end
 

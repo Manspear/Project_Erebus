@@ -387,7 +387,7 @@ function showWaitingForPlayer2(dt)
 	SHOW_WAITING_FOR_PLAYER2 = index
 end
 
-function showCombineBarrierImage(dt)
+function showCombineBarrierImage(dt,x,y,z)
 	local index
 	CombinationBarrierCounter = CombinationBarrierCounter + dt
 
@@ -404,7 +404,7 @@ function showCombineBarrierImage(dt)
 		index = 7
 	
 	elseif CombinationBarrierCounter < 6.4 then
-	index = -1
+		index = -1
 
 	else
 		CombinationBarrierCounter = 0
@@ -412,7 +412,7 @@ function showCombineBarrierImage(dt)
 	end
 
 	local pos = player.position
-	tutorialImages[index] = UI.load(pos.x, pos.y+2, pos.z, 2, 2)
+	tutorialImages[index] = UI.load(x, y, z-2.5, 2.3, 2.3)
 	SHOW_COMBINE_BARRIER_IMAGE = index
 end
 

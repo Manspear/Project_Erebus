@@ -124,7 +124,7 @@ function LoadPlayer()
 	player.dummyTrans.transformID = Gear.BindStaticInstance(model)
 	function player.Hurt(self,damage, source)
 		self.damagedTint.a = 1
-		if not player.invulnerable then
+		if not player.invulnerable and player.isAlive then
 			self.health = self.health - damage
 			if self.health < 1 then
 				self.health = 0
