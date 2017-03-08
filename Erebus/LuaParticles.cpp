@@ -91,20 +91,24 @@ namespace LuaParticles
 
 	int setPosition(lua_State* lua)
 	{
-		assert(lua_gettop(lua) == 2);
-
-		int index = (int)lua_tointeger(lua, 1);
-
 		glm::vec3 position;
-		lua_getfield(lua, 2, "x");
-		position.x = (float)lua_tonumber(lua, -1);
+		int index = (int)lua_tointeger(lua, 1);
+		if (lua_gettop(lua) == 2) {
+			lua_getfield(lua, 2, "x");
+			position.x = (float)lua_tonumber(lua, -1);
 
-		lua_getfield(lua, 2, "y");
-		position.y = (float)lua_tonumber(lua, -1);
+			lua_getfield(lua, 2, "y");
+			position.y = (float)lua_tonumber(lua, -1);
 
-		lua_getfield(lua, 2, "z");
-		position.z = (float)lua_tonumber(lua, -1);
-
+			lua_getfield(lua, 2, "z");
+			position.z = (float)lua_tonumber(lua, -1);
+		}
+		if (lua_gettop(lua) == 4)
+		{
+			position.x = lua_tonumber(lua, 2);
+			position.y = lua_tonumber(lua, 3);
+			position.z = lua_tonumber(lua, 4);
+		}
 		g_systems->at(index)->setSystemPos(position);
 
 		return 0;
