@@ -319,6 +319,12 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 			enemy.tempVariable = length
 			local pos = enemy.pos
 			enemy.whatEver = pos.y
+
+			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+			if length > 22 then
+				inState = POSITIONING_INNER_STATE
+				changeToState(enemy,enemy.playerTarget,inState)
+			end
 		end
 	
 ---------------------------------------- Mid Flight
