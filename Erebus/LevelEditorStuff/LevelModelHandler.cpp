@@ -59,8 +59,8 @@ int LevelModelHandler::loadModel(std::string modelName, unsigned int &actorID) {
 
 
 
-		if (models.size() > 62 && models.size()<68) {
-			std::cout << "at: " << models.size() << " name: " << modelName << std::endl;
+		if (models.size() > 100 && models.size()<105) {
+			std::cout << "at: " << models.size()+1 << " name: " << modelName << std::endl;
 		}
 		models.push_back(instance);
 	}

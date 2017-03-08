@@ -1,7 +1,7 @@
 #include "LevelParticleSystem.h"
 
 const char* LevelParticleSystem::name = "LevelParticleSystem";
-const char* LevelParticleSystem::baseParticleSystem = "fireeffect";
+const char* LevelParticleSystem::baseParticleSystem = "fire";
 LevelParticleSystem::LevelParticleSystem() : offset(0), alive(true) {
 	this->systemRef = nullptr;
 	this->systemRef = LevelParticleHandler::getInstance()->addParticleSystem(baseParticleSystem);

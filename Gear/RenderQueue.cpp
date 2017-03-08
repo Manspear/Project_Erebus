@@ -330,6 +330,10 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 	for (int i = 0; i < dynamicModels->size(); i++)
 	{
 		ModelAsset* modelAsset = dynamicModels->at(i).asset;
+		if (modelAsset == nullptr) {
+			std::cout << "Skipping a model!" << std::endl;
+			continue;
+		}
 		int meshes = modelAsset->getHeader()->numMeshes;
 		int numInstance = 0;
 

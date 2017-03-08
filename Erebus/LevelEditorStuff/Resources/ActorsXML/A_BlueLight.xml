@@ -1,0 +1,14 @@
+<LevelActor type="Asset_BlueLight" displayName="BlueLight" tileID="7" exportType="1">
+    <LevelPointLight>
+        <Position x="0" y="2" z="0"/>
+        <Color x="0" y="0" z="1"/>
+        <Radius r="10"/>
+        <Intensity i="2"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="339.5" y="106.02401" z="739.5"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

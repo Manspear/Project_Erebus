@@ -11717,12 +11717,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire"/>
-            <wallOpen name="Fire"/>
-            <sluiceID id="2"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11732,6 +11726,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire"/>
+            <wallOpen name="Fire"/>
+            <sluiceID id="2"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="197.85205" y="50.6875" z="235.27466"/>
             <Rotation x="0" y="0" z="0"/>
@@ -11760,12 +11760,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (1)" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire1"/>
-            <wallOpen name="Fire1"/>
-            <sluiceID id="3"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11775,6 +11769,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire1"/>
+            <wallOpen name="Fire1"/>
+            <sluiceID id="3"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="359.74197" y="39.920719" z="187.09128"/>
             <Rotation x="0" y="-0.030469511" z="0"/>
@@ -11825,12 +11825,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (2)" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature"/>
-            <wallOpen name="Nature"/>
-            <sluiceID id="4"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11840,6 +11834,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature"/>
+            <wallOpen name="Nature"/>
+            <sluiceID id="4"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="147" y="50.542641" z="167.41684"/>
             <Rotation x="0" y="-1.4382091" z="-0.074761964"/>
@@ -11868,12 +11868,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (3)" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice"/>
-            <wallOpen name="Ice"/>
-            <sluiceID id="5"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11883,6 +11877,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice"/>
+            <wallOpen name="Ice"/>
+            <sluiceID id="5"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="191.87001" y="41.5" z="196.57176"/>
             <Rotation x="0" y="0.29381064" z="0"/>
@@ -11922,12 +11922,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (4)" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature1"/>
-            <wallOpen name="Nature1"/>
-            <sluiceID id="6"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11937,6 +11931,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature1"/>
+            <wallOpen name="Nature1"/>
+            <sluiceID id="6"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="301.86176" y="41.5" z="96.514595"/>
             <Rotation x="0" y="-0.9606148" z="0"/>
@@ -11976,12 +11976,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (5)" tileID="2" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice1"/>
-            <wallOpen name="Ice1"/>
-            <sluiceID id="8"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -11991,6 +11985,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice1"/>
+            <wallOpen name="Ice1"/>
+            <sluiceID id="8"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="290.14334" y="35.875" z="118.9375"/>
             <Rotation x="0" y="0" z="0"/>
@@ -12061,12 +12061,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (7)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire2"/>
-            <wallOpen name="Fire2"/>
-            <sluiceID id="10"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12076,6 +12070,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire2"/>
+            <wallOpen name="Fire2"/>
+            <sluiceID id="10"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="455.58719" y="54.0625" z="449.10135"/>
             <Rotation x="-0.070544437" y="0.40458375" z="0.036462404"/>
@@ -12126,12 +12126,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (8)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature2"/>
-            <wallOpen name="Nature2"/>
-            <sluiceID id="11"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12141,6 +12135,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature2"/>
+            <wallOpen name="Nature2"/>
+            <sluiceID id="11"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="435.64117" y="73.3125" z="411.1246"/>
             <Rotation x="0" y="0.33970186" z="0"/>
@@ -12169,12 +12169,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (9)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature3"/>
-            <wallOpen name="Nature3"/>
-            <sluiceID id="13"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12184,6 +12178,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature3"/>
+            <wallOpen name="Nature3"/>
+            <sluiceID id="13"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="455.89505" y="84.584091" z="582.68274"/>
             <Rotation x="0" y="-1.0412208" z="0"/>
@@ -12427,12 +12427,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (6)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice3"/>
-            <wallOpen name="Ice3"/>
-            <sluiceID id="14"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12442,6 +12436,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice3"/>
+            <wallOpen name="Ice3"/>
+            <sluiceID id="14"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="569.05457" y="84.625" z="622.08472"/>
             <Rotation x="0" y="0.79177779" z="0"/>
@@ -12481,12 +12481,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (10)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire3"/>
-            <wallOpen name="Fire3"/>
-            <sluiceID id="15"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12496,6 +12490,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire3"/>
+            <wallOpen name="Fire3"/>
+            <sluiceID id="15"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="508.75534" y="79.125" z="575.44916"/>
             <Rotation x="0" y="1.3450236" z="0"/>
@@ -12515,12 +12515,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (11)" tileID="5" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice2"/>
-            <wallOpen name="Ice2"/>
-            <sluiceID id="16"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="0" z="0"/>
@@ -12530,6 +12524,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice2"/>
+            <wallOpen name="Ice2"/>
+            <sluiceID id="16"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="526.70154" y="45.222275" z="428.90585"/>
             <Rotation x="0.10674438" y="-0.37861258" z="0.04395752"/>
@@ -12558,12 +12558,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (12)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature4"/>
-            <wallOpen name="Nature4"/>
-            <sluiceID id="18"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12573,6 +12567,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature4"/>
+            <wallOpen name="Nature4"/>
+            <sluiceID id="18"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="295.2934" y="96.5625" z="690.56451"/>
             <Rotation x="0" y="0.84493649" z="0"/>
@@ -12612,12 +12612,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (13)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Nature5"/>
-            <wallOpen name="Nature5"/>
-            <sluiceID id="19"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12627,6 +12621,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Nature5"/>
+            <wallOpen name="Nature5"/>
+            <sluiceID id="19"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="219.67937" y="115.5" z="596.83105"/>
             <Rotation x="0" y="0.66947937" z="0"/>
@@ -12657,12 +12657,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (14)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire4"/>
-            <wallOpen name="Fire4"/>
-            <sluiceID id="20"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12672,6 +12666,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire4"/>
+            <wallOpen name="Fire4"/>
+            <sluiceID id="20"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="235.23314" y="86.1875" z="737.35193"/>
             <Rotation x="0" y="0.080274202" z="0"/>
@@ -12720,12 +12720,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (15)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice4"/>
-            <wallOpen name="Ice4"/>
-            <sluiceID id="21"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12735,6 +12729,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice4"/>
+            <wallOpen name="Ice4"/>
+            <sluiceID id="21"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="359.20612" y="117.375" z="678.39307"/>
             <Rotation x="0" y="-0.31536782" z="0"/>
@@ -12774,12 +12774,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (16)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Ice5"/>
-            <wallOpen name="Ice5"/>
-            <sluiceID id="23"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12789,6 +12783,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Ice5"/>
+            <wallOpen name="Ice5"/>
+            <sluiceID id="23"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="325.90387" y="136.25" z="578.42224"/>
             <Rotation x="0" y="0.056204207" z="0"/>
@@ -12828,12 +12828,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="BranchBlocker" displayName="BlockerTrigger (17)" tileID="7" exportType="8">
-        <LevelSluice>
-            <sluiceType type="0"/>
-            <wallClosed name="Fire5"/>
-            <wallOpen name="Fire5"/>
-            <sluiceID id="24"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -12843,6 +12837,12 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="0"/>
+            <wallClosed name="Fire5"/>
+            <wallOpen name="Fire5"/>
+            <sluiceID id="24"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="154.77534" y="120.5731" z="604.05109"/>
             <Rotation x="0" y="-0.3500748" z="0"/>
@@ -14517,11 +14517,6 @@
         </LevelTransform>
     </LevelActor>
     <LevelActor type="CombineBlocker" displayName="BlockerCombiner" tileID="1" exportType="8">
-        <LevelSluice>
-            <sluiceType type="1"/>
-            <wallCombine name="CombinationBarrier"/>
-            <sluiceID id="25"/>
-        </LevelSluice>
         <LevelCollider type="2">
             <Offset x="0" y="0" z="0"/>
             <Color x="0" y="1" z="1"/>
@@ -14531,6 +14526,11 @@
             <Rotation x="0" y="0" z="0"/>
             <HalfLengths x="2" y="3" z="4"/>
         </LevelCollider>
+        <LevelSluice>
+            <sluiceType type="1"/>
+            <wallCombine name="CombinationBarrier"/>
+            <sluiceID id="25"/>
+        </LevelSluice>
         <LevelTransform>
             <Position x="30.625" y="10.889096" z="194.625"/>
             <Rotation x="0" y="-0.90277481" z="0"/>
@@ -16770,7 +16770,7 @@
     </LevelActor>
     <LevelActor type="tile8" displayName="t8clock" tileID="8" exportType="1">
         <LevelModel>
-            <ModelName>Clock</ModelName>
+            <ModelName>tile8_s5</ModelName>
         </LevelModel>
         <LevelTransform>
             <Position x="0" y="0" z="0"/>
@@ -17195,6 +17195,1491 @@
             <Position x="0" y="0" z="0"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_SpellBook" displayName="SpellBook" tileID="1" exportType="8">
+        <LevelCollider type="0">
+            <Offset x="0" y="0" z="0"/>
+            <Color x="0" y="1" z="1"/>
+            <IDs ID="1382" parentID="0"/>
+            <Behavior Type="1" OnEnter="" OnExit="" OnTriggering=""/>
+            <GenParent value="true"/>
+            <Radius r="18"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Spellbook</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="53.028908" y="10.853992" z="142.92563"/>
+            <Rotation x="0" y="1.5974797" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_House" displayName="House (2)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1383" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3.5" y="3" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>House1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="423.80746" y="37.306503" z="174.63751"/>
+            <Rotation x="0" y="-3.1975403" z="0"/>
+            <Scale x="1.6220474" y="1.6072598" z="1.3719635"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_House" displayName="House (3)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1384" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="3.5" y="3" z="2"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>House1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="494.56256" y="42.377396" z="197.11861"/>
+            <Rotation x="0" y="-1.2329412" z="0"/>
+            <Scale x="1.6220474" y="1.6072598" z="1.3719635"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch" tileID="3" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="455" y="37.84375" z="183.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (1)" tileID="3" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="476.75" y="39.5" z="171.875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (2)" tileID="2" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="348.75" y="36.5" z="166.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone3 (1)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1414" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="421" y="44.84375" z="217.125"/>
+            <Rotation x="-0.050598145" y="0.96777344" z="-0.24438477"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone3 (2)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1415" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="424.25" y="46.75" z="224.625"/>
+            <Rotation x="-0.02784729" y="0.97021484" z="-0.23730469"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone3 (3)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1416" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="458.25" y="43.25" z="216.875"/>
+            <Rotation x="0.19494629" y="0.97021484" z="-0.12792969"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone3 (4)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1417" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="454.75" y="43.625" z="213.75"/>
+            <Rotation x="0.17321777" y="0.96972656" z="-0.17077637"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone3 (5)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1418" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="445.25" y="47.125" z="224.875"/>
+            <Rotation x="0.13256836" y="0.98046875" z="-0.11956787"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone4 (1)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1419" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="445.75" y="41.25" z="197.625"/>
+            <Rotation x="0.050292969" y="0.97119141" z="-0.2286377"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone4 (2)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1420" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="429" y="46.59375" z="222.25"/>
+            <Rotation x="-0.047851563" y="0.97412109" z="-0.21606445"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone4 (3)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1421" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="421.5" y="38.96875" z="192.625"/>
+            <Rotation x="-0.025024414" y="0.99267578" z="-0.11279297"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone2 (1)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0.40000001"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1422" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1" y="1" z="1.3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="483.48169" y="39.90625" z="173.54068"/>
+            <Rotation x="-0.12164307" y="0.99072266" z="-0.056274414"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone2 (2)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0.40000001"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1423" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1" y="1" z="1.3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="471.26877" y="38.130543" z="154.56039"/>
+            <Rotation x="-0.10687256" y="0.99267578" z="-0.053710938"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="Asset_Stone2 (3)" tileID="5" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0.40000001"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1424" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1" y="1" z="1.3"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone2</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="432.75" y="38.4375" z="184.875"/>
+            <Rotation x="0.0035972595" y="0.98486328" z="-0.17114258"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WoodBarrel" displayName="WoodenBarrel" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1390" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.80000001"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>WoodenBarrel</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="437.75" y="36.71875" z="176.375"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WoodBarrel" displayName="WoodenBarrel (1)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1426" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.80000001"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>WoodenBarrel</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="444.5" y="38.25" z="184.875"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1427" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="377.25" y="131.625" z="614"/>
+            <Rotation x="0" y="0.96452492" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (1)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1430" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="337.5" y="125.01154" z="627.5"/>
+            <Rotation x="0" y="0" z="0.18467405"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (2)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1431" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="379.25" y="125.375" z="652"/>
+            <Rotation x="0" y="-0.67936254" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (3)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1432" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="355" y="132.48672" z="602.5"/>
+            <Rotation x="0.2392212" y="-1.1297302" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (4)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1433" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="198.125" y="101.6875" z="770"/>
+            <Rotation x="0" y="-0.95119935" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (5)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1434" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="192.375" y="102.3125" z="769.5"/>
+            <Rotation x="-0.063153073" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (6)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1435" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="187" y="102.5625" z="769.5"/>
+            <Rotation x="0" y="1.6362076" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (7)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1436" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="180.375" y="102.9375" z="769.5"/>
+            <Rotation x="0" y="-1.1142708" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (8)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1438" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="175.125" y="103" z="769.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (9)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1439" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="169.25" y="102.875" z="769"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (10)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1440" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="161.625" y="102.9375" z="769"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (11)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1441" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="155.875" y="101.6875" z="769"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Stone" displayName="Asset_Stone3" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1443" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="183.375" y="102.375" z="768.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Stone" displayName="Asset_Stone3 (6)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1444" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.80000001" y="1" z="0.69999999"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone3</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="171.625" y="102.6875" z="768.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Stone" displayName="Asset_Stone4" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1445" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="164.5" y="102.75" z="768.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Stone" displayName="Asset_Stone4 (4)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1446" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="177.375" y="102.625" z="768.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Stone" displayName="Asset_Stone4 (5)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="1" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1447" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="0.60000002" y="1" z="0.60000002"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Stone4</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="194.75" y="106.0625" z="769"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (3)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="310.25" y="102.6875" z="735"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (4)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="311" y="104.125" z="724"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (5)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="312.75" y="103.9375" z="715"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (6)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="321.84439" y="103.3125" z="705.49847"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (7)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="348.25" y="104.4375" z="699.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (8)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="366.25" y="104.6875" z="702"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (9)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="337.5" y="130.875" z="609.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (10)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="347.60141" y="132.29947" z="603.80951"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (11)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="144" y="85.0625" z="712.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (12)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="157.16031" y="85.8125" z="712.29022"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (13)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="226.875" y="106.375" z="627.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (14)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="241.5" y="108.3125" z="616"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (12)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1448" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="351" y="101.375" z="751.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (13)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1449" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="332.25" y="103.875" z="706"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (14)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1450" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="366.25" y="103.0625" z="731.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (15)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1451" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="321" y="101.6875" z="743.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (16)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1452" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="269.5" y="94.875" z="653"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (17)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1453" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="228.25" y="102" z="644.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (18)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1454" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="255.75" y="92.75" z="671"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (19)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1455" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="250.875" y="104.8125" z="620.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (20)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1456" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="148.875" y="95.875" z="744.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (21)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1457" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="143.75" y="89.3125" z="724"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (22)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1458" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="191.875" y="85.75" z="716.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (23)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1459" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="193.5" y="89.3125" z="717"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (24)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1460" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="173.375" y="85.75" z="711.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (25)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1461" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="193.75" y="97.625" z="758.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (26)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1462" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="169.25" y="94.3125" z="742"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_WickedPT" displayName="PineTreeWicked (27)" tileID="7" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1463" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Wicked_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="164" y="99.3125" z="759"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (15)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="153.125" y="128.125" z="558.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (16)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="150" y="129.5" z="544"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (17)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="177.5" y="127.5625" z="531"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (18)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="205.75" y="125.875" z="529"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (19)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="225.625" y="124.1875" z="556.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (20)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="225.75" y="124.5" z="570.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (21)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="200.5" y="125.6875" z="591.5"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Asset_Torch" displayName="Asset_Torch (22)" tileID="7" exportType="1">
+        <LevelModel>
+            <ModelName>Torch</ModelName>
+        </LevelModel>
+        <LevelParticleSystem>
+            <Offset x="0" y="3" z="0"/>
+            <Alive IsAlive="1"/>
+            <ParticleLocation Location="fire"/>
+        </LevelParticleSystem>
+        <LevelPointLight>
+            <Position x="0" y="3" z="0"/>
+            <Color x="1" y="0.57647061" z="0.16078432"/>
+            <Radius r="6"/>
+            <Intensity i="2.5"/>
+        </LevelPointLight>
+        <LevelTransform>
+            <Position x="177" y="126.625" z="582"/>
+            <Rotation x="0" y="0" z="0"/>
+            <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
