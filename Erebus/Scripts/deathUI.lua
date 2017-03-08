@@ -12,17 +12,17 @@ local currentSizeY = 60
 
 
 function LoadDeathUI()
-	imageTextures["deathMsg"] = Assets.LoadTexture("Textures/dead.dds");
+	imageTextures["loseMsg"] = Assets.LoadTexture("Textures/lose.dds");
 	imageTextures["continue"] = Assets.LoadTexture("Textures/buttonContinue.dds");
 	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
 
-	screenImages["deathMsg"] = UI.load(465, 100, 350, 60);
+	screenImages["loseMsg"] = UI.load(465, 100, 350, 60);
 	screenImages["continue"] = UI.load(465, 240, 350, 60);
 	screenImages["exit"] = UI.load(465, 310, 350, 60);
 end
 
 function UnloadDeathUI()
-	Assets.UnloadTexture( "Textures/dead.dds" )
+	Assets.UnloadTexture( "Textures/lose.dds" )
 	Assets.UnloadTexture( "Textures/buttonContinue.dds" )
 	Assets.UnloadTexture( "Textures/buttonExit.dds" )
 
@@ -40,8 +40,8 @@ function UpdateDeathUI(dt)
 		currentPosX = currentPosX - (DEATH_MESSAGE_MULTIPLY * dt)
 		currentPosY = currentPosY - (DEATH_MESSAGE_MULTIPLY * dt)
 
-		UI.resize(screenImages["deathMsg"], currentSizeX, currentSizeY)
-		UI.repos(screenImages["deathMsg"], currentPosX, currentPosY)
+		UI.resize(screenImages["loseMsg"], currentSizeX, currentSizeY)
+		UI.repos(screenImages["loseMsg"], currentPosX, currentPosY)
 	end
 
 	if Inputs.ButtonReleased(Buttons.Left) then
@@ -62,7 +62,7 @@ end
 
 function DrawDeathUI()
 	if(not BOSS_DEAD) then
-		UI.drawImage(screenImages["deathMsg"], imageTextures["deathMsg"]);
+		UI.drawImage(screenImages["loseMsg"], imageTextures["loseMsg"]);
 	else
 		Gear.Print("YOU WIN!", 465, 100)
 	end

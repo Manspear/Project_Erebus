@@ -34,6 +34,7 @@ namespace LuaGear
 
 	int resetAnimations( lua_State* lua );
 	int resetModels( lua_State* lua );
+	int stopAnimationUpdating(lua_State* lua);
 
 	int bindStaticInstance( lua_State* lua );
 	int bindAnimatedInstance( lua_State* lua );
