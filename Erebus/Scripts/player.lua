@@ -464,6 +464,7 @@ function Controls(dt)
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
+			showTutorialRevive(player.position.x,player.position.y,player.position.z,dt)
 			local pos = player.position
 			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
 

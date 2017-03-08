@@ -51,6 +51,7 @@ function LoadBoss()
 	boss.pickInterval = COMBATSTART_ANIMATIONTIME
 	boss.damagedTint = {r=0,g=0,b=0,a=0}
 	boss.damagedTintDuration = 0
+	boss.deathTimer = DYING_TIME_EFTER_JA
 	--local model = Assets.LoadModel("Models/The_Timelord.model")
 	--Gear.AddStaticInstance(model, boss.transformID)
 	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
@@ -58,7 +59,7 @@ function LoadBoss()
 
 	--Invulnerable until combat has started when both players are close enough (39 units)
 	boss.combatStarted = false
-
+	boss.loaded = true
 	--Bools set for the benefit of bossController. bossController sets them to false.
 	boss.castSpells = {}
 	boss.castSpells[TIMEORBWAVE_INDEX] = false
@@ -71,9 +72,7 @@ function LoadBoss()
 	boss.castTimerThreshhold = 0
 	boss.spellIndex = -1
 
-	boss.firstTimeLoad = true
-
-	boss.position = {}
+	boss.position = {{x=321.2,y=120,z=435.7}}
 	boss.aggroAnimationTimer = 0
 
 	Transform.ActiveControl(boss.transformID, true)
@@ -84,6 +83,12 @@ function LoadBoss()
 
 	AABBCollider.SetMinPos(boss.collider, -1, -5, -1)
 	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
+
+	local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+	if hm then
+		Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
+	end
+
 	function boss:Hurt(damage, source, element)
 		if source ~= player2 then
 			if boss.combatStarted then 		
@@ -105,7 +110,6 @@ function LoadBoss()
 				end
 				if boss.health <= 0 then				
 					boss.Kill()
-					boss.combatStarted = false	
 				end
 			end
 		end
@@ -113,18 +117,24 @@ function LoadBoss()
 	function boss:Kill()
 		if boss.alive then
 			boss.alive = false
-			boss.combatStarted = false
-
-			--bossAggroWindupDone = true
-			--bossAggroFlyupDone = false
-			--bossAggroFlyDownDone = false
-			--bossAggroTimeOnGroundDone = false
-
-			--boss.firstTimeLoad = true
-
-			Rewind()
+			bossAggroWindupDone = false
+			bossAggroFlyupDone = false
+			bossAggroFlyDownDone = false
+			bossAggroTimeOnGroundDone = false
 		end
 	end
+
+	function boss:RealKill()
+		boss.combatStarted = false
+		Transform.ActiveControl(boss.transformID, false)
+		AABBCollider.SetActive(boss.collider, false)
+		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+		if hm then
+			Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
+		end
+		rewinder:Cast()
+	end
+
 	function boss:Apply(effect)
 		table.insert(boss.effects, effect)
 		effect:Apply(boss)
@@ -146,16 +156,8 @@ end
 
 function UpdateBoss(dt)	
 	boss.animationController:AnimationUpdate(dt, Network)
-	
-	local player1BossDistance = Transform.GetDistanceBetweenTrans(player.transformID, boss.transformID)
-	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
-	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
-		boss.combatStarted = true
-	end
-
 	if boss.alive then
 		local newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
-
 		if newBossHealth == true then
 			if Network.GetNetworkHost() == true then
 				boss:Hurt(bossHealth, player, elementID) 
@@ -177,16 +179,6 @@ function UpdateBoss(dt)
 		end
 
 		dt = dt * boss.timeScalar
-
-		--if first time boss is loaded, get his position form the heightmap
-		if boss.firstTimeLoad then 
-			local hm = GetHeightmap({x=321.2,y=0,z=435.7})
-			if hm then
-				--                                                                                was +5
-				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
-				boss.firstTimeLoad = false
-			end
-		end
 
 		if boss.combatStarted then 
 			--if boss just entered combat, do the jump-thing
@@ -299,5 +291,10 @@ function UpdateBoss(dt)
 	elseif not BOSS_DEAD then
 		BOSS_DEAD = true
 	end
+	if not boss.alive then
+		boss.deathTimer = boss.deathTimer - dt
+		if boss.deathTimer < 0 then
+			boss.RealKill()
+		end
+	end
 end
-return { Load = function()end, Unload = function()end, Update = function()end }

@@ -25,6 +25,7 @@ function CreatePolyEffect(owner, duration)
 	function effect:Deapply(entity)
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
+		local pos = Transform.GetPosition(entity.transformID)
 		if entity.SetState then
 			if entity.type ~= ENEMY_DUMMY then
 				entity.SetState(entity,IDLE_STATE)
@@ -32,6 +33,7 @@ function CreatePolyEffect(owner, duration)
 		end
 		self.particles:poof(pos)
 		self = nil
+		
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list

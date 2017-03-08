@@ -445,21 +445,17 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 	length =  AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
 	
 	if length > 8 and enemy.actionCountDown <0 then
-		-----------HEAL
+		-------HEAL
 		enemy.animationController:doNothing()
 		enemy.currentHealth = enemy.currentHealth +2
 		enemy.health = enemy.health +2
 		enemy.actionCountDown = 3
-		print("pumped up!!")
-		------------------
-	--elseif length <4 then
-	---------------- Too close to player, run away
-	--	inState = RUN_AWAY_STATE 
-	--	changeToState(enemy,enemy.playerTarget,inState)
+
+		--Network.SendAIDamageTextPacket(self.transformID, 2, element)
+		Gear.PrintDamage(2,4, enemy.pos.x, enemy.pos.y+1, enemy.pos.z )
 
 	-----------
 	else
-		--- Keep on walking sunshine
 		if enemy.subPathtarget ~= nil then
 			enemy.animationController:doWalk()
 			--local pos = enemy.pos
