@@ -88,12 +88,12 @@ function CreateFireball(entity)
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
-							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner, self.element)
+							enemies[curEnemy]:Hurt(FIRESPAM_DAMAGE, self.owner, self.element)
 							self:SpamFireball(i)
 						end
 					end
 					if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
-						boss:Hurt(self.smallFB[i].damage, self.owner, self.element)
+						boss:Hurt(FIRESPAM_DAMAGE, self.owner, self.element)
 						self:SpamFireball(i)
 					end
 				end
