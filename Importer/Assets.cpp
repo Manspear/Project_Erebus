@@ -152,6 +152,7 @@ namespace Importer
 		: elapsedTime( 0.0f )
 	{
 		pending.reserve(10);
+		removes.reserve(10);
 	}
 
 	Assets::~Assets()
@@ -212,7 +213,7 @@ namespace Importer
 
 		unloads.clear();
 
-		std::map<AssetID, Asset*>::iterator removes[ASSETS_MAX_UNLOAD_PER_FRAME];
+		/*std::map<AssetID, Asset*>::iterator removes[ASSETS_MAX_UNLOAD_PER_FRAME];
 		int nremoves = 0;
 
 		for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end() && nremoves < ASSETS_MAX_UNLOAD_PER_FRAME; it++ )
@@ -228,7 +229,22 @@ namespace Importer
 			removes[i]->second->unload();
 			delete removes[i]->second;
 			assets.erase( removes[i] );
+		}*/
+
+		for( std::map<AssetID, Asset*>::iterator it = assets.begin(); it != assets.end(); it++ )
+		{
+			if( it->second->getReferenceCount() <= 0 )
+				removes.push_back( it );
 		}
+
+		for( int i=0; i<removes.size(); i++ )
+		{
+			removes[i]->second->unload();
+			delete removes[i]->second;
+			assets.erase( removes[i] );
+		}
+
+		removes.clear();
 	}
 
 	const std::map<AssetID, Asset*>& Assets::getAssets() const
