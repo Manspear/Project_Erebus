@@ -42,16 +42,6 @@ function LoadBoss()
 	boss.animationController = CreateBossController(boss)
 	local model = Assets.LoadModel( "Models/The_Timelord.model" )
 	boss.transformID = Gear.BindAnimatedInstance(model, boss.animationController.animation)
-	boss.maxHealth = 500
-	boss.health = boss.maxHealth
-	boss.alive = true
-	boss.effects = {}
-	boss.timeScalar = 1
-	boss.movementSpeed = 1
-	boss.pickInterval = COMBATSTART_ANIMATIONTIME
-	boss.damagedTint = {r=0,g=0,b=0,a=0}
-	boss.damagedTintDuration = 0
-	boss.deathTimer = DYING_TIME_EFTER_JA
 	--local model = Assets.LoadModel("Models/The_Timelord.model")
 	--Gear.AddStaticInstance(model, boss.transformID)
 	boss.healthbar = UI.load(0, 0, 0, BOSS_HEALTHBAR_WIDTH, BOSS_HEALTHBAR_HEIGHT);
@@ -62,32 +52,48 @@ function LoadBoss()
 	boss.loaded = true
 	--Bools set for the benefit of bossController. bossController sets them to false.
 	boss.castSpells = {}
-	boss.castSpells[TIMEORBWAVE_INDEX] = false
-	boss.castSpells[CHRONOBALL_INDEX] = false
-	boss.castSpells[TIMELASER_INDEX] = false
 
-	--Timer to time boss animations to spellcasts, threshhold set by the HITTIME-variables.
-	boss.castTimer = 0
-	boss.castTimerStart = false
-	boss.castTimerThreshhold = 0
-	boss.spellIndex = -1
-
-	boss.position = {{x=321.2,y=120,z=435.7}}
-	boss.aggroAnimationTimer = 0
-
-	Transform.ActiveControl(boss.transformID, true)
-	
+	boss.position = {{x=321.2,y=120,z=435.7}}	
 	boss.collider = AABBCollider.Create(boss.transformID)
 	CollisionHandler.AddAABB(boss.collider, 0)
-	AABBCollider.SetActive(boss.collider, true);
-
 	AABBCollider.SetMinPos(boss.collider, -1, -5, -1)
 	AABBCollider.SetMaxPos(boss.collider, 1, 3, 1)
 
-	local hm = GetHeightmap({x=321.2,y=0,z=435.7})
-	if hm then
-		Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
+	
+	function boss:Reset()
+		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+		if hm then
+			Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
+		end
+		boss.realDead = false
+		--Timer to time boss animations to spellcasts, threshhold set by the HITTIME-variables.
+		Transform.ActiveControl(boss.transformID, false)
+		boss.castTimer = 0
+		boss.castTimerStart = false
+		boss.castTimerThreshhold = 0
+		boss.spellIndex = -1
+		boss.castSpells[TIMEORBWAVE_INDEX] = false
+		boss.castSpells[CHRONOBALL_INDEX] = false
+		boss.castSpells[TIMELASER_INDEX] = false
+		boss.aggroAnimationTimer = 0
+		boss.maxHealth = 500
+		boss.health = boss.maxHealth
+		boss.currentHealth = boss.maxHealth
+		boss.alive = true
+		boss.effects = {}
+		boss.timeScalar = 1
+		boss.movementSpeed = 1
+		boss.pickInterval = COMBATSTART_ANIMATIONTIME
+		boss.damagedTint = {r=0,g=0,b=0,a=0}
+		boss.damagedTintDuration = 0
+		boss.deathTimer = DYING_TIME_EFTER_JA
 	end
+
+	function boss:Spawn()
+		Transform.ActiveControl(boss.transformID, true)
+		AABBCollider.SetActive(boss.collider, true)
+	end
+	boss:Reset()
 
 	function boss:Hurt(damage, source, element)
 		if source ~= player2 then
@@ -121,17 +127,16 @@ function LoadBoss()
 			bossAggroFlyupDone = false
 			bossAggroFlyDownDone = false
 			bossAggroTimeOnGroundDone = false
+			AABBCollider.SetActive(boss.collider, false)
+			boss.spells[1]:Kill()
+			boss.spells[2]:Kill()
+			boss.spells[3]:Kill()
 		end
 	end
 
 	function boss:RealKill()
 		boss.combatStarted = false
-		Transform.ActiveControl(boss.transformID, false)
-		AABBCollider.SetActive(boss.collider, false)
-		local hm = GetHeightmap({x=321.2,y=0,z=435.7})
-		if hm then
-			Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)-13, z=435.7 })
-		end
+		boss.realDead = true
 		rewinder:Cast()
 	end
 
@@ -213,7 +218,6 @@ function UpdateBoss(dt)
 			end
 			
 			Transform.SetPosition(boss.transformID, { x = boss.position.x, y = boss.position.y , z = boss.position.z })
-
 
 			pos = Transform.GetPosition(boss.transformID)
 			UI.reposWorld(boss.healthbar, pos.x, pos.y+7, pos.z)
