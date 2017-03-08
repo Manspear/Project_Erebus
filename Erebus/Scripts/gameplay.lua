@@ -181,9 +181,9 @@ function EnterGameplay()
 		--levels[1].load()
 		
 		loadedGameplay = true
+		Sky.SetTime(8,true)
 	end
 	LEVEL_ROUND = 1
-	Sky.SetTime(8)
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
