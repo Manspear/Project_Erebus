@@ -326,7 +326,7 @@ function showTutorialRevive(x,y,z,dt)
 	local index
 	TutorialReviveCounter = TutorialReviveCounter + dt
 
-	finalX = x - 6
+	finalX = x + 1
 	finalZ = z + 6
 	finalY = y + 5
 	
@@ -344,7 +344,7 @@ function showTutorialRevive(x,y,z,dt)
 		index = 13
 	end
 
-	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 4, 4)
 	SHOW_TUTORIAL_REVIVE = index
 end
 
