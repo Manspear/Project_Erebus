@@ -39,6 +39,8 @@ public:
 	GEAR_API void setMatrixIndex(int index);
 	GEAR_API void setSegmentState(int state, int segment);
 	GEAR_API void setQuickBlend(int from, int to, float blendTime, int segment);
+
+	GEAR_API void stopAnimationUpdating();
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:
@@ -170,4 +172,6 @@ protected:
 	glm::vec4 modelTint = glm::vec4(0, 0, 0, 0);
 
 	bool culled;
+
+	bool stopUpdating = false;
 };
