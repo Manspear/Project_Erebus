@@ -181,7 +181,7 @@ GEAR_API void Gear::Skybox::update(float dt)
 	float deltaTime = dt;
 	if (luaOverride && timeHasChanged)
 	{
-		if (lerpTime <= lerpMaxTime)
+		if (lerpTime < lerpMaxTime)
 		{
 			deltaTime = dt;
 			lerpTime += dt;
@@ -371,6 +371,8 @@ GEAR_API void Gear::Skybox::setTime(int hours, bool force)
 	if (force)
 	{
 		currentCycleTime = targetTime;
+		startTime = currentCycleTime;
+		lerpTime = lerpMaxTime;
 		UpdateWorldTime();
 		UpdateFog();
 		UpdateLight();
@@ -424,13 +426,13 @@ void Gear::Skybox::UpdateLight()
 	{
 		float relativeTime = currentCycleTime - dawnTime;
 		currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay) * 0.5f;
 	}
 	else if (currentPhase == DayPhase::Dusk)
 	{
 		float relativeTime = currentCycleTime - duskTime;
 		currentSun.color = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay) * 0.5f;
 	}
 }
 

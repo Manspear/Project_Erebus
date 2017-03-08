@@ -111,7 +111,7 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		ModelInstance instance;
 		instance.setAsset(asset);
 
-		//modelIndex = findVacantModelIndex( INSTANCE_DYNAMIC );
+		modelIndex = findVacantModelIndex( INSTANCE_DYNAMIC );
 		if( modelIndex >= 0 )
 		{
 			removables.push_back( models->at(modelIndex) );
@@ -167,7 +167,7 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 		ModelInstance instance;
 		instance.setAsset(asset);
 
-		//modelIndex = findVacantModelIndex( INSTANCE_ANIMATED );
+		modelIndex = findVacantModelIndex( INSTANCE_ANIMATED );
 		if( modelIndex >= 0 )
 		{
 			removables.push_back( models->at(modelIndex) );
@@ -224,7 +224,7 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 		ModelInstance instance;
 		instance.setAsset(asset);
 
-		//modelIndex = findVacantModelIndex( INSTANCE_FORWARD );
+		modelIndex = findVacantModelIndex( INSTANCE_FORWARD );
 		if( modelIndex >= 0 )
 		{
 			removables.push_back( models->at(modelIndex) );
@@ -282,7 +282,7 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 		ModelInstance instance;
 		instance.setAsset(asset);
 
-		//modelIndex = findVacantModelIndex( INSTANCE_BLENDING );
+		modelIndex = findVacantModelIndex( INSTANCE_BLENDING );
 		if( modelIndex >= 0 )
 		{
 			removables.push_back( models->at(modelIndex) );
@@ -428,3 +428,12 @@ int TransformHandler::findModelIndex( int instanceIndex, ModelAsset* asset )
 			result = i;
 	return result;
 }*/
+
+int TransformHandler::findVacantModelIndex( int instanceIndex )
+{
+	int result = -1;
+	for( int i=0; i<instances[instanceIndex]->size() && result < 0; i++ )
+		if( instances[instanceIndex]->at(i).getOccupied() <= 0 )
+			result = i;
+	return result;
+}

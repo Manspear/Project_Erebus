@@ -253,3 +253,26 @@ function destroyParticlesByElement(part)
 
 	part = nil
 end
+
+function createHoldingParticles()
+	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
+	local holder = {}
+	holder.ID = Emitter.Bind(25, 1.0, 2, 5, 5, 0, 0, 0, 1)   
+	Emitter.SetTexture(holder.ID, Assets.LoadTexture("Textures/timeClockPurple.dds"))
+	Emitter.SetExtro(holder.ID, false)
+	function holder:cast(pos)
+		Emitter.SetPosition(self.ID, pos)
+		Emitter.SetAlive(self.ID)
+	end
+
+	function holder:die()
+		Emitter.SetDead(self.ID)
+	end
+	return holder
+end
+
+function destroyParticlesByElement(part)
+	Emitter.Unbind(part)
+	Assets.UnloadTexture("Textures/timeClockPurple.dds")
+	part = nil
+end
