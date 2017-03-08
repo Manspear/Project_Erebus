@@ -5,6 +5,7 @@ end
 function UpdateLogic(dt)
 	if rewinder.rewinding then
 		rewinder:Update(dt)
+		boss.animationController:AnimationUpdate(dt, Network)
 	else
 		BossStuff(dt)
 	end
@@ -13,12 +14,12 @@ end
 function BossStuff(dt)
 	if not boss.loaded then LoadBoss() end
 
-	if not boss.combatStarted then
-		StartingBoss()
-	end
 	if not boss.realDead then
-		UpdateBoss(dt)
+		if not boss.combatStarted then
+			StartingBoss()
+		end
 	end
+	UpdateBoss(dt)
 end
 
 function StartingBoss()

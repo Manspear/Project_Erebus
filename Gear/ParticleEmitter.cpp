@@ -91,7 +91,8 @@ namespace Gear
 					allParticles[nrOfActiveParticles].lifeSpan = this->lifeTime;
 					particlePos[nrOfActiveParticles].size = this->particleSize;
 					temp2 = glm::normalize(glm::vec3((rand() % 20 - 10), (rand() % 20 - 10), (rand() % 20 - 10))) + tempVec;
-					allParticles[nrOfActiveParticles++].direction = glm::normalize(temp2 - this->position);
+					allParticles[nrOfActiveParticles].direction = glm::normalize(temp2 - this->position);
+					allParticles[nrOfActiveParticles++].direction *= rand() % (int)partSpeed;
 				}
 				timer = 0;
 			}
@@ -135,7 +136,7 @@ namespace Gear
 				if (allParticles[i].lifeSpan > 0.0)
 				{
 					allParticles[i].direction.y += gravityFactor * dt;
-					particlePos[i].pos += allParticles[i].direction * partSpeed * dt;
+					particlePos[i].pos += allParticles[i].direction * dt;
 					particlePos[i].size += shrinkage * dt;
 				}
 				else
@@ -184,6 +185,7 @@ namespace Gear
 				particlePos[i].pos = this->position;
 				temp2 = glm::normalize(glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5))) + tempVec;
 				allParticles[i].direction = glm::normalize(temp2 - this->position);
+				allParticles[i].direction *= rand() % (int)partSpeed;
 				allParticles[i].lifeSpan = this->lifeTime;
 			}
 		}
