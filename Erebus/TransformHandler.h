@@ -43,11 +43,11 @@ private:
 	//int findVacantIndex( int modelIndex );
 	int findVacantIndex();
 	int findModelIndex( int instanceIndex, ModelAsset* asset );
-	int findVacantModelIndex( int instanceIndex );
+	//int findVacantModelIndex( int instanceIndex );
 
 	Gear::GearEngine* gearEngine;
 	std::vector<ModelInstance>* instances[MAX_INSTANCE_TYPES];
-	std::vector<int> uses[MAX_INSTANCE_TYPES];
+	//std::vector<int> uses[MAX_INSTANCE_TYPES];
 	std::vector<ModelInstance> removables;
 
 	std::vector<TransformHandle> handles;
