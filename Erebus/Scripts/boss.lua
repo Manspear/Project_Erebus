@@ -87,9 +87,11 @@ function LoadBoss()
 		boss.damagedTint = {r=0,g=0,b=0,a=0}
 		boss.damagedTintDuration = 0
 		boss.deathTimer = DYING_TIME_EFTER_JA
-		
+
 		--as soon as this is called, the boss stops moving no matter what I send in...
 		boss.animationController.animation:StopAnimationUpdating(false)
+		boss.animationController.waitForRewindTimer = 0
+		boss.animationController.animation:ResetSegmentPlayTime(0)
 	end
 
 	function boss:Spawn()
@@ -134,14 +136,16 @@ function LoadBoss()
 			boss.spells[1]:Kill()
 			boss.spells[2]:Kill()
 			boss.spells[3]:Kill()
+
+			boss.health = -1
 		end
 	end
 
 	function boss:RealKill()
 		boss.combatStarted = false
-		boss.realDead = true
-		boss.animationController.deathTimer = 0
+		--boss.animationController.deathTimer = 0
 		rewinder:Cast()
+		boss.realDead = true
 	end
 
 	function boss:Apply(effect)
@@ -294,11 +298,19 @@ function UpdateBoss(dt)
 					boss.spells[boss.spellIndex]:Cast(boss)
 				end
 			end
-
 		end
 	elseif not BOSS_DEAD then
-		BOSS_DEAD = true
+		if LEVEL_ROUND == 3 then 
+			BOSS_DEAD = true
+			
+			local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+			if hm then
+				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+3, z=435.7 })
+			end
+
+		end
 	end
+
 	if not boss.alive then
 		boss.deathTimer = boss.deathTimer - dt
 		if boss.deathTimer < 0 then
