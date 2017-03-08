@@ -1,0 +1,22 @@
+<LevelActor type="Asset_Torch" displayName="Asset_Torch (25)" tileID="4" exportType="1">
+    <LevelModel>
+        <ModelName>Torch</ModelName>
+    </LevelModel>
+    <LevelParticleSystem>
+        <Offset x="0" y="3" z="0"/>
+        <Alive IsAlive="1"/>
+        <ParticleLocation Location="fire"/>
+    </LevelParticleSystem>
+    <LevelPointLight>
+        <Position x="0" y="3" z="0"/>
+        <Color x="1" y="0.57647061" z="0.16078432"/>
+        <Radius r="12"/>
+        <Intensity i="2.5"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="435.45572" y="61.875" z="458.99472"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

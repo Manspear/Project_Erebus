@@ -1,0 +1,17 @@
+<LevelActor type="Asset_Lantern" displayName="Lantern_Post (1)" tileID="4" exportType="1">
+    <LevelModel>
+        <ModelName>Lantern_Post</ModelName>
+    </LevelModel>
+    <LevelPointLight>
+        <Position x="-2.3499999" y="4.5" z="0"/>
+        <Color x="0.97254908" y="0.58823532" z="0.19607845"/>
+        <Radius r="15"/>
+        <Intensity i="3"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="488.5" y="41.84375" z="399.75"/>
+        <Rotation x="0" y="3.4554853" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
