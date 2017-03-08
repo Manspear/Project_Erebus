@@ -1290,7 +1290,7 @@ level01.triggers.TutorialPost2ID.collider:SetOffset(0,0,0)
 level01.triggers.TutorialPost2ID.collider:SetRadius(2.3)
 level01.triggers.TutorialPost2ID.collider:SetPos(12,6,169)
 level01.triggers.TutorialPost2ID.collider.OnExit = function() hideTutorialRevive() end
-level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 6, 169', dt) end
+level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 6, 169, dt) end
 level01.triggers.TutorialPost2ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.TutorialPost2ID.collider, 4)
 end
