@@ -91,6 +91,7 @@ namespace LuaParticles
 
 	int setPosition(lua_State* lua)
 	{
+		assert(lua_gettop(lua) == 4 || lua_gettop(lua) == 2);
 		glm::vec3 position;
 		int index = (int)lua_tointeger(lua, 1);
 		if (lua_gettop(lua) == 2) {

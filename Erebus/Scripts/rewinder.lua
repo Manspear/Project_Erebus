@@ -30,7 +30,7 @@ function CreateRewinder()
 
 	function rew:Rewinding(dt)
 		self.intensity = self.intensity + dt 
-		Light.updateIntensity(self.light, self.intensity * self.intensity * 10 )
+		Light.updateIntensity(self.light, self.intensity * self.intensity )
 		Light.updateRadius(self.light, self.intensity * self.intensity * 2)
 	end
 
