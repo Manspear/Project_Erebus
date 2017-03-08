@@ -94,10 +94,10 @@ function CreateBossController(boss)
 			self.animationState1 = 3
 		end
 
-		if self.watch.currentHealth <= 0 then 
+		if self.watch.health <= 0 then 
 			self.deathTimer = self.deathTimer + dt
 			if self.deathTimer < self.deathTimerThreshhold then 
-				self.animationState1 = 8
+				self.animationState1 = 7
 			else 
 				--Play the nonexistent "stayDead"-animation
 			end

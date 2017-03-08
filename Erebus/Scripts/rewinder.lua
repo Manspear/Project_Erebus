@@ -23,6 +23,7 @@ function CreateRewinder()
 	function rew:RewindEnd()
 		player.isControlable = true
 		self.rewinding = false
+		boss:Reset()
 		Rewind()
 	end
 
