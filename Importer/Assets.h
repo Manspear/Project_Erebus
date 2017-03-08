@@ -140,5 +140,6 @@ namespace Importer
 		std::map<AssetID, Asset*> assets;
 		std::vector<Asset*> pending;
 		std::vector<AssetID> unloads;
+		std::vector<std::map<AssetID, Asset*>::iterator> removes;
 	};
 }

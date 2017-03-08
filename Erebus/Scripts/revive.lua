@@ -13,8 +13,6 @@ function CreateRevive(entity)
 	local model = Assets.LoadModel( "Models/Revive.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	Transform.ActiveControl(spell.transformID, false)
-	--local model = Assets.LoadModel( "Models/grenade.model" )
-	--Gear.AddForwardInstance(model, spell.transformID)
 	
 	spell.light = nil
 

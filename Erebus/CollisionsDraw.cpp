@@ -277,12 +277,12 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 	}
 	if (node->children[0] == nullptr) // if we are leafnode
 	{
-		if(node->dynamicModels->size() == 0) // draw the quadtree node
+		if(node->dynamicModels == nullptr) // draw the quadtree node
 			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->emptyNodeColor);
 		else
 			debugger->drawAABB(node->collider->getMinPos(), node->collider->getMaxPos(), this->occupiedNodeColor);
 
-		if (node->dynamicModels->size() != 0) // dynamic models in quadtree
+		if (node->dynamicModels != nullptr) // dynamic models in quadtree
 		{
 			for (size_t i = 0; i < node->dynamicModels->size(); i++)
 			{
@@ -290,7 +290,7 @@ void CollisionsDraw::recursiveQuadtreeDraw(quadtreeNode * node)
 
 			}
 		}
-		if (node->animatedModels->size() != 0) // animated models in quadtree
+		if (node->animatedModels != nullptr) // animated models in quadtree
 		{
 			for (size_t i = 0; i < node->animatedModels->size(); i++)
 			{

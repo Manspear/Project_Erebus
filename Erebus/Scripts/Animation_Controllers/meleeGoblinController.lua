@@ -35,11 +35,10 @@ function CreateEnemyController(enemy)
 	controller.watch = enemy
 	controller.oldWatch = {}
 
-
+	controller.damagedMaxTime = 1
 	controller.quickBlendFrom = 0
 	controller.quickBlendTo = 7
-	controller.quickBlendSegment = 2
-
+	controller.quickBlendSegment = 1
 
 	controller.currentAnimation = 1
 
@@ -66,9 +65,8 @@ function CreateEnemyController(enemy)
 	end
 
 	function controller:AnimationHurt(dt,enemy)
-		self.animation:Update(dt, 0, 1)
+		self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
 	end
-
 
 	function controller:copyWatch()
 		self.oldWatch.health = self.watch.health
