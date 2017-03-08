@@ -194,10 +194,10 @@ namespace Gear
 			for (int i = 0; i < maxParticles; i++)
 			{
 				particlePos[i].size = this->particleSize;
-				particlePos[i].pos = glm::vec3((rand() % 16 - 8), (rand() % 16 - 8), (rand() % 16 - 8)) + this->position;
-				allParticles[i].direction = glm::normalize(this->position - particlePos[i].pos);
+				particlePos[i].pos = glm::vec3((rand() % 10 - 5), (rand() % 10 - 5), (rand() % 10 - 5)) + this->position;
+				allParticles[i].direction = (this->position - particlePos[i].pos) * 7.f;
 				length = glm::length(this->position - particlePos[i].pos);
-				allParticles[i].lifeSpan = length / partSpeed;
+				allParticles[i].lifeSpan = length / glm::length(allParticles[i].direction);
 			}
 		}
 		nrOfActiveParticles = maxParticles;
