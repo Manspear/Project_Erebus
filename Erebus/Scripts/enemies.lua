@@ -125,6 +125,7 @@ function CreateEnemy(type, position, element)
 
 			local pos = Transform.GetPosition(self.transformID)
 			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
+			enemies[i].animationController:AnimationHurt()
 			if source ~= player2 then
 				if Network.GetNetworkHost() == true then
 					if self.alive == true then
