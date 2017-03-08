@@ -140,7 +140,7 @@ function CreateIceGrenade(entity)
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
 								for e = 1, #self.nades[i].effects do
-									local effect = effectTable[self.nades[i].effects[e]]()
+									local effect = effectTable[self.nades[i].effects[e]](self.owner)
 									hits[index]:Apply(effect)
 								end
 							end
