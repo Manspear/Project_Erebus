@@ -122,6 +122,7 @@ function CreateEnemy(type, position, element)
 		end
 
 		enemies[i].Hurt = function(self, damage, source, element)
+
 			local pos = Transform.GetPosition(self.transformID)
 			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
 			if source ~= player2 then
