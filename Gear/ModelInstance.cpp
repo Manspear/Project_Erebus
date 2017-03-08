@@ -5,6 +5,7 @@ namespace Gear
 	ModelInstance::ModelInstance()
 	{
 		activeTransforms = 0;
+		occupied = 0;
 		instanceVAO = 0;
 		instanceVBO = 0;
 	}
@@ -187,6 +188,8 @@ namespace Gear
 			culled.at(index) = false;
 		}
 
+		occupied++;
+
 		return index;
 	}
 
@@ -222,6 +225,8 @@ namespace Gear
 			culled.at(index) = false;
 		}
 
+		occupied++;
+
 		return index;
 	}
 
@@ -250,6 +255,9 @@ namespace Gear
 
 	void ModelInstance::popInstance( int index )
 	{
+		if( !vacant.at(index) )
+			occupied--;
+
 		vacant.at(index) = true;
 		culled.at(index) = true;
 	}
@@ -365,6 +373,11 @@ namespace Gear
 	bool ModelInstance::getVacant( int index )
 	{
 		return vacant.at(index);
+	}
+
+	int ModelInstance::getOccupied()
+	{
+		return occupied;
 	}
 
 	const std::vector<TransformStruct>* ModelInstance::getTransforms()

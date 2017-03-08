@@ -64,6 +64,7 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Cast(entity, chargetime)
+		chargetime = chargetime or 1
 		if self.cooldown < 0 then
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
@@ -72,8 +73,8 @@ function CreateIceGrenade(entity)
 			local dir = self.owner.spellDirection
 			for i = 1, #spell.nades do
 				if not self.nades[i].alive then
-					local factor = 0.5 / self.maxChargeTime				
-					dir.y = dir.y + 0.2
+					local factor = chargetime / self.maxChargeTime				
+					dir.y = dir.y + 0.1
 					local falloff = (1 - factor) *  MAX_FALLOFF_ICENADE + MIN_FALLOFF_ICENADE
 					local radius = factor * EXPLOSION_RADIUS_ICENADE
 
@@ -140,7 +141,7 @@ function CreateIceGrenade(entity)
 						if hits[index].Hurt and not self.nades[i].hits[hits[index].transformID] then
 							if self.nades[i].effectflag then
 								for e = 1, #self.nades[i].effects do
-									local effect = effectTable[self.nades[i].effects[e]]()
+									local effect = effectTable[self.nades[i].effects[e]](self.owner)
 									hits[index]:Apply(effect)
 								end
 							end
@@ -173,7 +174,7 @@ function CreateIceGrenade(entity)
 	function spell:Kill(index)
 		if index then
 			Transform.SetScale(self.nades[index].transform2ID, 1)
-			Transform.ActiveControl(self.nades[index].transform2ID, false) 
+			Transform.ActiveControl(self.nades[index].transform2ID, false)
 			self.nades[index].particles:die()
 			self.nades[index].hits = {}
 			self.nades[index].type:Kill()

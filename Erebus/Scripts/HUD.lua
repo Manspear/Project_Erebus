@@ -404,7 +404,7 @@ function showCombineBarrierImage(dt,x,y,z)
 		index = 7
 	
 	elseif CombinationBarrierCounter < 6.4 then
-	index = -1
+		index = -1
 
 	else
 		CombinationBarrierCounter = 0

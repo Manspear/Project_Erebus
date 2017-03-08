@@ -173,8 +173,9 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, f
 			specular *= attenuation;
 
 			lighting += diffuseColor + specular;
+			lighting *= light.radius.y;
 		}
-	return lighting;
+	return lighting ;
 }
 
 float CalcShadowAmount(sampler2D shadowMap, vec4 initialShadowMapCoords)
