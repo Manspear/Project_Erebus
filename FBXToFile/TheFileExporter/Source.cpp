@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 		std::chrono::time_point<std::chrono::system_clock> start, end;
 		start = std::chrono::system_clock::now();
 
-		fileIm.importFbx("C:/Users/BTH/Desktop/conv/Boss_Stairs.fbx", 24);
+		fileIm.importFbx("C:/Users/BTH/Desktop/conv/Twisted_pineTree1.fbx", 24);
 		fileIm.writeToBinary("C:/Users/BTH/Desktop/conv/");
 
 		end = std::chrono::system_clock::now();
