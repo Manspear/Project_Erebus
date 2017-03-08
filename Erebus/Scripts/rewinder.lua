@@ -4,6 +4,7 @@ function CreateRewinder()
 	rew.duration = 5
 	rew.rewinding = false
 	rew.particles = createCloudParticles()
+	rew.holdParticles = createHoldingParticles()
 	rew.light = nil
 	rew.intensity = 2
 
@@ -17,6 +18,7 @@ function CreateRewinder()
 		Erebus.SetControls(player.dummyTrans.transformID)
 		local pos = Transform.GetPosition(boss.transformID)
 		self.light = Light.addLight(pos.x, pos.y+4, pos.z, 72/255,0,1, 0, 0, true)
+		self.holdParticles:cast(player.position)
 	end
 
 	function rew:Update(dt)
@@ -48,6 +50,7 @@ function CreateRewinder()
 		local pos = Transform.GetPosition(player.transformID)
 		pos.y = pos.y + 34
 		self.particles:poof(pos)
+		self.holdParticles:die()
 	end
 
 	return rew
