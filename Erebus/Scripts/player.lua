@@ -284,6 +284,7 @@ function FindHeightmap(position)
 			local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
 			Sky.SetTime(newtime)
 			print(newtime .. " levelindex: " .. player.levelIndex)
+			print("")
 		end
 	end
 end
