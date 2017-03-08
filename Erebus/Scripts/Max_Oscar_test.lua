@@ -1271,6 +1271,9 @@ level01.triggers.SpellBookID.collider = SphereCollider.Create(-1)
 level01.triggers.SpellBookID.collider:SetOffset(0,0,0)
 level01.triggers.SpellBookID.collider:SetRadius(18)
 level01.triggers.SpellBookID.collider:SetPos(53.0289,10.854,142.926)
+level01.triggers.SpellBookID.collider.OnExit = function() end
+level01.triggers.SpellBookID.collider.OnTriggering = function(self, dt) InteractSpellBook() end
+level01.triggers.SpellBookID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.SpellBookID.collider, 4)
 level01.triggers.TutorialPost2ID = {}
 level01.triggers.TutorialPost2ID.model = Assets.LoadModel('Models/SignPost.model')
@@ -1283,7 +1286,7 @@ level01.triggers.TutorialPost2ID.collider:SetOffset(0,0,0)
 level01.triggers.TutorialPost2ID.collider:SetRadius(2.3)
 level01.triggers.TutorialPost2ID.collider:SetPos(12,6,169)
 level01.triggers.TutorialPost2ID.collider.OnExit = function() hideTutorialRevive() end
-level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 6, 169', dt) end
+level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 6, 169, dt) end
 level01.triggers.TutorialPost2ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.TutorialPost2ID.collider, 4)
 end
