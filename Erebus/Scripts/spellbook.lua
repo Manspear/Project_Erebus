@@ -44,6 +44,7 @@ function EnterSpellbook()
 end
 
 function ExitSpellbook()
+	player.isControlable = true
 end
 
 return { Load = LoadSpellbook, Unload = UnloadSpellbook, Update = UpdateSpellbook, Enter = EnterSpellbook, Exit = ExitSpellbook }
