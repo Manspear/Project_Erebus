@@ -37,7 +37,7 @@ public:
 	void update(Gear::GearEngine* engine, Camera* camera,const double deltaTime, Inputs* inputs, Debug* debug);
 
 private:
-	int numSavedPositions = 1000;
+	int numSavedPositions = 250;
 
 	float PIx2 = 6.2832;
 	float radius = 1;
