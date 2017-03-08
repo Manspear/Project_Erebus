@@ -10,7 +10,7 @@ function state.idleState.update(enemy,player,dt,enemyManager)
 	
 	length = AI.DistanceTransTrans(enemy.transformID,enemy.playerTarget.transformID)
 	if length <enemy.visionRange and enemy.playerTarget.isAlive then
-		print("Idle ", length)
+		--print("Idle ", length)
 		inState = FOLLOW_STATE
 		changeToState(enemy,enemy.playerTarget,inState)
 	end
@@ -35,7 +35,7 @@ function state.followState.update(enemy,player,dt)
 		if length >enemy.visionRange and enemy.aggro == false then
 			inState = IDLE_STATE
 			changeToState(enemy,player,inState)
-			print("hehe idle")
+			--print("hehe idle")
 		end
 
 		if enemy.playerTarget.nrOfInnerCircleEnemies < 1000 then 
@@ -144,18 +144,18 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			inState = FOLLOW_STATE
 			changeToState(enemy,enemy.playerTarget,inState)
 		else
-			print(enemyManager.actionEnemy, "TOO MANY")
+			--print(enemyManager.actionEnemy, "TOO MANY")
 			if enemyManager.actionEnemy < enemyManager.maxAttackingEnemies  then
 				enemyManager.actionEnemy = enemyManager.actionEnemy +1
 				randomNum = math.random(0, 1)
 				if randomNum == 0 then
-					print("NORMAL ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
+					--print("NORMAL ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
 					inState = ATTACK_STATE 
 					changeToState(enemy,enemy.playerTarget,inState)
 
 				end
 				if randomNum == 1 then
-					print("LEAP ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
+					--print("LEAP ATTACK  ",enemy.playerTarget.nrOfInnerCircleEnemies)
 					inState = LEAP_STATE 
 					changeToState(enemy,enemy.playerTarget,inState)
 
@@ -319,6 +319,12 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 			enemy.tempVariable = length
 			local pos = enemy.pos
 			enemy.whatEver = pos.y
+
+			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+			if length > 22 then
+				inState = POSITIONING_INNER_STATE
+				changeToState(enemy,enemy.playerTarget,inState)
+			end
 		end
 	
 ---------------------------------------- Mid Flight
@@ -424,7 +430,7 @@ end
 function state.runAwayState.enter(enemy, playerTarget)
 	------- Choose Random direction away from player
 
-	print("Lets Runaway together!!")
+	--print("Lets Runaway together!!")
 	enemy.insideInnerCircleRange = false
 	-------
 

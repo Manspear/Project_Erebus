@@ -286,7 +286,6 @@ function CreateChargeEggs(entity)
 			self.particles:iceElement()
 			self.particles:cast()
 		end
-		print("Tjenmors")
 	end
 
 	return chargeThing
