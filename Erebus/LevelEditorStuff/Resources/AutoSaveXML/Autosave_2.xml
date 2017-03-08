@@ -18683,16 +18683,82 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="Empty" displayName="New (4)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="1"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="343" y="109.20415" z="724.5"/>
+    <LevelActor type="Brush" displayName="PineTreeTwisted (1)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1428" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Twisted_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="15.476563" y="11.285156" z="158.875"/>
+            <Rotation x="0.035858154" y="0.99267578" z="0.11315918"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="PineTreeTwisted (2)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1465" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Twisted_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.390625" y="11.09375" z="158.25"/>
+            <Rotation x="0.047973633" y="0.99804688" z="0.028488159"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="PineTreeTwisted (3)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1466" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Twisted_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="21.40625" y="11.125" z="155.25"/>
+            <Rotation x="0.051055908" y="0.99853516" z="-0.0069274902"/>
+            <Scale x="1" y="1" z="1"/>
+            <Export e="true"/>
+        </LevelTransform>
+    </LevelActor>
+    <LevelActor type="Brush" displayName="PineTreeTwisted (4)" tileID="3" exportType="1">
+        <LevelCollider type="2">
+            <Offset x="0" y="3" z="0"/>
+            <Color x="0" y="1" z="0"/>
+            <IDs ID="1467" parentID="0"/>
+            <Behavior Type="0"/>
+            <GenParent value="true"/>
+            <Rotation x="0" y="0" z="0"/>
+            <HalfLengths x="1.5" y="5" z="1.5"/>
+        </LevelCollider>
+        <LevelModel>
+            <ModelName>Twisted_pineTree1</ModelName>
+        </LevelModel>
+        <LevelTransform>
+            <Position x="16.4375" y="11.476563" z="152.25"/>
+            <Rotation x="0.065917969" y="0.99755859" z="0.01134491"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>

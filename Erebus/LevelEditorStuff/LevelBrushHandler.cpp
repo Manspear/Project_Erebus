@@ -112,7 +112,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		//Randomize brush position
 		hitPoint.x = (hitPoint.x += RNG::range((-this->radius), this->radius));
 		hitPoint.z = (hitPoint.z += RNG::range((-this->radius), this->radius));
-		hitPoint.y = hitPoint.y + yOffset;
+		
 
 		//set upp camera for additional picking pass
 		glm::vec3 ortogonalCamAboveHitpoint = glm::vec3(hitPoint.x, (hitPoint.y + 3), hitPoint.z); //Make an additional draw call above hitpoint	
@@ -127,7 +127,7 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		pos.y = WINDOW_HEIGHT / 2;
 		
 		engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, pos, actorID, hitPoint, hitNorm);
-
+		hitPoint.y = hitPoint.y + yOffset;
 		//return camera to original position
 		camera->setPosition(oldCamPos);
 		camera->setDirection(oldCamDirection);
