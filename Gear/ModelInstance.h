@@ -54,6 +54,7 @@ namespace Gear
 		GEAR_API bool getActive( int index );
 		GEAR_API bool getCulled( int index );
 		GEAR_API bool getVacant( int index );
+		GEAR_API int getOccupied();
 		GEAR_API const std::vector<TransformStruct>* getTransforms();
 		
 	private:
@@ -62,7 +63,7 @@ namespace Gear
 		std::vector<bool> vacant;
 		std::vector<bool> culled;
 		std::vector<TransformStruct> transforms;
-		int activeTransforms;
+		int activeTransforms, occupied;
 		std::vector<glm::mat4> worldMatrices;
 		std::vector<Animation*> animations; // only used for animated instances
 		GLuint instanceVBO;

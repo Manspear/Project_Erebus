@@ -302,6 +302,12 @@ function UpdateBoss(dt)
 	elseif not BOSS_DEAD then
 		if LEVEL_ROUND == 3 then 
 			BOSS_DEAD = true
+			
+			local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+			if hm then
+				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+3, z=435.7 })
+			end
+
 		end
 	end
 
