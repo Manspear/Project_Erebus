@@ -1,0 +1,14 @@
+<LevelActor type="Asset_RedLight" displayName="RedPointLight" tileID="7" exportType="1">
+    <LevelPointLight>
+        <Position x="0" y="0" z="0"/>
+        <Color x="1" y="0" z="0"/>
+        <Radius r="10"/>
+        <Intensity i="2"/>
+    </LevelPointLight>
+    <LevelTransform>
+        <Position x="201.75" y="130.57605" z="567"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>
