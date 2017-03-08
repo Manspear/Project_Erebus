@@ -73,8 +73,19 @@ function CreateSiphon(entity)
 		table.insert(result, self.collider:GetID())
 		return result
 	end
+	function spell:Charge(dt)
+		self:rotatetoowner()
+		if self == nil then
+			return
+		end
+		if self.chargedTime < self.maxChargeTime then 
+			self.chargedTime = self.chargedTime + dt
+		end
+		if self.owner == player then
+			ZoomInCamera()
+		end
+	end
 
-	spell.Charge = BaseCharge
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 
 			self.chargeAlive = true
