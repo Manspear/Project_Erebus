@@ -92,6 +92,7 @@ namespace LuaGear
 			{ "SetSegmentPlayTime", setSegmentPlayTime },
 			{ "ResetSegmentPlayTime", resetSegmentPlayTime },
 			{ "ResetSegmentAnimationClock", resetSegmentAnimationClock },
+			{ "StopAnimationUpdating", stopAnimationUpdating },
 			{ "SetTint", setTint},
 			{ NULL, NULL }
 		};
@@ -141,6 +142,19 @@ namespace LuaGear
 		g_animatedModels->clear();
 		g_ForwardModels->clear();
 		g_blendingModels->clear();
+
+		return 0;
+	}
+
+	int stopAnimationUpdating(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 2);
+		lua_getfield(lua, 1, "__self");
+
+		Animation* animation = (Animation*)lua_touserdata(lua, -1);
+
+		bool doUpdate = lua_toboolean(lua, 2);
+		animation->stopAnimationUpdating(doUpdate);
 
 		return 0;
 	}
