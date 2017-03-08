@@ -100,8 +100,7 @@ function CreateBossController(boss)
 				self.animationState1 = 7
 			else 
 				--Play the nonexistent "stayDead"-animation
-				print(self.animation)
-				self.animation:StopAnimationUpdating()
+				self.animation:StopAnimationUpdating(true)
 			end
 		end
 

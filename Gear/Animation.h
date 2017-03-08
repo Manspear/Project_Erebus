@@ -40,7 +40,7 @@ public:
 	GEAR_API void setSegmentState(int state, int segment);
 	GEAR_API void setQuickBlend(int from, int to, float blendTime, int segment);
 
-	GEAR_API void stopAnimationUpdating();
+	GEAR_API void stopAnimationUpdating(bool doUpdate);
 	/*
 	Set transition times for all possible To and From state combinations by making a
 	float matrix/table constructed in this manner:

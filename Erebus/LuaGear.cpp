@@ -148,12 +148,13 @@ namespace LuaGear
 
 	int stopAnimationUpdating(lua_State * lua)
 	{
-		assert(lua_gettop(lua) == 1);
+		assert(lua_gettop(lua) == 2);
 		lua_getfield(lua, 1, "__self");
 
 		Animation* animation = (Animation*)lua_touserdata(lua, -1);
 
-		animation->stopAnimationUpdating();
+		bool doUpdate = lua_toboolean(lua, 2);
+		animation->stopAnimationUpdating(doUpdate);
 
 		return 0;
 	}

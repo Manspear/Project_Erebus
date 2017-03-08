@@ -776,9 +776,9 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 	quickBlendingDone = false;
 }
 
-void Animation::stopAnimationUpdating()
+void Animation::stopAnimationUpdating(bool doUpdate)
 {
-	stopUpdating = true;
+	stopUpdating = doUpdate;
 }
 
 void Animation::update(float dt)

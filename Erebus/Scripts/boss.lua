@@ -87,6 +87,10 @@ function LoadBoss()
 		boss.damagedTint = {r=0,g=0,b=0,a=0}
 		boss.damagedTintDuration = 0
 		boss.deathTimer = DYING_TIME_EFTER_JA
+		
+		print("I HAPPENED")
+		--as soon as this is called, the boss stops moving no matter what I send in...
+		boss.animationController.animation:StopAnimationUpdating(false)
 	end
 
 	function boss:Spawn()
