@@ -97,8 +97,8 @@ function CreatePlayerController(player)
 
 		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
 		then
-			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
-			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, controller.quickBlendSegment)
+			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
+			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
 		end
 
 		if self.watch.resetSpamAttack == true then
