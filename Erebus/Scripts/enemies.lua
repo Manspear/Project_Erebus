@@ -40,13 +40,17 @@ function CreateEnemy(type, position, element)
 	assert( type == ENEMY_MELEE or type == ENEMY_RANGED or type == ENEMY_DUMMY, "Invalid enemy type." )
 
 	local i = -1
-	for ii = 1, #enemies do
-		if enemies[ii].reuse then
-			i = ii
+	local elem = element or NEUTRAL
+	for temp = 1, #enemies do
+		if enemies[temp].reuse 
+		and (enemies[temp].type == type) 
+		and (enemies[temp].elementType == elem) 
+		then
+			i = temp
 			break
 		end
 	end
-	--print("i"..i.." type"..type.." elem"..(element or NEUTRAL))
+
 	if i == -1 then
 		-- create new enemy
 		i = #enemies+1
@@ -54,7 +58,6 @@ function CreateEnemy(type, position, element)
 		enemies[i].timeScalar = 1.0
 		enemies[i].type = type
 		enemies[i].elementType = element or NEUTRAL
-		--enemies[i].transformID = Transform.Bind()
 		enemies[i].movementSpeed = 8--math.random(5,20)
 		enemies[i].maxHealth = 20
 		enemies[i].health = enemies[i].maxHealth
@@ -124,7 +127,8 @@ function CreateEnemy(type, position, element)
 		enemies[i].Hurt = function(self, damage, source, element)
 
 			local pos = Transform.GetPosition(self.transformID)
-			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
+			--print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
+			
 			if source ~= player2 then
 				if Network.GetNetworkHost() == true then
 					if self.alive == true then
@@ -142,6 +146,7 @@ function CreateEnemy(type, position, element)
 							Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 						end
 						if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+							enemies[i].animationController:AnimationHurt()
 							inState = FOLLOW_STATE
 							stateScript.changeToState(self, player, inState)
 							self.aggro = true
@@ -188,6 +193,7 @@ function CreateEnemy(type, position, element)
 			end
 
 			AI.ClearMap(enemies[i].lastPos,0)
+			SphereCollider.SetActive(self.collider, false)
 
 			if Network.GetNetworkHost() == true then
 				inState = DEAD_STATE
@@ -196,14 +202,12 @@ function CreateEnemy(type, position, element)
 			if self.type ~= ENEMY_DUMMY then
 				self.animationController:AnimationUpdate(0) -- play death animation
 			end
+			--print("killing "..self.transformID.." elem:"..self.elementType)
 		end
 
 		enemies[i].Apply = function(self, effect)
-			--if self.alive == true then
 				table.insert(self.effects, effect)
 				effect:Apply(self)
-			--	enemies[i].animationController:AnimationUpdate(0) -- play death animation
-			--end
 		end
 		enemies[i].SetStats = function(self, moveSpeed, health, visionRange)
 			self.maxHealth = health * LEVEL_ROUND
@@ -257,78 +261,23 @@ function CreateEnemy(type, position, element)
 			end
 		end
 
-		--print("creating "..enemies[i].transformID)
+		--print("creating "..enemies[i].transformID.." elem:"..enemies[i].elementType)
 	else
 		-- reuse dead enemy
-		--Gear.UnbindInstance(enemies[i].transformID)
-		Assets.UnloadModel(enemies[i].modelName)
-
-		enemies[i].timeScalar = 1.0
-		enemies[i].elementType = element or NEUTRAL
-		--enemies[i].transformID = Transform.Bind()
-		enemies[i].movementSpeed = 8--math.random(5,20)
-		enemies[i].maxHealth = 20
-		enemies[i].health = enemies[i].maxHealth
 		enemies[i].alive = true
-		enemies[i].attackCountdown = 0
 		enemies[i].aggro = false
 		enemies[i].soundID = {-1, -1, -1} --aggro, atk, hurt
 		enemies[i].reuse = false
-
-		enemies[i].healthbar = enemies[i].healthbar or UI.load(0, 0, 0, ENEMY_HEALTHBAR_WIDTH, ENEMY_HEALTHBAR_HEIGHT);
 		enemies[i].currentHealth = enemies[i].health
-		enemies[i].hurtCountdown = 0
 
-		enemies[i].damagedTint = {r=1, g=0, b=0, a=0}
-		enemies[i].damagedTintDuration = 0.3
+		--enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		--enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
+		--enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
 
-		enemies[i].new_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-		enemies[i].goal_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-		enemies[i].start_transform_interpolate = {position = {x=0, y=0, z=0}, lookAt = {x=0, y=0, z=0}, rotation = {x=0, y=0, z=0}}
-
-		enemies[i].visionRange = 100
 		enemies[i].subPathtarget = nil
 		enemies[i].pathTarget = nil
-
-		enemies[i].insideInnerCircleRange = false
-
-		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
-		enemies[i].maxActionCountDown = 3
-		enemies[i].actionCountDown = 3
-
-		enemies[i].range = 4
 		enemies[i].target = nil
-
-		enemies[i].tempVariable = 0
-
-		enemies[i].modelName = ""
-		if type == ENEMY_MELEE then
-			if enemies[i].elementType == NEUTRAL then
-				enemies[i].modelName = "Models/Fire_Goblin.model"
-			elseif enemies[i].elementType == FIRE then
-				enemies[i].modelName = "Models/Fire_Goblin.model"
-			elseif enemies[i].elementType == NATURE then
-				enemies[i].modelName = "Models/Grass_Goblin.model"
-			elseif enemies[i].elementType == ICE then
-				enemies[i].modelName = "Models/Ice_Goblin.model"
-			end
-		elseif type== ENEMY_DUMMY then
-			enemies[i].modelName = "Models/Dummy.model"
-		else
-			enemies[i].modelName = "Models/Fire_Goblin.model" --TODO: Change to the model for the ranged enemy
-		end
-		
-		local model = Assets.LoadModel(enemies[i].modelName)
-		
-		assert( model, "Failed to load model Models/Goblin.model" )
-
-		Animation.SetAnimationModel(model, enemies[i].animationController.animation)
-		
-		--if type ~= ENEMY_DUMMY then
-		--	enemies[i].transformID = Gear.BindAnimatedInstance(model, enemies[i].animationController.animation)
-		--else
-		--	enemies[i].transformID = Gear.BindStaticInstance(model)
-		--end
+		enemies[i].insideInnerCircleRange = false
 
 		Transform.ActiveControl(enemies[i].transformID, true)
 		Transform.SetPosition(enemies[i].transformID, position)
@@ -354,7 +303,7 @@ function CreateEnemy(type, position, element)
 			end
 		end
 
-		--print("reusing "..enemies[i].transformID)
+		--print("reusing "..enemies[i].transformID.." elem:"..enemies[i].elementType)
 	end
 
 	return enemies[i]
@@ -375,12 +324,10 @@ end
 
 function DestroyEnemy(enemy)
 	Transform.ActiveControl(enemy.transformID, false)
-	if enemy.type ~= ENEMY_DUMMY then 
-		enemy.alive = false 
-		enemy.reuse = true
-	end
-
-	--print("destroying "..enemy.transformID)
+	SphereCollider.SetActive(enemy.collider, false)
+	enemy.alive = false 
+	enemy.reuse = true
+	--print("destroying "..enemy.transformID.." elem:"..enemy.elementType)
 end
 function UpdateEnemies(dt)
 	--for i = 1, #heightmaps do

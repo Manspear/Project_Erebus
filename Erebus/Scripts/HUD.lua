@@ -62,11 +62,14 @@ function LoadHUD()
 	tutorialTexture[11] = Assets.LoadTexture("Textures/WaitingForPlayer2_3.dds")
 	tutorialTexture[12] = Assets.LoadTexture("Textures/TUTORIALWhenFriendIsCharging.dds")
 
+	tutorialTexture[13] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown.dds")
+	tutorialTexture[14] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown2.dds")
+	tutorialTexture[15] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown3.dds")
+
 	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[1] = UI.load(11.9, 10.4, 152.9, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	
-	
-	
+	pingImages[2] = UI.load(53.0289, 13, 142.926, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+
 
 end
 
@@ -218,6 +221,8 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[1], player.pingTexture);
 	end
 
+	UI.drawWorldImage(pingImages[2], player.pingTexture);
+
 	if SHOW_COMBINE_BARRIER_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_COMBINE_BARRIER_IMAGE], tutorialTexture[SHOW_COMBINE_BARRIER_IMAGE])
 	end
@@ -256,7 +261,9 @@ function DrawHUD()
 
 	if showHealthbar then 
 		for i=1, #enemies do
-			UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
+			if enemies[i].alive then
+				UI.drawWorldImage(enemies[i].healthbar,  imageTextures["healthBar"])
+			end
 		end
 		if boss and boss.alive then 
 			UI.drawWorldImage(boss.healthbar,  imageTextures["healthBar"])
@@ -319,21 +326,25 @@ function showTutorialRevive(x,y,z,dt)
 	local index
 	TutorialReviveCounter = TutorialReviveCounter + dt
 
-	finalX = x - 6
+	finalX = x + 1
 	finalZ = z + 6
 	finalY = y + 5
 	
-	if TutorialReviveCounter < 2  then
-		index = 4
-	elseif TutorialReviveCounter < 4 then
-		index = 5
+	if TutorialReviveCounter < 2.5  then
+		index = 13
+	elseif TutorialReviveCounter < 5 then
+		index = 14
+	elseif TutorialReviveCounter < 7.5 then
+		index = 15
+	elseif TutorialReviveCounter < 8.5 then
+		index = -1
 
 	else
 		TutorialReviveCounter = 0
-		index = 1
+		index = 13
 	end
 
-	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 5, 5)
+	tutorialImages[index] = UI.load(finalX, finalY, finalZ, 4, 4)
 	SHOW_TUTORIAL_REVIVE = index
 end
 

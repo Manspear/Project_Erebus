@@ -6,7 +6,7 @@ TIMEORBWAVE_HITTIME = 2.5
 TIMEORBWAVE_ANIMATIONTIME = 5
 CHRONOORB_ANIMATIONTIME = 2.5
 TIMELASER_ANIMATIONTIME = 2.5
-DYING_TIME_EFTER_JA = 5
+DYING_TIME_EFTER_JA = 5.0
 
 COMBATSTART_ANIMATIONTIME = 5
 
@@ -100,6 +100,7 @@ function CreateBossController(boss)
 				self.animationState1 = 7
 			else 
 				--Play the nonexistent "stayDead"-animation
+				self.animation:StopAnimationUpdating(true)
 			end
 		end
 
