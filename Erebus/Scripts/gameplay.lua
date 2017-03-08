@@ -115,11 +115,6 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
-		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-		player.isControlable = false
-	end
-
 	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
@@ -150,6 +145,13 @@ function UpdateGameplay(dt)
 			BOSS_DEAD = true
 			gamestate.ChangeState(GAMESTATE_DEATH)
 		end
+	end
+end
+
+function InteractSpellBook()
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging  then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
 	end
 end
 
