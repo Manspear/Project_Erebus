@@ -41,12 +41,13 @@ void LevelBrushHandler::undoLastBrushAction()
 {
 	if (this->actorsMade.size() > 0)
 	{
+		unsigned int index = 0;
 		for (LevelActor* actor : this->actorsMade.back())
 		{
 			LevelActorHandler::getInstance()->removeActor(actor);
+			this->earlierPositions.at(index) = glm::vec3(9999, 9999, 9999);
+			index++;
 		}
-		
-		std::cout << this->actorsMade.size();
 		this->actorsMade.pop_back();
 	}
 }
@@ -183,8 +184,11 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 			}
 			
 			timer = 0.16;
+			//vi sätter in i böjan och tar bort den sista
+			//för att ta bort kommer vi behöva ta bort de första i arrayen.
 			earlierPositions.insert(earlierPositions.begin(),hitPoint);
 			earlierPositions.pop_back();
+		
 		
 			this->actorsMadeThisKeyPress.push_back(newActor);
 			LevelActorHandler::getInstance()->updateTweakBars();
