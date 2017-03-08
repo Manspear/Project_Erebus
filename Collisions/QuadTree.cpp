@@ -100,19 +100,23 @@ namespace Collisions
 
 			for (size_t j = 0; j < animatedModels->operator[](i).getTransforms()->size(); j++) // for every transform
 			{
-				TransformStruct* tempTransform = animatedModels->operator[](i).getTransform(j);
-
-				if (tempTransform->active)
+				if (!animatedModels->operator[](i).getVacant(j)) // if not vacant
 				{
-					AABBCollider* modelCollider = new AABBCollider(tempModelAsset->getMinPosition() * tempTransform->scale, tempModelAsset->getMaxPosition() * tempTransform->scale, tempTransform->pos);
+					TransformStruct* tempTransform = animatedModels->operator[](i).getTransform(j);
 
-					if (this->collisionChecker.collisionCheck(this->baseNode->collider, modelCollider)) // if the model is colliding with the quadtree
+					if (tempTransform->active)
 					{
-						ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
-						this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
-						this->addAnimatedHitboxToQuadtree(this->baseNode, tempCombiner);
+						AABBCollider* modelCollider = new AABBCollider(tempModelAsset->getMinPosition() * tempTransform->scale, tempModelAsset->getMaxPosition() * tempTransform->scale, tempTransform->pos);
+
+						if (this->collisionChecker.collisionCheck(this->baseNode->collider, modelCollider)) // if the model is colliding with the quadtree
+						{
+							ModelHitboxCombiner* tempCombiner = new ModelHitboxCombiner(modelCollider, tempModelAsset, j);
+							this->allCombiners->push_back(tempCombiner); // save tempCombiner for deletion later
+							this->addAnimatedHitboxToQuadtree(this->baseNode, tempCombiner);
+						}
 					}
 				}
+
 
 			}
 
