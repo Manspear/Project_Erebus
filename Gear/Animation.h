@@ -173,5 +173,5 @@ protected:
 
 	bool culled;
 
-	bool stopUpdating = false;
+	bool stopUpdating;
 };

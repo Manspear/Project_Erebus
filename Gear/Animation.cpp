@@ -20,6 +20,8 @@ Animation::Animation()
 	finalList = NULL;
 	blendedList = NULL;
 
+	stopUpdating = false;
+
 	active = true;
 	culled = false;
 }
@@ -776,7 +778,7 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 
 void Animation::stopAnimationUpdating()
 {
-	stopUpdating = !stopUpdating;
+	stopUpdating = true;
 }
 
 void Animation::update(float dt)
