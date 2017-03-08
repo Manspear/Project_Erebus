@@ -129,7 +129,7 @@ function Rewind()
 	LEVEL_ROUND = LEVEL_ROUND + 1
 	--EnterGameplay()
 	if LEVEL_ROUND > 3 then
-		--WIN
+			gamestate.ChangeState(GAMESTATE_WIN)
 	else
 		for levelIndex,level in pairs(levels) do
 			if loadedLevels[levelIndex] then
