@@ -61,7 +61,6 @@ function UpdateSpellbookUI(dt)
 	if Inputs.KeyReleased("B") then -- Close the book with B
 		Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 		gamestate.ChangeState(GAMESTATE_GAMEPLAY)
-		player.isControlable = true
 	end
 
 
@@ -70,7 +69,6 @@ function UpdateSpellbookUI(dt)
 		if UI.mousePick(screenImages["back"], x,y) then -- Close the book with mouse
 				Network.SendChangeSpellsPacket(player.spells[1].spellListId, player.spells[2].spellListId, player.spells[3].spellListId)
 				gamestate.ChangeState(GAMESTATE_GAMEPLAY)
-				player.isControlable = true
 		end
 		
 		for i=1, #screenImages do

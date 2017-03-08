@@ -329,7 +329,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
-			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active && !animatedModels->at(i).getCulled(j) )
+			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
@@ -372,6 +372,7 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 			}
 		}
 	}
+
 	allShaders[currentShader]->unUse();
 }
 
@@ -437,16 +438,23 @@ void RenderQueue::geometryPass(std::vector<ModelInstance>* dynamicModels, std::v
 
 		//for (int j = 0; j< animatedModels->at(i).worldIndices.size(); j++)
 		//for( int j=0; j<animatedModels->at(i).worldMatrices.size(); j++ )
-		for (int j = 0; j<animatedModels->at(i).getActiveTransforms(); j++)
+		//for (int j = 0; j<animatedModels->at(i).getActiveTransforms(); j++)
+		//{
+			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
+			//{
+		int offset = 0;
+		for( int j=0; j<animatedModels->at(i).getTransforms()->size(); j++ )
 		{
 			//if (allTransforms[animatedModels->at(i).worldIndices[j]].active)
+			if( !animatedModels->at(i).getCulled(j) && animatedModels->at(i).getTransform(j)->active )
 			{
 				//int index = animatedModels->at(i).worldIndices.at(j);
 				//tempMatrices[numInstance++] = worldMatrices[animatedModels->at(i).worldIndices[j]];
 				//tempMatrix = worldMatrices[index];
 
 				//allShaders[ANIM]->setUniform4cfv(&tempMatrix[0][0], "worldMatrices", 1);
-				allShaders[ANIMSHADOW]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getWorldMatrix(j)), "worldMatrices", 1);
+				allShaders[ANIMSHADOW]->setUniform4cfv(glm::value_ptr(animatedModels->at(i).getWorldMatrix(offset)), "worldMatrices", 1);
+				offset++;
 
 				//glUniformMatrix4fv(allShaders[ANIM]->getUniformLocation("jointMatrices"), MAXJOINTCOUNT, GL_FALSE, &jointMatrices[animatedModels->at(i).animations[j]->getMatrixIndex()*MAXJOINTCOUNT][0][0] );
 				//allShaders[ANIM]->setUniform4cfv(&jointMatrices[animatedModels->at(i).getAnimationMatrixIndex(j)*MAXJOINTCOUNT][0][0], "jointMatrices", MAXJOINTCOUNT);

@@ -41,7 +41,8 @@ local scriptFiles =
 	"Scripts/TimeLaser.lua",
 	"Scripts/healthOrb.lua",
 	"Scripts/reusable.lua",
-	"Scripts/sluice.lua"
+	"Scripts/sluice.lua",
+	"Scripts/rewinder.lua"
 }
 
 loadedLevels = {}
@@ -61,18 +62,18 @@ function LoadGameplay()
 end
 
 function CreateIM()
-		for i = 1, 8 do
-			levels[i].load()
-			loadedLevels[i] = true
-		end
+	for i = 1, 8 do
+		levels[i].load()
+		loadedLevels[i] = true
+	end
 
-		AI.CreateIM()--,#heightmaps,widthTest,heightTest)
+	AI.CreateIM()--,#heightmaps,widthTest,heightTest)
 
-		for i = 1, 8 do
-			levels[i].unload()
-			loadedLevels[i] = false
-		end
-		loadedLevels = {}
+	for i = 1, 8 do
+		levels[i].unload()
+		loadedLevels[i] = false
+	end
+	loadedLevels = {}
 end
 
 function UnloadGameplay()
@@ -114,11 +115,6 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
-		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-		player.isControlable = false
-	end
-
 	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
@@ -128,6 +124,7 @@ function UpdateGameplay(dt)
 	end
 
 	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
+	
 	levelScripts[player.levelIndex].Update(dt)
 
 	if SETTING_DEBUG then 
@@ -151,6 +148,17 @@ function UpdateGameplay(dt)
 	end
 end
 
+function InteractSpellBook()
+	local scale = 0.8
+	local color = {0.6, 0.9, 0.9, 0.8}
+	Gear.Print("Press B to enter SpellBook", 420, 40, scale, color)
+
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging  then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
+	end
+end
+
 function EnterGameplay()
 	print("entering gameplay")
 	if loadedGameplay == false then 
@@ -162,7 +170,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/Adam_test.lua" )
+		dofile( "Scripts/MAx_Oscar_test.lua" )
 
 		CreateIM()
 
@@ -179,9 +187,9 @@ function EnterGameplay()
 		--levels[1].load()
 		
 		loadedGameplay = true
+		Sky.SetTime(8,true)
 	end
 	LEVEL_ROUND = 1
-	Sky.SetTime(8)
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()

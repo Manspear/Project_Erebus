@@ -536,6 +536,9 @@
     <None Include="Scripts\Animation_Controllers\bossController.lua">
       <Filter>Animation Controllers</Filter>
     </None>
+    <None Include="Scripts\rewinder.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

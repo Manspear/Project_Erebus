@@ -80,7 +80,7 @@ void TransformHandler::checkReset()
 			for( int j=0; j<instances[i]->size(); j++ )
 				removables.push_back( instances[i]->at(j) );
 			instances[i]->clear();
-			uses[i].clear();
+			//uses[i].clear();
 		}
 
 		gearEngine->uniValues.clear();
@@ -116,19 +116,19 @@ int TransformHandler::bindStaticInstance( ModelAsset* asset )
 		{
 			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
-			uses[INSTANCE_DYNAMIC].at(modelIndex) = 1;
+			//uses[INSTANCE_DYNAMIC].at(modelIndex) = 1;
 		}
 		else
 		{
 			modelIndex = models->size();
 			models->push_back( instance );
-			uses[INSTANCE_DYNAMIC].push_back( 1 );
+			//uses[INSTANCE_DYNAMIC].push_back( 1 );
 		}
 	}
 	else
 	{
-		if( uses[INSTANCE_DYNAMIC].at(modelIndex) <= 0 )
-			uses[INSTANCE_DYNAMIC].at(modelIndex) = 1;
+		/*if( uses[INSTANCE_DYNAMIC].at(modelIndex) <= 0 )
+			uses[INSTANCE_DYNAMIC].at(modelIndex) = 1;*/
 	}
 
 	int transformIndex = instances[INSTANCE_DYNAMIC]->at(modelIndex).pushStaticInstance(DEFAULT_TRANSFORM, glm::mat4());
@@ -172,19 +172,19 @@ int TransformHandler::bindAnimatedInstance( ModelAsset* asset, Animation* animat
 		{
 			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
-			uses[INSTANCE_ANIMATED].at(modelIndex) = 1;
+			//uses[INSTANCE_ANIMATED].at(modelIndex) = 1;
 		}
 		else
 		{
 			modelIndex = models->size();
 			models->push_back( instance );
-			uses[INSTANCE_ANIMATED].push_back(1);
+			//uses[INSTANCE_ANIMATED].push_back(1);
 		}
 	}
 	else
 	{
-		if( uses[INSTANCE_ANIMATED].at(modelIndex) <= 0 )
-			uses[INSTANCE_ANIMATED].at(modelIndex) = 1;
+		/*if( uses[INSTANCE_ANIMATED].at(modelIndex) <= 0 )
+			uses[INSTANCE_ANIMATED].at(modelIndex) = 1;*/
 	}
 
 	animation->setAsset( asset );
@@ -229,21 +229,21 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 		{
 			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
-			uses[INSTANCE_FORWARD].at(modelIndex) = 1;
+			//uses[INSTANCE_FORWARD].at(modelIndex) = 1;
 			gearEngine->uniValues.at( modelIndex ) = { "NULL", {0,0} };
 		}
 		else
 		{
 			modelIndex = models->size();
 			models->push_back( instance );
-			uses[INSTANCE_FORWARD].push_back(1);
+			//uses[INSTANCE_FORWARD].push_back(1);
 			gearEngine->uniValues.push_back( { "NULL", {0,0} } );
 		}
 	}
 	else
 	{
-		if( uses[INSTANCE_FORWARD].at(modelIndex) <= 0 )
-			uses[INSTANCE_FORWARD].at(modelIndex) = 1;
+		/*if( uses[INSTANCE_FORWARD].at(modelIndex) <= 0 )
+			uses[INSTANCE_FORWARD].at(modelIndex) = 1;*/
 	}
 
 	int transformIndex = instances[INSTANCE_FORWARD]->at(modelIndex).pushStaticInstance( DEFAULT_TRANSFORM, glm::mat4() );
@@ -287,19 +287,19 @@ int TransformHandler::bindBlendingInstance( ModelAsset* asset )
 		{
 			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
-			uses[INSTANCE_BLENDING].at(modelIndex) = 1;
+			//uses[INSTANCE_BLENDING].at(modelIndex) = 1;
 		}
 		else
 		{
 			modelIndex = models->size();
 			models->push_back( instance );
-			uses[INSTANCE_BLENDING].push_back(1);
+			//uses[INSTANCE_BLENDING].push_back(1);
 		}
 	}
 	else
 	{
-		if( uses[INSTANCE_BLENDING].at(modelIndex) <= 0 )
-			uses[INSTANCE_BLENDING].at(modelIndex) = 1;
+		/*if( uses[INSTANCE_BLENDING].at(modelIndex) <= 0 )
+			uses[INSTANCE_BLENDING].at(modelIndex) = 1;*/
 	}
 
 	TextureBlendings tBlend;
@@ -341,7 +341,7 @@ void TransformHandler::unbindInstance( int index )
 		instances[handle.instanceIndex]->at(handle.modelIndex).popInstance( handle.transformIndex );
 		handle.vacant = true;
 
-		uses[handle.instanceIndex].at(handle.modelIndex)--;
+		//uses[handle.instanceIndex].at(handle.modelIndex)--;
 	}
 }
 
@@ -420,11 +420,20 @@ int TransformHandler::findModelIndex( int instanceIndex, ModelAsset* asset )
 	return result;
 }
 
-int TransformHandler::findVacantModelIndex( int instanceIndex )
+/*int TransformHandler::findVacantModelIndex( int instanceIndex )
 {
 	int result = -1;
 	for( int i=0; i<uses[instanceIndex].size() && result < 0; i++ )
 		if( uses[instanceIndex].at(i) <= 0 )
+			result = i;
+	return result;
+}*/
+
+int TransformHandler::findVacantModelIndex( int instanceIndex )
+{
+	int result = -1;
+	for( int i=0; i<instances[instanceIndex]->size() && result < 0; i++ )
+		if( instances[instanceIndex]->at(i).getOccupied() <= 0 )
 			result = i;
 	return result;
 }

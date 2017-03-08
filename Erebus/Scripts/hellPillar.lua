@@ -76,9 +76,10 @@ function CreateHellPillar(entity)
 			self.maxScale = 0.5			self.scale = 0.4
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 0.2)
-
+			self.lightRadius = MIN_CHARGE_TIME_PILLAR
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
+			self.chargedTime = MIN_CHARGE_TIME_PILLAR
 			self:GeneralCast()		
 		end
 	end
@@ -101,19 +102,18 @@ function CreateHellPillar(entity)
 			self.maxScale = 6
 			Transform.SetScale(self.transformID, 1)
 			SphereCollider.SetRadius(self.sphereCollider, 3)
-			self.damage = 50 --TODO nerf
+			self.damage = MAX_DAMAGE_PILLAR * (self.chargedTime / self.maxChargeTime) --TODO nerf
 			self.aliveCharged = true		self.growAgain = true	
+			self.lightRadius = self.chargedTime * 3
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
 		end
-		self.chargedTime = 0
 	end
 	
 	function spell:GeneralCast()		
 		self.pos = self.aimPos
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
-		self.lightRadius = 10
 		self.hasSpamAttack = false
 		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
@@ -144,11 +144,11 @@ function CreateHellPillar(entity)
 		Transform.SetRotation(self.firstModel, 	self.someRotation)
 		Transform.SetScale(self.firstModel, self.startUpScale)
 
-		self.lightRadius = self.lightRadius - 5*dt
+		self.lightRadius = self.lightRadius - self.chargedTime * dt
 		Light.updateRadius(self.light, self.lightRadius, true)
 
 		if self.startUpTime < 0 then
-			self.lightRadius = 10
+			self.lightRadius = self.chargedTime * 3
 			self.startUp = false
 			self.attack = true		
 			SphereCollider.SetActive(self.sphereCollider, true)
@@ -192,13 +192,7 @@ function CreateHellPillar(entity)
 	function spell:Finishing(dt)
 		self.finishingTime = self.finishingTime - dt
 		if self.finishingTime < 0 then
-			self.aliveCharged = false 
-			Transform.ActiveControl(self.transformID, false)
-			Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
-			if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
-			self.blendValue1.x, self.blendValue1.y = 0, 0
-			self.blendValue2.x, self.blendValue2.y = 0, 0
-			self.riseFactor = 0.1
+			self:Kill()
 		else
 			self.blendValue1.x = self.blendValue1.x + 0.2 * dt
 			self.blendValue1.y = self.blendValue1.y - 0.6 * dt
@@ -210,7 +204,7 @@ function CreateHellPillar(entity)
 			if self.riseFactor < self.scale then self.riseFactor = self.riseFactor + math.tan(self.riseFactor) * 5 * dt end
 			
 			local radius = self.lightRadius + 1.5*math.abs(math.cos(self.finishingTime*10))
-			Light.updateRadius(self.light, radius, true)
+			Light.updateRadius(self.light, radius , true)
 
 			Transform.SetScaleNonUniform(self.transformID, self.scale, self.riseFactor, self.scale)
 			self.startUpTime = self.startUpTime - dt
@@ -247,11 +241,18 @@ function CreateHellPillar(entity)
 	end
 
 	function spell:Kill() 
-		Transform.ActiveControl(self.owner.aim.transformID, false) 
+		self.aliveCharged = false 
+		Transform.ActiveControl(self.transformID, false)
+		Transform.SetPosition(self.transformID, {x = 0, y = 0, z = 0})
+		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end
+		self.blendValue1.x, self.blendValue1.y = 0, 0
+		self.blendValue2.x, self.blendValue2.y = 0, 0
+		self.riseFactor = 0.1
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 		if #self.effects > 1 then
 			table.remove(self.effects)
 		end
+		self.chargedTime = 0
 	end
 	spell.Combine = BaseCombine		spell.Charge = BaseCharge
 	spell.GettEffect = BaseGetEffect

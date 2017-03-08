@@ -6,7 +6,7 @@ FIREBALL_SPEED = 40
 FIREBALL_LIFETIME = 4
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
-FIRESPAM_DAMAGE = 50
+FIRESPAM_DAMAGE = 2
 FIREBALL_BASE_DMG = 4
 FIREBALL_LIGHTRADIUS = 5
 FIREBALL_CASTSPEED_MULTIPLE = 1
@@ -88,12 +88,12 @@ function CreateFireball(entity)
 				for curID = 1, #collisionIDs do
 					for curEnemy=1, #enemies do
 						if collisionIDs[curID] == enemies[curEnemy].collider:GetID() then
-							enemies[curEnemy]:Hurt(self.smallFB[i].damage, self.owner, self.element)
+							enemies[curEnemy]:Hurt(FIRESPAM_DAMAGE, self.owner, self.element)
 							self:SpamFireball(i)
 						end
 					end
 					if boss.alive and collisionIDs[curID] == boss.collider:GetID() then
-						boss:Hurt(self.smallFB[i].damage, self.owner, self.element)
+						boss:Hurt(FIRESPAM_DAMAGE, self.owner, self.element)
 						self:SpamFireball(i)
 					end
 				end

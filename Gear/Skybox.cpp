@@ -181,13 +181,26 @@ GEAR_API void Gear::Skybox::update(float dt)
 	float deltaTime = dt;
 	if (luaOverride && timeHasChanged)
 	{
-		if (lerpTime <= lerpMaxTime)
+		if (lerpTime < lerpMaxTime)
 		{
-			deltaTime = dt * 25;
+			deltaTime = dt;
 			lerpTime += dt;
 
-			currentCycleTime = (startTime + (lerpTime/ lerpMaxTime) * (targetTime - startTime));
-			currentCycleTime = fmod(currentCycleTime, dayCycleLength);
+			if (targetTime < startTime)
+			{
+				currentCycleTime = (startTime + (lerpTime / lerpMaxTime) * (dayCycleLength - startTime));
+
+				if (lerpTime >= lerpMaxTime)
+				{
+					startTime = 0;
+					lerpTime = 0;
+					lerpMaxTime = (targetTime) * 0.5;
+				}
+			}
+			else {
+				currentCycleTime = (startTime + (lerpTime / lerpMaxTime) * (targetTime - startTime));
+				currentCycleTime = fmod(currentCycleTime, dayCycleLength);
+			}
 			UpdateWorldTime();
 			UpdateFog();
 			UpdateLight();
@@ -342,12 +355,24 @@ GEAR_API void Gear::Skybox::setTime(int hours, bool force)
 	}
 
 	targetTime = fmod(((hours * hourToCycleTime) - (dawnTimeOffset + 2) * hourToCycleTime), dayCycleLength);
+
+	if (targetTime < currentCycleTime)
+	{
+		lerpMaxTime = (dayCycleLength - currentCycleTime) * 4;
+	}
+	else
+	{
+		lerpMaxTime = (targetTime - currentCycleTime) * 4;
+	}
+
 	timeHasChanged = true;
 	startTime = currentCycleTime;
 	lerpTime = 0.0f;
 	if (force)
 	{
 		currentCycleTime = targetTime;
+		startTime = currentCycleTime;
+		lerpTime = lerpMaxTime;
 		UpdateWorldTime();
 		UpdateFog();
 		UpdateLight();
@@ -401,13 +426,13 @@ void Gear::Skybox::UpdateLight()
 	{
 		float relativeTime = currentCycleTime - dawnTime;
 		currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay) * 0.5f;
 	}
 	else if (currentPhase == DayPhase::Dusk)
 	{
 		float relativeTime = currentCycleTime - duskTime;
 		currentSun.color = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
+		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay) * 0.5f;
 	}
 }
 

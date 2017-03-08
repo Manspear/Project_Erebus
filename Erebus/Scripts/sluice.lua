@@ -1,11 +1,13 @@
 --Slusskoden följer här!!!
 SLUICE_OPEN_TIME = 3
 sluiceDownSpeed = 1
+openSluices = {}
 
-function CreateSluice(triggerID, transformID, colliderClose, transformIDclose)
+function CreateSluice(triggerID, transformID, colliderClose, transformIDclose, sluiceID)
 	local sluice = {}
 	sluice.sluiceTime = SLUICE_OPEN_TIME
 	sluice.lowering = 0.0
+	sluice.sluiceID = sluiceID
 	--Porten som öppnas
 	sluice.colliderIDopen = triggerID
 	sluice.transformIDopen = transformID
@@ -35,7 +37,7 @@ function SluiceUpdate(dt, sluice)
 	for i = 1, #colIDs do
 		if colIDs[i] == player.collisionID then playersInside.p1 = true end  
 		if colIDs[i] == player2.collisionID then playersInside.p2 = true end  
-		if playersInside.p1 or playersInside.p2 then
+		if playersInside.p1 and playersInside.p2 or playersInside.p1 and player2.position.x == 0 then
 			hideWaitingForPlayer2(dt)
 			sluice.sluiceTime = sluice.sluiceTime - dt
 			sluice.lowering = sluice.lowering - dt * 2 * sluice.sluiceDownSpeed
@@ -50,12 +52,22 @@ function SluiceUpdate(dt, sluice)
 				sluice.position2 = 	Transform.GetPosition(sluice.transformIDclose)	
 				Transform.ActiveControl(sluice.transformIDopen, false)
 				SphereCollider.SetActive(sluice.colliderIDopen, false)
+				table.insert(openSluices, sluice.sluiceID)
 			end
 		else
 			showWaitingForPlayer2(dt)
 		end
 	end
 	
+end
+
+function SluiceOpened(sluiceNumber)
+	for i = 1, #openSluices do
+		if openSluices[i] == sluiceNumber then
+			return true
+		end
+	end
+	return false
 end
 
 function SluiceExit(sluice)

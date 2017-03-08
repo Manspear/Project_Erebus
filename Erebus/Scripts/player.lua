@@ -76,8 +76,8 @@ function LoadPlayer()
 	player.damagedTint = {r=1, g=0, b=0, a=0}
 	player.damagedTintDuration = 0.3
 
-	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
-	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
+	player.deathImage = UI.load(0, -3, 0, 7, 1)
+	player.deathTexture = Assets.LoadTexture("Textures/dead.dds")
 
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
@@ -124,7 +124,7 @@ function LoadPlayer()
 	player.dummyTrans.transformID = Gear.BindStaticInstance(model)
 	function player.Hurt(self,damage, source)
 		self.damagedTint.a = 1
-		if not player.invulnerable then
+		if not player.invulnerable and player.isAlive then
 			self.health = self.health - damage
 			if self.health < 1 then
 				self.health = 0
@@ -211,7 +211,7 @@ function UnloadPlayer()
 	Assets.UnloadModel( "Models/player1.model" )
 	Assets.UnloadModel( "Models/nothing.model" )
 	Assets.UnloadTexture( "Textures/ping.dds" )
-	Assets.UnloadTexture( "Textures/playerDeath.dds" )
+	Assets.UnloadTexture( "Textures/dead.dds" )
 
 	UnloadPlayer2()
 end
@@ -284,6 +284,7 @@ function FindHeightmap(position)
 			local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
 			Sky.SetTime(newtime)
 			print(newtime .. " levelindex: " .. player.levelIndex)
+			print("")
 		end
 	end
 end
@@ -464,9 +465,6 @@ function Controls(dt)
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
-			showTutorialRevive(player.position.x,player.position.y,player.position.z,dt)
-			local pos = player.position
-			showTutorialImage2(pos.x+2,pos.y+7,pos.z+15,dt)
 
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)

@@ -20,6 +20,8 @@ Animation::Animation()
 	finalList = NULL;
 	blendedList = NULL;
 
+	stopUpdating = false;
+
 	active = true;
 	culled = false;
 }
@@ -774,26 +776,34 @@ void Animation::setQuickBlend(int from, int to, float blendTime, int segment)
 	quickBlendingDone = false;
 }
 
+void Animation::stopAnimationUpdating(bool doUpdate)
+{
+	stopUpdating = doUpdate;
+}
+
 void Animation::update(float dt)
 {
-	if (numJoints <= 0)
-		return;
-
-	for (int i = 0; i< animationSegments; i++)
+	if (!stopUpdating)
 	{
+		if (numJoints <= 0)
+			return;
 
-		if (i == quickBlendSegment)
+		for (int i = 0; i < animationSegments; i++)
 		{
-			if (!quickBlendingDone)
-			{
-				quickBlendingDone = quickBlend(dt * timeMultiplier[i], quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment);
-			}
-		}
-		else
-			updateState(dt * timeMultiplier[i], currentSegmentStates[i], i);
-	}
 
-	assembleAnimationsIntoShadermatrices();
+			if (i == quickBlendSegment)
+			{
+				if (!quickBlendingDone)
+				{
+					quickBlendingDone = quickBlend(dt * timeMultiplier[i], quickBlendFrom, quickBlendTo, quickBlendTime, quickBlendSegment);
+				}
+			}
+			else
+				updateState(dt * timeMultiplier[i], currentSegmentStates[i], i);
+		}
+
+		assembleAnimationsIntoShadermatrices();
+	}
 }
 
 void Animation::setActive( bool a )
