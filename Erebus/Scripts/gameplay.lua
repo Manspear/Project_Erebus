@@ -115,11 +115,6 @@ function UpdateGameplay(dt)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
-	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging then
-		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-		player.isControlable = false
-	end
-
 	if not player.isAlive and not player2.isAlive then
 		gamestate.ChangeState(GAMESTATE_DEATH)
 	end
@@ -153,6 +148,13 @@ function UpdateGameplay(dt)
 	end
 end
 
+function InteractSpellBook()
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging  then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
+	end
+end
+
 function EnterGameplay()
 	print("entering gameplay")
 	if loadedGameplay == false then 
@@ -181,9 +183,9 @@ function EnterGameplay()
 		--levels[1].load()
 		
 		loadedGameplay = true
+		Sky.SetTime(8,true)
 	end
 	LEVEL_ROUND = 1
-	Sky.SetTime(8)
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()

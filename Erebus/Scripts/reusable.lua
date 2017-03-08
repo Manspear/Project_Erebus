@@ -150,8 +150,33 @@ function Rewind()
 		player:ChangeHeightmap(1)
 		Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
 		boss.alive = true
-		player.health = 100
-		player.effects = {}
+		RewindPlayer(player)
+		RewindPlayer(player2)
 	end
 
+end
+
+function RewindPlayer(rewindPlayer)
+		rewindPlayer.moveSpeed = PLAYER_MOVESPEED
+		rewindPlayer.health = 100
+		rewindPlayer.isAlive = true
+		rewindPlayer.effects = {}
+		rewindPlayer.isCombined = false
+		rewindPlayer.combined = false
+		rewindPlayer.spamCasting = false
+		rewindPlayer.charging = false
+		rewindPlayer.firstAttack = true
+		rewindPlayer.invulnerable = false
+		rewindPlayer.useRayAttack = false
+		rewindPlayer.firstRayAttack = true
+		rewindPlayer.dashtime = 0
+		rewindPlayer.dashcd = 0
+		rewindPlayer.dashTimer = 0
+		rewindPlayer.Startdash = false
+		rewindPlayer.damagedTint = {r=1, g=0, b=0, a=0}
+		rewindPlayer.animationController.animation:SetTint(rewindPlayer.damagedTint)
+		
+		rewindPlayer.spells[1]:Kill()
+		rewindPlayer.spells[2]:Kill()
+		rewindPlayer.spells[3]:Kill()
 end

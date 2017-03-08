@@ -362,10 +362,14 @@ int main()
 			// Frustum culling against quadtree
 			f.updateFrustum(camera.getPosition(), camera.getDirection(), camera.getUp());
 
-			quadtree.clearQuadtree();
-			quadtree.addAnimatedModels(&animModels);
-			quadtree.addDynamicModels(&models);
-			quadtree.frustumCollision();
+			if (threadData.queueModels)
+			{
+				quadtree.clearQuadtree();
+				quadtree.addAnimatedModels(&animModels);
+				quadtree.addDynamicModels(&models);
+				quadtree.frustumCollision();
+			}
+
 
 			transformHandler.checkRemove();
 			transformHandler.checkReset();
