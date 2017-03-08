@@ -138,7 +138,7 @@ function Rewind()
 			end
 			loadedLevels[levelIndex] = false
 		end
-		UnloadEnemies()
+		--UnloadEnemies()
 		levels[1].load()
 		loadedLevels[1] = true
 		for _,v in pairs(levels[1].surrounding) do
