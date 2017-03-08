@@ -13,16 +13,19 @@ local currentSizeY = 60
 
 function LoadDeathUI()
 	imageTextures["loseMsg"] = Assets.LoadTexture("Textures/lose.dds");
+	imageTextures["winMsg"] = Assets.LoadTexture("Textures/win.dds");
 	imageTextures["continue"] = Assets.LoadTexture("Textures/buttonContinue.dds");
 	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
 
 	screenImages["loseMsg"] = UI.load(465, 100, 350, 60);
+	screenImages["winMsg"] = UI.load(465, 100, 350, 60);
 	screenImages["continue"] = UI.load(465, 240, 350, 60);
 	screenImages["exit"] = UI.load(465, 310, 350, 60);
 end
 
 function UnloadDeathUI()
 	Assets.UnloadTexture( "Textures/lose.dds" )
+	Assets.UnloadTexture( "Textures/win.dds" )
 	Assets.UnloadTexture( "Textures/buttonContinue.dds" )
 	Assets.UnloadTexture( "Textures/buttonExit.dds" )
 
@@ -64,7 +67,7 @@ function DrawDeathUI()
 	if(not BOSS_DEAD) then
 		UI.drawImage(screenImages["loseMsg"], imageTextures["loseMsg"]);
 	else
-		Gear.Print("YOU WIN!", 465, 100)
+		UI.drawImage(screenImages["winMsg"], imageTextures["winMsg"]);
 	end
 
 	if(timer >= DEATH_MESSAGE_TIME) then
