@@ -1,7 +1,7 @@
 
 function CreateRewinder()
 	local rew = {}
-	rew.duration = 5
+	rew.duration = 7
 	rew.rewinding = false
 	rew.particles = createCloudParticles()
 	rew.holdParticles = createHoldingParticles()
@@ -9,7 +9,7 @@ function CreateRewinder()
 	rew.intensity = 1
 
 	function rew:Cast()
-		self.duration = 5
+		self.duration = 7
 		self.rewinding = true
 		player.isControlable = false
 		
@@ -32,7 +32,7 @@ function CreateRewinder()
 
 	function rew:Rewinding(dt)
 		self.intensity = self.intensity + dt 
-		Light.updateIntensity(self.light, self.intensity * self.intensity )
+		Light.updateIntensity(self.light, (self.intensity * self.intensity) / 3 )
 		Light.updateRadius(self.light, (self.intensity + 1) * (self.intensity +1) * 2)
 	end
 
@@ -40,6 +40,7 @@ function CreateRewinder()
 		if self.light then		Light.removeLight(self.light, true)	 self.light = nil	end
 		self.rewinding = false
 		self.intensity = 1
+		ResetLevel8()
 
 		player.isControlable = true
 		camera.toFollow = player

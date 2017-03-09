@@ -18,9 +18,16 @@ function LoadLogic()
 
 end
 
+function InteractSpellBook()
+	local scale = 0.8
+	local color = {0.6, 0.9, 0.9, 0.8}
+	Gear.Print("Press B to enter SpellBook", 420, 40, scale, color)
 
-
-
+	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging  then
+		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
+		player.isControlable = false
+	end
+end
 
 function lowerObject(object,time,dt)
 	local pos = Transform.GetPosition(object.transformID)

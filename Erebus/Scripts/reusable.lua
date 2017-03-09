@@ -115,11 +115,15 @@ function TriggerChecks(dt)
 				if v.collider.OnEnter then
 					v.collider:OnEnter()
 				else
-					v.collider:OnTriggering(dt)
+					if v.collider.OnTriggering then
+						v.collider:OnTriggering(dt)
+					end
 				end
 				v.collider.triggered = true
 			else
-				v.collider:OnTriggering(dt)
+				if v.collider.OnTriggering then
+					v.collider:OnTriggering(dt)
+				end
 			end
 		else
 			if v.collider.triggered then
