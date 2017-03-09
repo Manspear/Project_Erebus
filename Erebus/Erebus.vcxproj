@@ -264,6 +264,8 @@
     <None Include="Scripts\timeSlowEffect.lua" />
     <None Include="Scripts\tumbleThorns.lua" />
     <None Include="Scripts\windknockback.lua" />
+    <None Include="Scripts\winState.lua" />
+    <None Include="Scripts\winStateUI.lua" />
     <None Include="Shaders\anim.frag" />
     <None Include="Shaders\anim.geom" />
     <None Include="Shaders\anim.vert" />

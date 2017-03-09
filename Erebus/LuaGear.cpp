@@ -106,15 +106,12 @@ namespace LuaGear
 		luaL_newmetatable(lua, "skyboxMeta");
 		luaL_Reg skyboxRegs[] =
 		{
-			{ "FogColor", setFogColor },
-			{ "SetPhase", setPhase},
-			{ "SetTime", setTime },
+			{ "SetFogColor", setFogColor },
 			{ "SetBlend", setBlend},
-			{ "Override", setOverride },
-			{ "GetHours", getHours },
-			{ "GetMinutes", getMinutes },
 			{ "Shadows", setShadow },
 			{ "SetAmbient", setAmbient },
+			{ "SetSunColor", setLightColor },
+			{ "SetSunAngle", setLightAngle },
 			{ NULL, NULL }
 		};
 
@@ -639,51 +636,6 @@ namespace LuaGear
 		return 0;
 	}
 
-	int setPhase(lua_State * lua)
-	{
-		assert(lua_gettop(lua) >= 1);
-
-		if (lua_isinteger)
-		{
-			switch ((int)lua_tonumber(lua,1))
-			{
-			case 1:
-				g_skybox->setPhase(DayPhase::Dawn);
-				break;
-			case 2:
-				g_skybox->setPhase(DayPhase::Day);
-				break;
-			case 3:
-				g_skybox->setPhase(DayPhase::Dusk);
-				break;
-			case 4:
-				g_skybox->setPhase(DayPhase::Night);
-				break;
-			default:
-				break;
-			}
-		}
-
-		return 0;
-	}
-
-	int setOverride(lua_State * lua)
-	{
-		assert(lua_gettop(lua) >= 1);
-		g_skybox->overrideLua(lua_toboolean(lua, 1));
-		return 0;
-	}
-
-	int setTime(lua_State * lua)
-	{
-		assert(lua_gettop(lua) >= 1);
-		int hours = (int)lua_tonumber(lua, 1);
-
-		g_skybox->setTime(hours, false);
-
-		return 0;
-	}
-
 	int setBlend(lua_State * lua)
 	{
 		assert(lua_gettop(lua) >= 1);
@@ -691,18 +643,6 @@ namespace LuaGear
 
 		g_skybox->setBlend(blend);
 		return 0;
-	}
-
-	int getHours(lua_State * lua)
-	{
-		lua_pushnumber(lua, g_skybox->getHours());
-		return 1;
-	}
-
-	int getMinutes(lua_State * lua)
-	{
-		lua_pushnumber(lua, g_skybox->getMinutes());
-		return 1;
 	}
 
 	int setShadow(lua_State * lua)
@@ -725,6 +665,29 @@ namespace LuaGear
 		g_skybox->setAmbient(glm::vec3(r, g, b));
 		return 0;
 	}
+
+	int setLightColor(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 3);
+
+		float r = (float)lua_tonumber(lua, 1);
+		float g = (float)lua_tonumber(lua, 2);
+		float b = (float)lua_tonumber(lua, 3);
+
+		g_skybox->setColor(glm::vec3(r, g, b));
+		return 0;
+	}
+
+	int setLightAngle(lua_State * lua)
+	{
+		assert(lua_gettop(lua) >= 1);
+
+		float angle = (float)lua_tonumber(lua, 1);
+		
+		g_skybox->setSunAngle(angle);
+		return 0;
+	}
+
 
 	int printDamageNumer(lua_State * lua)
 	{

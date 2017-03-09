@@ -7,7 +7,8 @@ GAMESTATE_DEATH = 6
 GAMESTATE_IPCONNECT = 7
 GAMESTATE_IPHOST = 8
 GAMESTATE_KEYBINDING = 9
-GAMESTATE_DISCONNECTED = 10
+GAMESTATE_WIN = 10
+GAMESTATE_DISCONNECTED = 11
 
 gamestate = {}
 gamestate.currentState = -1
@@ -23,6 +24,7 @@ local gamestateScripts =
 	"Scripts/ipconnect.lua",
 	"Scripts/iphost.lua",
 	"Scripts/keybinding.lua",
+	"Scripts/winState.lua",
 	"Scripts/disconnected.lua"
 }
 

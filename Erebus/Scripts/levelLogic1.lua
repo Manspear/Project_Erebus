@@ -55,33 +55,19 @@ function TutorialBarrier(TutorialObject,dt)
 			hideCombinationImage()
 		end
 
-		local colID = TutorialObject.collider:GetID()
-		local collisionIDs = TutorialObject.collider:GetCollisionIDs()
+		--local colID = TutorialObject.collider:GetID()
+		--local collisionIDs = TutorialObject.collider:GetCollisionIDs()
 
-		for i = 1, #collisionIDs do 
-			for curID = 1, 3 do
-				if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
-					if #player.spells[curID].effects == 2 then 
-						
-						TUTORIAL_DONE = true
-						TUTORIAL_START_ANIM = true
-						TUTORIAL_OBJECT = TutorialObject
-
-						hideCombinationImage()
-					end
-				end
-				if player2.spells[curID]:GetCollider()[1] == collisionIDs[i] then
-					if #player2.spells[curID].effects == 2 then 
-						
-						TUTORIAL_DONE = true
-						TUTORIAL_START_ANIM = true
-						TUTORIAL_OBJECT = TutorialObject
-						hideCombinationImage()
-					end
-				end
-			end
-		end
+		--for i = 1, #collisionIDs do 
+		--	for curID = 1, 3 do
+			--	if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
+		if player.isCombined == true or player2.isCombined == true then
+			TUTORIAL_DONE = true
+			TUTORIAL_START_ANIM = true
+			TUTORIAL_OBJECT = TutorialObject
+			hideCombinationImage()
+		end			
 	end
 end
---TUTORIAL_DONE = true
+
 return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }

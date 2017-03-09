@@ -7,7 +7,7 @@ KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
-PLAYER_MOVESPEED = 10
+PLAYER_MOVESPEED = 7
 --Used for spellCharging
 FIRE=0
 NATURE=1
@@ -284,8 +284,8 @@ function FindHeightmap(position)
 			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
 
 
-			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r,tempTable.AMBIENCECOLOR.g,tempTable.AMBIENCECOLOR.b)
-			Sky.FogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
+			Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetBlend(tempTable.SKYBOX)
 			print("Dash cool")
 			----------------------
@@ -463,7 +463,6 @@ function Controls(dt)
 		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
-			Sky.Override(true)
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
@@ -531,29 +530,31 @@ function Controls(dt)
 			end
 
 			if player.globalSpellSwitchingCooldownTimerStarted == false then
-			--ATTACK DELAY TIMER
-					player.attackDelayTimer = player.attackDelayTimer + dt
-					if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				--ATTACK DELAY TIMER
+				player.attackDelayTimer = player.attackDelayTimer + dt
+				if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 					if player.spells[player.currentSpell].hasSpamAttack == true then 
-						if player.spells[player.currentSpell].isRay == false then  
+						if player.spells[player.currentSpell].isRay == nil then  
 							player.useRayAttack = false
 							player.charger:EndCharge()
 							player.spamCasting = true
-				
-							if player.firstAttack == true then 		
+							if player.firstAttack == true then 
+											
 								if player.attackDelayTimerStarted == false then 
+										
 									player.attackDelayTimerStarted = true
 									player.attackDelayTimer = 0
 									player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
 									player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
 									player.firstAttack = false	
 								end 
-							elseif player.firstAttack == false then 
+							else
 								if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
+										
 									local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
 									player.attackDelayTimer = overTime
 									player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
-						
+							
 									player.spellDirection = Camera.GetDirection()
 									Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 									player.spells[player.currentSpell]:Cast(player)	
@@ -572,7 +573,6 @@ function Controls(dt)
 							end
 							player.spamCasting = true
 							player.useRayAttack = true
-					
 							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 							player.spells[player.currentSpell]:Cast(player)	
 						end
@@ -626,7 +626,7 @@ function Controls(dt)
 			end
 	
 			if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
-				if(player.spells[player.currentSpell].isRay == false) then 
+				if(player.spells[player.currentSpell].isRay == nil) then 
 					player.useRayAttack = false
 				else
 					player.useRayAttack = true
