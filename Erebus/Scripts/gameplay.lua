@@ -78,7 +78,11 @@ end
 
 function UnloadGameplay()
 	print("unloading gameplay")
-	if loadedGameplay then
+	if loadedGameplay then		
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
+
 		-- unload all the loaded levels
 		for levelIndex,level in pairs(levels) do
 			if loadedLevels[levelIndex] then

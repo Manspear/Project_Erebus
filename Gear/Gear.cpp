@@ -334,8 +334,6 @@ namespace Gear
 		updatePointLightBuffer();
 		lightPass(camera, &tempCamera); //renders the texture with light calculations
 
-		
-
 		debugHandler->draw( camera, &queue );
 
 		skybox->update(camera);
