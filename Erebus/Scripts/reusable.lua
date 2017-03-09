@@ -18,7 +18,7 @@ TILE_ATMOSPHERE_TABLE[8] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
-		self.damage = self.damage + damage
+		self.damage = self.damage + 2 * damage
 	end
 end
 

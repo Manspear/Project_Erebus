@@ -105,6 +105,12 @@ function UnloadGameplay()
 		Gear.ResetAnimations()
 		CollisionHandler.Reset()
 
+		openSluices = {}
+
+		enemies = {}
+
+		LEVEL_ROUND = 1
+
 		collectgarbage()
 	end
 end
