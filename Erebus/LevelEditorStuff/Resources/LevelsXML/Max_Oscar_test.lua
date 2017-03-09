@@ -5249,7 +5249,7 @@ levels[4] = level04
 -------------------------------------level05-----------------------------------------------
 
 level05 = {}
-level05.surrounding = { 4, 6 }
+level05.surrounding = { 4, 6, 3 }
 level05.load = function()
 level05.props = {}
 level05.colliders = {}
@@ -9323,7 +9323,7 @@ levels[5] = level05
 -------------------------------------level06-----------------------------------------------
 
 level06 = {}
-level06.surrounding = { 5, 7 }
+level06.surrounding = { 5, 7, 4 }
 level06.load = function()
 level06.props = {}
 level06.colliders = {}
