@@ -95,6 +95,8 @@ namespace Gear
 		GEAR_API void addFloatingDamageRef(FloatingDamage &ref);
 		std::vector<UniformValues> uniValues;
 		std::vector<TextureBlendings> textureBlend;
+		//Här ligger forward modeller av en bra anledning
+		std::vector<ModelInstance>* forwardModels;
 		//----------------------
 
 	private:
@@ -152,7 +154,6 @@ namespace Gear
 		std::vector<ModelInstance>* animatedModels;
 		std::vector<Gear::ParticleSystem*>* particleSystem;
 		std::vector<ParticleEmitter*>* particleEmitters;
-		std::vector<ModelInstance>* forwardModels;
 		std::vector<ModelInstance>* blendModels;
 
 		//Transform data
