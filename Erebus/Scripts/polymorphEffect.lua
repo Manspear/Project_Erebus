@@ -15,7 +15,7 @@ function CreatePolyEffect(owner, duration)
 		local pos = Transform.GetPosition(entity.transformID)
 		Transform.SetPosition(self.polymorphTransform, pos)
 		if entity.SetState then
-			if entity.type ~= ENEMY_DUMMY then
+			if entity.type ~= ENEMY_DUMMY and entity.stateName ~= DEAD_STATE then
 				entity.SetState(entity, DO_NOTHING_STATE)
 			end
 		end
@@ -27,7 +27,7 @@ function CreatePolyEffect(owner, duration)
 		Transform.ActiveControl(self.polymorphTransform, false)
 		local pos = Transform.GetPosition(entity.transformID)
 		if entity.SetState then
-			if entity.type ~= ENEMY_DUMMY then
+			if entity.type ~= ENEMY_DUMMY and entity.stateName ~= DEAD_STATE then
 				entity.SetState(entity,IDLE_STATE)
 			end
 		end
