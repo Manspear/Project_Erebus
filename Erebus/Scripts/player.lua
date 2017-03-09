@@ -7,7 +7,7 @@ KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
-PLAYER_MOVESPEED = 7
+PLAYER_MOVESPEED = 10
 --Used for spellCharging
 FIRE=0
 NATURE=1
@@ -287,7 +287,9 @@ function FindHeightmap(position)
 			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetBlend(tempTable.SKYBOX)
-			print("Dash cool")
+			Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
+			Sky.SetSunAngle(tempTable.SUNANGLE)
+
 			----------------------
 
 
