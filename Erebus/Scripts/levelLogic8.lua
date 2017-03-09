@@ -18,6 +18,9 @@ function UpdateLogic(dt)
 		Transform.ActiveControl(levels[8].props.WoodenFence1ID.transformID, true)
 		firstLoad = false
 	end
+	if LEVEL_ROUND > 3 then
+		print("Congratulations, YOU WON! in levelLogic8, UpdateLogic(dt)-function! ")
+	end
 end
 
 function BossStuff(dt)
