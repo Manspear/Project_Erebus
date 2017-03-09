@@ -17,6 +17,11 @@ void MovementController::move( glm::vec3 distance )
 	movement += distance;
 }
 
+void MovementController::moveOverride(glm::vec3 distance)
+{
+	movementOverride = distance;
+}
+
 void MovementController::update()
 {
 	//assert( transform && heightmap && collisionLayer && layerID >= 0 );
@@ -34,6 +39,13 @@ void MovementController::update()
 	//float height = heightmap->getPos( newPos.x, newPos.z );
 	float height = heightmap->getPos( pos.x, pos.z );
 	newPos.y = height + PLAYER_Y_OFFSET;
+
+	if (this->movementOverride != glm::vec3(0, 0, 0))
+	{
+		newPos.x = this->movementOverride.x;
+		newPos.z = this->movementOverride.z;
+		this->movementOverride = glm::vec3(0, 0, 0);
+	}
 
 	// TODO: wall collision
 	std::vector<HitBox*>* colliders = collisionLayer->getAllColliders( this->layerID );

@@ -99,7 +99,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].modelName = ""
 		if type == ENEMY_MELEE then
 			if enemies[i].elementType == NEUTRAL then
-				enemies[i].modelName = "Models/Fire_Goblin.model"
+				enemies[i].modelName = "Models/Neutral_Goblin.model"
 			elseif enemies[i].elementType == FIRE then
 				enemies[i].modelName = "Models/Fire_Goblin.model"
 			elseif enemies[i].elementType == NATURE then

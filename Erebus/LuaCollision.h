@@ -55,6 +55,7 @@ namespace LuaCollision
 	int setMovementControllerCollisionLayer(lua_State* lua);
 	int movementControllerUpdate(lua_State* lua);
 	int movementControllerMove(lua_State* lua);
+	int movementControllerMoveOverride(lua_State* lua);
 
 	int setLayerCollision( lua_State* lua );
 	int printCollisions( lua_State* lua );
