@@ -24,11 +24,11 @@ SUNANGLE = 85
 }
 
 TILE_ATMOSPHERE_TABLE[3] = {
-AMBIENCECOLOR = {r = 0.70,g=0.526470,b=0.6396078},
-FOGCOLOR = {r=0.66,g=0.8,b=0.92}, 
+AMBIENCECOLOR = {r = 0.60,g=0.5,b=0.6},
+FOGCOLOR = {r=0.66,g=0.75,b=0.84}, 
 SKYBOX = 0,
-SUNCOLOR = {r = 0.7,g=0.876470,b=0.6196078},
-SUNANGLE = 80
+SUNCOLOR = {r = 0.5,g=0.676470,b=0.4196078},
+SUNANGLE = 77
 }
 
 TILE_ATMOSPHERE_TABLE[4] = {
@@ -68,12 +68,35 @@ TILE_ATMOSPHERE_TABLE[8] = {
 AMBIENCECOLOR =  {r = 0.47450980,g=0.23137,b=0.49411},
 FOGCOLOR = {r=0.5,g=0.3,b=0.5},
 SKYBOX = 1,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
+SUNCOLOR =  {r = 0.2,g=0.9 ,b=0.2},
 SUNANGLE = 50
 }
 
 
 OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
+
+BACKGROUND_MUSIC_ID = -1
+BACKGROUND_MUSIC_FILE = {
+	"Area1.ogg",
+	"Area1.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area3.ogg",
+	"Area3.ogg",
+	"Area3.ogg"
+}
+
+function PlayBGM(filename)
+	print("playing music "..filename)
+	local id = Sound.Play("Music/"..filename, 48)
+	if id ~= -1 then
+		Sound.SetVolume(id, 0.1)
+		Sound.Resume(id)
+		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
+		BACKGROUND_MUSIC_ID = id
+	end
+end
 
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
@@ -222,14 +245,13 @@ function Rewind()
 		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
 		player:ChangeHeightmap(1)
 
-
-
 		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)
 		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* (LEVEL_ROUND-1)
 		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
 
 		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
 
+		PlayBGM(BACKGROUND_MUSIC_FILE[1])
 
 		boss.alive = true
 		RewindPlayer(player)

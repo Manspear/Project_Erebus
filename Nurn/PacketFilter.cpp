@@ -32,7 +32,6 @@ PacketFilter::~PacketFilter()
 {
 	while (queueList.size() > 0)
 	{
-		delete queueList.back();
 		queueList.pop_back();
 	}
 }
@@ -95,7 +94,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 	}
 }
 
-PacketQueueInterface * PacketFilter::getQueue(const uint8_t& packetEnum)
+std::shared_ptr<PacketQueueInterface> PacketFilter::getQueue(const uint8_t& packetEnum)
 {
 	return this->queueList.at(packetEnum);
 }
