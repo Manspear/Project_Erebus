@@ -188,9 +188,9 @@ function EnterGameplay()
 			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
 
 
-			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
-			Sky.SetFogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
-			Sky.SetBlend(tempTable.SKYBOX)
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b, true)
+			Sky.SetFogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b, true)
+			Sky.SetBlend(tempTable.SKYBOX, true)
 
 			print("Dash cool")
 			----------------------
