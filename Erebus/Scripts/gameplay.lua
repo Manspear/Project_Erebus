@@ -166,7 +166,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/MAx_Oscar_test.lua" )
+		dofile( "Scripts/Max_Oscar_test.lua" )
 
 		CreateIM()
 
