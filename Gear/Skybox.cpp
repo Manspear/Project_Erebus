@@ -164,122 +164,52 @@ void Gear::Skybox::update(Camera* camera)
 
 GEAR_API void Gear::Skybox::update(float dt)
 {
-	if (currentCycleTime > nightTime && currentPhase == DayPhase::Dusk)
-	{
-		SetNight();
-	}
-	else if (currentCycleTime > duskTime && currentPhase == DayPhase::Day) {
-		SetDusk();
-	}
-	else if (currentCycleTime > dayTime && currentPhase == DayPhase::Dawn) {
-		SetDay();
-	}
-	else if (currentCycleTime > dawnTime && currentCycleTime < dayTime && currentPhase == DayPhase::Night) {
-		SetDawn();
-	}
 
 	float deltaTime = dt;
-	if (luaOverride && timeHasChanged)
-	{
-		if (lerpTime <= lerpMaxTime)
-		{
-			deltaTime = dt;
-			lerpTime += dt;
-
-			if (targetTime < startTime)
-			{
-				currentCycleTime = (startTime + (lerpTime / lerpMaxTime) * (dayCycleLength - startTime));
-
-				if (lerpTime >= lerpMaxTime)
-				{
-					startTime = 0;
-					lerpTime = 0;
-					lerpMaxTime = (targetTime) * 0.5;
-				}
-			}
-			else {
-				currentCycleTime = (startTime + (lerpTime / lerpMaxTime) * (targetTime - startTime));
-				currentCycleTime = fmod(currentCycleTime, dayCycleLength);
-			}
-			UpdateWorldTime();
-			UpdateFog();
-			UpdateLight();
-			UpdateBlendFactor();
-
-			
-		}
-		else
-		{
-			timeHasChanged = false;
-		}
-	}
-	else if (!luaOverride) {
-		UpdateWorldTime();
-		UpdateFog();
-		UpdateLight();
-		UpdateBlendFactor();
-
-		deltaTime = dt;
-		currentCycleTime += dt;
-		currentCycleTime = fmod(currentCycleTime, dayCycleLength);
-	}
 	rotation += ROTATE_SPEED * deltaTime;
 }
 
-GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color)
+GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color, bool force)
 {
-	this->fogColor = color;
-}
-
-GEAR_API void Gear::Skybox::setAmbient(glm::vec3 color)
-{
-	this->ambient = color;
-}
-
-GEAR_API void Gear::Skybox::setPhase(DayPhase phase)
-{
-	switch (phase)
+	if (!force)
 	{
-	case Gear::Night:
-		targetTime = nightTime;
-		break;
-	case Gear::Dawn:
-		targetTime = dawnTime;
-		break;
-	case Gear::Day:
-		targetTime = dayTime;
-		break;
-	case Gear::Dusk:
-		targetTime = duskTime;
-		break;
-	default:
-		break;
+		fogLerp = 0.f;
+		fogHasChanged = true;
+		this->fogColorTarget = color;
+	}
+	else {
+		this->fogColor = color;
 	}
 }
 
-GEAR_API void Gear::Skybox::setBlend(float blend)
+GEAR_API void Gear::Skybox::setAmbient(glm::vec3 color, bool force)
 {
-	this->skyboxBlendFactor = blend;
+	this->ambientTarget = color;
 }
 
-GEAR_API void Gear::Skybox::setColor(glm::vec3 color)
+
+GEAR_API void Gear::Skybox::setBlend(float blend, bool force)
 {
-	sun.color = color;
+	if (!force)
+	{
+		blendLerp = 0.f;
+		blendHasChanged = true;
+		this->blendTarget = blend;
+	}
+	else {
+		this->skyboxBlendFactor = blend;
+	}
+
 }
 
-GEAR_API void Gear::Skybox::setDirection(glm::vec3 direction)
+GEAR_API void Gear::Skybox::setColor(glm::vec3 color, bool force)
 {
-	sun.direction = direction;
+	this->sunColorTarget = color;
 }
 
-GEAR_API int Gear::Skybox::getHours()
+GEAR_API void Gear::Skybox::setSunAngle(float angle, bool force)
 {
-	return this->worldTimeHour;
-}
-
-GEAR_API int Gear::Skybox::getMinutes()
-{
-	return this->minutes;
+	this->sunAngleTarget = angle;
 }
 
 GEAR_API void Gear::Skybox::unbindShadow()
@@ -342,142 +272,26 @@ GEAR_API glm::vec3 Gear::Skybox::getAmbient()
 
 GEAR_API Lights::DirLight& Gear::Skybox::getDirLight()
 {
-	return this->currentSun;
+	return this->sun;
 }
 
-GEAR_API void Gear::Skybox::setTime(int hours, bool force)
-{
-	float hourToCycleTime = (dayCycleLength / hoursPerDay);
-
-	if (hours < (dawnTimeOffset + 1))
-	{
-		hours = hoursPerDay + hours;
-	}
-
-	targetTime = fmod(((hours * hourToCycleTime) - (dawnTimeOffset + 2) * hourToCycleTime), dayCycleLength);
-
-	if (targetTime < currentCycleTime)
-	{
-		lerpMaxTime = (dayCycleLength - currentCycleTime) * 4;
-	}
-	else
-	{
-		lerpMaxTime = (targetTime - currentCycleTime) * 4;
-	}
-
-	timeHasChanged = true;
-	startTime = currentCycleTime;
-	lerpTime = 0.0f;
-	if (force)
-	{
-		currentCycleTime = targetTime;
-		UpdateWorldTime();
-		UpdateFog();
-		UpdateLight();
-		UpdateBlendFactor();
-	}
-}
-
-GEAR_API void Gear::Skybox::overrideLua(bool luaOverride)
-{
-	this->luaOverride = luaOverride;
-}
-
-void Gear::Skybox::SetDawn()
-{
-	printf("Phase: Dawn Hour: %d Minute: %d\n", worldTimeHour, minutes);
-	currentPhase = DayPhase::Dawn;
-}
-
-void Gear::Skybox::SetDay()
-{
-	printf("Phase: Day Hour: %d Minute: %d %f : %f\n", worldTimeHour, minutes, currentCycleTime, targetTime);
-	currentPhase = DayPhase::Day;
-}
-
-void Gear::Skybox::SetDusk()
-{
-	printf("Phase: Dusk Hour: %d Minute: %d\n", worldTimeHour, minutes);
-	currentPhase = DayPhase::Dusk;
-}
-
-void Gear::Skybox::SetNight()
-{
-	printf("Phase: Night Hour: %d Minute: %d\n", worldTimeHour, minutes);
-	currentPhase = DayPhase::Night;
-}
-
-void Gear::Skybox::UpdateWorldTime()
-{
-	worldTimeHour = (int)(fmod((ceilf((currentCycleTime / dayCycleLength) * hoursPerDay) + dawnTimeOffset), hoursPerDay)) + 1;
-	minutes = (int)(ceilf(fmod((currentCycleTime * (60 / timePerHour)), 60.0f)));
-}
-
-void Gear::Skybox::UpdateLight()
+void Gear::Skybox::UpdateLight(float dt)
 {
 
 	float degrees = (currentCycleTime / dayCycleLength) * 360;
-	currentSun.direction = glm::rotate(sun.direction, glm::radians(degrees), glm::vec3(1,0,0));
-
-
-	if (currentPhase == DayPhase::Dawn)
-	{
-		float relativeTime = currentCycleTime - dawnTime;
-		currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
-	}
-	else if (currentPhase == DayPhase::Dusk)
-	{
-		float relativeTime = currentCycleTime - duskTime;
-		currentSun.color = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
-		ambient = glm::mix(fullLight, fullDark, relativeTime / halfquarterDay);
-	}
+	sun.direction = glm::rotate(sun.direction, glm::radians(degrees), glm::vec3(1,0,0));
 }
 
-void Gear::Skybox::UpdateFog()
+void Gear::Skybox::UpdateFog(float dt)
 {
-	if (currentPhase == DayPhase::Dawn)
-	{
-		float relativeTime = currentCycleTime - dawnTime;
-		fogColor = glm::mix(dawnDuskFog, dayFog, relativeTime/(halfquarterDay));
-	}
-	else if (currentPhase == DayPhase::Day)
-	{
-		float relativeTime = currentCycleTime - dayTime;
-		fogColor = glm::mix(dayFog, dawnDuskFog, relativeTime / (quarterDay + halfquarterDay));
-	}
-	else if (currentPhase == DayPhase::Dusk)
-	{
-		float relativeTime = currentCycleTime - duskTime;
-		fogColor = glm::mix(dawnDuskFog, nightFog, relativeTime / (halfquarterDay));
-	}
-	else if (currentPhase == DayPhase::Night)
-	{
-		float relativeTime = currentCycleTime - nightTime;
-		fogColor = glm::mix(nightFog, dawnDuskFog, relativeTime / (quarterDay + halfquarterDay));
-	}
+	fogLerp += dt;
+	fogColor = glm::lerp(fogColorStart, fogColorTarget, fogLerp);
 }
 
-void Gear::Skybox::UpdateBlendFactor()
+void Gear::Skybox::UpdateBlendFactor(float dt)
 {
-	if (currentPhase == DayPhase::Dawn)
-	{
-		float relativeTime = currentCycleTime - dawnTime;
-		skyboxBlendFactor = 1 - (relativeTime / halfquarterDay);
-	}
-	else if(currentPhase == DayPhase::Day)
-	{
-		skyboxBlendFactor = 0.0f;
-	}
-	else if (currentPhase == DayPhase::Dusk)
-	{
-		float relativeTime = currentCycleTime - duskTime;
-		skyboxBlendFactor = (relativeTime / halfquarterDay);
-	}
-	else if (currentPhase == DayPhase::Night)
-	{
-		skyboxBlendFactor = 1.0f;
-	}
+	blendLerp += dt;
+	skyboxBlendFactor = blendStart + (blendTarget - blendStart) * blendLerp;
 }
 
 void Gear::Skybox::LoadTextures()
