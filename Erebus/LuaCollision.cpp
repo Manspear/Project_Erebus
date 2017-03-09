@@ -151,6 +151,7 @@ namespace LuaCollision
 			{ "Update",				movementControllerUpdate },
 			{ "SetCollisionLayer",	setMovementControllerCollisionLayer },
 			{ "Move",				movementControllerMove },
+			{ "MoveOverride",		movementControllerMoveOverride },
 			{ "__gc",				destroyMovementController },
 			{ NULL, NULL }
 		};
@@ -741,6 +742,20 @@ return 0;
 		float z = (float)lua_tonumber(lua, 4);
 
 		controller->move(glm::vec3(x,y,z));
+
+		return 0;
+	}
+
+	int movementControllerMoveOverride(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 4);
+
+		MovementController* controller = getMovementController(lua, 1);
+		float x = (float)lua_tonumber(lua, 2);
+		float y = (float)lua_tonumber(lua, 3);
+		float z = (float)lua_tonumber(lua, 4);
+
+		controller->moveOverride(glm::vec3(x, y, z));
 
 		return 0;
 	}
