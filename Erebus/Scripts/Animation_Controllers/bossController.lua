@@ -6,7 +6,9 @@ TIMEORBWAVE_HITTIME = 2.5
 TIMEORBWAVE_ANIMATIONTIME = 5
 CHRONOORB_ANIMATIONTIME = 2.5
 TIMELASER_ANIMATIONTIME = 2.5
-DYING_TIME_EFTER_JA = 5.0
+
+BOSS_REALDEATHTIME = 5.0
+BOSS_FAKEDEATHTIME = 1
 
 COMBATSTART_ANIMATIONTIME = 5
 
@@ -36,10 +38,10 @@ function CreateBossController(boss)
 	controller.timeLaserTimer = 0
 
 	--When boss is dead
-	controller.deathTimerThreshhold = boss.deathTimer
+	controller.deathTimerThreshhold = BOSS_REALDEATHTIME
 	controller.deathTimer = 0
 
-	controller.waitForRewindTimerThreshhold = DYING_TIME_EFTER_JA
+	controller.waitForRewindTimerThreshhold = BOSS_FAKEDEATHTIME
 	controller.waitForRewindTimer = 0
 
 	controller.firstTimePlay = true
@@ -97,8 +99,6 @@ function CreateBossController(boss)
 			self.animationState1 = 3
 		end
 
-		--controller.waitForRewindTimerThreshhold = DYING_TIME_EFTER_JA
-		--controller.waitForRewindTimer = 0
 		if self.watch.health <= 0 then 
 			if BOSS_DEAD then 
 				self.deathTimer = self.deathTimer + dt
@@ -110,9 +110,9 @@ function CreateBossController(boss)
 			elseif self.waitForRewindTimer < self.waitForRewindTimerThreshhold then 
 				self.waitForRewindTimer = self.waitForRewindTimer + dt
 				self.animationState1 = 3
-			elseif self.waitForRewindTimer < 10 then 
+			elseif self.waitForRewindTimer < 12 then 
 				self.waitForRewindTimer = self.waitForRewindTimer + dt
-				self.animation:SetSegmentPlayTime(15, 0)
+				self.animation:SetSegmentPlayTime(20, 0)
 				self.animationState1 = 6
 			else
 				self.waitForRewindTimer = 0

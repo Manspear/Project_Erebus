@@ -512,7 +512,7 @@ namespace Gear
 		int index = -1;
 		for (int i = 0; i < NUM_LIGHTS && index == -1; i++)
 		{
-			if (staticLightArr[i].radius.a == Lights::INACTIVE)
+			if (staticLightArr[i].radius.a == Lights::INACTIVE || staticLightArr[i].radius.a == Lights::TO_REMOVE)
 			{
 				staticLightArr[i] = light;
 				staticLightArr[i].radius.a = Lights::TO_ADD;

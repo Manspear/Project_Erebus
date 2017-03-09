@@ -76,7 +76,7 @@ function CreateHellPillar(entity)
 			self.maxScale = 0.7			self.scale = 0.7
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 1.3)
-			self.lightRadius = MIN_CHARGE_TIME_PILLAR
+			self.lightRadius = 3
 			self.damage = 5
 			self.aliveCharged = true		self.growAgain = true	
 			self.chargedTime = MIN_CHARGE_TIME_PILLAR
@@ -104,7 +104,7 @@ function CreateHellPillar(entity)
 			SphereCollider.SetRadius(self.sphereCollider, 5)
 			self.damage = MAX_DAMAGE_PILLAR * (self.chargedTime / self.maxChargeTime) --TODO nerf
 			self.aliveCharged = true		self.growAgain = true	
-			self.lightRadius = self.chargedTime * 3
+			self.lightRadius = self.chargedTime * 5
 			self:GeneralCast()	
 			self.chargeID = Sound.Play(HELLPILLAR_CHARGE_SFX, 1, self.pos)
 		end
@@ -115,7 +115,7 @@ function CreateHellPillar(entity)
 		Transform.SetPosition(self.firstModel, self.pos)
 		Transform.ActiveControl(self.firstModel, true)
 		self.hasSpamAttack = false
-		self.light = Light.addLight(self.pos.x, self.pos.y+3, self.pos.z, 1,0,0,self.lightRadius,10, true)
+		self.light = Light.addLight(self.pos.x, self.pos.y+1, self.pos.z, 1,0,0,self.lightRadius,10, true)
 	end
 	
 	function spell:Update(dt)
