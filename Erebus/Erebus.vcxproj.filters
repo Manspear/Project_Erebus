@@ -539,6 +539,9 @@
     <None Include="Scripts\rewinder.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\disconnected.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
     <None Include="Scripts\winStateUI.lua">
       <Filter>Scripts\UI</Filter>
     </None>

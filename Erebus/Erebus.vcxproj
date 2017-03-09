@@ -201,6 +201,7 @@
   <ItemGroup>
     <None Include="Scripts\Animation_Controllers\bossController.lua" />
     <None Include="Scripts\assets_debug.lua" />
+    <None Include="Scripts\disconnected.lua" />
     <None Include="Scripts\healthOrb.lua" />
     <None Include="Scripts\keybinding.lua" />
     <None Include="Scripts\keybindingUI.lua" />
