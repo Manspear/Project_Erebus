@@ -86,7 +86,7 @@ function LoadBoss()
 		boss.pickInterval = COMBATSTART_ANIMATIONTIME
 		boss.damagedTint = {r=0,g=0,b=0,a=0}
 		boss.damagedTintDuration = 0
-		boss.deathTimer = 0.1
+		boss.deathTimer = BOSS_FAKEDEATHTIME
 
 		--as soon as this is called, the boss stops moving no matter what I send in...
 		boss.animationController.animation:StopAnimationUpdating(false)
