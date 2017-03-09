@@ -42,25 +42,7 @@ public:
 	uint16_t getCurrentNetPacketSize() const;
 
 	void buildNetPacket(); 
-	void pushTransformPacket(const TransformPacket& packet);
-	void pushAnimationPacket(const AnimationPacket& packet);
-	void pushAIStatePacket(const AIStatePacket& packet);
-	void pushSpellPacket(const SpellPacket& packet);
-	void pushAITransformPacket(const TransformPacket& packet);
-	void pushChargingPacket(const ChargingPacket& packet);
-	void pushQuickBlendPacket(const QuickBlendPacket& packet);
-	void pushDamagePacket(const DamagePacket& packet);
-	void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
-	void pushPlayerEventPacket(const EventPacket& packet);
-	void pushAIHealthPacket(const HealthPacket& packet);
-	void pushDashPacket(const DashPacket& packet);
-	void pushEndEventPacket(const EventPacket& packet);
-	void pushPlayerHealthPacket(const HealthPacket& packet);
-	void pushRessurectionPacket(const HealthPacket& packet);
-	void pushAIDamageTextPacket(const DamagePacket& packet);
-	void pushBossDamageTextPacket(const DamagePacket& packet);
-	void pushBossHealthPacket(const HealthPacket& packet);
-
+	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
 private:
 	unsigned char * memory;

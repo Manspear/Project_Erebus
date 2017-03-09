@@ -93,94 +93,9 @@ void Packager::buildNetPacket()
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
 }
 
-void Packager::pushTransformPacket(const TransformPacket& packet)
+std::shared_ptr<PacketQueueInterface> Packager::getQueue(const uint8_t& packetEnum)
 {
-	this->queueList.at(TRANSFORM_PACKET)->push(&packet);
-}
-
-void Packager::pushAnimationPacket(const AnimationPacket& packet)
-{
-	this->queueList.at(ANIMATION_PACKET)->push(&packet);
-}
-
-void Packager::pushAIStatePacket(const AIStatePacket& packet)
-{
-	this->queueList.at(AI_STATE_PACKET)->push(&packet);
-}
-
-void Packager::pushSpellPacket(const SpellPacket& packet)
-{
-	this->queueList.at(SPELL_PACKET)->push(&packet);
-}
-
-void Packager::pushAITransformPacket(const TransformPacket& packet)
-{
-	this->queueList.at(AI_TRANSFORM_PACKET)->push(&packet);
-}
-
-void Packager::pushChargingPacket(const ChargingPacket& packet)
-{
-	this->queueList.at(CHARGING_PACKET)->push(&packet);
-}
-
-void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
-{
-	this->queueList.at(QUICKBLEND_PACKET)->push(&packet);
-}
-
-void Packager::pushDamagePacket(const DamagePacket& packet)
-{
-	this->queueList.at(DAMAGE_PACKET)->push(&packet);
-}
-
-void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
-{
-	this->queueList.at(CHANGESPELLS_PACKET)->push(&packet);
-}
-
-void Packager::pushPlayerEventPacket(const EventPacket& packet)
-{
-	this->queueList.at(PLAYER_EVENT_PACKET)->push(&packet);
-}
-
-void Packager::pushAIHealthPacket(const HealthPacket& packet)
-{
-	this->queueList.at(AI_HEALTH_PACKET)->push(&packet);
-}
-
-void Packager::pushDashPacket(const DashPacket& packet)
-{
-	this->queueList.at(DASH_PACKET)->push(&packet);
-}
-
-void Packager::pushEndEventPacket(const EventPacket& packet)
-{
-	this->queueList.at(END_EVENT_PACKET)->push(&packet);
-}
-
-void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
-{
-	this->queueList.at(PLAYER_HEALTH_PACKET)->push(&packet);
-}
-
-void Packager::pushRessurectionPacket(const HealthPacket& packet)
-{
-	this->queueList.at(RESSURECTION_PACKET)->push(&packet);
-}
-
-void Packager::pushAIDamageTextPacket(const DamagePacket& packet)
-{
-	this->queueList.at(AI_DAMAGE_TEXT_PACKET)->push(&packet);
-}
-
-void Packager::pushBossDamageTextPacket(const DamagePacket& packet)
-{
-	this->queueList.at(BOSS_DAMAGE_TEXT_PACKET)->push(&packet);
-}
-
-void Packager::pushBossHealthPacket(const HealthPacket& packet)
-{
-	this->queueList.at(BOSS_HEALTH_PACKET)->push(&packet);
+	return this->queueList.at(packetEnum);
 }
 
 template<class packetType>
