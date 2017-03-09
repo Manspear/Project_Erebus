@@ -519,29 +519,31 @@ function Controls(dt)
 			end
 
 			if player.globalSpellSwitchingCooldownTimerStarted == false then
-			--ATTACK DELAY TIMER
-					player.attackDelayTimer = player.attackDelayTimer + dt
-					if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				--ATTACK DELAY TIMER
+				player.attackDelayTimer = player.attackDelayTimer + dt
+				if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 					if player.spells[player.currentSpell].hasSpamAttack == true then 
-						if player.spells[player.currentSpell].isRay == false then  
+						if player.spells[player.currentSpell].isRay == nil then  
 							player.useRayAttack = false
 							player.charger:EndCharge()
 							player.spamCasting = true
-				
-							if player.firstAttack == true then 		
+							if player.firstAttack == true then 
+											
 								if player.attackDelayTimerStarted == false then 
+										
 									player.attackDelayTimerStarted = true
 									player.attackDelayTimer = 0
 									player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
 									player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
 									player.firstAttack = false	
 								end 
-							elseif player.firstAttack == false then 
+							else
 								if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
+										
 									local overTime = player.attackDelayTimer - player.attackDelayTimerThreshHold
 									player.attackDelayTimer = overTime
 									player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeAttack						
-						
+							
 									player.spellDirection = Camera.GetDirection()
 									Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 									player.spells[player.currentSpell]:Cast(player)	
@@ -560,7 +562,7 @@ function Controls(dt)
 							end
 							player.spamCasting = true
 							player.useRayAttack = true
-					
+							print("Tjabba")
 							Network.SendSpellPacket(player.transformID, player.currentSpell, player.spellDirection.x, player.spellDirection.y, player.spellDirection.z)
 							player.spells[player.currentSpell]:Cast(player)	
 						end
@@ -614,7 +616,7 @@ function Controls(dt)
 			end
 	
 			if Inputs.ButtonReleased(SETTING_KEYBIND_CHARGED_ATTACK) then
-				if(player.spells[player.currentSpell].isRay == false) then 
+				if(player.spells[player.currentSpell].isRay == nil) then 
 					player.useRayAttack = false
 				else
 					player.useRayAttack = true
