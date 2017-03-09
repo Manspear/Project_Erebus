@@ -18,6 +18,7 @@ function CreateGrenadeType(model)
 	type.hitflag = false
 	type.radius = 0
 	type.explodetime = 0
+	type.firstflag = false
 
 	function type:Cast(position, direction, falloff, speed, explosionRadius)
 		self.direction = direction
@@ -28,6 +29,7 @@ function CreateGrenadeType(model)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		self.radius = explosionRadius
 		self.explodetime = 0
+		self.firstflag = true
 	end
 	function type:flyUpdate(dt)
 		result = false
@@ -70,6 +72,11 @@ function CreateGrenadeType(model)
 					result = true
 				end
 			end
+		end
+
+		if self.firstflag then
+			self.firstflag = false
+			return false
 		end
 
 		return result

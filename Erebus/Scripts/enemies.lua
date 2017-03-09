@@ -127,8 +127,8 @@ function CreateEnemy(type, position, element)
 		enemies[i].Hurt = function(self, damage, source, element)
 
 			local pos = Transform.GetPosition(self.transformID)
-			print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
-			enemies[i].animationController:AnimationHurt()
+			--print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
+			
 			if source ~= player2 then
 				if Network.GetNetworkHost() == true then
 					if self.alive == true then
@@ -146,6 +146,7 @@ function CreateEnemy(type, position, element)
 							Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
 						end
 						if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
+							enemies[i].animationController:AnimationHurt()
 							inState = FOLLOW_STATE
 							stateScript.changeToState(self, player, inState)
 							self.aggro = true
