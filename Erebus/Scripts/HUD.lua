@@ -68,8 +68,8 @@ function LoadHUD()
 	tutorialTexture[15] = Assets.LoadTexture("Textures/TUTORIALIfFriendDown3.dds")
 
 	pingImages[0] = UI.load(27.5, 9.8, 152.6, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[1] = UI.load(10.5, 9.7, 152.5, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
-	pingImages[2] = UI.load(53.0289, 13, 142.926, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[1] = UI.load(11.8, 10.5, 153, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[2] = UI.load(24.7, 10, 168, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[3] = UI.load(12, 9.6, 169, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 
 end
