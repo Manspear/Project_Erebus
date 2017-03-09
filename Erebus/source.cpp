@@ -356,6 +356,15 @@ int main()
 				fullscreen = threadData.fullscreen;
 			}
 
+			for( int i=0; i<particleSystems.size(); i++ )
+			{
+				if( particleSystems[i] && particleSystems[i]->getRemoved() )
+				{
+					delete particleSystems[i];
+					particleSystems[i] = nullptr;
+				}
+			}
+
 			assets.upload();
 			assets.checkReferences();
 
@@ -369,7 +378,6 @@ int main()
 				quadtree.addDynamicModels(&models);
 				quadtree.frustumCollision();
 			}
-
 
 			transformHandler.checkRemove();
 			transformHandler.checkReset();

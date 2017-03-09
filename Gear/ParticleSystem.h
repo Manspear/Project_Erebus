@@ -23,6 +23,9 @@ namespace Gear
 		GEAR_API void explode(glm::vec3 position);
 		GEAR_API void setExtroversion(bool yesNo);
 		GEAR_API void setFocus(float focus);
+		GEAR_API void setRemoved(bool removed);
+
+		GEAR_API bool getRemoved() const;
 
 		ParticleEmitter* particleEmitters;
 		bool isActive;
@@ -40,5 +43,7 @@ namespace Gear
 		glm::vec3 v1;
 		glm::vec3 v2;
 		glm::vec3 v3;
+
+		bool removed;
 	};
 }

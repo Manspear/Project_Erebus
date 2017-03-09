@@ -136,7 +136,7 @@ namespace Nurn
 
 	void NurnEngine::pushTransformPacket(const TransformPacket& packet)
 	{
-		this->packager->pushTransformPacket(packet);
+		this->packager->getQueue(TRANSFORM_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
@@ -146,7 +146,7 @@ namespace Nurn
 
 	void NurnEngine::pushAnimationPacket(const AnimationPacket& packet)
 	{
-		this->packager->pushAnimationPacket(packet);
+		this->packager->getQueue(ANIMATION_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
@@ -156,7 +156,7 @@ namespace Nurn
 
 	void NurnEngine::pushAIStatePacket(const AIStatePacket& packet)
 	{
-		this->packager->pushAIStatePacket(packet);
+		this->packager->getQueue(AI_STATE_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchAIPacket(AIStatePacket& packet)
@@ -166,7 +166,7 @@ namespace Nurn
 
 	void NurnEngine::pushSpellPacket(const SpellPacket& packet)
 	{
-		this->packager->pushSpellPacket(packet);
+		this->packager->getQueue(SPELL_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)
@@ -176,7 +176,7 @@ namespace Nurn
 
 	void NurnEngine::pushAITransformPacket(const TransformPacket& packet)
 	{
-		this->packager->pushAITransformPacket(packet);
+		this->packager->getQueue(AI_TRANSFORM_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)
@@ -186,7 +186,7 @@ namespace Nurn
 
 	void NurnEngine::pushChargingPacket(const ChargingPacket& packet)
 	{
-		this->packager->pushChargingPacket(packet);
+		this->packager->getQueue(CHARGING_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchChargingPacket(ChargingPacket& packet)
@@ -196,7 +196,7 @@ namespace Nurn
 
 	void NurnEngine::pushQuickBlendPacket(const QuickBlendPacket& packet)
 	{
-		this->packager->pushQuickBlendPacket(packet);
+		this->packager->getQueue(QUICKBLEND_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchQuickBlendPacket(QuickBlendPacket& packet)
@@ -206,7 +206,7 @@ namespace Nurn
 
 	void NurnEngine::pushDamagePacket(const DamagePacket& packet)
 	{
-		this->packager->pushDamagePacket(packet);
+		this->packager->getQueue(DAMAGE_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchDamagePacket(DamagePacket& packet)
@@ -216,7 +216,7 @@ namespace Nurn
 
 	void NurnEngine::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
 	{
-		this->packager->pushChangeSpellsPacket(packet);
+		this->packager->getQueue(CHANGESPELLS_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
@@ -226,7 +226,7 @@ namespace Nurn
 
 	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
 	{
-		this->packager->pushPlayerEventPacket(packet);
+		this->packager->getQueue(PLAYER_EVENT_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
@@ -236,7 +236,7 @@ namespace Nurn
 
 	void NurnEngine::pushAIHealthPacket(const HealthPacket& packet)
 	{
-		this->packager->pushAIHealthPacket(packet);
+		this->packager->getQueue(AI_HEALTH_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchAIHealthPacket(HealthPacket& packet)
@@ -246,7 +246,7 @@ namespace Nurn
 
 	void NurnEngine::pushDashPacket(const DashPacket& packet)
 	{
-		this->packager->pushDashPacket(packet);
+		this->packager->getQueue(DASH_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchDashPacket(DashPacket& packet)
@@ -256,7 +256,7 @@ namespace Nurn
 
 	void NurnEngine::pushEndEventPacket(const EventPacket& packet)
 	{
-		this->packager->pushEndEventPacket(packet);
+		this->packager->getQueue(END_EVENT_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchEndEventPacket(EventPacket& packet)
@@ -266,7 +266,7 @@ namespace Nurn
 
 	void NurnEngine::pushPlayerHealthPacket(const HealthPacket& packet)
 	{
-		this->packager->pushPlayerHealthPacket(packet);
+		this->packager->getQueue(PLAYER_HEALTH_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchPlayerHealthPacket(HealthPacket& packet)
@@ -276,7 +276,7 @@ namespace Nurn
 
 	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
 	{
-		this->packager->pushRessurectionPacket(packet);
+		this->packager->getQueue(RESSURECTION_PACKET)->push(&packet);
 	}
 	
 	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
@@ -286,7 +286,7 @@ namespace Nurn
 
 	void NurnEngine::pushAIDamageTextPacket(const DamagePacket& packet)
 	{
-		this->packager->pushAIDamageTextPacket(packet);
+		this->packager->getQueue(AI_DAMAGE_TEXT_PACKET)->push(&packet);
 	}
 	
 	bool NurnEngine::fetchAIDamageTextPacket(DamagePacket& packet)
@@ -296,7 +296,7 @@ namespace Nurn
 
 	void NurnEngine::pushBossDamageTextPacket(const DamagePacket& packet)
 	{
-		this->packager->pushBossDamageTextPacket(packet);
+		this->packager->getQueue(BOSS_DAMAGE_TEXT_PACKET)->push(&packet);
 	}
 
 	bool NurnEngine::fetchBossDamageTextPacket(DamagePacket& packet)
@@ -306,7 +306,7 @@ namespace Nurn
 
 	void NurnEngine::pushBossHealthPacket(const HealthPacket& packet)
 	{
-		this->packager->pushBossHealthPacket(packet);
+		this->packager->getQueue(BOSS_HEALTH_PACKET)->push(&packet);
 	}
 	
 	bool NurnEngine::fetchBossHealthPacket(HealthPacket& packet)
