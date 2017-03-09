@@ -83,8 +83,10 @@ namespace LuaParticles
 		int index = (int)lua_tointeger( lua, 1 );
 		assert( index >= 0 && index < g_systems->size() );
 
-		delete g_systems->at(index);
-		g_systems->at(index) = nullptr;
+		//delete g_systems->at(index);
+		//g_systems->at(index) = nullptr;
+
+		g_systems->at(index)->setRemoved(true);
 
 		return 0;
 	}
