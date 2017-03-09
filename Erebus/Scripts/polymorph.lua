@@ -73,6 +73,8 @@ function CreatePolymorph(entity)
 		self.alive = true
 		self.hasSpamAttack = false
 		player.spamCasting = false
+		player.attackDelayTimerStarted = false
+		player.firstAttack = true
 		self.position = Transform.GetPosition(self.caster)
 		self.direction = Transform.GetLookAt(self.caster)
 		Transform.ActiveControl(self.transformID, true)
