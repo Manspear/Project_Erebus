@@ -1965,12 +1965,6 @@ level02.props.Bridge1ID.transformID = Gear.BindStaticInstance(level02.props.Brid
 Transform.SetPosition(level02.props.Bridge1ID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(level02.props.Bridge1ID.transformID, 1, 1, 1)
 Transform.SetRotation(level02.props.Bridge1ID.transformID, {x=-0, y=0, z=-0})
-level02.props.WaterID = {}
-level02.props.WaterID.model = Assets.LoadModel('Models/lake.model')
-level02.props.WaterID.transformID = Gear.BindStaticInstance(level02.props.WaterID.model)
-Transform.SetPosition(level02.props.WaterID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(level02.props.WaterID.transformID, 1, 1, 1)
-Transform.SetRotation(level02.props.WaterID.transformID, {x=-0, y=0, z=-0})
 level02.props.House1ID = {}
 level02.props.House1ID.model = Assets.LoadModel('Models/House1.model')
 level02.props.House1ID.transformID = Gear.BindStaticInstance(level02.props.House1ID.model)
@@ -4026,9 +4020,6 @@ Assets.UnloadModel('Models/Bridge1.model')
 level02.props.Bridge1ID = nil
 level02.colliders.Tile2_wallNr163ID = nil
 level02.colliders.Tile2_wallNr93ID = nil
-Gear.UnbindInstance(level02.props.WaterID.transformID)
-Assets.UnloadModel('Models/lake.model')
-level02.props.WaterID = nil
 Gear.UnbindInstance(level02.props.House1ID.transformID)
 Assets.UnloadModel('Models/House1.model')
 level02.props.House1ID = nil

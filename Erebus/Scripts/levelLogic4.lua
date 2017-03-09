@@ -3,7 +3,7 @@ function LoadLogic4()
 end
 
 function UpdateLogic()
-
+	if loadedLake then UnloadLogic2() end
 end
 
 function UnloadLogic4()
