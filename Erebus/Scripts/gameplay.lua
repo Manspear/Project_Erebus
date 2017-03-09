@@ -187,7 +187,17 @@ function EnterGameplay()
 		--levels[1].load()
 		
 		loadedGameplay = true
-		Sky.SetTime(8,true)
+
+		------------------
+			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
+
+
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r,tempTable.AMBIENCECOLOR.g,tempTable.AMBIENCECOLOR.b)
+			Sky.FogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
+			Sky.SetBlend(tempTable.SKYBOX)
+
+			print("Dash cool")
+			----------------------
 	end
 	LEVEL_ROUND = 1
 
