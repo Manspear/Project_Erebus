@@ -1,6 +1,6 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
-WINDKNOCKBACK_COOLDOWN = 1.5
-WINDKNOCKBACK_CASTSPEED_MULTIPLE = 4.5
+WINDKNOCKBACK_COOLDOWN = 1.2
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 3.0
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
@@ -11,12 +11,12 @@ function CreateWindknockback(entity)
 	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
+	spell.radius = 0
 	spell.maxChargeTime = 2		spell.minChargeTime = 0
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
 	spell.enemiesHit = {}
 	
-	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -51,7 +51,9 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
+			self.radius = 2.8
 			self:GeneralCast()
+			self.damage = 3
 		end
 	end
 	
@@ -65,7 +67,9 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
+			self.radius = self.chargedTime
 			self:GeneralCast()
+			self.damage = 5
 		end
 	end
 
@@ -73,12 +77,12 @@ function CreateWindknockback(entity)
 		self.alive = true		self.stage1time = 0.5
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + direction.x * 3
-		pos.y = pos.y + direction.y * 3
-		pos.z = pos.z + direction.z * 3
+		pos.x = pos.x + direction.x * 4
+		pos.y = pos.y + direction.y * 4
+		pos.z = pos.z + direction.z * 4
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
-		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
+		SphereCollider.SetRadius(self.sphereCollider, self.radius)
 		self.particles:poof(pos, direction)
 	end
 
