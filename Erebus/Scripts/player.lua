@@ -95,7 +95,7 @@ function LoadPlayer()
 
 	player.resetSpamAttack = false
 	player.attackDelayTimerStarted = false
-	player.attackDelayTimerThreshHold = 0
+	player.attackDelayTimerThreshHold = 0.1
 	player.attackDelayTimer = 0
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
@@ -109,6 +109,12 @@ function LoadPlayer()
 	player.lastPos = Transform.GetPosition(player.transformID)
 
 	player.effects = {}
+
+	--Gets a new element when player clicks left click. But only if that left click is performed within a certain window.
+	--Must support both hold-LMB and spam-click LMB. That window is: if spellCastTimer > attackQueueWindow { append cast }
+	player.attackQueue = false
+	player.attackQueueTimer = 0
+	player.spamAttackActive = false
 
 	player.nrOfInnerCircleEnemies = 0
 	player.nrOfOuterCircleEnemies = 0
@@ -534,14 +540,13 @@ function Controls(dt)
 			if player.globalSpellSwitchingCooldownTimerStarted == false then
 				--ATTACK DELAY TIMER
 				player.attackDelayTimer = player.attackDelayTimer + dt
-				if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				if player.spamAttackActive == true then
 					if player.spells[player.currentSpell].hasSpamAttack == true then 
 						if player.spells[player.currentSpell].isRay == nil then  
 							player.useRayAttack = false
 							player.charger:EndCharge()
 							player.spamCasting = true
 							if player.firstAttack == true then 
-											
 								if player.attackDelayTimerStarted == false then 
 										
 									player.attackDelayTimerStarted = true
@@ -549,6 +554,8 @@ function Controls(dt)
 									player.attackDelayTimerThreshHold = player.spells[player.currentSpell].castTimeFirstAttack
 									player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
 									player.firstAttack = false	
+
+									player.attackQueueTimer = -0.05
 								end 
 							else
 								if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
@@ -581,8 +588,18 @@ function Controls(dt)
 					end
 				end
 			end
-			--the spell is a ray spell.
-			if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
+
+			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
+				player.attackQueueTimer = -0.05
+				player.attackQueue = true
+			end
+
+			player.attackQueueTimer = player.attackQueueTimer + dt
+			if player.attackQueueTimer > player.attackDelayTimerThreshHold then 
+				print("attackQueueTimer: ", player.attackQueueTimer)
+				player.attackQueue = false
+				player.spamAttackActive = false
+
 				player.spamCasting = false
 				player.firstAttack = true
 				player.attackDelayTimerStarted = false
@@ -595,7 +612,24 @@ function Controls(dt)
 				else
 					player.useRayAttack = false
 				end
+			else
+				player.spamAttackActive = true
 			end
+			--the spell is a ray spell.
+			--if Inputs.ButtonReleased(SETTING_KEYBIND_NORMAL_ATTACK) then
+			--	player.spamCasting = false
+			--	player.firstAttack = true
+			--	player.attackDelayTimerStarted = false
+			--	if player.useRayAttack == true then
+			--		if player.spells[player.currentSpell].chargeAlive == false then 
+			--			player.spells[player.currentSpell].lifeTime = -1
+			--			player.firstRayAttack = true
+			--			player.useRayAttack = false
+			--		end
+			--	else
+			--		player.useRayAttack = false
+			--	end
+			--end
 		end
 	
 		if player.charging == false then 
