@@ -143,7 +143,8 @@ function UpdateGameplay(dt)
 		if endEventId == 0 then -- other player died
 			gamestate.ChangeState(GAMESTATE_DEATH)
 		elseif endEventId == 1 then -- other player quit to main menu
-			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			--gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			gamestate.ChangeState(GAMESTATE_DISCONNECTED)
 			Erebus.ShutdownNetwork()
 			UnloadGameplay()
 		elseif endEventId == 2 then -- player win!
@@ -165,7 +166,7 @@ function EnterGameplay()
 			if value.Load then value.Load() end
 		end
 
-		dofile( "Scripts/MAx_Oscar_test.lua" )
+		dofile( "Scripts/Max_Oscar_test.lua" )
 
 		CreateIM()
 
@@ -184,14 +185,14 @@ function EnterGameplay()
 		loadedGameplay = true
 
 		------------------
-			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
+		local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
 
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b, true)
+		Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
+			Sky.SetBlend(tempTable.SKYBOX, true)
+		Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
+		Sky.SetSunAngle(tempTable.SUNANGLE)
 
-			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
-			Sky.SetFogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
-			Sky.SetBlend(tempTable.SKYBOX)
-
-			print("Dash cool")
 			----------------------
 	end
 	LEVEL_ROUND = 1

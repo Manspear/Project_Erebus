@@ -57,12 +57,12 @@ void Gear::Skybox::init()
 
 	faces.clear();
 
-	faces.push_back("skybox/nightRight.dds");
-	faces.push_back("skybox/nightLeft.dds");
-	faces.push_back("skybox/nightTop.dds");
-	faces.push_back("skybox/nightBottom.dds");
-	faces.push_back("skybox/nightFront.dds");
-	faces.push_back("skybox/nightBack.dds");
+	faces.push_back("skybox/neatherRight.dds");
+	faces.push_back("skybox/neatherLeft.dds");
+	faces.push_back("skybox/neatherTop.dds");
+	faces.push_back("skybox/neatherBottom.dds");
+	faces.push_back("skybox/neatherFront.dds");
+	faces.push_back("skybox/neatherBack.dds");
 	nightTextureID = this->loadCubemap(faces);
 
 	shadowMap.Init(CASCADE_TEXTURE_SIZE, CASCADE_TEXTURE_SIZE, &sun);
