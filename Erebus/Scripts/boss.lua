@@ -122,6 +122,7 @@ function LoadBoss()
 	function boss:Spawn()
 		Transform.ActiveControl(boss.transformID, true)
 		AABBCollider.SetActive(boss.collider, true)
+		boss.combatStarted = true
 	end
 	boss:Reset()
 
@@ -343,4 +344,5 @@ function UpdateBoss(dt)
 			boss.RealKill()
 		end
 	end
+	print(boss.health)
 end
