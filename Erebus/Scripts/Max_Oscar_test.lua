@@ -4174,7 +4174,8 @@ level02.colliders.Tile2_wallNr144ID = nil
 level02.colliders.Tile2_wallNr166ID = nil
 level02.colliders.Tile2_wallNr167ID = nil
 level02.props.NewID = nil
-Particle.Unbind(level02.props.Asset_Torch2ID)Light.removeLight(level02.props.Asset_Torch2ID.lightIndex)
+Particle.Unbind(level02.props.Asset_Torch2ID.particle)
+Light.removeLight(level02.props.Asset_Torch2ID.lightIndex)
 Gear.UnbindInstance(level02.props.Asset_Torch2ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level02.props.Asset_Torch2ID = nil
@@ -4769,11 +4770,13 @@ level03.props.House2ID = nil
 Gear.UnbindInstance(level03.props.House3ID.transformID)
 Assets.UnloadModel('Models/House1.model')
 level03.props.House3ID = nil
-Particle.Unbind(level03.props.Asset_TorchID)Light.removeLight(level03.props.Asset_TorchID.lightIndex)
+Particle.Unbind(level03.props.Asset_TorchID.particle)
+Light.removeLight(level03.props.Asset_TorchID.lightIndex)
 Gear.UnbindInstance(level03.props.Asset_TorchID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level03.props.Asset_TorchID = nil
-Particle.Unbind(level03.props.Asset_Torch1ID)Light.removeLight(level03.props.Asset_Torch1ID.lightIndex)
+Particle.Unbind(level03.props.Asset_Torch1ID.particle)
+Light.removeLight(level03.props.Asset_Torch1ID.lightIndex)
 Gear.UnbindInstance(level03.props.Asset_Torch1ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level03.props.Asset_Torch1ID = nil
@@ -5167,11 +5170,13 @@ level04.colliders.Tile4_wallNr9ID = nil
 level04.colliders.Tile4_wallNr25ID = nil
 level04.colliders.Tile4_wallNr10ID = nil
 level04.colliders.Tile4_wallNr11ID = nil
-Particle.Unbind(level04.props.Asset_Torch23ID)Light.removeLight(level04.props.Asset_Torch23ID.lightIndex)
+Particle.Unbind(level04.props.Asset_Torch23ID.particle)
+Light.removeLight(level04.props.Asset_Torch23ID.lightIndex)
 Gear.UnbindInstance(level04.props.Asset_Torch23ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level04.props.Asset_Torch23ID = nil
-Particle.Unbind(level04.props.Asset_Torch24ID)Light.removeLight(level04.props.Asset_Torch24ID.lightIndex)
+Particle.Unbind(level04.props.Asset_Torch24ID.particle)
+Light.removeLight(level04.props.Asset_Torch24ID.lightIndex)
 Gear.UnbindInstance(level04.props.Asset_Torch24ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level04.props.Asset_Torch24ID = nil
@@ -5179,7 +5184,8 @@ Light.removeLight(level04.props.Lantern_PostID.lightIndex)
 Gear.UnbindInstance(level04.props.Lantern_PostID.transformID)
 Assets.UnloadModel('Models/Lantern_Post.model')
 level04.props.Lantern_PostID = nil
-Particle.Unbind(level04.props.Asset_Torch29ID)Light.removeLight(level04.props.Asset_Torch29ID.lightIndex)
+Particle.Unbind(level04.props.Asset_Torch29ID.particle)
+Light.removeLight(level04.props.Asset_Torch29ID.lightIndex)
 Gear.UnbindInstance(level04.props.Asset_Torch29ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level04.props.Asset_Torch29ID = nil
@@ -5195,11 +5201,13 @@ Light.removeLight(level04.props.Lantern_Post12ID.lightIndex)
 Gear.UnbindInstance(level04.props.Lantern_Post12ID.transformID)
 Assets.UnloadModel('Models/Lantern_Post.model')
 level04.props.Lantern_Post12ID = nil
-Particle.Unbind(level04.props.Asset_Torch254ID)Light.removeLight(level04.props.Asset_Torch254ID.lightIndex)
+Particle.Unbind(level04.props.Asset_Torch254ID.particle)
+Light.removeLight(level04.props.Asset_Torch254ID.lightIndex)
 Gear.UnbindInstance(level04.props.Asset_Torch254ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level04.props.Asset_Torch254ID = nil
-Particle.Unbind(level04.props.Asset_Torch255ID)Light.removeLight(level04.props.Asset_Torch255ID.lightIndex)
+Particle.Unbind(level04.props.Asset_Torch255ID.particle)
+Light.removeLight(level04.props.Asset_Torch255ID.lightIndex)
 Gear.UnbindInstance(level04.props.Asset_Torch255ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level04.props.Asset_Torch255ID = nil
@@ -9261,43 +9269,53 @@ level05.props.PineTreeTwisted4626ID = nil
 Gear.UnbindInstance(level05.props.PineTreeTwisted4634ID.transformID)
 Assets.UnloadModel('Models/Twisted_pineTree1.model')
 level05.props.PineTreeTwisted4634ID = nil
-Particle.Unbind(level05.props.Asset_Torch25ID)Light.removeLight(level05.props.Asset_Torch25ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch25ID.particle)
+Light.removeLight(level05.props.Asset_Torch25ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch25ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch25ID = nil
-Particle.Unbind(level05.props.Asset_Torch26ID)Light.removeLight(level05.props.Asset_Torch26ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch26ID.particle)
+Light.removeLight(level05.props.Asset_Torch26ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch26ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch26ID = nil
-Particle.Unbind(level05.props.Asset_Torch27ID)Light.removeLight(level05.props.Asset_Torch27ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch27ID.particle)
+Light.removeLight(level05.props.Asset_Torch27ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch27ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch27ID = nil
-Particle.Unbind(level05.props.Asset_Torch28ID)Light.removeLight(level05.props.Asset_Torch28ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch28ID.particle)
+Light.removeLight(level05.props.Asset_Torch28ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch28ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch28ID = nil
-Particle.Unbind(level05.props.Asset_Torch30ID)Light.removeLight(level05.props.Asset_Torch30ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch30ID.particle)
+Light.removeLight(level05.props.Asset_Torch30ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch30ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch30ID = nil
-Particle.Unbind(level05.props.Asset_Torch31ID)Light.removeLight(level05.props.Asset_Torch31ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch31ID.particle)
+Light.removeLight(level05.props.Asset_Torch31ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch31ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch31ID = nil
-Particle.Unbind(level05.props.Asset_Torch32ID)Light.removeLight(level05.props.Asset_Torch32ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch32ID.particle)
+Light.removeLight(level05.props.Asset_Torch32ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch32ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch32ID = nil
-Particle.Unbind(level05.props.Asset_Torch34ID)Light.removeLight(level05.props.Asset_Torch34ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch34ID.particle)
+Light.removeLight(level05.props.Asset_Torch34ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch34ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch34ID = nil
-Particle.Unbind(level05.props.Asset_Torch35ID)Light.removeLight(level05.props.Asset_Torch35ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch35ID.particle)
+Light.removeLight(level05.props.Asset_Torch35ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch35ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch35ID = nil
-Particle.Unbind(level05.props.Asset_Torch37ID)Light.removeLight(level05.props.Asset_Torch37ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch37ID.particle)
+Light.removeLight(level05.props.Asset_Torch37ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch37ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch37ID = nil
@@ -9312,15 +9330,18 @@ Light.removeLight(level05.props.Lantern_Post14ID.lightIndex)
 Gear.UnbindInstance(level05.props.Lantern_Post14ID.transformID)
 Assets.UnloadModel('Models/Lantern_Post.model')
 level05.props.Lantern_Post14ID = nil
-Particle.Unbind(level05.props.Asset_Torch251ID)Light.removeLight(level05.props.Asset_Torch251ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch251ID.particle)
+Light.removeLight(level05.props.Asset_Torch251ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch251ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch251ID = nil
-Particle.Unbind(level05.props.Asset_Torch252ID)Light.removeLight(level05.props.Asset_Torch252ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch252ID.particle)
+Light.removeLight(level05.props.Asset_Torch252ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch252ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch252ID = nil
-Particle.Unbind(level05.props.Asset_Torch253ID)Light.removeLight(level05.props.Asset_Torch253ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch253ID.particle)
+Light.removeLight(level05.props.Asset_Torch253ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch253ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch253ID = nil
@@ -9425,7 +9446,8 @@ level05.props.Asset_Stone18ID = nil
 Gear.UnbindInstance(level05.props.Asset_Stone3711ID.transformID)
 Assets.UnloadModel('Models/Stone3.model')
 level05.props.Asset_Stone3711ID = nil
-Particle.Unbind(level05.props.Asset_Torch351ID)Light.removeLight(level05.props.Asset_Torch351ID.lightIndex)
+Particle.Unbind(level05.props.Asset_Torch351ID.particle)
+Light.removeLight(level05.props.Asset_Torch351ID.lightIndex)
 Gear.UnbindInstance(level05.props.Asset_Torch351ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level05.props.Asset_Torch351ID = nil
@@ -10437,42 +10459,51 @@ level06.props.PineTreeTwisted41ID = nil
 Gear.UnbindInstance(level06.props.PineTreeTwisted51ID.transformID)
 Assets.UnloadModel('Models/Twisted_pineTree1.model')
 level06.props.PineTreeTwisted51ID = nil
-Particle.Unbind(level06.props.Asset_Torch231ID)Light.removeLight(level06.props.Asset_Torch231ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch231ID.particle)
+Light.removeLight(level06.props.Asset_Torch231ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch231ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch231ID = nil
-Particle.Unbind(level06.props.Asset_Torch241ID)Light.removeLight(level06.props.Asset_Torch241ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch241ID.particle)
+Light.removeLight(level06.props.Asset_Torch241ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch241ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch241ID = nil
 Gear.UnbindInstance(level06.props.PineTreeWicked2831ID.transformID)
 Assets.UnloadModel('Models/Wicked_pineTree1.model')
 level06.props.PineTreeWicked2831ID = nil
-Particle.Unbind(level06.props.Asset_Torch36ID)Light.removeLight(level06.props.Asset_Torch36ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch36ID.particle)
+Light.removeLight(level06.props.Asset_Torch36ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch36ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch36ID = nil
-Particle.Unbind(level06.props.Asset_Torch371ID)Light.removeLight(level06.props.Asset_Torch371ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch371ID.particle)
+Light.removeLight(level06.props.Asset_Torch371ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch371ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch371ID = nil
-Particle.Unbind(level06.props.Asset_Torch38ID)Light.removeLight(level06.props.Asset_Torch38ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch38ID.particle)
+Light.removeLight(level06.props.Asset_Torch38ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch38ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch38ID = nil
-Particle.Unbind(level06.props.Asset_Torch39ID)Light.removeLight(level06.props.Asset_Torch39ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch39ID.particle)
+Light.removeLight(level06.props.Asset_Torch39ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch39ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch39ID = nil
-Particle.Unbind(level06.props.Asset_Torch40ID)Light.removeLight(level06.props.Asset_Torch40ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch40ID.particle)
+Light.removeLight(level06.props.Asset_Torch40ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch40ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch40ID = nil
-Particle.Unbind(level06.props.Asset_Torch41ID)Light.removeLight(level06.props.Asset_Torch41ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch41ID.particle)
+Light.removeLight(level06.props.Asset_Torch41ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch41ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch41ID = nil
-Particle.Unbind(level06.props.Asset_Torch42ID)Light.removeLight(level06.props.Asset_Torch42ID.lightIndex)
+Particle.Unbind(level06.props.Asset_Torch42ID.particle)
+Light.removeLight(level06.props.Asset_Torch42ID.lightIndex)
 Gear.UnbindInstance(level06.props.Asset_Torch42ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level06.props.Asset_Torch42ID = nil
@@ -13619,51 +13650,63 @@ level07.props.Asset_Stone44ID = nil
 Gear.UnbindInstance(level07.props.Asset_Stone45ID.transformID)
 Assets.UnloadModel('Models/Stone4.model')
 level07.props.Asset_Stone45ID = nil
-Particle.Unbind(level07.props.Asset_Torch3ID)Light.removeLight(level07.props.Asset_Torch3ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch3ID.particle)
+Light.removeLight(level07.props.Asset_Torch3ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch3ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch3ID = nil
-Particle.Unbind(level07.props.Asset_Torch4ID)Light.removeLight(level07.props.Asset_Torch4ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch4ID.particle)
+Light.removeLight(level07.props.Asset_Torch4ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch4ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch4ID = nil
-Particle.Unbind(level07.props.Asset_Torch5ID)Light.removeLight(level07.props.Asset_Torch5ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch5ID.particle)
+Light.removeLight(level07.props.Asset_Torch5ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch5ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch5ID = nil
-Particle.Unbind(level07.props.Asset_Torch6ID)Light.removeLight(level07.props.Asset_Torch6ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch6ID.particle)
+Light.removeLight(level07.props.Asset_Torch6ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch6ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch6ID = nil
-Particle.Unbind(level07.props.Asset_Torch7ID)Light.removeLight(level07.props.Asset_Torch7ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch7ID.particle)
+Light.removeLight(level07.props.Asset_Torch7ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch7ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch7ID = nil
-Particle.Unbind(level07.props.Asset_Torch8ID)Light.removeLight(level07.props.Asset_Torch8ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch8ID.particle)
+Light.removeLight(level07.props.Asset_Torch8ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch8ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch8ID = nil
-Particle.Unbind(level07.props.Asset_Torch9ID)Light.removeLight(level07.props.Asset_Torch9ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch9ID.particle)
+Light.removeLight(level07.props.Asset_Torch9ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch9ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch9ID = nil
-Particle.Unbind(level07.props.Asset_Torch10ID)Light.removeLight(level07.props.Asset_Torch10ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch10ID.particle)
+Light.removeLight(level07.props.Asset_Torch10ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch10ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch10ID = nil
-Particle.Unbind(level07.props.Asset_Torch11ID)Light.removeLight(level07.props.Asset_Torch11ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch11ID.particle)
+Light.removeLight(level07.props.Asset_Torch11ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch11ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch11ID = nil
-Particle.Unbind(level07.props.Asset_Torch12ID)Light.removeLight(level07.props.Asset_Torch12ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch12ID.particle)
+Light.removeLight(level07.props.Asset_Torch12ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch12ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch12ID = nil
-Particle.Unbind(level07.props.Asset_Torch13ID)Light.removeLight(level07.props.Asset_Torch13ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch13ID.particle)
+Light.removeLight(level07.props.Asset_Torch13ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch13ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch13ID = nil
-Particle.Unbind(level07.props.Asset_Torch14ID)Light.removeLight(level07.props.Asset_Torch14ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch14ID.particle)
+Light.removeLight(level07.props.Asset_Torch14ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch14ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch14ID = nil
@@ -13715,47 +13758,58 @@ level07.props.PineTreeWicked26ID = nil
 Gear.UnbindInstance(level07.props.PineTreeWicked27ID.transformID)
 Assets.UnloadModel('Models/Wicked_pineTree1.model')
 level07.props.PineTreeWicked27ID = nil
-Particle.Unbind(level07.props.Asset_Torch15ID)Light.removeLight(level07.props.Asset_Torch15ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch15ID.particle)
+Light.removeLight(level07.props.Asset_Torch15ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch15ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch15ID = nil
-Particle.Unbind(level07.props.Asset_Torch16ID)Light.removeLight(level07.props.Asset_Torch16ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch16ID.particle)
+Light.removeLight(level07.props.Asset_Torch16ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch16ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch16ID = nil
-Particle.Unbind(level07.props.Asset_Torch17ID)Light.removeLight(level07.props.Asset_Torch17ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch17ID.particle)
+Light.removeLight(level07.props.Asset_Torch17ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch17ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch17ID = nil
-Particle.Unbind(level07.props.Asset_Torch18ID)Light.removeLight(level07.props.Asset_Torch18ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch18ID.particle)
+Light.removeLight(level07.props.Asset_Torch18ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch18ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch18ID = nil
-Particle.Unbind(level07.props.Asset_Torch19ID)Light.removeLight(level07.props.Asset_Torch19ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch19ID.particle)
+Light.removeLight(level07.props.Asset_Torch19ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch19ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch19ID = nil
-Particle.Unbind(level07.props.Asset_Torch20ID)Light.removeLight(level07.props.Asset_Torch20ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch20ID.particle)
+Light.removeLight(level07.props.Asset_Torch20ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch20ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch20ID = nil
-Particle.Unbind(level07.props.Asset_Torch21ID)Light.removeLight(level07.props.Asset_Torch21ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch21ID.particle)
+Light.removeLight(level07.props.Asset_Torch21ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch21ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch21ID = nil
-Particle.Unbind(level07.props.Asset_Torch22ID)Light.removeLight(level07.props.Asset_Torch22ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch22ID.particle)
+Light.removeLight(level07.props.Asset_Torch22ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch22ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch22ID = nil
-Particle.Unbind(level07.props.Asset_Torch256ID)Light.removeLight(level07.props.Asset_Torch256ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch256ID.particle)
+Light.removeLight(level07.props.Asset_Torch256ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch256ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch256ID = nil
-Particle.Unbind(level07.props.Asset_Torch261ID)Light.removeLight(level07.props.Asset_Torch261ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch261ID.particle)
+Light.removeLight(level07.props.Asset_Torch261ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch261ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch261ID = nil
-Particle.Unbind(level07.props.Asset_Torch271ID)Light.removeLight(level07.props.Asset_Torch271ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch271ID.particle)
+Light.removeLight(level07.props.Asset_Torch271ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch271ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch271ID = nil
@@ -13849,31 +13903,38 @@ Light.removeLight(level07.props.PurpleLight17ID.lightIndex)
 level07.props.PurpleLight17ID = nil
 Light.removeLight(level07.props.PurpleLight18ID.lightIndex)
 level07.props.PurpleLight18ID = nil
-Particle.Unbind(level07.props.Asset_Torch2311ID)Light.removeLight(level07.props.Asset_Torch2311ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch2311ID.particle)
+Light.removeLight(level07.props.Asset_Torch2311ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch2311ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch2311ID = nil
-Particle.Unbind(level07.props.Asset_Torch232ID)Light.removeLight(level07.props.Asset_Torch232ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch232ID.particle)
+Light.removeLight(level07.props.Asset_Torch232ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch232ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch232ID = nil
-Particle.Unbind(level07.props.Asset_Torch281ID)Light.removeLight(level07.props.Asset_Torch281ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch281ID.particle)
+Light.removeLight(level07.props.Asset_Torch281ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch281ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch281ID = nil
-Particle.Unbind(level07.props.Asset_Torch291ID)Light.removeLight(level07.props.Asset_Torch291ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch291ID.particle)
+Light.removeLight(level07.props.Asset_Torch291ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch291ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch291ID = nil
-Particle.Unbind(level07.props.Asset_Torch301ID)Light.removeLight(level07.props.Asset_Torch301ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch301ID.particle)
+Light.removeLight(level07.props.Asset_Torch301ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch301ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch301ID = nil
-Particle.Unbind(level07.props.Asset_Torch311ID)Light.removeLight(level07.props.Asset_Torch311ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch311ID.particle)
+Light.removeLight(level07.props.Asset_Torch311ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch311ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch311ID = nil
-Particle.Unbind(level07.props.Asset_Torch321ID)Light.removeLight(level07.props.Asset_Torch321ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch321ID.particle)
+Light.removeLight(level07.props.Asset_Torch321ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch321ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch321ID = nil
@@ -13927,11 +13988,13 @@ Assets.UnloadModel('Models/Wicked_pineTree1.model')
 level07.props.PineTreeWicked2830ID = nil
 Light.removeLight(level07.props.BlueLight11ID.lightIndex)
 level07.props.BlueLight11ID = nil
-Particle.Unbind(level07.props.Asset_Torch43ID)Light.removeLight(level07.props.Asset_Torch43ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch43ID.particle)
+Light.removeLight(level07.props.Asset_Torch43ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch43ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch43ID = nil
-Particle.Unbind(level07.props.Asset_Torch44ID)Light.removeLight(level07.props.Asset_Torch44ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch44ID.particle)
+Light.removeLight(level07.props.Asset_Torch44ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch44ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch44ID = nil
@@ -13939,27 +14002,33 @@ Light.removeLight(level07.props.PurpleLight27ID.lightIndex)
 level07.props.PurpleLight27ID = nil
 Light.removeLight(level07.props.PurpleLight28ID.lightIndex)
 level07.props.PurpleLight28ID = nil
-Particle.Unbind(level07.props.Asset_Torch45ID)Light.removeLight(level07.props.Asset_Torch45ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch45ID.particle)
+Light.removeLight(level07.props.Asset_Torch45ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch45ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch45ID = nil
-Particle.Unbind(level07.props.Asset_Torch46ID)Light.removeLight(level07.props.Asset_Torch46ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch46ID.particle)
+Light.removeLight(level07.props.Asset_Torch46ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch46ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch46ID = nil
-Particle.Unbind(level07.props.Asset_Torch47ID)Light.removeLight(level07.props.Asset_Torch47ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch47ID.particle)
+Light.removeLight(level07.props.Asset_Torch47ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch47ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch47ID = nil
-Particle.Unbind(level07.props.Asset_Torch48ID)Light.removeLight(level07.props.Asset_Torch48ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch48ID.particle)
+Light.removeLight(level07.props.Asset_Torch48ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch48ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch48ID = nil
-Particle.Unbind(level07.props.Asset_Torch49ID)Light.removeLight(level07.props.Asset_Torch49ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch49ID.particle)
+Light.removeLight(level07.props.Asset_Torch49ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch49ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch49ID = nil
-Particle.Unbind(level07.props.Asset_Torch50ID)Light.removeLight(level07.props.Asset_Torch50ID.lightIndex)
+Particle.Unbind(level07.props.Asset_Torch50ID.particle)
+Light.removeLight(level07.props.Asset_Torch50ID.lightIndex)
 Gear.UnbindInstance(level07.props.Asset_Torch50ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level07.props.Asset_Torch50ID = nil
@@ -14706,43 +14775,53 @@ level08.colliders.Tile8_wallNr35ID = nil
 level08.colliders.Tile8_wallNr36ID = nil
 level08.colliders.Tile8_wallNr37ID = nil
 level08.colliders.Tile8_wallNr38ID = nil
-Particle.Unbind(level08.props.Asset_Torch33ID)Light.removeLight(level08.props.Asset_Torch33ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch33ID.particle)
+Light.removeLight(level08.props.Asset_Torch33ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch33ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch33ID = nil
-Particle.Unbind(level08.props.Asset_Torch341ID)Light.removeLight(level08.props.Asset_Torch341ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch341ID.particle)
+Light.removeLight(level08.props.Asset_Torch341ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch341ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch341ID = nil
-Particle.Unbind(level08.props.Asset_Torch51ID)Light.removeLight(level08.props.Asset_Torch51ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch51ID.particle)
+Light.removeLight(level08.props.Asset_Torch51ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch51ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch51ID = nil
-Particle.Unbind(level08.props.Asset_Torch52ID)Light.removeLight(level08.props.Asset_Torch52ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch52ID.particle)
+Light.removeLight(level08.props.Asset_Torch52ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch52ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch52ID = nil
-Particle.Unbind(level08.props.Asset_Torch53ID)Light.removeLight(level08.props.Asset_Torch53ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch53ID.particle)
+Light.removeLight(level08.props.Asset_Torch53ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch53ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch53ID = nil
-Particle.Unbind(level08.props.Asset_Torch54ID)Light.removeLight(level08.props.Asset_Torch54ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch54ID.particle)
+Light.removeLight(level08.props.Asset_Torch54ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch54ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch54ID = nil
-Particle.Unbind(level08.props.Asset_Torch55ID)Light.removeLight(level08.props.Asset_Torch55ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch55ID.particle)
+Light.removeLight(level08.props.Asset_Torch55ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch55ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch55ID = nil
-Particle.Unbind(level08.props.Asset_Torch56ID)Light.removeLight(level08.props.Asset_Torch56ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch56ID.particle)
+Light.removeLight(level08.props.Asset_Torch56ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch56ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch56ID = nil
-Particle.Unbind(level08.props.Asset_Torch57ID)Light.removeLight(level08.props.Asset_Torch57ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch57ID.particle)
+Light.removeLight(level08.props.Asset_Torch57ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch57ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch57ID = nil
-Particle.Unbind(level08.props.Asset_Torch58ID)Light.removeLight(level08.props.Asset_Torch58ID.lightIndex)
+Particle.Unbind(level08.props.Asset_Torch58ID.particle)
+Light.removeLight(level08.props.Asset_Torch58ID.lightIndex)
 Gear.UnbindInstance(level08.props.Asset_Torch58ID.transformID)
 Assets.UnloadModel('Models/Torch.model')
 level08.props.Asset_Torch58ID = nil
