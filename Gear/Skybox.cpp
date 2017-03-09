@@ -180,13 +180,11 @@ GEAR_API void Gear::Skybox::setAmbient(glm::vec3 color, bool force)
 		ambientLerp = 0.f;
 		ambientHasChanged = true;
 		this->ambientTarget = color;
-		this->ambientStart = this->fogColor;
+		this->ambientStart = this->ambient;
 	}
 	else {
 		this->ambient = color;
 	}
-
-	this->ambientTarget = color;
 }
 
 
