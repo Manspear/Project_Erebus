@@ -42,7 +42,6 @@ void MovementController::update()
 
 	if (this->movementOverride != glm::vec3(0, 0, 0))
 	{
-		std::cout << "OVERRIDE \n";
 		newPos.x = this->movementOverride.x;
 		newPos.z = this->movementOverride.z;
 		this->movementOverride = glm::vec3(0, 0, 0);
