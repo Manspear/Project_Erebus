@@ -64,7 +64,7 @@ namespace LuaNetwork
 
 	int sendTransformPacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
+		int index = (int)lua_tonumber(lua, 1);
 
 		lua_getfield(lua, 2, "x");
 		float pos_x = (float)lua_tonumber(lua, -1);
@@ -130,8 +130,8 @@ namespace LuaNetwork
 
 	int sendAnimationPacket(lua_State* lua)
 	{
-		int animationState1 = (int)lua_tointeger(lua, 1);
-		int animationState2 = (int)lua_tointeger(lua, 2);
+		int animationState1 = (int)lua_tonumber(lua, 1);
+		int animationState2 = (int)lua_tonumber(lua, 2);
 
 		g_networkController->sendAnimationPacket(AnimationPacket(animationState1, animationState2));
 
@@ -160,8 +160,8 @@ namespace LuaNetwork
 
 	int sendAIStatePacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
-		int aiState = (int)lua_tointeger(lua, 2);
+		int index = (int)lua_tonumber(lua, 1);
+		int aiState = (int)lua_tonumber(lua, 2);
 
 		g_networkController->sendAIStatePacket(AIStatePacket(index, aiState));
 
@@ -190,8 +190,8 @@ namespace LuaNetwork
 
 	int sendSpellPacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
-		int currentSpell = (int)lua_tointeger(lua, 2);
+		int index = (int)lua_tonumber(lua, 1);
+		int currentSpell = (int)lua_tonumber(lua, 2);
 		float dirX = (float)lua_tonumber(lua, 3);
 		float dirY = (float)lua_tonumber(lua, 4);
 		float dirZ = (float)lua_tonumber(lua, 5);
@@ -203,8 +203,8 @@ namespace LuaNetwork
 
 	int sendChargeSpellPacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
-		int currentSpell = (int)lua_tointeger(lua, 2);
+		int index = (int)lua_tonumber(lua, 1);
+		int currentSpell = (int)lua_tonumber(lua, 2);
 		bool cast = lua_toboolean(lua, 3) != 0;
 		float dirX = (float)lua_tonumber(lua, 4);
 		float dirY = (float)lua_tonumber(lua, 5);
@@ -247,7 +247,7 @@ namespace LuaNetwork
 
 	int sendAITransformPacket(lua_State* lua)
 	{
-		int index = (int)lua_tointeger(lua, 1);
+		int index = (int)lua_tonumber(lua, 1);
 
 		lua_getfield(lua, 2, "x");
 		float pos_x = (float)lua_tonumber(lua, -1);
@@ -344,10 +344,10 @@ namespace LuaNetwork
 
 	int sendQuickBlendPacket(lua_State* lua)
 	{
-		uint16_t quickBlendFrom = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t quickBlendTo = (uint16_t)lua_tointeger(lua, 2);
-		uint16_t damagedMaxTime = (uint16_t)lua_tointeger(lua, 3);
-		uint16_t quickBlendSegment = (uint16_t)lua_tointeger(lua, 4);
+		uint16_t quickBlendFrom = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t quickBlendTo = (uint16_t)lua_tonumber(lua, 2);
+		uint16_t damagedMaxTime = (uint16_t)lua_tonumber(lua, 3);
+		uint16_t quickBlendSegment = (uint16_t)lua_tonumber(lua, 4);
 
 		g_networkController->sendQuickBlendPacket(QuickBlendPacket(quickBlendFrom, quickBlendTo, damagedMaxTime, quickBlendSegment));
 
@@ -380,9 +380,9 @@ namespace LuaNetwork
 
 	int sendDamagePacket(lua_State* lua)
 	{
-		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tonumber(lua, 1);
 		float damage = (float)lua_tonumber(lua, 2);
-		uint8_t element = (uint8_t)lua_tointeger(lua, 3);
+		uint8_t element = (uint8_t)lua_tonumber(lua, 3);
 
 		g_networkController->sendDamagePacket(DamagePacket(index, damage, element));
 
@@ -413,9 +413,9 @@ namespace LuaNetwork
 
 	int sendChangeSpellsPacket(lua_State* lua)
 	{
-		uint8_t spellSlot1 = (uint8_t)lua_tointeger(lua, 1);
-		uint8_t spellSlot2 = (uint8_t)lua_tointeger(lua, 2);
-		uint8_t spellSlot3 = (uint8_t)lua_tointeger(lua, 3);
+		uint8_t spellSlot1 = (uint8_t)lua_tonumber(lua, 1);
+		uint8_t spellSlot2 = (uint8_t)lua_tonumber(lua, 2);
+		uint8_t spellSlot3 = (uint8_t)lua_tonumber(lua, 3);
 
 		g_networkController->sendChangeSpellsPacket(ChangeSpellsPacket(spellSlot1, spellSlot2, spellSlot3));
 
@@ -446,7 +446,7 @@ namespace LuaNetwork
 
 	int sendPlayerEventPacket(lua_State* lua)
 	{
-		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
+		uint8_t eventId = (uint8_t)lua_tonumber(lua, 1);
 
 		g_networkController->sendPlayerEventPacket(EventPacket(eventId));
 		
@@ -472,8 +472,8 @@ namespace LuaNetwork
 
 	int sendAIHealthPacket(lua_State* lua)
 	{
-		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t health = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendAIHealthPacket(HealthPacket(transformID, health));
 
@@ -529,7 +529,7 @@ namespace LuaNetwork
 
 	int sendEndEventPacket(lua_State* lua)
 	{
-		uint8_t eventId = (uint8_t)lua_tointeger(lua, 1);
+		uint8_t eventId = (uint8_t)lua_tonumber(lua, 1);
 
 		g_networkController->sendEndEventPacket(EventPacket(eventId));
 
@@ -555,8 +555,8 @@ namespace LuaNetwork
 
 	int sendPlayerHealthPacket(lua_State* lua)
 	{
-		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t health = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendPlayerHealthPacket(HealthPacket(transformID, health));
 
@@ -585,8 +585,8 @@ namespace LuaNetwork
 
 	int sendRessurectionPacket(lua_State* lua)
 	{
-		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t health = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendRessurectionPacket(HealthPacket(transformID, health));
 
@@ -615,9 +615,9 @@ namespace LuaNetwork
 
 	int sendAIDamageTextPacket(lua_State* lua)
 	{
-		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tonumber(lua, 1);
 		float damage = (float)lua_tonumber(lua, 2);
-		uint8_t element = (uint8_t)lua_tointeger(lua, 3);
+		uint8_t element = (uint8_t)lua_tonumber(lua, 3);
 
 		g_networkController->sendAIDamageTextPacket(DamagePacket(index, damage, element));
 
@@ -648,9 +648,9 @@ namespace LuaNetwork
 
 	int sendBossDamageTextPacket(lua_State* lua)
 	{
-		uint16_t index = (uint16_t)lua_tointeger(lua, 1);
+		uint16_t index = (uint16_t)lua_tonumber(lua, 1);
 		float damage = (float)lua_tonumber(lua, 2);
-		uint8_t element = (uint8_t)lua_tointeger(lua, 3);
+		uint8_t element = (uint8_t)lua_tonumber(lua, 3);
 
 		g_networkController->sendBossDamageTextPacket(DamagePacket(index, damage, element));
 
@@ -681,10 +681,15 @@ namespace LuaNetwork
 
 	int sendBossHealthPacket(lua_State* lua)
 	{
-		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+		uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t health = (uint16_t)lua_tonumber(lua, 2);
+
+		//uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		//uint16_t health = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendBossHealthPacket(HealthPacket(transformID, health));
+
+		std::cout << "C++ : " << transformID << "      " << health << std::endl;
 
 		return 0;
 	}

@@ -148,17 +148,6 @@ function UpdateGameplay(dt)
 	end
 end
 
-function InteractSpellBook()
-	local scale = 0.8
-	local color = {0.6, 0.9, 0.9, 0.8}
-	Gear.Print("Press B to enter SpellBook", 420, 40, scale, color)
-
-	if Inputs.KeyReleased(SETTING_KEYBIND_SPELLBOOK) and not player.charging  then
-		gamestate.ChangeState(GAMESTATE_SPELLBOOK)
-		player.isControlable = false
-	end
-end
-
 function EnterGameplay()
 	print("entering gameplay")
 	if loadedGameplay == false then 
@@ -187,7 +176,17 @@ function EnterGameplay()
 		--levels[1].load()
 		
 		loadedGameplay = true
-		Sky.SetTime(8,true)
+
+		------------------
+			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
+
+
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r,tempTable.AMBIENCECOLOR.g,tempTable.AMBIENCECOLOR.b)
+			Sky.FogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
+			Sky.SetBlend(tempTable.SKYBOX)
+
+			print("Dash cool")
+			----------------------
 	end
 	LEVEL_ROUND = 1
 
