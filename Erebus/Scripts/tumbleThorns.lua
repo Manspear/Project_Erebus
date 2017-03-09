@@ -118,9 +118,8 @@ function CreateTumblethorns(entity)
 			TUMBLETHORN_RADIUS = 1
 			Transform.SetScale(self.transformID, 2)
 			SphereCollider.SetRadius(self.sphereCollider, 2)
-			self.damage = TUMBLETHORNS_DAMAGE
+			self.damage = TUMBLETHORNS_DAMAGE * 1.5
 			SphereCollider.SetActive(self.sphereCollider, true)
-			self.damage = 10
 			self:Cast()
 		end
 	end

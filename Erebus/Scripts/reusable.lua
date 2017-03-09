@@ -91,10 +91,10 @@ function PlayBGM(filename)
 	print("playing music "..filename)
 	local id = Sound.Play("Music/"..filename, 48)
 	if id ~= -1 then
+		Sound.SetVolume(id, 0.1)
+		Sound.Resume(id)
 		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
 		BACKGROUND_MUSIC_ID = id
-		Sound.SetVolume(BACKGROUND_MUSIC_ID, 0.1)
-		Sound.Resume(BACKGROUND_MUSIC_ID)
 	end
 end
 
@@ -244,11 +244,6 @@ function Rewind()
 		end
 		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
 		player:ChangeHeightmap(1)
-		PlayBGM(BACKGROUND_MUSIC_FILE[1])
-
-
-		PlayBGM()
-
 
 		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)
 		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* (LEVEL_ROUND-1)
@@ -256,6 +251,7 @@ function Rewind()
 
 		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
 
+		PlayBGM(BACKGROUND_MUSIC_FILE[1])
 
 		boss.alive = true
 		RewindPlayer(player)
