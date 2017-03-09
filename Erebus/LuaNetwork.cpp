@@ -681,8 +681,9 @@ namespace LuaNetwork
 
 	int sendBossHealthPacket(lua_State* lua)
 	{
-		uint16_t transformID = (uint16_t)lua_tointeger(lua, 1);
-		uint16_t health = (uint16_t)lua_tointeger(lua, 2);
+
+		uint16_t transformID = (uint16_t)lua_tonumber(lua, 1);
+		uint16_t health = (uint16_t)lua_tonumber(lua, 2);
 
 		g_networkController->sendBossHealthPacket(HealthPacket(transformID, health));
 
