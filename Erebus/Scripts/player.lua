@@ -280,11 +280,23 @@ function FindHeightmap(position)
 				loadedLevels[v] = true
 			end
 
-			--new time of day :)
-			local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
-			Sky.SetTime(newtime)
-			print(newtime .. " levelindex: " .. player.levelIndex)
-			print("")
+			------------------
+			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
+
+
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r,tempTable.AMBIENCECOLOR.g,tempTable.AMBIENCECOLOR.b)
+			Sky.FogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
+			Sky.SetBlend(tempTable.SKYBOX)
+			print("Dash cool")
+			----------------------
+
+
+
+			----new time of day :)
+			--local newtime = TIME_TABLE[LEVEL_ROUND] + (TIME_TABLE[LEVEL_ROUND+1]-TIME_TABLE[LEVEL_ROUND] )*(player.levelIndex/8.0)
+			--Sky.SetTime(newtime)
+			--print(newtime .. " levelindex: " .. player.levelIndex)
+			--print("")
 		end
 	end
 end
