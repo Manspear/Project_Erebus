@@ -1,6 +1,6 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
-WINDKNOCKBACK_COOLDOWN = 1.2
-WINDKNOCKBACK_CASTSPEED_MULTIPLE = 3.0
+WINDKNOCKBACK_COOLDOWN = 0.8
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 2.0
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
@@ -51,9 +51,9 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
-			self.radius = 2.8
+			self.radius = 3
 			self:GeneralCast()
-			self.damage = 3
+			self.damage = 6
 		end
 	end
 	
@@ -67,9 +67,10 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
+			print(self.chargedTime)
 			self.radius = self.chargedTime
 			self:GeneralCast()
-			self.damage = 5
+			self.damage = 10
 		end
 	end
 
