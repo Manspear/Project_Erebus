@@ -631,7 +631,12 @@ namespace LuaGear
 		float g = (float)lua_tonumber(lua, 2);
 		float b = (float)lua_tonumber(lua, 3);
 
-		g_skybox->setFogColor(glm::vec3(r, g, b));
+		bool force = false;
+		if (lua_gettop(lua) >= 4)
+		{
+			force = (bool)lua_toboolean(lua, 4);
+		}
+		g_skybox->setFogColor(glm::vec3(r, g, b), false);
 
 		return 0;
 	}
@@ -640,8 +645,13 @@ namespace LuaGear
 	{
 		assert(lua_gettop(lua) >= 1);
 		float blend = (int)lua_tonumber(lua, 1);
+		bool force = false;
+		if (lua_gettop(lua) >= 2)
+		{
+			force = (bool)lua_toboolean(lua, 2);
+		}
 
-		g_skybox->setBlend(blend);
+		g_skybox->setBlend(blend, force);
 		return 0;
 	}
 
@@ -662,7 +672,13 @@ namespace LuaGear
 		float g = (float)lua_tonumber(lua, 2);
 		float b = (float)lua_tonumber(lua, 3);
 
-		g_skybox->setAmbient(glm::vec3(r, g, b));
+		bool force = false;
+		if (lua_gettop(lua) >= 4)
+		{
+			force = (bool)lua_toboolean(lua, 4);
+		}
+
+		g_skybox->setAmbient(glm::vec3(r, g, b), force);
 		return 0;
 	}
 
@@ -674,7 +690,13 @@ namespace LuaGear
 		float g = (float)lua_tonumber(lua, 2);
 		float b = (float)lua_tonumber(lua, 3);
 
-		g_skybox->setColor(glm::vec3(r, g, b));
+		bool force = false;
+		if (lua_gettop(lua) >= 4)
+		{
+			force = (bool)lua_toboolean(lua, 4);
+		}
+
+		g_skybox->setColor(glm::vec3(r, g, b), force);
 		return 0;
 	}
 
@@ -684,7 +706,13 @@ namespace LuaGear
 
 		float angle = (float)lua_tonumber(lua, 1);
 		
-		g_skybox->setSunAngle(angle);
+		bool force = false;
+		if (lua_gettop(lua) >= 2)
+		{
+			force = (bool)lua_toboolean(lua, 2);
+		}
+
+		g_skybox->setSunAngle(angle, force);
 		return 0;
 	}
 
