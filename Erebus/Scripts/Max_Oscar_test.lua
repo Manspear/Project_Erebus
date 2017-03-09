@@ -462,12 +462,6 @@ level01.props.Tile1_fenceID.transformID = Gear.BindStaticInstance(level01.props.
 Transform.SetPosition(level01.props.Tile1_fenceID.transformID, {x=0, y=0, z=0})
 Transform.SetScaleNonUniform(level01.props.Tile1_fenceID.transformID, 1, 1, 1)
 Transform.SetRotation(level01.props.Tile1_fenceID.transformID, {x=-0, y=0, z=-0})
-level01.props.StreamID = {}
-level01.props.StreamID.model = Assets.LoadModel('Models/Stream.model')
-level01.props.StreamID.transformID = Gear.BindStaticInstance(level01.props.StreamID.model)
-Transform.SetPosition(level01.props.StreamID.transformID, {x=0, y=0, z=0})
-Transform.SetScaleNonUniform(level01.props.StreamID.transformID, 1, 1, 1)
-Transform.SetRotation(level01.props.StreamID.transformID, {x=-0, y=0, z=-0})
 level01.colliders.C_Parent_Tile_1ID = {}
 level01.colliders.C_Parent_Tile_1ID.collider = AABBCollider.Create(-1)
 level01.colliders.C_Parent_Tile_1ID.collider:SetOffset(0,0,0)
@@ -1567,9 +1561,6 @@ level01.colliders.Tile1_wallNr16ID = nil
 level01.colliders.Tile1_wallNr17ID = nil
 level01.colliders.Tile1_wallNr18ID = nil
 level01.colliders.Tile1_wallNr19ID = nil
-Gear.UnbindInstance(level01.props.StreamID.transformID)
-Assets.UnloadModel('Models/Stream.model')
-level01.props.StreamID = nil
 Gear.UnbindInstance(level01.triggers.SpellBookID.transformID)
 Assets.UnloadModel('Models/Spellbook.model')
 level01.triggers.SpellBookID = nil
