@@ -1,6 +1,6 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
-WINDKNOCKBACK_COOLDOWN = 1.5
-WINDKNOCKBACK_CASTSPEED_MULTIPLE = 4.5
+WINDKNOCKBACK_COOLDOWN = 1.2
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 3.0
 WINDKNOCKBACK_POWER = 2
 function CreateWindknockback(entity)
 	local spell = {}
@@ -11,6 +11,7 @@ function CreateWindknockback(entity)
 	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
+	spell.radius = 0
 	spell.maxChargeTime = 2		spell.minChargeTime = 0
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
@@ -51,6 +52,7 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
 			self.chargedTime = WINDKNOCKBACK_POWER
+			self.radius = 2.8
 			self:GeneralCast()
 		end
 	end
@@ -65,6 +67,7 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
+			self.radius = self.chargedTime
 			self:GeneralCast()
 		end
 	end
@@ -78,7 +81,7 @@ function CreateWindknockback(entity)
 		pos.z = pos.z + direction.z * 3
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
-		SphereCollider.SetRadius(self.sphereCollider, self.chargedTime / 2)
+		SphereCollider.SetRadius(self.sphereCollider, self.radius)
 		self.particles:poof(pos, direction)
 	end
 
