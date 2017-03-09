@@ -344,4 +344,5 @@ function UpdateBoss(dt)
 			boss.RealKill()
 		end
 	end
+	print(boss.health)
 end
