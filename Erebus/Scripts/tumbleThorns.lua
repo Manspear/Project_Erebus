@@ -1,8 +1,9 @@
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 1
-TUMBLETHORNS_COOLDOWN = 4
-TUMBLETHORNS_ROLLBACKTIME = 0.4
+TUMBLETHORNS_COOLDOWN = 1
+TUMBLETHORNS_ROLLBACKTIME = 0.2
 TUMBLETHORNS_CASTSPEED_MULTIPLE = 1
+TUMBLETHORNS_LIFETIME = 5
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
@@ -20,17 +21,17 @@ function CreateTumblethorns(entity)
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castTimeAttack = 0.65 * TUMBLETHORNS_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
-
+	spell.lifeTime = TUMBLETHORNS_LIFETIME
 	local model = Assets.LoadModel( "Models/tumbleweed.model" )
 	spell.transformID = Gear.BindForwardInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	Transform.ActiveControl(spell.transformID, false)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
-
+	local tumbltornDirection
 	spell.effects = {} 
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	spell.particles = createTumbleParticles()
@@ -39,21 +40,29 @@ function CreateTumblethorns(entity)
 
 	function spell:Update(dt)
 		if self.alive then
-			self.position.x = self.position.x + self.direction.x * TUMBLETHORN_SPEED * dt
-			self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
-			local hm = GetHeightmap(self.position)		
-			if hm then
-				self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)	
-				self.position.y = self.position.y + TUMBLETHORN_RADIUS
-				self.particles:update(self.position)
+			self.lifeTime = self.lifeTime - dt
+			if self.lifeTime>0 then
+
+				self.position.x = self.position.x + self.direction.x * TUMBLETHORN_SPEED * dt
+				self.position.z = self.position.z + self.direction.z * TUMBLETHORN_SPEED * dt
+				local hm = GetHeightmap(self.position)		
+				if hm then
+					self.position.y = hm.asset:GetHeight(self.position.x, self.position.z)	
+					self.position.y = self.position.y + TUMBLETHORN_RADIUS
+					self.particles:update(self.position)
+				end
+				Transform.SetPosition(self.transformID, self.position)
+				self.rotation = Transform.GetRotation(self.transformID)
+				self.rotation.z = self.rotation.z - self.spin * dt
+				Transform.SetRotation(self.transformID, self.rotation)
+				self:CheckColissions()
+				self.rollBackTime = self.rollBackTime - dt
+				self.canRollBack = 0 > self.rollBackTime and true or false
+			else
+				self.explodeParticles:explode(self.position)
+				self:Kill()
+				self.lifeTime = TUMBLETHORNS_LIFETIME
 			end
-			Transform.SetPosition(self.transformID, self.position)
-			self.rotation = Transform.GetRotation(self.transformID)
-			self.rotation.z = self.rotation.z - self.spin * dt
-			Transform.SetRotation(self.transformID, self.rotation)
-			self:CheckColissions()
-			self.rollBackTime = self.rollBackTime - dt
-			self.canRollBack = 0 > self.rollBackTime and true or false			
 		else
 			self.cooldown = self.cooldown - dt;
 		end
@@ -77,9 +86,18 @@ function CreateTumblethorns(entity)
 		elseif self.canRollBack and self.rollin then
 			self.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
-			local newLookAt = vec3sub(self.owner.position, self.position)
-			Transform.RotateToVector(self.transformID, newLookAt)
-			self.direction = Transform.GetLookAt(self.transformID)
+			--These three make the old version
+			--local newLookAt = vec3sub(self.owner.position, self.position)
+			--Transform.RotateToVector(self.transformID, newLookAt)
+			--self.direction = Transform.GetLookAt(self.transformID)
+			
+			--not sure if should be used
+			--self.direction = Transform.GetLookAt(self.direct) 
+
+			--These two make the new version
+			self.direction.x = -self.direction.x
+			self.direction.z = -self.direction.z
+			
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
 			self.enemiesHit = {}

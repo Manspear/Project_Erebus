@@ -169,7 +169,11 @@ function CreateSiphon(entity)
 				if self.interval < 0 then
 					hit:Hurt(self.damage, self.owner, self.element)
 					if(self.owner.health < 100) then
-						self.owner.health = self.owner.health + self.damage
+						local newHealth = self.owner.health + self.damage
+						if newHealth > 100 then
+							newHealth = 100
+						end
+						self.owner.health = newHealth
 						Gear.PrintDamage(self.damage, HEAL, self.owner.position.x, self.owner.position.y+1, self.owner.position.z )
 					elseif (self.owner.health > 100) then
 						self.owner.health = 100
