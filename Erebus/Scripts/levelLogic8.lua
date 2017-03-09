@@ -1,4 +1,4 @@
-function LoadLogic()
+function LoadLogic8()
 	
 end
 firstLoad = true
@@ -45,11 +45,12 @@ function StartingBoss()
 	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
 	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
 		boss:Spawn()
+		PlayBGM("Area4_Bossfight.ogg")
 	end
 end
 
-function UnloadLogic()
+function UnloadLogic8()
 	firstLoad = nil
 end
 
-return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
+return { Load = LoadLogic8, Unload = UnloadLogic8, Update = UpdateLogic }

@@ -137,7 +137,6 @@ function CreateChargeEggs(entity)
 	Transform.ActiveControl(chargeThing.transformID, false)
 	-- TEMP(Niclas): Figure this out
 	--chargeThing.modelIndex = chargeThing.transformID
-	--Gear.SetUniformLocation(chargeThing.modelIndex, "aValue");
 
 	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")

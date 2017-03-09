@@ -39,10 +39,10 @@ public:
 
 	void openNetPacket(const unsigned char * const memoryPointer);
 	
-	PacketQueueInterface * getQueue(const uint8_t& packetEnum);
+	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
 private:
-	std::vector<PacketQueueInterface*> queueList;
+	std::vector<std::shared_ptr<PacketQueueInterface>> queueList;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

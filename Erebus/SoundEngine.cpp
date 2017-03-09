@@ -220,5 +220,6 @@ void SoundEngine::processFade(sFade &f, const float &dt)
 	const float t = (f.elapsedTime / f.targetTime);
 	const float v = (1 - t) * f.initialVolume + t * f.targetVolume;
 	f.sound->setVolume(v);
+	if (v < 0) f.sound->stop();
 }
 #pragma endregion Private functions for managing data
