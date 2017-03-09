@@ -143,7 +143,8 @@ function UpdateGameplay(dt)
 		if endEventId == 0 then -- other player died
 			gamestate.ChangeState(GAMESTATE_DEATH)
 		elseif endEventId == 1 then -- other player quit to main menu
-			gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			--gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
+			gamestate.ChangeState(GAMESTATE_DISCONNECTED)
 			Erebus.ShutdownNetwork()
 			UnloadGameplay()
 		elseif endEventId == 2 then -- player win!
