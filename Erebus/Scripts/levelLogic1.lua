@@ -3,19 +3,24 @@ TUTORIAL_START_ANIM = false
 TUTORIAL_COUNTER = 0 
 TUTORIAL_OBJECT = {}
 
-function LoadLogic()
-
-end
+loadedStream = false
 
 function UpdateLogic(dt)
-	--Sluice()
 	if TUTORIAL_START_ANIM == true then
 		lowerObject(TUTORIAL_OBJECT,3,dt)
 	end 
+
+	if not loadedStream then
+		LoadLogic1()
+	else
+		StreamDaStream(dt)
+	end
 end
 
-function LoadLogic()
-
+function StreamDaStream(dt)
+	StreamID.blendValue.x = StreamID.blendValue.x + 0.05 * dt
+	StreamID.blendValue.y = StreamID.blendValue.y - 0.15 * dt
+	Gear.SetBlendUniformValue(StreamID.blendingIndex, 1, StreamID.blendValue)
 end
 
 function InteractSpellBook()
@@ -48,19 +53,13 @@ function TutorialBarrier(TutorialObject,dt)
 	pos = Transform.GetPosition(TutorialObject.transformID,pos) 
 	showCombineBarrierImage(dt,pos.x,pos.y,pos.z)
 		if player2.position.x==0 then
-			
 			TUTORIAL_DONE = true
 			TUTORIAL_START_ANIM = true
 			TUTORIAL_OBJECT = TutorialObject
 			hideCombinationImage()
 		end
 
-		--local colID = TutorialObject.collider:GetID()
-		--local collisionIDs = TutorialObject.collider:GetCollisionIDs()
-
-		--for i = 1, #collisionIDs do 
-		--	for curID = 1, 3 do
-			--	if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
+		
 		if player.isCombined == true or player2.isCombined == true then
 			TUTORIAL_DONE = true
 			TUTORIAL_START_ANIM = true
@@ -68,6 +67,27 @@ function TutorialBarrier(TutorialObject,dt)
 			hideCombinationImage()
 		end			
 	end
+end
+
+
+function LoadLogic1()
+	StreamID = {}
+	StreamID.model = Assets.LoadModel('Models/Stream.model')
+	StreamID.transformID = Gear.BindBlendingInstance(StreamID.model)
+	StreamID.blendingIndex = Gear.SetBlendTextures(-1, 1, Assets.LoadTexture("Textures/water_albedo.dds"))
+	StreamID.blendValue = {x = 0, y = 0}
+	Transform.SetPosition(StreamID.transformID, {x=0, y=0, z=0})
+	Transform.SetScaleNonUniform(StreamID.transformID, 1, 1, 1)
+	Transform.SetRotation(StreamID.transformID, {x=-0, y=0, z=-0})
+	loadedStream = true
+end
+
+function UnloadLogic1()
+	Gear.UnbindInstance(StreamID.transformID)
+	Assets.UnloadModel('Models/Stream.model')
+	Assets.UnloadTexture( "Textures/water_albedo.dds")
+	StreamID = nil
+	loadedStream = false
 end
 
 return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
