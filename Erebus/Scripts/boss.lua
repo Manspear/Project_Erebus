@@ -333,7 +333,7 @@ function UpdateBoss(dt)
 			if hm then
 				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+3, z=435.7 })
 			end
-
+			LEVEL_ROUND = 4
 		end
 	end
 
