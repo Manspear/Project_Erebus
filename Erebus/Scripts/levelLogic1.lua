@@ -48,19 +48,13 @@ function TutorialBarrier(TutorialObject,dt)
 	pos = Transform.GetPosition(TutorialObject.transformID,pos) 
 	showCombineBarrierImage(dt,pos.x,pos.y,pos.z)
 		if player2.position.x==0 then
-			
 			TUTORIAL_DONE = true
 			TUTORIAL_START_ANIM = true
 			TUTORIAL_OBJECT = TutorialObject
 			hideCombinationImage()
 		end
 
-		--local colID = TutorialObject.collider:GetID()
-		--local collisionIDs = TutorialObject.collider:GetCollisionIDs()
-
-		--for i = 1, #collisionIDs do 
-		--	for curID = 1, 3 do
-			--	if player.spells[curID]:GetCollider()[1] == collisionIDs[i] then				
+		
 		if player.isCombined == true or player2.isCombined == true then
 			TUTORIAL_DONE = true
 			TUTORIAL_START_ANIM = true
