@@ -90,7 +90,8 @@ std::string LevelParticleSystem::toLuaLoad(std::string name) {
 
 std::string LevelParticleSystem::toLuaUnload(std::string name)
 {
-	return "Particle.Unbind(" + name + ")";
+	std::string fullName = name + ".particle";
+	return "Particle.Unbind(" + fullName + ")\n";
 }
 
 void TW_CALL setAliveCB(const void *value, void *s /*clientData*/)

@@ -162,6 +162,12 @@ void LevelBrushHandler::update(Gear::GearEngine* engine, Camera* camera,const do
 		LevelActor* newActor = LevelActorFactory::getInstance()->createActor(LevelAssetHandler::getInstance()->getSelectedPrefab());
 		if (newActor)
 		{
+
+			LevelActor* pickedActor = LevelActorHandler::getInstance()->getActor(actorID);
+			if (pickedActor)
+			{
+				newActor->setTileID(pickedActor->getTileID());
+			}
 			LevelActorHandler::getInstance()->addActor(newActor);
 			//LevelActorHandler::getInstance()->setSelected(newActor);
 			newActor->setActorType(saveAsType);

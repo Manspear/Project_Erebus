@@ -187,6 +187,11 @@ tinyxml2::XMLElement* LevelSluice::toXml(tinyxml2::XMLDocument* doc) {
 	return element;
 }
 std::string LevelSluice::toLuaLoad(std::string name) {
+	return "";
+}
+
+std::string LevelSluice::createSluice(std::string name)
+{
 	std::stringstream ss;
 	if (this->sluiceType == SluiceType::BRANCH_BLOCKER) {
 		int tileID = this->parent->getTileID();
@@ -200,7 +205,8 @@ std::string LevelSluice::toLuaLoad(std::string name) {
 		ss << this->slussName << " = CreateSluice(" << name
 			<< ", " << closedFullName << "ID" << transID
 			<< ", " << closedFullName << "ID"
-			<< ", " << openFullName << "ID" << transID << ")"
+			<< ", " << openFullName << "ID" << transID
+			<< ", "<<cSluiceID<<")"
 			<< std::endl;
 	}
 

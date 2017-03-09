@@ -67,6 +67,7 @@ public:
 
 	SluiceType getSluiceType();
 	void setSluiceType(SluiceType type);
+	std::string createSluice(std::string name);
 
 	int getSluiceID();
 

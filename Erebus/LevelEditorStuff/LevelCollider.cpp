@@ -548,7 +548,7 @@ std::string LevelCollider::toLuaLoad(std::string name)
 
 	LevelSluice *sluiceRef = parent->getComponent<LevelSluice>();
 	if (sluiceRef != nullptr) {
-		ss << sluiceRef->toLuaLoad(fullName);
+		ss << sluiceRef->createSluice(fullName);
 	}
 	int gi = 0;
 	if (this->childColliders.size() == 0 && this->colliderBehavior == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER)
@@ -984,6 +984,15 @@ std::string LevelCollider::getLuaTriggerString(std::string colName) {
 	using namespace std;
 	stringstream ss;
 	ss << "";
+
+	LevelSluice* tempSluice = this->parent->getComponent<LevelSluice>();
+	int sluiceID = -1;
+	if (tempSluice != nullptr) {
+		if (tempSluice->getSluiceType() == SluiceType::BRANCH_BLOCKER) {
+			sluiceID = tempSluice->getSluiceID();
+			ss << "if not SluiceOpened("<<sluiceID<<") then" << endl;
+		}
+	}
 	if (onEnterEventString != "")
 		ss << colName << ".OnEnter = " << this->onEnterEventString << endl;
 	if (onExitEventString != "")
@@ -991,7 +1000,18 @@ std::string LevelCollider::getLuaTriggerString(std::string colName) {
 	if (onTriggeringEventString != "")
 		ss << colName << ".OnTriggering = " << this->onTriggeringEventString << endl;
 
+	if (tempSluice != nullptr) {
+		if (tempSluice->getSluiceType() == SluiceType::BRANCH_BLOCKER) {
+			ss << "end" << endl;
+		}
+	}
+
+	if (onTriggeringEventString == "") {
+		ss << colName << ".OnTriggering = function() end" << endl;
+	}
+
 	if (ss.str() != "") {
+
 		ss << colName << ".triggered = false" << endl;
 		//ss << "table.insert(triggers, " << colName << ")" << endl;
 	}

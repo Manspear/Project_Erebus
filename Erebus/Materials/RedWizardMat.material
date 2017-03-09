@@ -4,4 +4,4 @@ Specular color: 0.500000 0.500000 0.500000
 Shiny factor: 6.311791
 Diffuse texture: merlinTexture_Red2.dds
 Specular texture: NOTEXTURE
-Normal texture: NOTEXTURE
+Normal texture: merlin_normal

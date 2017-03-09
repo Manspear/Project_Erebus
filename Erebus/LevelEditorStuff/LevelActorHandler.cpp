@@ -271,7 +271,7 @@ void LevelActorHandler::exportToLua()
 		fopen_s( &file, fileDialog.getFilePath().c_str(), "w" );
 		if( file )
 		{
-			fprintf(file, "levels = {}\nheightmaps = {}\n");
+			fprintf(file, "levels = {}\nheightmaps = {}\nsluiceID = 0\n");
 			fprintf(file, getHeightData().c_str());
 			fprintf(file, getSettingData().c_str());
 			//fprintf(file, "function loadLevel(index)\n");
@@ -323,6 +323,7 @@ void LevelActorHandler::exportToLua()
 						if (it->second->getComponent<LevelSettings>() != nullptr) continue; //Continue the loop if's the settings
 						if (it->second->getComponent<LevelCollider>() != nullptr) 
 							if (it->second->getComponent<LevelCollider>()->getBehave() == ColiderBehavior::COLLIDER_BEHAVE_TRIGGER) continue;
+						
 						fprintf(file, "%s", it->second->toLuaLoad(levelName).c_str());
 						
 					}
