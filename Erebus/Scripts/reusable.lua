@@ -9,7 +9,7 @@ TIME_TABLE[4] = 22.0
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
-		self.damage = self.damage + damage
+		self.damage = self.damage + 2 * damage
 	end
 end
 
