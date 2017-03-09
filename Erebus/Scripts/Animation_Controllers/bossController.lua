@@ -36,7 +36,7 @@ function CreateBossController(boss)
 	controller.timeLaserTimer = 0
 
 	--When boss is dead
-	controller.deathTimerThreshhold = DYING_TIME_EFTER_JA
+	controller.deathTimerThreshhold = boss.deathTimer
 	controller.deathTimer = 0
 
 	controller.waitForRewindTimerThreshhold = DYING_TIME_EFTER_JA
