@@ -230,14 +230,12 @@ int TransformHandler::bindForwardInstance( ModelAsset* asset )
 			removables.push_back( models->at(modelIndex) );
 			models->at(modelIndex) = instance;
 			//uses[INSTANCE_FORWARD].at(modelIndex) = 1;
-			gearEngine->uniValues.at( modelIndex ) = { "NULL", {0,0} };
 		}
 		else
 		{
 			modelIndex = models->size();
 			models->push_back( instance );
 			//uses[INSTANCE_FORWARD].push_back(1);
-			gearEngine->uniValues.push_back( { "NULL", {0,0} } );
 		}
 	}
 	else
