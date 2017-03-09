@@ -250,7 +250,9 @@ function Rewind()
 		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
 
 		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
-
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
 		PlayBGM(BACKGROUND_MUSIC_FILE[1])
 
 		boss.alive = true

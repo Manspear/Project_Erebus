@@ -194,7 +194,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:MoveWithPlayer(dt)
-		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
+		Gear.SetBlendUniformValue(self.modelIndex, self.UVpushed, 0)
 		local direction = Transform.GetLookAt(self.caster)
 		local pos = Transform.GetPosition(self.caster)
 		pos.x = pos.x + direction.x * self.length 

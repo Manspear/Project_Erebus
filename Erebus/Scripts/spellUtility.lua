@@ -135,20 +135,14 @@ function CreateChargeEggs(entity)
 	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
 	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
 	Transform.ActiveControl(chargeThing.transformID, false)
-	-- TEMP(Niclas): Figure this out
-	--chargeThing.modelIndex = chargeThing.transformID
 
-	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
 	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
 	Transform.ActiveControl(chargeThing.transformID2, false)
-	--chargeThing.modelIndex2 = chargeThing.transformID2
 
-	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	Transform.ActiveControl(chargeThing.transformID3, false)
-	--chargeThing.modelIndex3 = chargeThing.transformID3
 	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
