@@ -689,8 +689,6 @@ namespace LuaNetwork
 
 		g_networkController->sendBossHealthPacket(HealthPacket(transformID, health));
 
-		std::cout << "C++ : " << transformID << "      " << health << std::endl;
-
 		return 0;
 	}
 
