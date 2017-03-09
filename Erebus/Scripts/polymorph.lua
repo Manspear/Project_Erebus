@@ -4,10 +4,15 @@ POLYMORPH_SPEED = 30
 POLYMORPH_LIFETIME = 2.0
 POLYMORPH_MIN_CHARGETIME = 1
 POLYMORPH_BASE_DURATION = 2
-
+POLYMORPH_CASTSPEED_MULTIPLE = 1.1 + 0.1875
 function CreatePolymorph(entity)
 	--General variables
 	local spell = {}
+	spell.castTimeAttack = 0.5 * POLYMORPH_CASTSPEED_MULTIPLE
+	spell.castAnimationPlayTime = 2 * POLYMORPH_CASTSPEED_MULTIPLE --the true cast time of the animation
+	spell.castTimeFirstAttack = 0.1875 * POLYMORPH_CASTSPEED_MULTIPLE
+
+
 	spell.element = NATURE
 	spell.isActiveSpell = false	
 	spell.cooldown = 0		spell.maxcooldown = POLYMORPH_COOLDOWN
@@ -21,9 +26,8 @@ function CreatePolymorph(entity)
 	spell.morphTime = 3
 	spell.effects = {}
 	
-	spell.isRay = false
 	--For animation timing 
-	spell.hasSpamAttack = false
+	spell.hasSpamAttack = true
 
 	table.insert(spell.effects, POLYMORPH_EFFECT_INDEX)
 	spell.particles = createSparklyParticles()
@@ -35,16 +39,17 @@ function CreatePolymorph(entity)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)		
 
-	spell.Charge = BaseCharge
 	function spell:Update(dt)
 		self.cooldown = self.cooldown - dt
 		if self.alive then		
 			self:Flying(dt)
+		else
+			self.hasSpamAttack = self.cooldown < 0 and true or false
 		end
 	end
 
 	function spell:Cast()
-		if self.cooldown < 0 and not self.alive then		
+		if self.cooldown < 0 and not self.alive then	
 			self.chargedTime = POLYMORPH_BASE_DURATION
 			self:GeneralCast()			
 		end
@@ -66,6 +71,10 @@ function CreatePolymorph(entity)
 
 	function spell:GeneralCast()
 		self.alive = true
+		self.hasSpamAttack = false
+		player.spamCasting = false
+		player.attackDelayTimerStarted = false
+		player.firstAttack = true
 		self.position = Transform.GetPosition(self.caster)
 		self.direction = Transform.GetLookAt(self.caster)
 		Transform.ActiveControl(self.transformID, true)
@@ -132,7 +141,6 @@ function CreatePolymorph(entity)
 	spell.Charge = BaseCharge
 	spell.Change = BaseChange
 	spell.GetEffect = BaseGetEffect
-
 	return spell
 end
 

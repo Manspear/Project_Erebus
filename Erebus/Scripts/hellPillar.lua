@@ -28,7 +28,6 @@ function CreateHellPillar(entity)
 	spell.maxChargeTime = 3
 	spell.damage = 0
 	
-	spell.isRay = false
 	--For animation timing 
 	spell.hasSpamAttack = false
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
