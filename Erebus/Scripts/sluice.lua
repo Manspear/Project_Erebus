@@ -54,7 +54,7 @@ function SluiceUpdate(dt, sluice)
 				SphereCollider.SetActive(sluice.colliderIDopen, false)
 				table.insert(openSluices, sluice.sluiceID)
 			end
-		else
+		elseif playersInside.p1 then
 			showWaitingForPlayer2(dt)
 		end
 	end
