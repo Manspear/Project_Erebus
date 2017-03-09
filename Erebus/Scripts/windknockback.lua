@@ -54,6 +54,7 @@ function CreateWindknockback(entity)
 			self.chargedTime = WINDKNOCKBACK_POWER
 			self.radius = 2.8
 			self:GeneralCast()
+			self.damage = 3
 		end
 	end
 	
@@ -69,6 +70,7 @@ function CreateWindknockback(entity)
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
 			self.radius = self.chargedTime
 			self:GeneralCast()
+			self.damage = 5
 		end
 	end
 
@@ -76,9 +78,9 @@ function CreateWindknockback(entity)
 		self.alive = true		self.stage1time = 0.5
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + direction.x * 3
-		pos.y = pos.y + direction.y * 3
-		pos.z = pos.z + direction.z * 3
+		pos.x = pos.x + direction.x * 4
+		pos.y = pos.y + direction.y * 4
+		pos.z = pos.z + direction.z * 4
 		Transform.SetPosition(self.transformID, pos)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.radius)
