@@ -143,7 +143,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getTransformQueue()->pop(packet);
+		result = this->packetFilter->getQueue(TRANSFORM_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -157,7 +157,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getAnimationQueue()->pop(packet);
+		result = this->packetFilter->getQueue(ANIMATION_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -171,7 +171,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getAIStateQueue()->pop(packet);
+		result = this->packetFilter->getQueue(AI_STATE_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -185,7 +185,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getSpellQueue()->pop(packet);
+		result = this->packetFilter->getQueue(SPELL_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -199,7 +199,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getAITransformQueue()->pop(packet);
+		result = this->packetFilter->getQueue(AI_TRANSFORM_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -213,7 +213,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getChargingQueue()->pop(packet);
+		result = this->packetFilter->getQueue(CHARGING_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -227,7 +227,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getQuickBlendQueue()->pop(packet);
+		result = this->packetFilter->getQueue(QUICKBLEND_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -241,7 +241,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getDamageQueue()->pop(packet);
+		result = this->packetFilter->getQueue(DAMAGE_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -255,7 +255,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getChangeSpellsQueue()->pop(packet);
+		result = this->packetFilter->getQueue(CHANGESPELLS_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -269,7 +269,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getPlayerEventQueue()->pop(packet);
+		result = this->packetFilter->getQueue(PLAYER_EVENT_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -283,7 +283,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getAIHealthQueue()->pop(packet);
+		result = this->packetFilter->getQueue(AI_HEALTH_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -297,7 +297,7 @@ namespace Nurn
 	{
 		bool result = false;
 
-		result = this->packetFilter->getDashQueue()->pop(packet);
+		result = this->packetFilter->getQueue(DASH_PACKET)->pop(&packet);
 
 		return result;
 	}
@@ -309,7 +309,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchEndEventPacket(EventPacket& packet)
 	{
-		return this->packetFilter->getEndEventQueue()->pop(packet);
+		return this->packetFilter->getQueue(END_EVENT_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushPlayerHealthPacket(const HealthPacket& packet)
@@ -319,7 +319,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchPlayerHealthPacket(HealthPacket& packet)
 	{
-		return this->packetFilter->getPlayerHealthQueue()->pop(packet);
+		return this->packetFilter->getQueue(PLAYER_HEALTH_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
@@ -329,7 +329,7 @@ namespace Nurn
 	
 	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
 	{
-		return this->packetFilter->getRessurectionQueue()->pop(packet);
+		return this->packetFilter->getQueue(RESSURECTION_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushAIDamageTextPacket(const DamagePacket& packet)
@@ -339,7 +339,7 @@ namespace Nurn
 	
 	bool NurnEngine::fetchAIDamageTextPacket(DamagePacket& packet)
 	{
-		return this->packetFilter->getAIDamageTextQueue()->pop(packet);
+		return this->packetFilter->getQueue(AI_DAMAGE_TEXT_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushBossDamageTextPacket(const DamagePacket& packet)
@@ -349,7 +349,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchBossDamageTextPacket(DamagePacket& packet)
 	{
-		return this->packetFilter->getBossDamageTextQueue()->pop(packet);
+		return this->packetFilter->getQueue(BOSS_DAMAGE_TEXT_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushBossHealthPacket(const HealthPacket& packet)
@@ -359,7 +359,7 @@ namespace Nurn
 	
 	bool NurnEngine::fetchBossHealthPacket(HealthPacket& packet)
 	{
-		return this->packetFilter->getBossHealthQueue()->pop(packet);
+		return this->packetFilter->getQueue(BOSS_HEALTH_PACKET)->pop(&packet);
 	}
 
 	
