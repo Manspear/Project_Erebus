@@ -602,7 +602,6 @@ function Controls(dt)
 
 			player.attackQueueTimer = player.attackQueueTimer + dt
 			if player.attackQueueTimer > player.attackDelayTimerThreshHold then 
-				print("attackQueueTimer: ", player.attackQueueTimer)
 				player.attackQueue = false
 				player.spamAttackActive = false
 
