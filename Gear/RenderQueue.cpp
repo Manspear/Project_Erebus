@@ -139,41 +139,26 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 	int numInstance;
 	size_t size = sizeof(Importer::sVertex);
 	bool atLeastOne = false;
+	if (uniValues->size() > 0)
+		atLeastOne = true;
 	glm::vec2 resetValue = { 0.0, 0.0 };
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (size_t i = 0; i < dynamicModels->size(); i++)
 	{
-
-		/*numInstance = 0;
-		for (int j = 0; j < dynamicModels->at(i).worldIndices.size(); j++)
-		{
-			indices[j] = dynamicModels->at(i).worldIndices[j];
-			if (allTransforms[indices[j]].active)
-			{
-				tempMatrices[numInstance++] = worldMatrices[indices[j]];
-				//atLeastOne = true;
-			}
-		}
-		if (numInstance != 0)*/
-
-		//numInstance = dynamicModels->at(i).worldMatrices.size();
 		numInstance = dynamicModels->at(i).getActiveTransforms();
 		if( numInstance > 0 )
 		{
 			modelAsset = dynamicModels->at(i).getAsset();
 			meshes = modelAsset->getHeader()->numMeshes;
 
-			//allShaders[FORWARD]->setUniform(*tempMatrices, "worldMatrices", numInstance);
-			if (uniValues->at(i).location != "NULL") {
-				allShaders[FORWARD]->setUniform(uniValues->at(i).values, uniValues->at(i).location);
+			if (atLeastOne && uniValues->at(0).transformIndex == i) {
+				allShaders[FORWARD]->setUniform(uniValues->at(0).values, "aValue");
 			}
-			//world matrix buffer
+
 			{
 				glBindBuffer(GL_ARRAY_BUFFER, instanceTest);
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, &tempMatrices[0][0][0], GL_STREAM_DRAW);
-				//glBufferData(GL_ARRAY_BUFFER, sizeof(glm::mat4) * numInstance, glm::value_ptr(dynamicModels->at(i).worldMatrices[0]), GL_STREAM_DRAW);
 				dynamicModels->at(i).bufferData();
 
 				glEnableVertexAttribArray(3);
@@ -208,8 +193,8 @@ void RenderQueue::forwardPass(std::vector<ModelInstance>* dynamicModels, std::ve
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 			}
 			
-			if (uniValues->at(i).location != "NULL")
-				allShaders[FORWARD]->setUniform(resetValue, uniValues->at(i).location);
+			if (atLeastOne && uniValues->at(0).transformIndex == i)
+				allShaders[FORWARD]->setUniform(resetValue, "aValue");
 		}
 	}
 	glDepthMask(GL_TRUE);
@@ -543,7 +528,6 @@ void RenderQueue::pickingPass(std::vector<ModelInstance>* dynamicModels) {
 	allShaders[GEOMETRY_PICKING]->unUse();
 }
 
-float tempHej = 0.1;
 
 void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlends, std::vector<ModelInstance>* blendingModels)
 {
@@ -565,6 +549,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 	texturesLoc[1] = "tex2";
 	texturesLoc[2] = "tex3";
 
+	std::string nrInShader = "nrOfTex";
 	int numTextures = 0;
 	std::vector<Importer::TextureAsset*> tA;
 	int modelIndex = 0;
@@ -589,6 +574,8 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 				allShaders[TEXTURE_BLENDING]->setUniform(k, texturesLoc[k]);
 				tA.at(k)->bind(GL_TEXTURE0 + k);
 			}
+
+			allShaders[TEXTURE_BLENDING]->setUniform(numTextures, nrInShader);
 
 			for (int l = 0; l < modelAsset->getHeader()->numMeshes; l++)
 			{

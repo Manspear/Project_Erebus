@@ -51,11 +51,11 @@ namespace LuaGear
 			{ "BindForwardInstance", bindForwardInstance },
 			{ "BindBlendingInstance", bindBlendingInstance },
 			{ "UnbindInstance", unbindInstance },
+			{ "UnbindForward",  unbindForward },
 			{ "Print", print },
 			{ "PrintDamage", printDamageNumer},
 			{ "GetTextDimensions", getTextDimensions },
 			{ "SetUniformValue", setUniformValue },
-			{ "SetUniformLocation", setUniformLocation },
 			{ "SetBlendUniformValue", setBlendUniformValue },
 			{ "SetBlendTextures", setBlendTextures },
 			{ "QueueModels", setQueueModels },
@@ -209,22 +209,6 @@ namespace LuaGear
 		assert(lua_gettop(lua) >= 1);
 		*g_fullscreen = lua_toboolean(lua, 1) != 0;
 		return 0;
-	}
-
-	int bindForwardInstance(lua_State * lua)
-	{
-		assert( lua_gettop( lua ) == 1 );
-
-		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
-
-		assert( asset );
-
-		int result = g_transformHandler->bindForwardInstance( asset );
-		lua_pushinteger(lua, result );
-		
-		lua_pushinteger(lua, g_gearEngine->textureBlend.size() - 1);
-
-		return 2;
 	}
 
 	int unbindInstance( lua_State* lua )
@@ -535,35 +519,42 @@ namespace LuaGear
 		return 0;
 	}
 
-	int setUniformValue(lua_State * lua)
+	int bindForwardInstance(lua_State * lua)
 	{
-		assert(lua_gettop(lua) == 3);
-		//g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).values = { (float)lua_tonumber(lua, 2), (float)lua_tonumber(lua, 3) };
+		assert(lua_gettop(lua) == 1 || lua_gettop(lua) == 2);
 
-		int index = (int)lua_tointeger( lua, 1 );
+		ModelAsset* asset = (ModelAsset*)lua_touserdata(lua, 1);
 
-		TransformHandle handle = g_transformHandler->getHandle( index );
+		assert(asset);
 
-		float a = (float)lua_tonumber( lua, 2 );
-		float b = (float)lua_tonumber( lua, 3 );
+		int result = g_transformHandler->bindForwardInstance(asset);
+		if (lua_gettop(lua) == 2)
+		{
+			UniformValues ufValue;
+			ufValue.transformIndex = g_gearEngine->forwardModels->size() - 1;
+			ufValue.values = { 0, 0 };
+			g_gearEngine->uniValues.push_back(ufValue);
+		}
+		lua_pushinteger(lua, result);
+		lua_pushinteger(lua, g_gearEngine->uniValues.size() - 1);
+		return 2;
+	}
 
-		g_gearEngine->uniValues.at(handle.modelIndex).values = { a, b };
-
+	int unbindForward(lua_State* lua)
+	{
+		g_gearEngine->uniValues.clear();
 		return 0;
 	}
 
-	int setUniformLocation(lua_State* lua)
+	int setUniformValue(lua_State * lua)
 	{
-		assert(lua_gettop(lua) == 2);
-		//g_gearEngine->uniValues.at((int)lua_tointeger(lua, 1)).location = (std::string)lua_tostring(lua, 2);
+		assert(lua_gettop(lua) == 3);
 
 		int index = (int)lua_tointeger( lua, 1 );
-
-		TransformHandle handle = g_transformHandler->getHandle( index );
-
-		std::string location = lua_tostring( lua, 2 );
-
-		g_gearEngine->uniValues.at( handle.modelIndex ).location = location;
+		float a = (float)lua_tonumber( lua, 2 );
+		float b = (float)lua_tonumber( lua, 3 );
+		if (g_gearEngine->uniValues.size() > 0)
+			g_gearEngine->uniValues.at(index).values = { a, b };
 
 		return 0;
 	}
@@ -571,7 +562,7 @@ namespace LuaGear
 	int setBlendUniformValue(lua_State * lua)
 	{
 
-		assert( lua_gettop( lua ) >= 4 );
+		assert( lua_gettop( lua ) >= 3 );
 
 		int index = (int)lua_tointeger(lua, 1);
 		int size = (int)lua_tointeger(lua, 2);

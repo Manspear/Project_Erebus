@@ -1,4 +1,4 @@
-function LoadLogic()
+function LoadLogic8()
 	
 end
 firstLoad = true
@@ -48,8 +48,8 @@ function StartingBoss()
 	end
 end
 
-function UnloadLogic()
+function UnloadLogic8()
 	firstLoad = nil
 end
 
-return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
+return { Load = LoadLogic8, Unload = UnloadLogic8, Update = UpdateLogic }

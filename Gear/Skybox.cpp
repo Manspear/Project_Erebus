@@ -228,6 +228,7 @@ GEAR_API void Gear::Skybox::setSunAngle(float angle, bool force)
 	}
 	else {
 		sun.direction = glm::rotate(glm::vec3(0, 0, 1), glm::radians(angle), glm::vec3(1, 0, 0));
+		currentAngle = angle;
 	}
 }
 
