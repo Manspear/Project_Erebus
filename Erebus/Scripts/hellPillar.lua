@@ -1,7 +1,7 @@
 --HELLPILLAR_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconHellPiller.dds");
 --BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 --BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
-MAX_DAMAGE_PILLAR = 7
+MAX_DAMAGE_PILLAR = 20
 MIN_CHARGE_TIME_PILLAR = 1
 COOLDOWN_BIG_PILLAR = 2.2
 HELLPILLAR_CASTSPEED_MULTIPLE = 2.5 + 0.1875

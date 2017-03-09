@@ -155,10 +155,8 @@ void CascadedShadowMap::calcOrthoProjs(Camera* mainCam)
 		glm::vec3 lightPos = center + light->direction;
 
 		glm::vec3 lightUp;
-		if (light->direction == glm::vec3(0.f,-1.f,0.f))
-			lightUp = glm::vec3(0.f, 0.f, 1.f);
-		else
-			lightUp = glm::vec3(0.f, 1.f, 0.f);
+		glm::vec3 lightRight = glm::normalize(glm::cross(light->direction, glm::vec3(0.f, 1.f, 0.f)));
+		lightUp = glm::normalize(glm::cross(lightRight, light->direction));
 
 		lightM = glm::lookAt(lightCenter, lightPos, lightUp);
 

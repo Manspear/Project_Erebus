@@ -107,7 +107,7 @@ function LoadBoss()
 		
 			--Chronoball-settings
 			CHRONOBALLSPEED = 35 * 2
-			CHRONOBALLLIFETIME = 1.6 / 2.25
+			CHRONOBALLLIFETIME = 1.3 / 2.25
 			CHRONOBALL_SCALE = 1.5
 			CHRONOBALL_HITBOXRADIUS = 4.5
 		end
@@ -118,7 +118,7 @@ function LoadBoss()
 
 			--Chronoball-settings
 			CHRONOBALLSPEED = 35 * 4
-			CHRONOBALLLIFETIME = 1.6 / 4.5
+			CHRONOBALLLIFETIME = 1.3 / 4.5
 			CHRONOBALL_SCALE = 2
 			CHRONOBALL_HITBOXRADIUS = 6
 		end

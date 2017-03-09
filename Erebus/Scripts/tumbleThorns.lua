@@ -1,7 +1,7 @@
 TUMBLETHORN_SPEED = 20
-TUMBLETHORN_RADIUS = 0.5
-TUMBLETHORNS_COOLDOWN = 4
-TUMBLETHORNS_ROLLBACKTIME = 0.4
+TUMBLETHORN_RADIUS = 1
+TUMBLETHORNS_COOLDOWN = 1
+TUMBLETHORNS_ROLLBACKTIME = 0.2
 TUMBLETHORNS_CASTSPEED_MULTIPLE = 1
 function CreateTumblethorns(entity)
 	local spell = {}
@@ -9,7 +9,7 @@ function CreateTumblethorns(entity)
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.damage = 5
+	spell.damage = 12
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 1
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
@@ -20,7 +20,7 @@ function CreateTumblethorns(entity)
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castTimeAttack = 0.65 * TUMBLETHORNS_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
 
@@ -30,7 +30,7 @@ function CreateTumblethorns(entity)
 	Transform.ActiveControl(spell.transformID, false)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
-
+	local tumbltornDirection
 	spell.effects = {} 
 	table.insert(spell.effects, LIFE_STEAL_EFFECT_INDEX)
 	spell.particles = createTumbleParticles()
@@ -77,9 +77,18 @@ function CreateTumblethorns(entity)
 		elseif self.canRollBack and self.rollin then
 			self.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 			self.canRollBack = false
-			local newLookAt = vec3sub(self.owner.position, self.position)
-			Transform.RotateToVector(self.transformID, newLookAt)
-			self.direction = Transform.GetLookAt(self.transformID)
+			--These three make the old version
+			--local newLookAt = vec3sub(self.owner.position, self.position)
+			--Transform.RotateToVector(self.transformID, newLookAt)
+			--self.direction = Transform.GetLookAt(self.transformID)
+			
+			--not sure if should be used
+			--self.direction = Transform.GetLookAt(self.direct) 
+
+			--These two make the new version
+			self.direction.x = -self.direction.x
+			self.direction.z = -self.direction.z
+			
 			self.particleDirection.x,	self.particleDirection.z = self.direction.x * - 1, self.direction.z * - 1
 			self.particles:cast(self.particleDirection.x, self.direction.y, self.particleDirection.z)
 			self.enemiesHit = {}
@@ -111,8 +120,8 @@ function CreateTumblethorns(entity)
 		Transform.ActiveControl(self.transformID, false)
 		Transform.SetScale(self.transformID, 1)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
-		TUMBLETHORN_RADIUS = 0.5
-		self.damage = 5
+		TUMBLETHORN_RADIUS = 1
+		self.damage = 12
 		self.particles:die()
 		self.canRollBack = true
 		self.rollin = false

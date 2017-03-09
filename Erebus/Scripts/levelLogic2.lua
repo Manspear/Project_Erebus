@@ -6,8 +6,8 @@ function UpdateLogic()
 	if loadedStream then UnloadLogic1() end
 end
 
-function UnloadLogic()
+function UnloadLogic2()
 
 end
 
-return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
+return { Load = LoadLogic2, Unload = UnloadLogic2, Update = UpdateLogic }
