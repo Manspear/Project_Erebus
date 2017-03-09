@@ -565,6 +565,7 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 	texturesLoc[1] = "tex2";
 	texturesLoc[2] = "tex3";
 
+	std::string nrInShader = "nrOfTex";
 	int numTextures = 0;
 	std::vector<Importer::TextureAsset*> tA;
 	int modelIndex = 0;
@@ -589,6 +590,8 @@ void RenderQueue::textureBlendingPass(std::vector<TextureBlendings>* textureBlen
 				allShaders[TEXTURE_BLENDING]->setUniform(k, texturesLoc[k]);
 				tA.at(k)->bind(GL_TEXTURE0 + k);
 			}
+
+			allShaders[TEXTURE_BLENDING]->setUniform(numTextures, nrInShader);
 
 			for (int l = 0; l < modelAsset->getHeader()->numMeshes; l++)
 			{
