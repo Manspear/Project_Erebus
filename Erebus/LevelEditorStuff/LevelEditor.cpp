@@ -144,7 +144,7 @@ void LevelEditor::start() {
 	engine->queueForwardModels(&forwardInstances);
 	engine->pickActorFromWorld(LevelModelHandler::getInstance()->getModels(), LevelModelHandler::getInstance()->getModelInstanceAgentIDs(), camera, inputs->getMousePos(), actorID, hitPoint, hitNormal);
 
-	LevelActorFactory::getInstance()->loadWorld("Level1Merged8Mars");
+	LevelActorFactory::getInstance()->loadWorld("Level1Jesper2.0");
 	//LevelActorFactory::getInstance()->loadWorld("testLevelXML");
 	//LevelActorFactory::getInstance()->loadWorld("testWorld101");
 	
