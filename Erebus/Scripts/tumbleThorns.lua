@@ -1,16 +1,17 @@
 TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 1
 TUMBLETHORNS_COOLDOWN = 1
-TUMBLETHORNS_ROLLBACKTIME = 0.2
-TUMBLETHORNS_CASTSPEED_MULTIPLE = 1
+TUMBLETHORNS_ROLLBACKTIME = 0.5
+TUMBLETHORNS_CASTSPEED_MULTIPLE = 1.7
 TUMBLETHORNS_LIFETIME = 5
+TUMBLETHORNS_DAMAGE = 8
 function CreateTumblethorns(entity)
 	local spell = {}
 	spell.element = NATURE
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.damage = 12
+	spell.damage = TUMBLETHORNS_DAMAGE
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 1
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
@@ -21,7 +22,7 @@ function CreateTumblethorns(entity)
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
-	spell.castTimeAttack = 0.65 * TUMBLETHORNS_CASTSPEED_MULTIPLE
+	spell.castTimeAttack = 0.5 * TUMBLETHORNS_CASTSPEED_MULTIPLE
 	spell.castAnimationPlayTime = 2 * TUMBLETHORNS_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * TUMBLETHORNS_CASTSPEED_MULTIPLE
 	spell.lifeTime = TUMBLETHORNS_LIFETIME
@@ -117,6 +118,8 @@ function CreateTumblethorns(entity)
 			TUMBLETHORN_RADIUS = 1
 			Transform.SetScale(self.transformID, 2)
 			SphereCollider.SetRadius(self.sphereCollider, 2)
+			self.damage = TUMBLETHORNS_DAMAGE
+			SphereCollider.SetActive(self.sphereCollider, true)
 			self.damage = 10
 			self:Cast()
 		end
@@ -129,7 +132,7 @@ function CreateTumblethorns(entity)
 		Transform.SetScale(self.transformID, 1)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		TUMBLETHORN_RADIUS = 1
-		self.damage = 12
+		self.damage = TUMBLETHORNS_DAMAGE
 		self.particles:die()
 		self.canRollBack = true
 		self.rollin = false
