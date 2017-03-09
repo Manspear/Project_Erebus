@@ -1,5 +1,5 @@
 local scriptsMenu = {}
-local menuBGM = "Music/menuBurana.ogg"
+local menuBGM = "menuBurana.ogg"
 local bgmID = -1
 local scriptFilesMenu =
 {
@@ -31,13 +31,11 @@ function EnterMainMenu()
 	Gear.QueueModels(false)
 	CollisionHandler.Disable()
 	Gear.CursorVisible(true)
-	bgmID = Sound.Play(menuBGM, 48)
-	Sound.SetVolume(bgmID, 0.05)
-	Sound.Resume(bgmID)
+	PlayBGM(menuBGM)
 end
 
 function ExitMainMenu()
-	Sound.Fade(bgmID, 1.5)
+	
 end
 
 return { Load = LoadMainMenu, Unload = UnloadMainMenu, Update = UpdateMainMenu, Enter = EnterMainMenu, Exit = ExitMainMenu }
