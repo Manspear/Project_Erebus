@@ -3,7 +3,7 @@ FIRESPAM_COOLDOWN = 0.2
 FIREBALL_COOLDOWN = 6
 FIRESPAM_SPEED = 80
 FIREBALL_SPEED = 40
-FIREBALL_LIFETIME = 4
+FIREBALL_LIFETIME = 0.8
 FIREBALL_EXPLODETIME = 0.5
 MIN_CHARGETIME_FIREBALL = 0.5
 FIRESPAM_DAMAGE = 10
@@ -21,7 +21,7 @@ function CreateFireball(entity)
 		tiny.type = CreateProjectileType(model)
 		tiny.damage = FIRESPAM_DAMAGE
 		tiny.alive = false
-		tiny.lifeTime = 1
+		tiny.lifeTime = FIREBALL_LIFETIME
 		tiny.hits = {}
 		tiny.particles = CreateFireEffectParticles()
 		return tiny
@@ -114,7 +114,7 @@ function CreateFireball(entity)
 			--self.smallFB[self.currentFB].type:Shoot(self.owner.position, Transform.GetLookAt(self.caster), FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].type:Shoot(self.owner.position, self.owner.spellDirection, FIRESPAM_SPEED)
 			self.smallFB[self.currentFB].particles:Cast()
-			self.smallFB[self.currentFB].lifeTime = 2.1	
+			self.smallFB[self.currentFB].lifeTime = FIREBALL_LIFETIME
 			self.smallFB[self.currentFB].alive = true
 			Sound.Play(FIREBALL_CAST_SFX, 3, self.smallFB.position)
 			if self.currentFB < 4 then		
