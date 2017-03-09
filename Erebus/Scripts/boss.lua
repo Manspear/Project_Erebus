@@ -31,6 +31,11 @@ table.insert(TIMETABLE, 17)
 table.insert(TIMETABLE, 20)
 
 function LoadBoss()
+	boss.hmheight = 0
+	local hm = GetHeightmap({x=321.2,y=0,z=435.7})
+	if hm then
+		boss.hmheight =  hm.asset:GetHeight(321.2, 435.7)+3.6
+	end
 	boss.spells[1] = CreateTimeOrbWave()
 	boss.spellinfo[1] = {cd = 0, interval = {0,10}}
 	boss.spells[2] = CreateChronoBall(boss)
@@ -223,7 +228,8 @@ function UpdateBoss(dt)
 		if boss.combatStarted then 
 			--if boss just entered combat, do the jump-thing
 			boss.position = Transform.GetPosition(boss.transformID)
-			
+			boss.position.x = 321.2
+			boss.position.z = 435.7
 			if bossAggroWindupDone == false then
 				boss.aggroAnimationTimer = boss.aggroAnimationTimer + dt
 				if boss.aggroAnimationTimer >= BOSS_AGGRO_WINDUP then 
@@ -249,6 +255,7 @@ function UpdateBoss(dt)
 				if boss.aggroAnimationTimer >= BOSS_AGGRO_FLYDOWN then 
 					bossAggroFlyDownDone = true
 					boss.aggroAnimationTimer = 0
+					boss.position.y = boss.hmheight
 				end
 			end
 			
