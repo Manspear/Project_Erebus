@@ -35,7 +35,6 @@ void Gear::Skybox::init()
 	timePerHour = dayCycleLength / hoursPerDay;
 	currentPhase = DayPhase::Dawn;
 	currentCycleTime = 0;
-	UpdateWorldTime();
 
 
 	fullLight = glm::vec3(253.0f / 255.0f, 248.0f / 255.0f, 223.0f / 255.0f);
@@ -46,20 +45,6 @@ void Gear::Skybox::init()
 
 	sun.color = glm::vec3(0.75, 0.75, 0.94);
 	sun.direction = glm::vec3(0, 0, 1);
-
-	currentSun.color = glm::vec3(0.75, 0.75, 0.94);
-	currentSun.direction = glm::vec3(0, 0, 1);
-	//Set the values to the correct one as the beginning
-	float relativeTime = currentCycleTime - dawnTime;
-	currentSun.color = glm::mix(fullDark, fullLight, relativeTime / halfquarterDay);
-
-	relativeTime = currentCycleTime - dawnTime;
-	fogColor = glm::mix(dawnDuskFog, dayFog, relativeTime / (halfquarterDay));
-
-	relativeTime = currentCycleTime - dawnTime;
-	skyboxBlendFactor = 1 - (relativeTime / halfquarterDay);
-
-	setTime(8, true);
 
 	std::vector<const GLchar*> faces;
 	faces.push_back("skybox/right.dds");
@@ -80,7 +65,7 @@ void Gear::Skybox::init()
 	faces.push_back("skybox/nightBack.dds");
 	nightTextureID = this->loadCubemap(faces);
 
-	shadowMap.Init(CASCADE_TEXTURE_SIZE, CASCADE_TEXTURE_SIZE, &currentSun);
+	shadowMap.Init(CASCADE_TEXTURE_SIZE, CASCADE_TEXTURE_SIZE, &sun);
 }
 
 GLuint Gear::Skybox::loadTexture(GLchar * path, GLboolean alpha)
@@ -164,6 +149,11 @@ void Gear::Skybox::update(Camera* camera)
 
 GEAR_API void Gear::Skybox::update(float dt)
 {
+	UpdateBlendFactor(dt);
+	UpdateFog(dt);
+	UpdateAmbient(dt);
+	UpdateLight(dt);
+	UpdateLightAngle(dt);
 
 	float deltaTime = dt;
 	rotation += ROTATE_SPEED * deltaTime;
@@ -176,6 +166,7 @@ GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color, bool force)
 		fogLerp = 0.f;
 		fogHasChanged = true;
 		this->fogColorTarget = color;
+		this->fogColorStart = this->fogColor;
 	}
 	else {
 		this->fogColor = color;
@@ -184,6 +175,17 @@ GEAR_API void Gear::Skybox::setFogColor(glm::vec3 color, bool force)
 
 GEAR_API void Gear::Skybox::setAmbient(glm::vec3 color, bool force)
 {
+	if (!force)
+	{
+		ambientLerp = 0.f;
+		ambientHasChanged = true;
+		this->ambientTarget = color;
+		this->ambientStart = this->fogColor;
+	}
+	else {
+		this->ambient = color;
+	}
+
 	this->ambientTarget = color;
 }
 
@@ -195,6 +197,7 @@ GEAR_API void Gear::Skybox::setBlend(float blend, bool force)
 		blendLerp = 0.f;
 		blendHasChanged = true;
 		this->blendTarget = blend;
+		this->blendStart = this->skyboxBlendFactor;
 	}
 	else {
 		this->skyboxBlendFactor = blend;
@@ -204,12 +207,30 @@ GEAR_API void Gear::Skybox::setBlend(float blend, bool force)
 
 GEAR_API void Gear::Skybox::setColor(glm::vec3 color, bool force)
 {
-	this->sunColorTarget = color;
+	if (!force)
+	{
+		SunColorLerp = 0.f;
+		sunColorHasChanged = true;
+		this->sunColorTarget = color;
+		this->sunColorStart = sun.color;
+	}
+	else {
+		sun.color = color;
+	}
 }
 
 GEAR_API void Gear::Skybox::setSunAngle(float angle, bool force)
 {
-	this->sunAngleTarget = angle;
+	if (!force)
+	{
+		sunAngleLerp = 0.f;
+		sunAngleHasChanged = true;
+		sunAngleTarget = angle;
+		sunAngleStart = currentAngle;
+	}
+	else {
+		sun.direction = glm::rotate(glm::vec3(0, 0, 1), glm::radians(angle), glm::vec3(1, 0, 0));
+	}
 }
 
 GEAR_API void Gear::Skybox::unbindShadow()
@@ -277,21 +298,69 @@ GEAR_API Lights::DirLight& Gear::Skybox::getDirLight()
 
 void Gear::Skybox::UpdateLight(float dt)
 {
+	if (sunColorHasChanged && SunColorLerp < 1.0f)
+	{
+		SunColorLerp += dt / 4.0f;
+		sun.color = glm::lerp(sunColorStart, sunColorTarget, SunColorLerp);
+	}
+	else if (sunColorHasChanged)
+	{
+		sunColorHasChanged = false;
+	}
+}
 
-	float degrees = (currentCycleTime / dayCycleLength) * 360;
-	sun.direction = glm::rotate(sun.direction, glm::radians(degrees), glm::vec3(1,0,0));
+void Gear::Skybox::UpdateLightAngle(float dt)
+{
+	if (sunAngleHasChanged && sunAngleLerp < 1.0f)
+	{
+		sunAngleLerp += dt / 4.0f;
+
+		currentAngle = sunAngleStart + (sunAngleTarget - sunAngleStart) * sunAngleLerp;
+		sun.direction = glm::rotate(glm::vec3(0,0,1), glm::radians(currentAngle), glm::vec3(1, 0, 0));
+	}
+	else if (sunAngleHasChanged)
+	{
+		sunAngleHasChanged = false;
+	}
 }
 
 void Gear::Skybox::UpdateFog(float dt)
 {
-	fogLerp += dt;
-	fogColor = glm::lerp(fogColorStart, fogColorTarget, fogLerp);
+	if (fogHasChanged && fogLerp < 1.0f)
+	{
+		fogLerp += dt / 4.0f;
+		fogColor = glm::lerp(fogColorStart, fogColorTarget, fogLerp);
+	}
+	else if(fogHasChanged)
+	{
+		fogHasChanged = false;
+	}
 }
 
 void Gear::Skybox::UpdateBlendFactor(float dt)
 {
-	blendLerp += dt;
-	skyboxBlendFactor = blendStart + (blendTarget - blendStart) * blendLerp;
+	if (blendHasChanged && blendLerp < 1.0f)
+	{
+		blendLerp += dt / 4.0f;
+		skyboxBlendFactor = blendStart + (blendTarget - blendStart) * blendLerp;
+	}
+	else if(blendHasChanged)
+	{
+		blendHasChanged = false;
+	}
+}
+
+void Gear::Skybox::UpdateAmbient(float dt)
+{
+	if (ambientHasChanged && ambientLerp < 1.0f)
+	{
+		ambientLerp += dt / 4.0f;
+		ambient = glm::lerp(ambientStart, ambientTarget, ambientLerp);
+	}
+	else if (ambientHasChanged)
+	{
+		ambientHasChanged = false;
+	}
 }
 
 void Gear::Skybox::LoadTextures()

@@ -93,8 +93,10 @@ namespace Gear
 		float lightIntensity;
 
 		void UpdateLight(float dt);
+		void UpdateLightAngle(float dt);
 		void UpdateFog(float dt);
 		void UpdateBlendFactor(float dt);
+		void UpdateAmbient(float dt);
 		void LoadTextures();
 
 		//The rotation on the skybox
@@ -132,6 +134,7 @@ namespace Gear
 		float sunAngleLerp = 0.0f;
 		float sunAngleTarget;
 		float sunAngleStart;
+		float currentAngle = 0.0f;
 
 		const float CASCADE_TEXTURE_SIZE = 720.f;
 		CascadedShadowMap shadowMap;
