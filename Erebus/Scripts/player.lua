@@ -7,7 +7,7 @@ KNOCKBACK_EFFECT_INDEX = 6
 DASH_COOLDOWN = 0.75
 DASH_DURATION = 0.38
 DASH_SPEED_MULTIPLE = 3.2 + 0.1875
-PLAYER_MOVESPEED = 10
+PLAYER_MOVESPEED = 7
 --Used for spellCharging
 FIRE=0
 NATURE=1
@@ -284,8 +284,8 @@ function FindHeightmap(position)
 			local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
 
 
-			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r,tempTable.AMBIENCECOLOR.g,tempTable.AMBIENCECOLOR.b)
-			Sky.FogColor(tempTable.FOGCOLOR.r,tempTable.FOGCOLOR.g,tempTable.FOGCOLOR.b)
+			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
+			Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetBlend(tempTable.SKYBOX)
 			print("Dash cool")
 			----------------------
@@ -463,7 +463,6 @@ function Controls(dt)
 		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
-			Sky.Override(true)
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])

@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Light.h"
 #include "CascadedShadowMap.h"
+#include <glm\gtx\compatibility.hpp>
 
 namespace Gear 
 {
@@ -32,17 +33,11 @@ namespace Gear
 		GEAR_API glm::vec3 getAmbient();
 		GEAR_API Lights::DirLight& getDirLight();
 
-		GEAR_API void setTime(int hours, bool force);
-		GEAR_API void overrideLua(bool luaOverride);
-		GEAR_API void setFogColor(glm::vec3 color);
-		GEAR_API void setAmbient(glm::vec3 color);
-		GEAR_API void setPhase(DayPhase phase);
-		GEAR_API void setBlend(float blend);
-		GEAR_API void setColor(glm::vec3 color);
-		GEAR_API void setDirection(glm::vec3 direction);
-
-		GEAR_API int getHours();
-		GEAR_API int getMinutes();
+		GEAR_API void setFogColor(glm::vec3 color, bool force = false);
+		GEAR_API void setAmbient(glm::vec3 color, bool force = false);
+		GEAR_API void setBlend(float blend, bool force = false);
+		GEAR_API void setColor(glm::vec3 color, bool force = false);
+		GEAR_API void setSunAngle(float angle, bool force = false);
 
 		GEAR_API void readyShadowForDraw(int cascadeIndex, ShaderProgram* geomerty, ShaderProgram* animation);
 		GEAR_API void unbindShadow();
@@ -59,13 +54,6 @@ namespace Gear
 		//Lua target values
 		bool luaOverride = true;
 		bool timeHasChanged = false;
-		float lerpTime = 0.0f;
-		float startTime = 0.0f;
-		float targetTime = 0.0f;
-		float lerpMaxTime = 2.f;
-		glm::vec3 targetFog = glm::vec3(0,0,0);
-		float targetBlend = 0.0f;
-
 		//Length of the day in real seconds
 		float dayCycleLength = 1440;
 		//The current cycle time in seconds
@@ -103,31 +91,50 @@ namespace Gear
 		float halfquarterDay;
 		//Currently not used
 		float lightIntensity;
-		//How much the skybox should blend
-		float skyboxBlendFactor = 0.0f;
 
-		void SetDawn();
-		void SetDay();
-		void SetDusk();
-		void SetNight();
-		void UpdateWorldTime();
-		void UpdateLight();
-		void UpdateFog();
-		void UpdateBlendFactor();
+		void UpdateLight(float dt);
+		void UpdateLightAngle(float dt);
+		void UpdateFog(float dt);
+		void UpdateBlendFactor(float dt);
+		void UpdateAmbient(float dt);
 		void LoadTextures();
 
 		//The rotation on the skybox
 		const float ROTATE_SPEED = 1.0f;
 		float rotation = 0.0f;
 
+		bool fogHasChanged = false;
+		float fogLerp = 0.0f;
 		glm::vec3 fogColor;
+		glm::vec3 fogColorTarget;
+		glm::vec3 fogColorStart;
 
-		glm::vec3 ambient = fullDark;
+		bool ambientHasChanged = false;
+		float ambientLerp = 0.0f;
+		glm::vec3 ambient;
+		glm::vec3 ambientTarget;
+		glm::vec3 ambientStart;
+
+		//How much the skybox should blend
+		bool blendHasChanged = false;
+		float blendLerp = 0.0f;
+		float skyboxBlendFactor = 0.0f;
+		float blendTarget;
+		float blendStart;
 
 		//The basic sun
 		Lights::DirLight sun;
-		//The sun updated with rotation and color
-		Lights::DirLight currentSun;
+
+		bool sunColorHasChanged = false;
+		float SunColorLerp = 0.0f;
+		glm::vec3 sunColorTarget;
+		glm::vec3 sunColorStart;
+
+		bool sunAngleHasChanged = false;
+		float sunAngleLerp = 0.0f;
+		float sunAngleTarget;
+		float sunAngleStart;
+		float currentAngle = 0.0f;
 
 		const float CASCADE_TEXTURE_SIZE = 720.f;
 		CascadedShadowMap shadowMap;

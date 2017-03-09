@@ -7,14 +7,21 @@ TIME_TABLE[3] = 19.0
 TIME_TABLE[4] = 22.0
 
 TILE_ATMOSPHERE_TABLE = {}
-TILE_ATMOSPHERE_TABLE[1] = {AMBIENCECOLOR = {r = 1,g=0.976470,b=0.6196078}, FOGCOLOR ={r=0.76,g=0.9,b=0.72},SKYBOX = 1}
+TILE_ATMOSPHERE_TABLE[1] = {AMBIENCECOLOR = {r = 1,g=0.976470,b=0.6196078}, FOGCOLOR ={r=0.76,g=0.9,b=0.72},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[2] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[3] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[4] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[5] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[6] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
 TILE_ATMOSPHERE_TABLE[7] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
-TILE_ATMOSPHERE_TABLE[8] = {AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4}, FOGCOLOR ={r=0.1,g=0,b=0},SKYBOX = 0}
+TILE_ATMOSPHERE_TABLE[8] = {AMBIENCECOLOR = {r = 0.47450980,g=0.23137,b=0.49411}, FOGCOLOR ={r=0.5,g=0.3,b=0.5},SKYBOX = 1}
+
+OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
+
+OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* 2
+OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* 2
+OVEREALAMBIENCE.b = OVEREALAMBIENCE.b* 2
+
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
@@ -142,7 +149,7 @@ function Rewind()
 	LEVEL_ROUND = LEVEL_ROUND + 1
 	--EnterGameplay()
 	if LEVEL_ROUND > 3 then
-		--WIN
+			gamestate.ChangeState(GAMESTATE_WIN)
 	else
 		for levelIndex,level in pairs(levels) do
 			if loadedLevels[levelIndex] then
@@ -161,7 +168,15 @@ function Rewind()
 		end
 		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
 		player:ChangeHeightmap(1)
-		Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+
+		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r*LEVEL_ROUND-1
+		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g*LEVEL_ROUND-1
+		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*LEVEL_ROUND-1
+
+		print("HAHA " ,LEVEL_ROUND-1)
+		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+
+
 		boss.alive = true
 		RewindPlayer(player)
 		RewindPlayer(player2)
