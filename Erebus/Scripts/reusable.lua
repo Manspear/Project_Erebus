@@ -91,10 +91,10 @@ function PlayBGM(filename)
 	print("playing music "..filename)
 	local id = Sound.Play("Music/"..filename, 48)
 	if id ~= -1 then
+		Sound.SetVolume(id, 0.1)
+		Sound.Resume(id)
 		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
 		BACKGROUND_MUSIC_ID = id
-		Sound.SetVolume(BACKGROUND_MUSIC_ID, 0.1)
-		Sound.Resume(BACKGROUND_MUSIC_ID)
 	end
 end
 
