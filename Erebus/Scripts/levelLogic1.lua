@@ -6,6 +6,7 @@ TUTORIAL_OBJECT = {}
 loadedStream = false
 
 function UpdateLogic(dt)
+	if loadedLake then UnloadLogic2() end
 	if TUTORIAL_START_ANIM == true then
 		lowerObject(TUTORIAL_OBJECT,3,dt)
 	end 
