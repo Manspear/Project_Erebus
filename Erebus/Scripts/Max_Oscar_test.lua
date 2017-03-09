@@ -1,5 +1,6 @@
 levels = {}
 heightmaps = {}
+sluiceID = 0
 
 ---------------------------------Heightmap-----------------------------
 
@@ -1278,6 +1279,8 @@ level01.triggers.SpellBookID.collider = SphereCollider.Create(-1)
 level01.triggers.SpellBookID.collider:SetOffset(0,0,0)
 level01.triggers.SpellBookID.collider:SetRadius(4.75)
 level01.triggers.SpellBookID.collider:SetPos(24.6563,7.21614,168)
+level01.triggers.SpellBookID.collider.OnTriggering = function() InteractSpellBook() end
+level01.triggers.SpellBookID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.SpellBookID.collider, 4)
 level01.triggers.TutorialPost2ID = {}
 level01.triggers.TutorialPost2ID.model = Assets.LoadModel('Models/SignPost.model')
@@ -1290,7 +1293,7 @@ level01.triggers.TutorialPost2ID.collider:SetOffset(0,0,0)
 level01.triggers.TutorialPost2ID.collider:SetRadius(2.3)
 level01.triggers.TutorialPost2ID.collider:SetPos(12,6,169)
 level01.triggers.TutorialPost2ID.collider.OnExit = function() hideTutorialRevive() end
-level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 6, 169', dt) end
+level01.triggers.TutorialPost2ID.collider.OnTriggering = function(self, dt) showTutorialRevive(12, 7.5, 169, dt) end
 level01.triggers.TutorialPost2ID.collider.triggered = false
 CollisionHandler.AddSphere(level01.triggers.TutorialPost2ID.collider, 4)
 end
@@ -3633,10 +3636,12 @@ level02.triggers.BlockerTriggerID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTriggerID.collider:SetAxes(1, 0, 0, 0, -1, 0, 0, 0, 1)
 level02.triggers.BlockerTriggerID.collider:SetHalfLengths(3.36774,3,10.7256)
 level02.triggers.BlockerTriggerID.collider:SetPos(197.852,50.6875,235.275)
-sluice2 = CreateSluice(level02.triggers.BlockerTriggerID.collider, level02.props.BlockerClosedFireID.transformID, level02.props.BlockerClosedFireID, level02.props.BlockerOpenFireID.transformID)
+sluice2 = CreateSluice(level02.triggers.BlockerTriggerID.collider, level02.props.BlockerClosedFireID.transformID, level02.props.BlockerClosedFireID, level02.props.BlockerOpenFireID.transformID, 2)
+if not SluiceOpened(2) then
 level02.triggers.BlockerTriggerID.collider.OnEnter = function(self) SluiceEnter(sluice2) end
 level02.triggers.BlockerTriggerID.collider.OnExit = function(self) SluiceExit(sluice2) end
 level02.triggers.BlockerTriggerID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice2) end
+end
 level02.triggers.BlockerTriggerID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTriggerID.collider, 4)
 level02.triggers.BlockerTrigger1ID = {}
@@ -3645,10 +3650,12 @@ level02.triggers.BlockerTrigger1ID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTrigger1ID.collider:SetAxes(0.999536, 0, 0.0304648, 0, -1, 0, -0.0304648, 0, 0.999536)
 level02.triggers.BlockerTrigger1ID.collider:SetHalfLengths(14.2635,3,4)
 level02.triggers.BlockerTrigger1ID.collider:SetPos(359.742,39.9207,187.091)
-sluice3 = CreateSluice(level02.triggers.BlockerTrigger1ID.collider, level02.props.BlockerClosedFire1ID.transformID, level02.props.BlockerClosedFire1ID, level02.props.BlockerOpenFire1ID.transformID)
+sluice3 = CreateSluice(level02.triggers.BlockerTrigger1ID.collider, level02.props.BlockerClosedFire1ID.transformID, level02.props.BlockerClosedFire1ID, level02.props.BlockerOpenFire1ID.transformID, 3)
+if not SluiceOpened(3) then
 level02.triggers.BlockerTrigger1ID.collider.OnEnter = function(self) SluiceEnter(sluice3) end
 level02.triggers.BlockerTrigger1ID.collider.OnExit = function(self) SluiceExit(sluice3) end
 level02.triggers.BlockerTrigger1ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice3) end
+end
 level02.triggers.BlockerTrigger1ID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTrigger1ID.collider, 4)
 level02.triggers.BlockerTrigger2ID = {}
@@ -3657,10 +3664,12 @@ level02.triggers.BlockerTrigger2ID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTrigger2ID.collider:SetAxes(0.132199, 0, 0.991223, -0.0740368, -0.997207, 0.00987426, -0.988454, 0.0746923, 0.13183)
 level02.triggers.BlockerTrigger2ID.collider:SetHalfLengths(1.95633,8.86251,17.1309)
 level02.triggers.BlockerTrigger2ID.collider:SetPos(147,50.5426,167.417)
-sluice4 = CreateSluice(level02.triggers.BlockerTrigger2ID.collider, level02.props.BlockerClosedNatureID.transformID, level02.props.BlockerClosedNatureID, level02.props.BlockerOpenNatureID.transformID)
+sluice4 = CreateSluice(level02.triggers.BlockerTrigger2ID.collider, level02.props.BlockerClosedNatureID.transformID, level02.props.BlockerClosedNatureID, level02.props.BlockerOpenNatureID.transformID, 4)
+if not SluiceOpened(4) then
 level02.triggers.BlockerTrigger2ID.collider.OnEnter = function(self) SluiceEnter(sluice4) end
 level02.triggers.BlockerTrigger2ID.collider.OnExit = function(self) SluiceExit(sluice4) end
 level02.triggers.BlockerTrigger2ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice4) end
+end
 level02.triggers.BlockerTrigger2ID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTrigger2ID.collider, 4)
 level02.triggers.BlockerTrigger3ID = {}
@@ -3669,10 +3678,12 @@ level02.triggers.BlockerTrigger3ID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTrigger3ID.collider:SetAxes(0.957147, 0, -0.289602, 0, -1, 0, 0.289602, 0, 0.957147)
 level02.triggers.BlockerTrigger3ID.collider:SetHalfLengths(2,3,12.4405)
 level02.triggers.BlockerTrigger3ID.collider:SetPos(191.87,41.5,196.572)
-sluice5 = CreateSluice(level02.triggers.BlockerTrigger3ID.collider, level02.props.BlockerClosedIceID.transformID, level02.props.BlockerClosedIceID, level02.props.BlockerOpenIceID.transformID)
+sluice5 = CreateSluice(level02.triggers.BlockerTrigger3ID.collider, level02.props.BlockerClosedIceID.transformID, level02.props.BlockerClosedIceID, level02.props.BlockerOpenIceID.transformID, 5)
+if not SluiceOpened(5) then
 level02.triggers.BlockerTrigger3ID.collider.OnEnter = function(self) SluiceEnter(sluice5) end
 level02.triggers.BlockerTrigger3ID.collider.OnExit = function(self) SluiceExit(sluice5) end
 level02.triggers.BlockerTrigger3ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice5) end
+end
 level02.triggers.BlockerTrigger3ID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTrigger3ID.collider, 4)
 level02.triggers.BlockerTrigger4ID = {}
@@ -3681,10 +3692,12 @@ level02.triggers.BlockerTrigger4ID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTrigger4ID.collider:SetAxes(0.573016, 0, 0.819544, 0, -1, 0, -0.819544, 0, 0.573016)
 level02.triggers.BlockerTrigger4ID.collider:SetHalfLengths(2.70544,3,10.4709)
 level02.triggers.BlockerTrigger4ID.collider:SetPos(301.862,41.5,96.5146)
-sluice6 = CreateSluice(level02.triggers.BlockerTrigger4ID.collider, level02.props.BlockerClosedNature1ID.transformID, level02.props.BlockerClosedNature1ID, level02.props.BlockerOpenNature1ID.transformID)
+sluice6 = CreateSluice(level02.triggers.BlockerTrigger4ID.collider, level02.props.BlockerClosedNature1ID.transformID, level02.props.BlockerClosedNature1ID, level02.props.BlockerOpenNature1ID.transformID, 6)
+if not SluiceOpened(6) then
 level02.triggers.BlockerTrigger4ID.collider.OnEnter = function(self) SluiceEnter(sluice6) end
 level02.triggers.BlockerTrigger4ID.collider.OnExit = function(self) SluiceExit(sluice6) end
 level02.triggers.BlockerTrigger4ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice6) end
+end
 level02.triggers.BlockerTrigger4ID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTrigger4ID.collider, 4)
 level02.triggers.BlockerTrigger5ID = {}
@@ -3693,10 +3706,12 @@ level02.triggers.BlockerTrigger5ID.collider:SetOffset(0,0,0)
 level02.triggers.BlockerTrigger5ID.collider:SetAxes(1, 0, 0, 0, -1, 0, 0, 0, 1)
 level02.triggers.BlockerTrigger5ID.collider:SetHalfLengths(2,3,14.5821)
 level02.triggers.BlockerTrigger5ID.collider:SetPos(290.143,35.875,118.938)
-sluice8 = CreateSluice(level02.triggers.BlockerTrigger5ID.collider, level02.props.BlockerClosedIce1ID.transformID, level02.props.BlockerClosedIce1ID, level02.props.BlockerOpenIce1ID.transformID)
+sluice8 = CreateSluice(level02.triggers.BlockerTrigger5ID.collider, level02.props.BlockerClosedIce1ID.transformID, level02.props.BlockerClosedIce1ID, level02.props.BlockerOpenIce1ID.transformID, 8)
+if not SluiceOpened(8) then
 level02.triggers.BlockerTrigger5ID.collider.OnEnter = function(self) SluiceEnter(sluice8) end
 level02.triggers.BlockerTrigger5ID.collider.OnExit = function(self) SluiceExit(sluice8) end
 level02.triggers.BlockerTrigger5ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice8) end
+end
 level02.triggers.BlockerTrigger5ID.collider.triggered = false
 CollisionHandler.AddOBB(level02.triggers.BlockerTrigger5ID.collider, 4)
 end
@@ -8588,10 +8603,12 @@ level05.triggers.BlockerTrigger7ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger7ID.collider:SetAxes(0.91698, 0.0647954, -0.393636, 0.056125, -0.997861, -0.0335112, 0.394966, -0.00863628, 0.918655)
 level05.triggers.BlockerTrigger7ID.collider:SetHalfLengths(3.40472,3,22.3649)
 level05.triggers.BlockerTrigger7ID.collider:SetPos(455.587,54.0625,449.101)
-sluice10 = CreateSluice(level05.triggers.BlockerTrigger7ID.collider, level05.props.BlockerClosedFire2ID.transformID, level05.props.BlockerClosedFire2ID, level05.props.BlockerOpenFire2ID.transformID)
+sluice10 = CreateSluice(level05.triggers.BlockerTrigger7ID.collider, level05.props.BlockerClosedFire2ID.transformID, level05.props.BlockerClosedFire2ID, level05.props.BlockerOpenFire2ID.transformID, 10)
+if not SluiceOpened(10) then
 level05.triggers.BlockerTrigger7ID.collider.OnEnter = function(self) SluiceEnter(sluice10) end
 level05.triggers.BlockerTrigger7ID.collider.OnExit = function(self) SluiceExit(sluice10) end
 level05.triggers.BlockerTrigger7ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice10) end
+end
 level05.triggers.BlockerTrigger7ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger7ID.collider, 4)
 level05.triggers.BlockerTrigger8ID = {}
@@ -8600,10 +8617,12 @@ level05.triggers.BlockerTrigger8ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger8ID.collider:SetAxes(0.942854, 0, -0.333206, 0, -1, 0, 0.333206, 0, 0.942854)
 level05.triggers.BlockerTrigger8ID.collider:SetHalfLengths(2.64044,4.07561,13.8721)
 level05.triggers.BlockerTrigger8ID.collider:SetPos(435.641,73.3125,411.125)
-sluice11 = CreateSluice(level05.triggers.BlockerTrigger8ID.collider, level05.props.BlockerClosedNature2ID.transformID, level05.props.BlockerClosedNature2ID, level05.props.BlockerOpenNature2ID.transformID)
+sluice11 = CreateSluice(level05.triggers.BlockerTrigger8ID.collider, level05.props.BlockerClosedNature2ID.transformID, level05.props.BlockerClosedNature2ID, level05.props.BlockerOpenNature2ID.transformID, 11)
+if not SluiceOpened(11) then
 level05.triggers.BlockerTrigger8ID.collider.OnEnter = function(self) SluiceEnter(sluice11) end
 level05.triggers.BlockerTrigger8ID.collider.OnExit = function(self) SluiceExit(sluice11) end
 level05.triggers.BlockerTrigger8ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice11) end
+end
 level05.triggers.BlockerTrigger8ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger8ID.collider, 4)
 level05.triggers.BlockerTrigger9ID = {}
@@ -8612,10 +8631,12 @@ level05.triggers.BlockerTrigger9ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger9ID.collider:SetAxes(0.505167, 0, 0.863022, 0, -1, 0, -0.863022, 0, 0.505167)
 level05.triggers.BlockerTrigger9ID.collider:SetHalfLengths(2.81146,3,15.5979)
 level05.triggers.BlockerTrigger9ID.collider:SetPos(455.895,84.5841,582.683)
-sluice13 = CreateSluice(level05.triggers.BlockerTrigger9ID.collider, level05.props.BlockerClosedNature3ID.transformID, level05.props.BlockerClosedNature3ID, level05.props.BlockerOpenNature3ID.transformID)
+sluice13 = CreateSluice(level05.triggers.BlockerTrigger9ID.collider, level05.props.BlockerClosedNature3ID.transformID, level05.props.BlockerClosedNature3ID, level05.props.BlockerOpenNature3ID.transformID, 13)
+if not SluiceOpened(13) then
 level05.triggers.BlockerTrigger9ID.collider.OnEnter = function(self) SluiceEnter(sluice13) end
 level05.triggers.BlockerTrigger9ID.collider.OnExit = function(self) SluiceExit(sluice13) end
 level05.triggers.BlockerTrigger9ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice13) end
+end
 level05.triggers.BlockerTrigger9ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger9ID.collider, 4)
 level05.triggers.BlockerTrigger6ID = {}
@@ -8624,10 +8645,12 @@ level05.triggers.BlockerTrigger6ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger6ID.collider:SetAxes(0.702581, 0, -0.711603, 0, -1, 0, 0.711603, 0, 0.702581)
 level05.triggers.BlockerTrigger6ID.collider:SetHalfLengths(3.47607,4.28469,18.6487)
 level05.triggers.BlockerTrigger6ID.collider:SetPos(569.055,84.625,622.085)
-sluice14 = CreateSluice(level05.triggers.BlockerTrigger6ID.collider, level05.props.BlockerClosedIce3ID.transformID, level05.props.BlockerClosedIce3ID, level05.props.BlockerOpenIce3ID.transformID)
+sluice14 = CreateSluice(level05.triggers.BlockerTrigger6ID.collider, level05.props.BlockerClosedIce3ID.transformID, level05.props.BlockerClosedIce3ID, level05.props.BlockerOpenIce3ID.transformID, 14)
+if not SluiceOpened(14) then
 level05.triggers.BlockerTrigger6ID.collider.OnEnter = function(self) SluiceEnter(sluice14) end
 level05.triggers.BlockerTrigger6ID.collider.OnExit = function(self) SluiceExit(sluice14) end
 level05.triggers.BlockerTrigger6ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice14) end
+end
 level05.triggers.BlockerTrigger6ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger6ID.collider, 4)
 level05.triggers.BlockerTrigger10ID = {}
@@ -8636,10 +8659,12 @@ level05.triggers.BlockerTrigger10ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger10ID.collider:SetAxes(0.22386, 0, -0.974621, 0, -1, 0, 0.974621, 0, 0.22386)
 level05.triggers.BlockerTrigger10ID.collider:SetHalfLengths(2,4.12589,19.5308)
 level05.triggers.BlockerTrigger10ID.collider:SetPos(508.755,79.125,575.449)
-sluice15 = CreateSluice(level05.triggers.BlockerTrigger10ID.collider, level05.props.BlockerClosedFire3ID.transformID, level05.props.BlockerClosedFire3ID, level05.props.BlockerOpenFire3ID.transformID)
+sluice15 = CreateSluice(level05.triggers.BlockerTrigger10ID.collider, level05.props.BlockerClosedFire3ID.transformID, level05.props.BlockerClosedFire3ID, level05.props.BlockerOpenFire3ID.transformID, 15)
+if not SluiceOpened(15) then
 level05.triggers.BlockerTrigger10ID.collider.OnEnter = function(self) SluiceEnter(sluice15) end
 level05.triggers.BlockerTrigger10ID.collider.OnExit = function(self) SluiceExit(sluice15) end
 level05.triggers.BlockerTrigger10ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice15) end
+end
 level05.triggers.BlockerTrigger10ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger10ID.collider, 4)
 level05.triggers.BlockerTrigger11ID = {}
@@ -8648,10 +8673,12 @@ level05.triggers.BlockerTrigger11ID.collider:SetOffset(0,0,0)
 level05.triggers.BlockerTrigger11ID.collider:SetAxes(0.92389, -0.0989963, 0.369632, -0.0902885, -0.995078, -0.0408312, -0.371855, -0.00435007, 0.928281)
 level05.triggers.BlockerTrigger11ID.collider:SetHalfLengths(2,8.79282,37.2997)
 level05.triggers.BlockerTrigger11ID.collider:SetPos(526.702,45.2223,428.906)
-sluice16 = CreateSluice(level05.triggers.BlockerTrigger11ID.collider, level05.props.BlockerClosedIce2ID.transformID, level05.props.BlockerClosedIce2ID, level05.props.BlockerOpenIce2ID.transformID)
+sluice16 = CreateSluice(level05.triggers.BlockerTrigger11ID.collider, level05.props.BlockerClosedIce2ID.transformID, level05.props.BlockerClosedIce2ID, level05.props.BlockerOpenIce2ID.transformID, 16)
+if not SluiceOpened(16) then
 level05.triggers.BlockerTrigger11ID.collider.OnEnter = function(self) SluiceEnter(sluice16) end
 level05.triggers.BlockerTrigger11ID.collider.OnExit = function(self) SluiceExit(sluice16) end
 level05.triggers.BlockerTrigger11ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice16) end
+end
 level05.triggers.BlockerTrigger11ID.collider.triggered = false
 CollisionHandler.AddOBB(level05.triggers.BlockerTrigger11ID.collider, 4)
 end
@@ -13194,10 +13221,12 @@ level07.triggers.BlockerTrigger12ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger12ID.collider:SetAxes(0.663779, 0, -0.747929, 0, -1, 0, 0.747929, 0, 0.663779)
 level07.triggers.BlockerTrigger12ID.collider:SetHalfLengths(9.57697,13.5245,22.4036)
 level07.triggers.BlockerTrigger12ID.collider:SetPos(295.293,96.5625,690.565)
-sluice18 = CreateSluice(level07.triggers.BlockerTrigger12ID.collider, level07.props.BlockerClosedNature4ID.transformID, level07.props.BlockerClosedNature4ID, level07.props.BlockerOpenNature4ID.transformID)
+sluice18 = CreateSluice(level07.triggers.BlockerTrigger12ID.collider, level07.props.BlockerClosedNature4ID.transformID, level07.props.BlockerClosedNature4ID, level07.props.BlockerOpenNature4ID.transformID, 18)
+if not SluiceOpened(18) then
 level07.triggers.BlockerTrigger12ID.collider.OnEnter = function(self) SluiceEnter(sluice18) end
 level07.triggers.BlockerTrigger12ID.collider.OnExit = function(self) SluiceExit(sluice18) end
 level07.triggers.BlockerTrigger12ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice18) end
+end
 level07.triggers.BlockerTrigger12ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger12ID.collider, 4)
 level07.triggers.BlockerTrigger13ID = {}
@@ -13206,10 +13235,12 @@ level07.triggers.BlockerTrigger13ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger13ID.collider:SetAxes(0.784145, 0, -0.620578, 0, -1, 0, 0.620578, 0, 0.784145)
 level07.triggers.BlockerTrigger13ID.collider:SetHalfLengths(12.9171,23.5948,9.88232)
 level07.triggers.BlockerTrigger13ID.collider:SetPos(219.679,115.5,596.831)
-sluice19 = CreateSluice(level07.triggers.BlockerTrigger13ID.collider, level07.props.BlockerClosedNature5ID.transformID, level07.props.BlockerClosedNature5ID, level07.props.BlockerOpenNature5ID.transformID)
+sluice19 = CreateSluice(level07.triggers.BlockerTrigger13ID.collider, level07.props.BlockerClosedNature5ID.transformID, level07.props.BlockerClosedNature5ID, level07.props.BlockerOpenNature5ID.transformID, 19)
+if not SluiceOpened(19) then
 level07.triggers.BlockerTrigger13ID.collider.OnEnter = function(self) SluiceEnter(sluice19) end
 level07.triggers.BlockerTrigger13ID.collider.OnExit = function(self) SluiceExit(sluice19) end
 level07.triggers.BlockerTrigger13ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice19) end
+end
 level07.triggers.BlockerTrigger13ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger13ID.collider, 4)
 level07.triggers.BlockerTrigger14ID = {}
@@ -13218,10 +13249,12 @@ level07.triggers.BlockerTrigger14ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger14ID.collider:SetAxes(0.99678, 0, -0.080188, 0, -1, 0, 0.080188, 0, 0.99678)
 level07.triggers.BlockerTrigger14ID.collider:SetHalfLengths(28.5138,19.3845,10.0422)
 level07.triggers.BlockerTrigger14ID.collider:SetPos(235.233,86.1875,737.352)
-sluice20 = CreateSluice(level07.triggers.BlockerTrigger14ID.collider, level07.props.BlockerClosedFire4ID.transformID, level07.props.BlockerClosedFire4ID, level07.props.BlockerOpenFire4ID.transformID)
+sluice20 = CreateSluice(level07.triggers.BlockerTrigger14ID.collider, level07.props.BlockerClosedFire4ID.transformID, level07.props.BlockerClosedFire4ID, level07.props.BlockerOpenFire4ID.transformID, 20)
+if not SluiceOpened(20) then
 level07.triggers.BlockerTrigger14ID.collider.OnEnter = function(self) SluiceEnter(sluice20) end
 level07.triggers.BlockerTrigger14ID.collider.OnExit = function(self) SluiceExit(sluice20) end
 level07.triggers.BlockerTrigger14ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice20) end
+end
 level07.triggers.BlockerTrigger14ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger14ID.collider, 4)
 level07.triggers.BlockerTrigger15ID = {}
@@ -13230,10 +13263,12 @@ level07.triggers.BlockerTrigger15ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger15ID.collider:SetAxes(0.950682, 0, 0.310166, 0, -1, 0, -0.310166, 0, 0.950682)
 level07.triggers.BlockerTrigger15ID.collider:SetHalfLengths(12.0506,16.3252,6.61011)
 level07.triggers.BlockerTrigger15ID.collider:SetPos(359.206,117.375,678.393)
-sluice21 = CreateSluice(level07.triggers.BlockerTrigger15ID.collider, level07.props.BlockerClosedIce4ID.transformID, level07.props.BlockerClosedIce4ID, level07.props.BlockerOpenIce4ID.transformID)
+sluice21 = CreateSluice(level07.triggers.BlockerTrigger15ID.collider, level07.props.BlockerClosedIce4ID.transformID, level07.props.BlockerClosedIce4ID, level07.props.BlockerOpenIce4ID.transformID, 21)
+if not SluiceOpened(21) then
 level07.triggers.BlockerTrigger15ID.collider.OnEnter = function(self) SluiceEnter(sluice21) end
 level07.triggers.BlockerTrigger15ID.collider.OnExit = function(self) SluiceExit(sluice21) end
 level07.triggers.BlockerTrigger15ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice21) end
+end
 level07.triggers.BlockerTrigger15ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger15ID.collider, 4)
 level07.triggers.BlockerTrigger16ID = {}
@@ -13242,10 +13277,12 @@ level07.triggers.BlockerTrigger16ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger16ID.collider:SetAxes(0.998421, 0, -0.0561746, 0, -1, 0, 0.0561746, 0, 0.998421)
 level07.triggers.BlockerTrigger16ID.collider:SetHalfLengths(10.5968,12.8873,12.2036)
 level07.triggers.BlockerTrigger16ID.collider:SetPos(325.904,136.25,578.422)
-sluice23 = CreateSluice(level07.triggers.BlockerTrigger16ID.collider, level07.props.BlockerClosedIce5ID.transformID, level07.props.BlockerClosedIce5ID, level07.props.BlockerOpenIce5ID.transformID)
+sluice23 = CreateSluice(level07.triggers.BlockerTrigger16ID.collider, level07.props.BlockerClosedIce5ID.transformID, level07.props.BlockerClosedIce5ID, level07.props.BlockerOpenIce5ID.transformID, 23)
+if not SluiceOpened(23) then
 level07.triggers.BlockerTrigger16ID.collider.OnEnter = function(self) SluiceEnter(sluice23) end
 level07.triggers.BlockerTrigger16ID.collider.OnExit = function(self) SluiceExit(sluice23) end
 level07.triggers.BlockerTrigger16ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice23) end
+end
 level07.triggers.BlockerTrigger16ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger16ID.collider, 4)
 level07.triggers.BlockerTrigger17ID = {}
@@ -13254,10 +13291,12 @@ level07.triggers.BlockerTrigger17ID.collider:SetOffset(0,0,0)
 level07.triggers.BlockerTrigger17ID.collider:SetAxes(0.939347, 0, 0.342968, 0, -1, 0, -0.342968, 0, 0.939347)
 level07.triggers.BlockerTrigger17ID.collider:SetHalfLengths(4.22369,26.4925,24.6726)
 level07.triggers.BlockerTrigger17ID.collider:SetPos(154.775,120.573,604.051)
-sluice24 = CreateSluice(level07.triggers.BlockerTrigger17ID.collider, level07.props.BlockerClosedFire5ID.transformID, level07.props.BlockerClosedFire5ID, level07.props.BlockerOpenFire5ID.transformID)
+sluice24 = CreateSluice(level07.triggers.BlockerTrigger17ID.collider, level07.props.BlockerClosedFire5ID.transformID, level07.props.BlockerClosedFire5ID, level07.props.BlockerOpenFire5ID.transformID, 24)
+if not SluiceOpened(24) then
 level07.triggers.BlockerTrigger17ID.collider.OnEnter = function(self) SluiceEnter(sluice24) end
 level07.triggers.BlockerTrigger17ID.collider.OnExit = function(self) SluiceExit(sluice24) end
 level07.triggers.BlockerTrigger17ID.collider.OnTriggering = function(self, dt) SluiceUpdate(dt, sluice24) end
+end
 level07.triggers.BlockerTrigger17ID.collider.triggered = false
 CollisionHandler.AddOBB(level07.triggers.BlockerTrigger17ID.collider, 4)
 end
