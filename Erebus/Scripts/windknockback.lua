@@ -67,7 +67,6 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
-			print(self.chargedTime)
 			self.radius = self.chargedTime
 			self:GeneralCast()
 			self.damage = 10

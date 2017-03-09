@@ -141,11 +141,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(TRANSFORM_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(TRANSFORM_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushAnimationPacket(const AnimationPacket& packet)
@@ -155,11 +151,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(ANIMATION_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(ANIMATION_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushAIStatePacket(const AIStatePacket& packet)
@@ -169,11 +161,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchAIPacket(AIStatePacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(AI_STATE_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(AI_STATE_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushSpellPacket(const SpellPacket& packet)
@@ -183,11 +171,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(SPELL_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(SPELL_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushAITransformPacket(const TransformPacket& packet)
@@ -197,11 +181,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(AI_TRANSFORM_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(AI_TRANSFORM_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushChargingPacket(const ChargingPacket& packet)
@@ -211,11 +191,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchChargingPacket(ChargingPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(CHARGING_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(CHARGING_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushQuickBlendPacket(const QuickBlendPacket& packet)
@@ -225,11 +201,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchQuickBlendPacket(QuickBlendPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(QUICKBLEND_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(QUICKBLEND_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushDamagePacket(const DamagePacket& packet)
@@ -239,11 +211,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchDamagePacket(DamagePacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(DAMAGE_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(DAMAGE_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
@@ -253,11 +221,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(CHANGESPELLS_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(CHANGESPELLS_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
@@ -267,11 +231,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(PLAYER_EVENT_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(PLAYER_EVENT_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushAIHealthPacket(const HealthPacket& packet)
@@ -281,11 +241,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchAIHealthPacket(HealthPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(AI_HEALTH_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(AI_HEALTH_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushDashPacket(const DashPacket& packet)
@@ -295,11 +251,7 @@ namespace Nurn
 
 	bool NurnEngine::fetchDashPacket(DashPacket& packet)
 	{
-		bool result = false;
-
-		result = this->packetFilter->getQueue(DASH_PACKET)->pop(&packet);
-
-		return result;
+		return this->packetFilter->getQueue(DASH_PACKET)->pop(&packet);
 	}
 
 	void NurnEngine::pushEndEventPacket(const EventPacket& packet)
