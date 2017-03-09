@@ -287,7 +287,12 @@ function FindHeightmap(position)
 
 			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
-			Sky.SetBlend(tempTable.SKYBOX)
+			if	player.levelIndex <4 and (LEVEL_ROUND) <=2 then
+				Sky.SetBlend(tempTable.SKYBOX)
+			else
+				Sky.SetBlend(1)
+			end
+
 			Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
 			Sky.SetSunAngle(tempTable.SUNANGLE)
 

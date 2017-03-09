@@ -78,7 +78,11 @@ end
 
 function UnloadGameplay()
 	print("unloading gameplay")
-	if loadedGameplay then
+	if loadedGameplay then		
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
+
 		-- unload all the loaded levels
 		for levelIndex,level in pairs(levels) do
 			if loadedLevels[levelIndex] then
@@ -187,11 +191,11 @@ function EnterGameplay()
 		------------------
 		local tempTable = TILE_ATMOSPHERE_TABLE[player.levelIndex]-- = {AMBIENCECOLOR = {r = 0,g=0,b=0}, FOGCOLOR ={r=0,g=0,b=0},SKYBOX = 0}
 
-			Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b, true)
+		Sky.SetAmbient(tempTable.AMBIENCECOLOR.r + OVEREALAMBIENCE.r,tempTable.AMBIENCECOLOR.g+ OVEREALAMBIENCE.g,tempTable.AMBIENCECOLOR.b+ OVEREALAMBIENCE.b, true)
 		Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
-			Sky.SetBlend(tempTable.SKYBOX, true)
+		Sky.SetBlend(tempTable.SKYBOX, true)
 		Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
-		Sky.SetSunAngle(tempTable.SUNANGLE)
+		Sky.SetSunAngle(tempTable.SUNANGLE,true)
 
 			----------------------
 	end

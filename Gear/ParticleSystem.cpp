@@ -4,8 +4,8 @@
 namespace Gear
 {
 	ParticleSystem::ParticleSystem()
+		: removed( false )
 	{
-		
 	}
 
 	ParticleSystem::~ParticleSystem()
@@ -15,6 +15,7 @@ namespace Gear
 	}
 
 	ParticleSystem::ParticleSystem(std::string path, Importer::Assets * assets)
+		: removed( false )
 	{
 		isActive = false;
 
@@ -143,5 +144,15 @@ namespace Gear
 		{
 			particleEmitters[i].setFocus(focus);
 		}
+	}
+
+	GEAR_API void ParticleSystem::setRemoved(bool r)
+	{
+		removed = r;
+	}
+
+	GEAR_API bool ParticleSystem::getRemoved() const
+	{
+		return removed;
 	}
 }
