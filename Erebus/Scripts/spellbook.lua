@@ -24,13 +24,14 @@ end
 
 function UpdateSpellbook(dt)
 
-	for key,value in pairs(scriptsMenu) do
-		value.Update(dt)
-	end
-
-
 	if gameplayStarted then
 		gamestate.states[GAMESTATE_GAMEPLAY].Update(dt)
+	end
+
+	if gamestate.currentState == GAMESTATE_SPELLBOOK then
+		for key,value in pairs(scriptsMenu) do
+			value.Update(dt)
+		end
 	end
 end
 
