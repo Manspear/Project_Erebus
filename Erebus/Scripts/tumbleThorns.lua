@@ -82,7 +82,8 @@ function CreateTumblethorns(entity)
 			--Transform.RotateToVector(self.transformID, newLookAt)
 			--self.direction = Transform.GetLookAt(self.transformID)
 			
-			--self.direction = Transform.GetLookAt(self.direct) --not sure if should be used
+			--not sure if should be used
+			--self.direction = Transform.GetLookAt(self.direct) 
 
 			--These two make the new version
 			self.direction.x = -self.direction.x
