@@ -33,6 +33,7 @@ function CreateChronoBall(entity)
 	--Gear.AddStaticInstance(model, spell.type.transformID)
 
 	function spell:Update(dt)
+	if CollisionHandler.HitboxLayerCollision(spell.type.sphereCollider,3) then self:Kill() end -- if spell colliding with wall kill urself
 		if self.alive then
 			hits = self.type:Update(dt)
 
@@ -53,7 +54,9 @@ function CreateChronoBall(entity)
 					local hitPos = Transform.GetPosition(self.type.transformID)
 					hitPos.x = hitPos.x + anglex * CHRONOBALLORBITDISTANCE
 					hitPos.z = hitPos.z + anglez * CHRONOBALLORBITDISTANCE
-					Transform.SetPosition(hits[index].transformID, hitPos)
+					--Transform.SetPosition(hits[index].transformID, hitPos)
+					-- HitPos = where we wanna go
+					player.controller:MoveOverride(hitPos.x,0,hitPos.z)
 				end
 			end
 			self.lifeTime = self.lifeTime - dt
