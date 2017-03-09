@@ -8,24 +8,25 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-	this->transformQueue = new PacketQueue<TransformPacket>(3);
-	this->animationQueue = new PacketQueue<AnimationPacket>(5);
-	this->aiStateQueue = new PacketQueue<AIStatePacket>(100);
-	this->spellQueue = new PacketQueue<SpellPacket>(20);
-	this->aiTransformQueue = new PacketQueue<TransformPacket>(100);
-	this->chargingQueue = new PacketQueue<ChargingPacket>(20);
-	this->quickBlendQueue = new PacketQueue<QuickBlendPacket>(20);
-	this->damageQueue = new PacketQueue<DamagePacket>(40);
-	this->changeSpellsQueue = new PacketQueue<ChangeSpellsPacket>(10);
-	this->playerEventQueue = new PacketQueue<EventPacket>(10);
-	this->aiHealthQueue = new PacketQueue<HealthPacket>(100);
-	this->dashQueue = new PacketQueue<DashPacket>(5);
-	this->endEventQueue = new PacketQueue<EventPacket>(10);
-	this->playerHealthQueue = new PacketQueue<HealthPacket>(10);
-	this->ressurectionQueue = new PacketQueue<HealthPacket>(2);
-	this->aiDamageTextQueue = new PacketQueue<DamagePacket>(100);
-	this->bossDamageTextQueue = new PacketQueue<DamagePacket>(10);
-	this->bossHealthQueue = new PacketQueue<HealthPacket>(30);
+
+	this->queueList.emplace_back(new PacketQueue<TransformPacket>(3));
+	this->queueList.emplace_back(new PacketQueue<AnimationPacket>(5));
+	this->queueList.emplace_back(new PacketQueue<AIStatePacket>(100));
+	this->queueList.emplace_back(new PacketQueue<SpellPacket>(20));
+	this->queueList.emplace_back(new PacketQueue<TransformPacket>(100));
+	this->queueList.emplace_back(new PacketQueue<ChargingPacket>(20));
+	this->queueList.emplace_back(new PacketQueue<QuickBlendPacket>(20));
+	this->queueList.emplace_back(new PacketQueue<DamagePacket>(40));
+	this->queueList.emplace_back(new PacketQueue<ChangeSpellsPacket>(10));
+	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
+	this->queueList.emplace_back(new PacketQueue<HealthPacket>(100));
+	this->queueList.emplace_back(new PacketQueue<DashPacket>(5));
+	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
+	this->queueList.emplace_back(new PacketQueue<HealthPacket>(10));
+	this->queueList.emplace_back(new PacketQueue<HealthPacket>(2));
+	this->queueList.emplace_back(new PacketQueue<DamagePacket>(100));
+	this->queueList.emplace_back(new PacketQueue<DamagePacket>(10));
+	this->queueList.emplace_back(new PacketQueue<HealthPacket>(30));
 
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
@@ -33,96 +34,11 @@ Packager::Packager()
 
 Packager::~Packager()
 {
-	if (this->transformQueue)
+	while (queueList.size() > 0)
 	{
-		delete this->transformQueue;
-		this->transformQueue = 0;
+		queueList.pop_back();
 	}
-	if (this->animationQueue)
-	{
-		delete this->animationQueue;
-		this->animationQueue = 0;
-	}
-	if (this->aiStateQueue)
-	{
-		delete this->aiStateQueue;
-		this->aiStateQueue = 0;
-	}
-	if (this->spellQueue)
-	{
-		delete this->spellQueue;
-		this->spellQueue = 0;
-	}
-	if (this->aiTransformQueue)
-	{
-		delete this->aiTransformQueue;
-		this->aiTransformQueue = 0;
-	}
-	if (this->chargingQueue)
-	{
-		delete this->chargingQueue;
-		this->chargingQueue = 0;
-	}
-	if (this->quickBlendQueue)
-	{
-		delete this->quickBlendQueue;
-		this->quickBlendQueue = 0;
-	}
-	if (this->damageQueue)
-	{
-		delete this->damageQueue;
-		this->damageQueue = 0;
-	}
-	if (this->changeSpellsQueue)
-	{
-		delete this->changeSpellsQueue;
-		this->changeSpellsQueue = 0;
-	}
-	if (this->playerEventQueue)
-	{
-		delete this->playerEventQueue;
-		this->playerEventQueue = 0;
-	}
-	if (this->aiHealthQueue)
-	{
-		delete this->aiHealthQueue;
-		this->aiHealthQueue = 0;
-	}
-	if (this->dashQueue)
-	{
-		delete this->dashQueue;
-		this->dashQueue = 0;
-	}
-	if (this->endEventQueue)
-	{
-		delete this->endEventQueue;
-		this->endEventQueue = 0;
-	}
-	if (this->playerHealthQueue)
-	{
-		delete this->playerHealthQueue;
-		this->playerHealthQueue = 0;
-	}
-	if (this->ressurectionQueue)
-	{
-		delete this->ressurectionQueue;
-		this->ressurectionQueue = 0;
-	}
-	if (this->aiDamageTextQueue)
-	{
-		delete this->aiDamageTextQueue;
-		this->aiDamageTextQueue = 0;
-	}
-	if (this->bossDamageTextQueue)
-	{
-		delete this->bossDamageTextQueue;
-		this->bossDamageTextQueue = 0;
-	}
-	if (this->bossHealthQueue)
-	{
-		delete this->bossHealthQueue;
-		this->bossHealthQueue = 0;
-	}
+
 	if (this->memory)
 	{
 		delete [] this->memory;
@@ -154,24 +70,24 @@ void Packager::buildNetPacket()
 	}
 #endif
 
-	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->transformQueue, TRANSFORM_PACKET);
-	this->addNewPackets<AnimationPacket>(this->currentNetPacketSize, fullPackage, this->animationQueue, ANIMATION_PACKET);
-	this->addNewPackets<AIStatePacket>(this->currentNetPacketSize, fullPackage, this->aiStateQueue, AI_STATE_PACKET);
-	this->addNewPackets<SpellPacket>(this->currentNetPacketSize, fullPackage, this->spellQueue, SPELL_PACKET);
-	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->aiTransformQueue, AI_TRANSFORM_PACKET);
-	this->addNewPackets<ChargingPacket>(this->currentNetPacketSize, fullPackage, this->chargingQueue, CHARGING_PACKET);
-	this->addNewPackets<QuickBlendPacket>(this->currentNetPacketSize, fullPackage, this->quickBlendQueue, QUICKBLEND_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->damageQueue, DAMAGE_PACKET);
-	this->addNewPackets<ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, this->changeSpellsQueue, CHANGESPELLS_PACKET);
-	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->playerEventQueue, PLAYER_EVENT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->aiHealthQueue, AI_HEALTH_PACKET);
-	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->dashQueue, DASH_PACKET);
-	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->endEventQueue, END_EVENT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->playerHealthQueue, PLAYER_HEALTH_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->ressurectionQueue, RESSURECTION_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->aiDamageTextQueue, AI_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->bossDamageTextQueue, BOSS_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->bossHealthQueue, BOSS_HEALTH_PACKET);
+	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(TRANSFORM_PACKET), TRANSFORM_PACKET);
+	this->addNewPackets<AnimationPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(ANIMATION_PACKET), ANIMATION_PACKET);
+	this->addNewPackets<AIStatePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_STATE_PACKET), AI_STATE_PACKET);
+	this->addNewPackets<SpellPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(SPELL_PACKET), SPELL_PACKET);
+	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_TRANSFORM_PACKET), AI_TRANSFORM_PACKET);
+	this->addNewPackets<ChargingPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHARGING_PACKET), CHARGING_PACKET);
+	this->addNewPackets<QuickBlendPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(QUICKBLEND_PACKET), QUICKBLEND_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DAMAGE_PACKET), DAMAGE_PACKET);
+	this->addNewPackets<ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHANGESPELLS_PACKET), CHANGESPELLS_PACKET);
+	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_EVENT_PACKET), PLAYER_EVENT_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_HEALTH_PACKET), AI_HEALTH_PACKET);
+	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DASH_PACKET), DASH_PACKET);
+	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(END_EVENT_PACKET), END_EVENT_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_HEALTH_PACKET), PLAYER_HEALTH_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(RESSURECTION_PACKET), RESSURECTION_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_DAMAGE_TEXT_PACKET), AI_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_DAMAGE_TEXT_PACKET), BOSS_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_HEALTH_PACKET), BOSS_HEALTH_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -179,96 +95,96 @@ void Packager::buildNetPacket()
 
 void Packager::pushTransformPacket(const TransformPacket& packet)
 {
-	this->transformQueue->push(&packet);
+	this->queueList.at(TRANSFORM_PACKET)->push(&packet);
 }
 
 void Packager::pushAnimationPacket(const AnimationPacket& packet)
 {
-	this->animationQueue->push(&packet);
+	this->queueList.at(ANIMATION_PACKET)->push(&packet);
 }
 
 void Packager::pushAIStatePacket(const AIStatePacket& packet)
 {
-	this->aiStateQueue->push(&packet);
+	this->queueList.at(AI_STATE_PACKET)->push(&packet);
 }
 
 void Packager::pushSpellPacket(const SpellPacket& packet)
 {
-	this->spellQueue->push(&packet);
+	this->queueList.at(SPELL_PACKET)->push(&packet);
 }
 
 void Packager::pushAITransformPacket(const TransformPacket& packet)
 {
-	this->aiTransformQueue->push(&packet);
+	this->queueList.at(AI_TRANSFORM_PACKET)->push(&packet);
 }
 
 void Packager::pushChargingPacket(const ChargingPacket& packet)
 {
-	this->chargingQueue->push(&packet);
+	this->queueList.at(CHARGING_PACKET)->push(&packet);
 }
 
 void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
 {
-	this->quickBlendQueue->push(&packet);
+	this->queueList.at(QUICKBLEND_PACKET)->push(&packet);
 }
 
 void Packager::pushDamagePacket(const DamagePacket& packet)
 {
-	this->damageQueue->push(&packet);
+	this->queueList.at(DAMAGE_PACKET)->push(&packet);
 }
 
 void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
 {
-	this->changeSpellsQueue->push(&packet);
+	this->queueList.at(CHANGESPELLS_PACKET)->push(&packet);
 }
 
 void Packager::pushPlayerEventPacket(const EventPacket& packet)
 {
-	this->playerEventQueue->push(&packet);
+	this->queueList.at(PLAYER_EVENT_PACKET)->push(&packet);
 }
 
 void Packager::pushAIHealthPacket(const HealthPacket& packet)
 {
-	this->aiHealthQueue->push(&packet);
+	this->queueList.at(AI_HEALTH_PACKET)->push(&packet);
 }
 
 void Packager::pushDashPacket(const DashPacket& packet)
 {
-	this->dashQueue->push(&packet);
+	this->queueList.at(DASH_PACKET)->push(&packet);
 }
 
 void Packager::pushEndEventPacket(const EventPacket& packet)
 {
-	this->endEventQueue->push(&packet);
+	this->queueList.at(END_EVENT_PACKET)->push(&packet);
 }
 
 void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 {
-	this->playerHealthQueue->push(&packet);
+	this->queueList.at(PLAYER_HEALTH_PACKET)->push(&packet);
 }
 
 void Packager::pushRessurectionPacket(const HealthPacket& packet)
 {
-	this->ressurectionQueue->push(&packet);
+	this->queueList.at(RESSURECTION_PACKET)->push(&packet);
 }
 
 void Packager::pushAIDamageTextPacket(const DamagePacket& packet)
 {
-	this->aiDamageTextQueue->push(&packet);
+	this->queueList.at(AI_DAMAGE_TEXT_PACKET)->push(&packet);
 }
 
 void Packager::pushBossDamageTextPacket(const DamagePacket& packet)
 {
-	this->bossDamageTextQueue->push(&packet);
+	this->queueList.at(BOSS_DAMAGE_TEXT_PACKET)->push(&packet);
 }
 
 void Packager::pushBossHealthPacket(const HealthPacket& packet)
 {
-	this->bossHealthQueue->push(&packet);
+	this->queueList.at(BOSS_HEALTH_PACKET)->push(&packet);
 }
 
 template<class packetType>
-void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, PacketQueue<packetType> * const packetQueue, const uint8_t& packetEnum)
+void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::shared_ptr<PacketQueueInterface> const packetQueue, const uint8_t& packetEnum)
 {
 	packetType newPacket;
 	std::size_t sizeOfPacketType = sizeof(packetType);
