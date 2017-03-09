@@ -9,7 +9,7 @@ function CreateTumblethorns(entity)
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.damage = 15
+	spell.damage = 12
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 1
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
@@ -111,7 +111,7 @@ function CreateTumblethorns(entity)
 		Transform.SetScale(self.transformID, 1)
 		SphereCollider.SetRadius(self.sphereCollider, 1)
 		TUMBLETHORN_RADIUS = 1
-		self.damage = 15
+		self.damage = 12
 		self.particles:die()
 		self.canRollBack = true
 		self.rollin = false
