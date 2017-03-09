@@ -179,92 +179,92 @@ void Packager::buildNetPacket()
 
 void Packager::pushTransformPacket(const TransformPacket& packet)
 {
-	this->transformQueue->push(packet);
+	this->transformQueue->push(&packet);
 }
 
 void Packager::pushAnimationPacket(const AnimationPacket& packet)
 {
-	this->animationQueue->push(packet);
+	this->animationQueue->push(&packet);
 }
 
 void Packager::pushAIStatePacket(const AIStatePacket& packet)
 {
-	this->aiStateQueue->push(packet);
+	this->aiStateQueue->push(&packet);
 }
 
 void Packager::pushSpellPacket(const SpellPacket& packet)
 {
-	this->spellQueue->push(packet);
+	this->spellQueue->push(&packet);
 }
 
 void Packager::pushAITransformPacket(const TransformPacket& packet)
 {
-	this->aiTransformQueue->push(packet);
+	this->aiTransformQueue->push(&packet);
 }
 
 void Packager::pushChargingPacket(const ChargingPacket& packet)
 {
-	this->chargingQueue->push(packet);
+	this->chargingQueue->push(&packet);
 }
 
 void Packager::pushQuickBlendPacket(const QuickBlendPacket& packet)
 {
-	this->quickBlendQueue->push(packet);
+	this->quickBlendQueue->push(&packet);
 }
 
 void Packager::pushDamagePacket(const DamagePacket& packet)
 {
-	this->damageQueue->push(packet);
+	this->damageQueue->push(&packet);
 }
 
 void Packager::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
 {
-	this->changeSpellsQueue->push(packet);
+	this->changeSpellsQueue->push(&packet);
 }
 
 void Packager::pushPlayerEventPacket(const EventPacket& packet)
 {
-	this->playerEventQueue->push(packet);
+	this->playerEventQueue->push(&packet);
 }
 
 void Packager::pushAIHealthPacket(const HealthPacket& packet)
 {
-	this->aiHealthQueue->push(packet);
+	this->aiHealthQueue->push(&packet);
 }
 
 void Packager::pushDashPacket(const DashPacket& packet)
 {
-	this->dashQueue->push(packet);
+	this->dashQueue->push(&packet);
 }
 
 void Packager::pushEndEventPacket(const EventPacket& packet)
 {
-	this->endEventQueue->push(packet);
+	this->endEventQueue->push(&packet);
 }
 
 void Packager::pushPlayerHealthPacket(const HealthPacket& packet)
 {
-	this->playerHealthQueue->push(packet);
+	this->playerHealthQueue->push(&packet);
 }
 
 void Packager::pushRessurectionPacket(const HealthPacket& packet)
 {
-	this->ressurectionQueue->push(packet);
+	this->ressurectionQueue->push(&packet);
 }
 
 void Packager::pushAIDamageTextPacket(const DamagePacket& packet)
 {
-	this->aiDamageTextQueue->push(packet);
+	this->aiDamageTextQueue->push(&packet);
 }
 
 void Packager::pushBossDamageTextPacket(const DamagePacket& packet)
 {
-	this->bossDamageTextQueue->push(packet);
+	this->bossDamageTextQueue->push(&packet);
 }
 
 void Packager::pushBossHealthPacket(const HealthPacket& packet)
 {
-	this->bossHealthQueue->push(packet);
+	this->bossHealthQueue->push(&packet);
 }
 
 template<class packetType>
@@ -279,7 +279,7 @@ void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, PacketQ
 		fullPackage = true;
 	}
 
-	while (fullPackage == false && packetQueue->pop(newPacket))
+	while (fullPackage == false && packetQueue->pop(&newPacket))
 	{
 		// Add Packet to the memory ( ...[MetaData][packet][packet]... )
 		memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets, &newPacket, sizeOfPacketType);

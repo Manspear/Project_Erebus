@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include <atomic>
+#include "PacketQueueInterface.hpp"
 
 // http://blogs.msmvps.com/vandooren/2007/01/05/creating-a-thread-safe-producer-consumer-queue-in-c-without-using-locks/
 
 template<typename Packet>
-class PacketQueue
+class PacketQueue : public PacketQueueInterface
 {
 private:
 	Packet * queuePointer;
@@ -18,9 +19,9 @@ public:
 	PacketQueue(uint8_t size);
 	virtual ~PacketQueue();
 
-	bool pop(Packet& packet);
-	bool push(const Packet& packet);
-	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy); // Push x bytes of packets to queue
+	bool pop(void * packet) override;
+	bool push(const void * packet) override;
+	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy) override; // Push x bytes of packets to queue
 };
 
 template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)
@@ -45,26 +46,26 @@ template<typename Packet> PacketQueue<Packet>::~PacketQueue()
 	this->queueSize = 0;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::pop(Packet& packet)
+template<typename Packet> bool PacketQueue<Packet>::pop(void * packet)
 {
 	if (this->readIndex == this->writeIndex)
 	{
 		return false;
 	}
 
-	packet = this->queuePointer[this->readIndex];
+	*reinterpret_cast<Packet*>(packet) = this->queuePointer[this->readIndex];
 	this->readIndex = (this->readIndex + 1) % this->queueSize;
 
 	return true;
 }
 
-template<typename Packet> bool PacketQueue<Packet>::push(const Packet& packet)
+template<typename Packet> bool PacketQueue<Packet>::push(const void * packet)
 {
 	int nextElement = (this->writeIndex + 1) % this->queueSize;
 	
 	if (nextElement != this->readIndex) // Return false if readIndex is the next element
 	{
-		this->queuePointer[this->writeIndex] = packet;
+		this->queuePointer[this->writeIndex] = *(Packet*)(packet);
 		this->writeIndex = nextElement;
 		return true;
 	}
