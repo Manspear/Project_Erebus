@@ -45,6 +45,7 @@ function StartingBoss()
 	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
 	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
 		boss:Spawn()
+		PlayBGM("Area4_Bossfight.ogg")
 	end
 end
 

@@ -78,6 +78,29 @@ OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* 1
 OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* 1
 OVEREALAMBIENCE.b = OVEREALAMBIENCE.b* 1
 
+BACKGROUND_MUSIC_ID = -1
+BACKGROUND_MUSIC_FILE = {
+	"Area1.ogg",
+	"Area1.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area3.ogg",
+	"Area3.ogg",
+	"Area3.ogg"
+}
+
+function PlayBGM(filename)
+	print("playing music "..filename)
+	local id = Sound.Play("Music/"..filename, 48)
+	if id ~= -1 then
+		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
+		BACKGROUND_MUSIC_ID = id
+		Sound.SetVolume(BACKGROUND_MUSIC_ID, 0.1)
+		Sound.Resume(BACKGROUND_MUSIC_ID)
+	end
+end
+
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
@@ -224,10 +247,13 @@ function Rewind()
 		end
 		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
 		player:ChangeHeightmap(1)
+		PlayBGM(BACKGROUND_MUSIC_FILE[1])
 
 		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r*LEVEL_ROUND-1
 		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g*LEVEL_ROUND-1
 		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*LEVEL_ROUND-1
+
+		PlayBGM()
 
 		print("HAHA " ,LEVEL_ROUND-1)
 		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
