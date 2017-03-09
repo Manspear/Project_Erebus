@@ -1,4 +1,4 @@
-function LoadLogic()
+function LoadLogic7()
 
 end
 
@@ -6,8 +6,8 @@ function UpdateLogic()
 
 end
 
-function LoadLogic()
+function UnloadLogic7()
 
 end
 
-return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
+return { Load = LoadLogic7, Unload = UnloadLogic7, Update = UpdateLogic }

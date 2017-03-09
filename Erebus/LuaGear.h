@@ -41,6 +41,7 @@ namespace LuaGear
 	int bindForwardInstance( lua_State* lua );
 	int bindBlendingInstance( lua_State* lua );
 	int unbindInstance( lua_State* lua );
+	int unbindForward(lua_State* lua);
 
 	int setQueueModels(lua_State* lua);
 	int setCursorVisible(lua_State* lua);
@@ -64,7 +65,6 @@ namespace LuaGear
 	int setSegmentState(lua_State* lua);
 	int setQuickBlend(lua_State* lua);
 	int setUniformValue(lua_State* lua);
-	int setUniformLocation(lua_State* lua);
 	int setBlendUniformValue(lua_State* lua);
 	int setBlendTextures(lua_State* lua);
 

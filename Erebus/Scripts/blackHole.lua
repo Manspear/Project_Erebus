@@ -53,7 +53,6 @@ function CreateBlackHole(entity)
 	spell.innerTransformID = Gear.BindStaticInstance(model2)
 	Transform.ActiveControl(spell.innerTransformID, false)
 
-	Gear.SetUniformLocation(spell.type.transformID, "aValue");
 	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, spell.texture1, spell.texture2)
 
 	function spell:GetCollider()
