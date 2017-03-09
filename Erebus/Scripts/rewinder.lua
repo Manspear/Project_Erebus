@@ -1,7 +1,7 @@
 
 function CreateRewinder()
 	local rew = {}
-	rew.duration = 5
+	rew.duration = 7
 	rew.rewinding = false
 	rew.particles = createCloudParticles()
 	rew.holdParticles = createHoldingParticles()
@@ -9,7 +9,7 @@ function CreateRewinder()
 	rew.intensity = 1
 
 	function rew:Cast()
-		self.duration = 5
+		self.duration = 7
 		self.rewinding = true
 		player.isControlable = false
 		
