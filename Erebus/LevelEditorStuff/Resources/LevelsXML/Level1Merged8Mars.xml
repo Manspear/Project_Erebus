@@ -11151,11 +11151,12 @@
     </LevelActor>
     <LevelActor type="TileSetting" displayName="Setinng" tileID="1" exportType="9">
         <LevelSettings>
-            <PlayerStart x="33" y="7.5" z="145"/>
+            <PlayerStart x="30.873568" y="7.5" z="142.47321"/>
+            <Player2Start x="34" y="7.5" z="147"/>
             <HeightmapStart index="1"/>
         </LevelSettings>
         <LevelTransform>
-            <Position x="33" y="7.5" z="145"/>
+            <Position x="30.873568" y="7.5" z="142.47321"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
@@ -11174,6 +11175,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-2" y="0" z="0"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="201.49353" y="55.048088" z="234.98372"/>
             <Rotation x="0" y="0" z="-0.16013947"/>
@@ -11228,6 +11235,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0" y="0" z="2"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="357.70132" y="41.228645" z="182.80597"/>
             <Rotation x="0" y="1.5324453" z="0"/>
@@ -11282,6 +11295,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0.5" y="0" z="2"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="146.56796" y="50.67445" z="165.32661"/>
             <Rotation x="-0.19692688" y="1.6898569" z="0"/>
@@ -11336,6 +11355,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-1.5" y="0" z="1"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="10"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="194.40233" y="44.169449" z="196.375"/>
             <Rotation x="0" y="0.29433328" z="0"/>
@@ -11390,6 +11415,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-1" y="0" z="-1"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="304.99741" y="44.752487" z="98.017067"/>
             <Rotation x="-0.13488464" y="-0.95706528" z="0"/>
@@ -11444,6 +11475,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-2" y="0" z="0"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="10"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="292.5" y="39.139202" z="117.58636"/>
             <Rotation x="0" y="0" z="0"/>
@@ -11498,6 +11535,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-3" y="0" z="0"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="15"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="528.56049" y="51.383842" z="431.97668"/>
             <Rotation x="0" y="-0.3757343" z="0"/>
@@ -11529,6 +11572,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="2" y="0" z="-1"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="18"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="451.92181" y="61.909897" z="450.57794"/>
             <Rotation x="0" y="-2.7220733" z="0"/>
@@ -11583,6 +11632,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="2" y="0" z="-0.40000001"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="433.53403" y="77.992973" z="414.52002"/>
             <Rotation x="0" y="-2.8073759" z="0"/>
@@ -11637,6 +11692,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="-1" y="0" z="-2"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="18"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="457.75" y="90.067947" z="585"/>
             <Rotation x="0" y="-1.0494751" z="0"/>
@@ -11725,6 +11786,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="1" y="0" z="-2"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="14"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="567.30347" y="90.264885" z="625.72626"/>
             <Rotation x="0" y="-2.3602691" z="0"/>
@@ -11779,6 +11846,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0" y="0" z="-2"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="18"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="510.55035" y="86.284195" z="578.14258"/>
             <Rotation x="0" y="-1.7945449" z="0"/>
@@ -11856,6 +11929,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="1" y="0" z="1"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="277.5" y="93.410294" z="676"/>
             <Rotation x="0" y="2.4344237" z="0"/>
@@ -11910,6 +11989,12 @@
         <LevelModel>
             <ModelName>Grass_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="1.5" y="0" z="1.5"/>
+            <Color x="0" y="1" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="214.0381" y="127.81793" z="588.23413"/>
             <Rotation x="0" y="2.2368877" z="0"/>
@@ -11998,6 +12083,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="2" y="0" z="0"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="206.599" y="94.425987" z="735.74945"/>
             <Rotation x="0" y="-3.1050601" z="0"/>
@@ -12018,6 +12109,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0" y="0" z="2"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="10"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="361.5379" y="122.73926" z="672.44019"/>
             <Rotation x="0" y="1.2554839" z="0"/>
@@ -12072,6 +12169,12 @@
         <LevelModel>
             <ModelName>Ice_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0" y="0" z="2"/>
+            <Color x="0" y="0" z="1"/>
+            <Radius r="12"/>
+            <Intensity i="3"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="321.76202" y="145.28635" z="566.07141"/>
             <Rotation x="0" y="1.6124969" z="0"/>
@@ -12126,6 +12229,12 @@
         <LevelModel>
             <ModelName>Fire_Branch_blocker</ModelName>
         </LevelModel>
+        <LevelPointLight>
+            <Position x="0" y="0" z="2"/>
+            <Color x="1" y="0" z="0"/>
+            <Radius r="10"/>
+            <Intensity i="2"/>
+        </LevelPointLight>
         <LevelTransform>
             <Position x="164.32806" y="129.73343" z="581.14691"/>
             <Rotation x="0" y="1.1666863" z="0"/>
@@ -16447,17 +16556,6 @@
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>
-    <LevelActor type="tile1" displayName="Stream" tileID="1" exportType="1">
-        <LevelModel>
-            <ModelName>Stream</ModelName>
-        </LevelModel>
-        <LevelTransform>
-            <Position x="0" y="0" z="0"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
     <LevelActor type="Asset_SpellBook" displayName="SpellBook" tileID="1" exportType="8">
         <LevelCollider type="0">
             <Offset x="0" y="0" z="0"/>
@@ -20065,7 +20163,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0.40000001"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="889" parentID="0"/>
+            <IDs ID="838" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20085,7 +20183,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0.40000001"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="890" parentID="0"/>
+            <IDs ID="839" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20165,7 +20263,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0.40000001"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="894" parentID="0"/>
+            <IDs ID="843" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20185,7 +20283,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="895" parentID="0"/>
+            <IDs ID="844" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20205,7 +20303,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="896" parentID="0"/>
+            <IDs ID="845" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20245,7 +20343,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="898" parentID="0"/>
+            <IDs ID="847" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20265,7 +20363,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="899" parentID="0"/>
+            <IDs ID="848" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20285,7 +20383,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="900" parentID="0"/>
+            <IDs ID="849" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20305,7 +20403,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="901" parentID="0"/>
+            <IDs ID="850" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20325,7 +20423,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="902" parentID="0"/>
+            <IDs ID="851" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20345,7 +20443,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="903" parentID="0"/>
+            <IDs ID="852" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20365,7 +20463,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="904" parentID="0"/>
+            <IDs ID="853" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20405,7 +20503,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="906" parentID="0"/>
+            <IDs ID="855" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20425,7 +20523,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="907" parentID="0"/>
+            <IDs ID="856" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20445,7 +20543,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="908" parentID="0"/>
+            <IDs ID="857" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20465,7 +20563,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="0.5" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="909" parentID="0"/>
+            <IDs ID="858" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20525,7 +20623,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="0.5" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="912" parentID="0"/>
+            <IDs ID="861" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20545,7 +20643,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="0.5" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="913" parentID="0"/>
+            <IDs ID="862" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20585,7 +20683,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="0.5" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="915" parentID="0"/>
+            <IDs ID="864" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20625,7 +20723,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="917" parentID="0"/>
+            <IDs ID="866" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20645,7 +20743,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="918" parentID="0"/>
+            <IDs ID="867" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20665,7 +20763,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="919" parentID="0"/>
+            <IDs ID="868" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20685,7 +20783,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="920" parentID="0"/>
+            <IDs ID="869" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -20705,7 +20803,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="921" parentID="0"/>
+            <IDs ID="870" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21049,7 +21147,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="932" parentID="0"/>
+            <IDs ID="881" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21269,7 +21367,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="943" parentID="0"/>
+            <IDs ID="892" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21389,7 +21487,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="949" parentID="0"/>
+            <IDs ID="898" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21409,7 +21507,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="1" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="950" parentID="0"/>
+            <IDs ID="899" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21959,7 +22057,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="953" parentID="0"/>
+            <IDs ID="902" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21979,7 +22077,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="954" parentID="0"/>
+            <IDs ID="903" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -21999,7 +22097,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="955" parentID="0"/>
+            <IDs ID="904" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22019,7 +22117,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="956" parentID="0"/>
+            <IDs ID="905" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22039,7 +22137,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="957" parentID="0"/>
+            <IDs ID="906" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22059,7 +22157,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="958" parentID="0"/>
+            <IDs ID="907" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22079,7 +22177,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="959" parentID="0"/>
+            <IDs ID="908" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22099,7 +22197,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="960" parentID="0"/>
+            <IDs ID="909" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22119,7 +22217,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="961" parentID="0"/>
+            <IDs ID="910" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22593,7 +22691,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="968" parentID="0"/>
+            <IDs ID="917" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22613,7 +22711,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="969" parentID="0"/>
+            <IDs ID="918" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22633,7 +22731,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="970" parentID="0"/>
+            <IDs ID="919" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22653,7 +22751,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="971" parentID="0"/>
+            <IDs ID="920" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22673,7 +22771,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="972" parentID="0"/>
+            <IDs ID="921" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22693,7 +22791,7 @@
         <LevelCollider type="2">
             <Offset x="0" y="3" z="0"/>
             <Color x="0" y="1" z="0"/>
-            <IDs ID="973" parentID="0"/>
+            <IDs ID="922" parentID="0"/>
             <Behavior Type="0"/>
             <GenParent value="true"/>
             <Rotation x="0" y="0" z="0"/>
@@ -22880,244 +22978,6 @@
             <Position x="166.5" y="111.5" z="604.5"/>
             <Rotation x="0" y="0" z="0"/>
             <Scale x="0.69999999" y="0.60000002" z="0.69999999"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_BlueLight" displayName="BlueLight (3)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="2" z="0"/>
-            <Color x="0" y="0" z="1"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="361" y="121.02579" z="674.82178"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="210.73898" y="94.731453" z="736"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="280.40985" y="93.0625" z="678.43817"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_BlueLight" displayName="BlueLight (4)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="2" z="0"/>
-            <Color x="0" y="0" z="1"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="321.75" y="145.25" z="568.63074"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_BlueLight" displayName="BlueLight (5)" tileID="5" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="2" z="0"/>
-            <Color x="0" y="0" z="1"/>
-            <Radius r="20"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="571.12445" y="90.4375" z="622.1535"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_BlueLight" displayName="BlueLight (6)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="2" z="0"/>
-            <Color x="0" y="0" z="1"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="190.82759" y="43.84375" z="196.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_BlueLight" displayName="BlueLight (7)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="2" z="0"/>
-            <Color x="0" y="0" z="1"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="287.7872" y="38.75" z="117.25"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight (1)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="198.05423" y="54.625" z="235"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight (2)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="358.25" y="40.09375" z="186.19406"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight (3)" tileID="5" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="15"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="453.91251" y="62.09375" z="447.5"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight (4)" tileID="5" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="15"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="509.75" y="85.375" z="570.5921"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_RedLight" displayName="RedPointLight (5)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="1" y="0" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="164.375" y="130.125" z="584.33618"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1) (1)" tileID="7" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="216.49376" y="127.4375" z="592.06403"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1) (2)" tileID="5" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="15"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="454.81464" y="90.375" z="579.34351"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1) (3)" tileID="5" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="436.32492" y="77.25" z="412.07803"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1) (4)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="300.69388" y="45.28125" z="95.926888"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
-            <Export e="true"/>
-        </LevelTransform>
-    </LevelActor>
-    <LevelActor type="Asset_GreenLight" displayName="GreenPointLight (1) (5)" tileID="2" exportType="1">
-        <LevelPointLight>
-            <Position x="0" y="0" z="0"/>
-            <Color x="0" y="1" z="0"/>
-            <Radius r="10"/>
-            <Intensity i="2"/>
-        </LevelPointLight>
-        <LevelTransform>
-            <Position x="147.125" y="50.78125" z="169.16698"/>
-            <Rotation x="0" y="0" z="0"/>
-            <Scale x="1" y="1" z="1"/>
             <Export e="true"/>
         </LevelTransform>
     </LevelActor>

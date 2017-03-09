@@ -80,10 +80,30 @@ tinyxml2::XMLElement* LevelParticleSystem::toXml(tinyxml2::XMLDocument* doc) {
 std::string LevelParticleSystem::toLuaLoad(std::string name) {
 	std::stringstream ss;
 	std::string fullName = name + ".particle";
-	ss<<fullName << " = Particle.Bind("<<'"' << particleFileLocation << '"'<<")" << std::endl;
-	ss << "Particle.SetPosition(" << fullName << ", " << this->systemRef->systemPos.x << ", " 
+
+	LevelSluice* tempSluice = this->parent->getComponent<LevelSluice>();
+	int sluiceID = -1;
+	if (tempSluice != nullptr) {
+		if (tempSluice->getSluiceType() == SluiceType::BRANCH_BLOCKER) {
+			sluiceID = tempSluice->getSluiceID();
+			ss << "if not SluiceOpened(" << sluiceID << ") then" << std::endl;
+		}
+	}
+
+	ss << fullName << " = Particle.Bind(" << '"' << particleFileLocation << '"' << ")" << std::endl;
+	ss << "Particle.SetPosition(" << fullName << ", " << this->systemRef->systemPos.x << ", "
 		<< this->systemRef->systemPos.y << ", " << this->systemRef->systemPos.z << ")" << std::endl;
-	ss << "Particle.SetAlive("<<fullName<<")" << std::endl;
+	ss << "Particle.SetAlive(" << fullName << ")" << std::endl;
+
+	if (tempSluice != nullptr) {
+		if (tempSluice->getSluiceType() == SluiceType::BRANCH_BLOCKER) {
+			ss << "end" << std::endl;
+		}
+	}
+
+
+
+
 
 	return ss.str();
 }

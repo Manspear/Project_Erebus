@@ -25,8 +25,8 @@ namespace Importer
 		ImageAsset map;
 		if (map.load(path, assets))
 		{
-			mapWidth = map.getWidth()+1;
-			mapHeight = map.getHeight()+1;
+			mapWidth = map.getWidth();
+			mapHeight = map.getHeight();
 
 			heightData = new float*[mapWidth];
 			for (size_t i = 0; i < mapWidth; i++)
@@ -36,22 +36,13 @@ namespace Importer
 			{
 				for (size_t x = 0; x < mapWidth; x++)
 				{
-					int xindex = (int)x - 1;
-					if (xindex < 0)
-						xindex = 0;
-					else if (xindex >= mapWidth - 1)
-						xindex = mapWidth - 1;
-					int yindex = (int)y;
-					if (yindex >= mapHeight - 1)
-						yindex = mapHeight - 1;
-
-					heightData[x][y] = map.getPixelValue(xindex,yindex).red;
+					heightData[x][y] = map.getPixelValue(x, y).red;
 				}
 			}
 
 			minX = minZ = 0;
-			maxX = (mapWidth-1)*widthMulti;
-			maxZ = (mapHeight-1)*breadthMulti;
+			maxX = mapWidth*widthMulti;
+			maxZ = mapHeight*breadthMulti;
 
 			result = true;
 		}

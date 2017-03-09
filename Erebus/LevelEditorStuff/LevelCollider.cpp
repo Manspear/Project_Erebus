@@ -477,7 +477,7 @@ std::string LevelCollider::toLuaLoad(std::string name)
 	ss << fullName << " = ";
 	scale = parent->getComponent<LevelTransform>()->getTransformRef()->getScale();
 	glm::vec3 realMin, realMax;
-	std::cout << this->parent->getActorDisplayName() << std::endl;
+	//std::cout << this->parent->getActorDisplayName() << std::endl;
 	switch (colliderType)
 	{
 	case COLLIDER_SPHERE:
@@ -1004,10 +1004,6 @@ std::string LevelCollider::getLuaTriggerString(std::string colName) {
 		if (tempSluice->getSluiceType() == SluiceType::BRANCH_BLOCKER) {
 			ss << "end" << endl;
 		}
-	}
-
-	if (onTriggeringEventString == "") {
-		ss << colName << ".OnTriggering = function() end" << endl;
 	}
 
 	if (ss.str() != "") {

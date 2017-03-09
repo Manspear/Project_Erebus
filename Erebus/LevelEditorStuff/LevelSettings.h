@@ -27,5 +27,6 @@ public:
 
 private:
 	glm::vec3 playerStart;
+	glm::vec3 player2Start;
 	int heightmapStart;
 };

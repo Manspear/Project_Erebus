@@ -5,6 +5,7 @@
 #include "LevelActor.h"
 #include "LevelTransform.h"
 #include "LevelLightHandler.h"
+#include "LevelSluice.h"
 class LevelPointLightComponent : public LevelActorComponent
 {
 public:

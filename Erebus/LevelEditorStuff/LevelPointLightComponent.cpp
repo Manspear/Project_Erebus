@@ -102,6 +102,51 @@ std::string LevelPointLightComponent::toLuaLoad(std::string name)
 	
 	using namespace std;
 	std::stringstream ss;
+
+	LevelSluice* tempSluice = this->parent->getComponent<LevelSluice>();
+
+	std::string actorName = this->parent->getActorDisplayName();
+	actorName.erase(remove_if(actorName.begin(), actorName.end(), isspace), actorName.end());
+	char chars[] = "()";
+
+	for (unsigned int i = 0; i < strlen(chars); ++i)
+	{
+		// you need include <algorithm> to use general algorithms like std::remove()
+		actorName.erase(std::remove(actorName.begin(), actorName.end(), chars[i]), actorName.end());
+	}
+	ss.clear();
+
+	std::string testShit = "BlockerClosed";
+
+	bool isSluiceShit = false;
+	int sluiceID = -1;
+
+	if(actorName.find(testShit) != std::string::npos)
+	for (auto it : LevelActorHandler::getInstance()->getActors()) {
+
+		
+		LevelSluice* tempSluice = it.second->getComponent<LevelSluice>();
+		if (tempSluice != nullptr) {
+
+			std::string fullNameObject = tempSluice->wallClosedBaseName + tempSluice->getWallClosedName();
+			if (!fullNameObject.compare(actorName)) {
+				isSluiceShit = true;
+				sluiceID = tempSluice->getSluiceID();
+				break;
+			}
+			
+		}
+	}
+	
+
+	if (isSluiceShit) {
+		ss << "if not SluiceOpened(" << sluiceID << ") then" << endl;
+	}
+
+
+
+
+
 	ss << name << ".lightIndex = Light.addLight(" << light->pos.x << ", " << light->pos.y << ", " << light->pos.z << ", "
 		<< light->color.r << ", " << light->color.g << ", " << light->color.b << ", "
 		<< light->radius.x << "," << light->radius.y << ")" << std::endl;
@@ -109,6 +154,10 @@ std::string LevelPointLightComponent::toLuaLoad(std::string name)
 	ss << "--Point light information here" << endl;
 	ss << "--Not yet implemented in the game" << endl; Light.addLight(xPos, yPos, zPos, r, g, b, Rad, Intens)
 	*/
+
+	if (isSluiceShit) {
+		ss << "end" << endl;
+	}
 	return ss.str();
 	
 }
