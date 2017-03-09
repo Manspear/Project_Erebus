@@ -191,7 +191,7 @@ function EnterGameplay()
 			Sky.SetFogColor(tempTable.FOGCOLOR.r+ OVEREALAMBIENCE.r,tempTable.FOGCOLOR.g+ OVEREALAMBIENCE.g,tempTable.FOGCOLOR.b+ OVEREALAMBIENCE.b)
 			Sky.SetBlend(tempTable.SKYBOX, true)
 			Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
-			Sky.SetSunAngle(tempTable.SUNANGLE)
+			Sky.SetSunAngle(tempTable.SUNANGLE, true)
 
 			print("Dash cool")
 			----------------------

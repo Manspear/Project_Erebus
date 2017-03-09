@@ -364,19 +364,6 @@ namespace Gear
 		//	shader->unUse();
 		//}
 
-
-		//glViewport(220, 10, 200, 200);
-		//shader->use();
-		//shadow.bindTexture(shader, "texture", 0, 1);
-		//drawQuad(); //draws quad
-		//shader->unUse();
-
-		//glViewport(430, 10, 200, 200);
-		//shader->use();
-		//shadow.bindTexture(shader, "texture", 0, 2);
-		//drawQuad(); //draws quad
-		//shader->unUse();
-
 		glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	}
