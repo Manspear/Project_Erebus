@@ -1,17 +1,20 @@
 --CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
-CHRONOBALLLIFETIME = 0.9 / 4.5
-CHRONOBALLSPEED = 35 * 4
+CHRONOBALLLIFETIME = 1.6
+CHRONOBALLSPEED = 35
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
 CHRONOBALL_DAMAGE = 0
+
+CHRONOBALL_SCALE = 1
+CHRONOBALL_HITBOXRADIUS = 3
 
 function CreateChronoBall(entity)
 	local spell = {}
 	spell.element = NATURE
 	local model = Assets.LoadModel( "Models/blackHole.model" )
 	spell.type = CreateProjectileType(model)
-	spell.type.sphereCollider:SetRadius(3)
+	spell.type.sphereCollider:SetRadius(CHRONOBALL_HITBOXRADIUS)
 	spell.owner = entity
 	spell.effect = TIME_SLOW_EFFECT_INDEX
 	spell.lifeTime = CHRONOBALLLIFETIME
@@ -70,6 +73,10 @@ function CreateChronoBall(entity)
 		if not self.alive then
 			--self.position = Transform.GetPosition(casterTransID)
 			--self.direction = dir	--Transform.GetLookAt(player.transformID
+
+			Transform.SetScale(entity.transformID, CHRONOBALL_SCALE)
+			self.type.sphereCollider:SetRadius(CHRONOBALL_HITBOXRADIUS)
+
 			local pos = Transform.GetPosition(entity.transformID)
 			pos.y = pos.y - 3
 			local to = Transform.GetPosition(player.transformID)

@@ -9,6 +9,19 @@ function UpdateLogic(dt)
 	else
 		BossStuff(dt)
 	end
+	if boss.combatStarted then 
+		Transform.SetPosition(levels[8].props.WoodenFenceID.transformID, {x=289.09, y=126.67, z=479.67})
+		levels[8].props.WoodenFenceID.collider:SetPos(289.09, 126.67, 479.67)
+		
+		Transform.SetPosition(levels[8].props.WoodenFence1ID.transformID, {x=355.01, y=126.86, z=479.48})
+		levels[8].props.WoodenFence1ID.collider:SetPos(355.01, 126.86, 479.48)
+	else
+		Transform.SetPosition(levels[8].props.WoodenFenceID.transformID, {x=0, y=0, z=0})
+		levels[8].props.WoodenFenceID.collider:SetPos(0, 0, 0)
+		
+		Transform.SetPosition(levels[8].props.WoodenFence1ID.transformID, {x=0, y=0, z=0})
+		levels[8].props.WoodenFence1ID.collider:SetPos(0, 0, 0)
+	end
 end
 
 function BossStuff(dt)

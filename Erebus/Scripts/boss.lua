@@ -86,12 +86,37 @@ function LoadBoss()
 		boss.pickInterval = COMBATSTART_ANIMATIONTIME
 		boss.damagedTint = {r=0,g=0,b=0,a=0}
 		boss.damagedTintDuration = 0
-		boss.deathTimer = DYING_TIME_EFTER_JA
+		boss.deathTimer = 0.1
 
 		--as soon as this is called, the boss stops moving no matter what I send in...
 		boss.animationController.animation:StopAnimationUpdating(false)
 		boss.animationController.waitForRewindTimer = 0
 		boss.animationController.animation:ResetSegmentPlayTime(0)
+
+		--Boss gets harder each round
+		if(LEVEL_ROUND == 2) then
+			--TimeOrbWave-settings
+			TIMEORBWAVEDURATION = 18
+		
+			--TimeLaser-settings
+		
+			--Chronoball-settings
+			CHRONOBALLSPEED = 35 * 2
+			CHRONOBALLLIFETIME = 1.6 / 2.25
+			CHRONOBALL_SCALE = 1.5
+			CHRONOBALL_HITBOXRADIUS = 4.5
+		end
+		if(LEVEL_ROUND == 3) then
+			--TimeOrbWave-settings
+			TIMEORBWAVEDURATION = 24
+			--TimeLaser-settings
+
+			--Chronoball-settings
+			CHRONOBALLSPEED = 35 * 4
+			CHRONOBALLLIFETIME = 1.6 / 4.5
+			CHRONOBALL_SCALE = 2
+			CHRONOBALL_HITBOXRADIUS = 6
+		end
 	end
 
 	function boss:Spawn()
@@ -119,7 +144,7 @@ function LoadBoss()
 				else
 					Network.SendBossHealthPacket(element, damage) -- Very bad
 				end
-				if boss.health <= 0 then				
+				if boss.health <= 0 then	
 					boss.Kill()
 				end
 			end
@@ -136,7 +161,6 @@ function LoadBoss()
 			boss.spells[1]:Kill()
 			boss.spells[2]:Kill()
 			boss.spells[3]:Kill()
-
 			boss.health = -1
 		end
 	end
@@ -144,7 +168,9 @@ function LoadBoss()
 	function boss:RealKill()
 		boss.combatStarted = false
 		--boss.animationController.deathTimer = 0
-		rewinder:Cast()
+		if BOSS_DEAD == false then 
+			rewinder:Cast()
+		end
 		boss.realDead = true
 	end
 
@@ -235,8 +261,8 @@ function UpdateBoss(dt)
 					boss.currentHealth = 0;
 				end
 			end
-			local vectorstuffabc = vec3sub(Transform.GetPosition(player.transformID), pos)
-			Transform.RotateToVector(boss.transformID, vectorstuffabc)
+			local bossLookat = vec3sub(Transform.GetPosition(player.transformID), pos)
+			Transform.RotateToVector(boss.transformID, bossLookat)
 			a = (boss.currentHealth * BOSS_HEALTHBAR_WIDTH) / boss.maxHealth;
 			UI.resizeWorld(boss.healthbar, a, BOSS_HEALTHBAR_HEIGHT)
 
