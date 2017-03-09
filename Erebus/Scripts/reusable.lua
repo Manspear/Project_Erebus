@@ -64,11 +64,11 @@ SUNCOLOR =  {r = 0.0,g=1.1 ,b=0.1},
 SUNANGLE = 56
 }
 
-TILE_ATMOSPHERE_TABLE[8] = {
+TILE_ATMOSPHERE_TABLE[1] = {
 AMBIENCECOLOR =  {r = 0.47450980,g=0.23137,b=0.49411},
 FOGCOLOR = {r=0.5,g=0.3,b=0.5},
 SKYBOX = 1,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
+SUNCOLOR =  {r = 0.2,g=0.9 ,b=0.2},
 SUNANGLE = 50
 }
 
