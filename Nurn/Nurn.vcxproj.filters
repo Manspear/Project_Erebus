@@ -120,6 +120,9 @@
     <ClInclude Include="HealthPacket.hpp">
       <Filter>Packages</Filter>
     </ClInclude>
+    <ClInclude Include="PacketQueueInterface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Packages">
