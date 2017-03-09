@@ -86,7 +86,7 @@ function LoadBoss()
 		boss.pickInterval = COMBATSTART_ANIMATIONTIME
 		boss.damagedTint = {r=0,g=0,b=0,a=0}
 		boss.damagedTintDuration = 0
-		boss.deathTimer = 0.1
+		boss.deathTimer = BOSS_FAKEDEATHTIME
 
 		--as soon as this is called, the boss stops moving no matter what I send in...
 		boss.animationController.animation:StopAnimationUpdating(false)
@@ -333,7 +333,7 @@ function UpdateBoss(dt)
 			if hm then
 				Transform.SetPosition(boss.transformID, { x=321.2, y= hm.asset:GetHeight(321.2, 435.7)+3, z=435.7 })
 			end
-
+			LEVEL_ROUND = 4
 		end
 	end
 
