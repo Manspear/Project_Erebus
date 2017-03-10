@@ -99,7 +99,7 @@ function CreatePlayerController(player)
 			self.animationState2 = 25
 		end
 
-		if self.oldWatch.health ~= self.watch.health or self.isDamagedTimerStart == true 
+		if self.oldWatch.health > self.watch.health or self.isDamagedTimerStart == true 
 		then
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
 			Network.SendQuickBlendPacket(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
