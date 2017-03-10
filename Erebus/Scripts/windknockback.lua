@@ -36,6 +36,7 @@ function CreateWindknockback(entity)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
+	Transform.ActiveControl(spell.transformID)
 
 	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, spell.texture1, spell.texture2)
 	spell.particles = createWindParticles()
