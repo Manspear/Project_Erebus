@@ -150,7 +150,7 @@ function LoadBoss()
 				else
 					Network.SendBossHealthPacket(element, damage) -- Very bad
 				end
-				if boss.health <= 0 then	
+				if boss.currentHealth <= 0 then	
 					boss.Kill()
 				end
 			end

@@ -101,7 +101,7 @@ end
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
-		self.damage = self.damage + 2 * damage
+		self.damage = self.damage +  damage
 	end
 end
 
@@ -220,9 +220,9 @@ function TriggerChecks(dt)
 end
 
 function Rewind()
-	boss.health = 500
-	--UnloadGameplay()
 	LEVEL_ROUND = LEVEL_ROUND + 1
+	boss.health = 500 * LEVEL_ROUND/2.0
+	--UnloadGameplay()
 	--EnterGameplay()
 	if LEVEL_ROUND > 3 then
 			gamestate.ChangeState(GAMESTATE_WIN)
