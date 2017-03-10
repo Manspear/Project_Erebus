@@ -10,7 +10,7 @@ function CreateWindknockback(entity)
 	spell.texture1 = Assets.LoadTexture("Textures/wind.dds")
 	spell.texture2 = Assets.LoadTexture("Textures/wind2.dds")
 	spell.owner = entity		spell.caster = entity.transformID
-	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
+	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.durationTime = 0
 	spell.damage = 0
 	spell.alive = false
@@ -20,7 +20,6 @@ function CreateWindknockback(entity)
 	spell.startUp = true
 	spell.startUpTime = 0
 	spell.isActiveSpell = false
-	spell.stage1time = 0.5
 	spell.stage2time = 1
 	spell.enemiesHit = {}
 
@@ -50,7 +49,6 @@ function CreateWindknockback(entity)
 			self:CheckCollisions()
 			self:UpdateBlending(dt)
 			self:MoveWithOwner()
-			print(self)
 		end
 		self.cooldown = self.cooldown - dt
 	end
@@ -86,7 +84,7 @@ function CreateWindknockback(entity)
 	end
 
 	function spell:GeneralCast()
-		self.alive = true		self.stage1time = 0.5
+		self.alive = true
 
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
@@ -145,7 +143,7 @@ function CreateWindknockback(entity)
 			self:Kill()
 		else
 
-			self.blendValue1.y = self.blendValue1.y - 0.6 * dt * 1.5
+			self.blendValue1.y = self.blendValue1.y - 0.2 * dt * 1.5
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt *1.5
 
 			Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1, self.blendValue2)	
@@ -157,7 +155,7 @@ function CreateWindknockback(entity)
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
 		self.blendValue1.x, self.blendValue1.y = 0, 0
-		self.blendValue2.x, self.blendValue2.y = 0, 0
+		self.blendValue2.x, self.blendValue2.y = 0, 0.5
 		self.enemiesHit = {}
 		self.damage = 0
 		if #self.effects > 1 then
