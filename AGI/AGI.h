@@ -289,6 +289,7 @@ namespace AGI
 
 		AGI_API void destroyInfluenceMap()
 		{
+			std::cout << "DSDA" << std::endl;
 			for (int n = 0; n < imWidth; n++)
 			{
 				for (int i = 0; i < imHeight; i++)
@@ -692,6 +693,8 @@ namespace AGI
 				return;
 
 			if (xFrom > 700 || xPlayerPos > 700 || yFrom > 780 || yPlayerPos> 780)
+				return;
+			if (dynamicInfluenceMap == NULL)
 				return;
 
 			if (dynamicInfluenceMap[xPlayerPos][yPlayerPos] == nullptr)
