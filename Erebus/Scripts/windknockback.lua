@@ -1,7 +1,7 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 0.8
 WINDKNOCKBACK_CASTSPEED_MULTIPLE = 1.8
-WINDKNOCKBACK_POWER = 6
+WINDKNOCKBACK_POWER = 8
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
@@ -61,6 +61,7 @@ function CreateWindknockback(entity)
 			self.radius = 3
 			self:GeneralCast()
 			self.damage = 6
+
 		end
 	end
 	
@@ -179,7 +180,7 @@ function DestroyWindknockback(knockback)
 	Assets.UnloadModel( "Models/pCone1.model" )
 	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
 	Assets.UnloadTexture("Textures/wind.dds")
-	Assets.UnloadTexture("Textures/wind2.dds")
+	Assets.UnloadTexture("Textures/windWave.dds")
 
 	knockback = nil
 end
