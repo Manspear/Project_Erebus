@@ -40,9 +40,17 @@ private:
 
 	void drawQuad(); //Draw Screen quad
 
+	ShaderProgram* quadShader;
+
 	ShaderProgram* blurShader;
+	GLuint blurVerticalTextureID;
+	GLuint blurVerticalFramebufferID;
+
+	GLuint blurHorizontalTextureID;
+	GLuint blurHorizontalFramebufferID;
 
 	void initFramebuffer(int textureWidth, int textureHeight);
+	void initBlurFramebuffer(int textureWidth, int textureHeight);
 
 public:
 	CascadedShadowMap();

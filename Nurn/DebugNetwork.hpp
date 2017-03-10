@@ -17,7 +17,7 @@ public:
 
 	void initializeDebugNetwork(uint8_t loopNumber, bool sendPingPacket);
 
-	PingPacket& getPingPacket();
+	Packet::PingPacket& getPingPacket();
 	void setSendPingPacket(bool sendPingPacket);
 	bool getSendPingPacket() const;
 
@@ -39,7 +39,7 @@ public:
 	std::chrono::time_point<std::chrono::system_clock> ping_start_time;
 
 private:
-	PingPacket pingPacket;
+	Packet::PingPacket pingPacket;
 	float ping;
 	std::atomic<bool> sendPingPacket;
 };

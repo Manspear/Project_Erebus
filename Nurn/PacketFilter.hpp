@@ -41,6 +41,9 @@ public:
 	
 	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
+	template<class packetType>
+	void addNewQueue(const int& size);
+	
 private:
 	std::vector<std::shared_ptr<PacketQueueInterface>> queueList;
 
@@ -48,3 +51,15 @@ private:
 	DebugNetwork * debugNetwork_ptr;
 #endif
 };
+
+extern template void PacketFilter::addNewQueue<Packet::AIStatePacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::AnimationPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::ChangeSpellsPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::ChargingPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::DamagePacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::DashPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::EventPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::HealthPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::QuickBlendPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::SpellPacket>(const int& size);
+extern template void PacketFilter::addNewQueue<Packet::TransformPacket>(const int& size);

@@ -7,16 +7,23 @@ function CreateWindknockback(entity)
 	spell.element = ICE
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconWindKnockback.dds")
+	spell.texture1 = Assets.LoadTexture("Textures/wind.dds")
+	spell.texture2 = Assets.LoadTexture("Textures/wind2.dds")
 	spell.owner = entity		spell.caster = entity.transformID
+	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.0}
+	spell.durationTime = 0
 	spell.damage = 0
 	spell.alive = false
 	spell.chargedTime = 0
 	spell.radius = 0
 	spell.maxChargeTime = 2		spell.minChargeTime = 0
+	spell.startUp = true
+	spell.startUpTime = 0
 	spell.isActiveSpell = false
 	spell.stage1time = 0.5
+	spell.stage2time = 1
 	spell.enemiesHit = {}
-	
+
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -24,12 +31,14 @@ function CreateWindknockback(entity)
 	spell.castAnimationPlayTime = 2 * WINDKNOCKBACK_CASTSPEED_MULTIPLE --the true cast time of the animation
 	spell.castTimeFirstAttack = 0.1875 * WINDKNOCKBACK_CASTSPEED_MULTIPLE
 
-	local model = Assets.LoadModel( "Models/nothing.model" )
-	spell.transformID = Gear.BindForwardInstance(model)
+	local model = Assets.LoadModel( "Models/pCone1.model" )
+	spell.transformID = Gear.BindBlendingInstance(model)
 	spell.sphereCollider = SphereCollider.Create(spell.transformID)
 	CollisionHandler.AddSphere(spell.sphereCollider, 2)	
 	SphereCollider.SetActive(spell.sphereCollider, false)
+	Transform.ActiveControl(spell.transformID)
 
+	spell.blendingIndex = Gear.SetBlendTextures(-1, 2, spell.texture1, spell.texture2)
 	spell.particles = createWindParticles()
 
 	spell.effects = {} 
@@ -37,12 +46,11 @@ function CreateWindknockback(entity)
 
 	function spell:Update(dt)
 		if self.alive then
-			if self.stage1time > 0 then
-				self:CheckCollisions()
-				self.stage1time = self.stage1time - dt
-			else
-				self:Kill()	
-			end
+		
+			self:CheckCollisions()
+			self:UpdateBlending(dt)
+			self:MoveWithOwner()
+			print(self)
 		end
 		self.cooldown = self.cooldown - dt
 	end
@@ -50,6 +58,7 @@ function CreateWindknockback(entity)
 	function spell:Cast()
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
+			self.durationTime = 0.4
 			self.chargedTime = WINDKNOCKBACK_POWER
 			self.radius = 3
 			self:GeneralCast()
@@ -64,26 +73,42 @@ function CreateWindknockback(entity)
 	end
 
 	function spell:ChargeCast(entity)
+		self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER	
+		self.durationTime = 0.5
+
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
-			self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER
 			self.radius = self.chargedTime
 			self:GeneralCast()
 			self.damage = 10
 		end
+
 	end
 
 	function spell:GeneralCast()
 		self.alive = true		self.stage1time = 0.5
+
 		local pos = Transform.GetPosition(self.caster)
 		local direction = Transform.GetLookAt(self.caster)
-		pos.x = pos.x + direction.x * 4
-		pos.y = pos.y + direction.y * 4
-		pos.z = pos.z + direction.z * 4
+		pos.x = pos.x + direction.x * 2.5
+		pos.y = pos.y + direction.y
+		pos.z = pos.z + direction.z * 2.5
 		Transform.SetPosition(self.transformID, pos)
+		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.radius)
+		Transform.RotateToVector(self.transformID, Transform.GetLookAt(self.owner.transformID))
 		self.particles:poof(pos, direction)
+	end
+
+	function spell:MoveWithOwner()
+		local pos = Transform.GetPosition(self.caster)
+		local direction = Transform.GetLookAt(self.caster)
+		pos.x = pos.x + direction.x * 2.5
+		pos.y = pos.y + direction.y
+		pos.z = pos.z + direction.z * 2.5
+		Transform.SetPosition(self.transformID, pos)
+		Transform.RotateToVector(self.transformID, Transform.GetLookAt(self.owner.transformID))
 	end
 
 	function spell:CheckCollisions()
@@ -114,10 +139,25 @@ function CreateWindknockback(entity)
 		end
 	end
 
+	function spell:UpdateBlending(dt)
+		self.durationTime = self.durationTime - dt
+		if self.durationTime < 0 then
+			self:Kill()
+		else
+
+			self.blendValue1.y = self.blendValue1.y - 0.6 * dt * 1.5
+			self.blendValue2.y = self.blendValue2.y - 1.0 * dt *1.5
+
+			Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1, self.blendValue2)	
+		end
+	end
+
 	function spell:Kill()
 		self.alive = false
 		Transform.ActiveControl(self.transformID, false)
 		SphereCollider.SetActive(self.sphereCollider, false)
+		self.blendValue1.x, self.blendValue1.y = 0, 0
+		self.blendValue2.x, self.blendValue2.y = 0, 0
 		self.enemiesHit = {}
 		self.damage = 0
 		if #self.effects > 1 then
@@ -137,8 +177,10 @@ function DestroyWindknockback(knockback)
 
 	Gear.UnbindInstance(knockback.transformID)
 
-	Assets.UnloadModel( "Models/nothing.model" )
+	Assets.UnloadModel( "Models/pCone1.model" )
 	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
+	Assets.UnloadTexture("Textures/wind.dds")
+	Assets.UnloadTexture("Textures/wind2.dds")
 
 	knockback = nil
 end

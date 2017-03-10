@@ -10,7 +10,7 @@ template<typename Packet>
 class PacketQueue : public PacketQueueInterface
 {
 private:
-	Packet * queuePointer;
+	typename Packet * queuePointer;
 	uint8_t queueSize;
 	std::atomic<uint8_t> readIndex;
 	std::atomic<uint8_t> writeIndex;
@@ -24,16 +24,16 @@ public:
 	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy) override; // Push x bytes of packets to queue
 };
 
-template<typename Packet> PacketQueue<Packet>::PacketQueue(uint8_t queueSize)
+template<typename Packet> PacketQueue<typename Packet>::PacketQueue(uint8_t queueSize)
 {
 	this->readIndex = 0;
 	this->writeIndex = 0;
 	this->queueSize = queueSize;
 
-	this->queuePointer = new Packet[this->queueSize];
+	this->queuePointer = new typename Packet[this->queueSize];
 }
 
-template<typename Packet> PacketQueue<Packet>::~PacketQueue()
+template<typename Packet> PacketQueue<typename Packet>::~PacketQueue()
 {
 	if(this->queuePointer)
 	{

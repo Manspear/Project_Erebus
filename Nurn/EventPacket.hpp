@@ -1,22 +1,24 @@
 #pragma once
 
 #include <iostream>
-
-union EventPacket
+namespace Packet
 {
-	struct EventPacketStruct
+	union EventPacket
 	{
-		uint16_t eventID;
-	}data;
+		struct EventPacketStruct
+		{
+			uint16_t eventID;
+		}data;
 
-	EventPacket()
-	{
-	}
+		EventPacket()
+		{
+		}
 
-	EventPacket(const uint16_t& eventID)
-	{
-		data.eventID = eventID;
-	}
+		EventPacket(const uint16_t& eventID)
+		{
+			data.eventID = eventID;
+		}
 
-	unsigned char bytes[sizeof(EventPacketStruct)];
-};
+		unsigned char bytes[sizeof(EventPacketStruct)];
+	};
+}

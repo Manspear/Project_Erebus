@@ -309,6 +309,9 @@ namespace Gear
 				queue.geometryPass(dynamicModels, animatedModels, dirLights[0]);
 			}
 		}
+
+		skybox->blurShadow();
+
 		//shadowMap.use();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//queue.geometryPass(dynamicModels, animatedModels, dirLights[0]); // renders the geometry into the gbuffer

@@ -71,6 +71,7 @@ namespace LuaGear
 	int setFogColor(lua_State* lua);
 	int setBlend(lua_State* lua);
 	int setShadow(lua_State* lua);
+	int setBluring(lua_State* lua);
 	int setAmbient(lua_State* lua);
 	int setLightColor(lua_State* lua);
 	int setLightAngle(lua_State* lua);

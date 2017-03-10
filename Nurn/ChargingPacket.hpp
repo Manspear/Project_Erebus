@@ -1,25 +1,27 @@
 #pragma once
 
 #include <iostream>
-
-union ChargingPacket
+namespace Packet
 {
-	struct ChargingPacketStruct
+	union ChargingPacket
 	{
-		uint16_t chosenSpell;
-		bool activateCombineRay;
+		struct ChargingPacketStruct
+		{
+			uint16_t chosenSpell;
+			bool activateCombineRay;
 
-	}data;
+		}data;
 
-	ChargingPacket()
-	{
-	}
+		ChargingPacket()
+		{
+		}
 
-	ChargingPacket(const uint16_t &chosenSpell, const bool& activateCombineRay)
-	{
-		data.chosenSpell = chosenSpell;
-		data.activateCombineRay = activateCombineRay;
-	}
+		ChargingPacket(const uint16_t &chosenSpell, const bool& activateCombineRay)
+		{
+			data.chosenSpell = chosenSpell;
+			data.activateCombineRay = activateCombineRay;
+		}
 
-	unsigned char bytes[sizeof(ChargingPacketStruct)];
-};
+		unsigned char bytes[sizeof(ChargingPacketStruct)];
+	};
+}

@@ -26,6 +26,7 @@ function UnloadOptionsMenu()
 		file:write("SETTING_FULLSCREEN = " .. boolToString(SETTING_FULLSCREEN) .. "\n")
 		file:write("SETTING_DEBUG = " .. boolToString(SETTING_DEBUG) .. "\n")
 		file:write("SETTING_SHADOW = " .. boolToString(SETTING_SHADOW) .. "\n")
+		file:write("SETTING_BLURRING = " .. boolToString(SETTING_BLURRING) .. "\n")
 
 		file:write("SETTING_KEYBIND_FORWARD = \"" .. SETTING_KEYBIND_FORWARD .. "\"\n")
 		file:write("SETTING_KEYBIND_LEFT = \"" .. SETTING_KEYBIND_LEFT .."\"\n")
