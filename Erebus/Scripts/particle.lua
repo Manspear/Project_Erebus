@@ -173,7 +173,7 @@ end
 function createWindParticles()
 	local wind = {}
 	--Args = Antal partiklar, livstid, hastighet, utskjut/sekund, antal/utskjut, gravitation, koncentration på spruuut, storlek, tillväxt 
-	wind.ID = Particle.Bind("ParticleFiles/wind.Particle")   
+	wind.ID = Particle.Bind("ParticleFiles/wind2.Particle")   
 
 	function wind:poof(pos, direction)	
 		Particle.SetPosition(self.ID, pos)
