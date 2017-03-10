@@ -88,9 +88,9 @@ function CreateSiphon(entity)
 
 	function spell:ChargeCast()
 		if self.cooldown < 0 then 
-			self.chargeAlive = true
 			self.chained = self:getcollisions()
 			if self.chained then
+				self.chargeAlive = true
 				self.alive = true
 				self.cooldown = SIPHON_COOLDOWN
 				Transform.ActiveControl(self.transformID, true)
@@ -158,7 +158,7 @@ function CreateSiphon(entity)
 		self.cooldown = self.cooldown - dt
 		self.spamcooldown = self.spamcooldown - dt
 		self.uvPush.y = self.uvPush.y - dt
-		if self.spamming and not self.chained then
+		if self.spamming and self.chained == nil then
 			self:rotatetoowner()
 			self.spamduration = self.spamduration - dt
 			self.interval = self.interval - dt
@@ -220,7 +220,9 @@ function CreateSiphon(entity)
 					end
 				end
 				self.chaininterval = SIPHON_CHAIN_INTERVAL
+
 			end
+			
 			if self.duration < 0 then
 				self.chargeAlive = false
 				if self.owner == player then
