@@ -1,22 +1,24 @@
 #pragma once
 
 #include <iostream>
-
-union DashPacket
+namespace Packet
 {
-	struct DashPacketStruct
+	union DashPacket
 	{
-		bool isDashing;
-	}data;
+		struct DashPacketStruct
+		{
+			bool isDashing;
+		}data;
 
-	DashPacket()
-	{
-	}
+		DashPacket()
+		{
+		}
 
-	DashPacket(const bool& isDashing)
-	{
-		data.isDashing = isDashing;
-	}
+		DashPacket(const bool& isDashing)
+		{
+			data.isDashing = isDashing;
+		}
 
-	unsigned char bytes[sizeof(DashPacketStruct)];
-};
+		unsigned char bytes[sizeof(DashPacketStruct)];
+	};
+}

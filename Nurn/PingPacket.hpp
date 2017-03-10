@@ -1,22 +1,24 @@
 #pragma once
 
 #include <iostream>
-
-union PingPacket
+namespace Packet
 {
-	struct PingPacketStruct
+	union PingPacket
 	{
-		uint8_t loopNumber;
-	}data;
+		struct PingPacketStruct
+		{
+			uint8_t loopNumber;
+		}data;
 
-	PingPacket()
-	{
-	}
+		PingPacket()
+		{
+		}
 
-	PingPacket(const uint8_t& loopNumber)
-	{
-		data.loopNumber = loopNumber;
-	}
+		PingPacket(const uint8_t& loopNumber)
+		{
+			data.loopNumber = loopNumber;
+		}
 
-	unsigned char bytes[sizeof(PingPacketStruct)];
-};
+		unsigned char bytes[sizeof(PingPacketStruct)];
+	};
+}

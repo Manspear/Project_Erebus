@@ -44,6 +44,9 @@ public:
 	void buildNetPacket(); 
 	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
+	template<class packetType>
+	void addNewQueue(const int& size);
+
 private:
 	unsigned char * memory;
 
@@ -63,3 +66,15 @@ private:
 	void addPingPacket(uint16_t& netPacketSize, bool& fullPackage); // Only added when debugging
 #endif
 };
+
+extern template void Packager::addNewQueue<Packet::AIStatePacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::AnimationPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::ChangeSpellsPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::ChargingPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::DamagePacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::DashPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::EventPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::HealthPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::QuickBlendPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::SpellPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::TransformPacket>(const int& size);

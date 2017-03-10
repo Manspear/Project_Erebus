@@ -11,6 +11,7 @@ namespace Nurn
 		this->packager = new Packager();
 		this->packetFilter = new PacketFilter();
 #endif
+		this->initPacketHandling();
 
 		return;
 	}
@@ -23,21 +24,16 @@ namespace Nurn
 
 	bool NurnEngine::InitializeHost(uint16_t port)
 	{
-		if (!packager)
+		if (!packager && !packetFilter)
 		{
 #ifdef DEBUGGING_NETWORK
 			this->packager = new Packager(&this->debugNetwork);
-#else
-			this->packager = new Packager();
-#endif
-		}
-		if (!packetFilter)
-		{
-#ifdef DEBUGGING_NETWORK
 			this->packetFilter = new PacketFilter(&this->debugNetwork);
 #else
+			this->packager = new Packager();
 			this->packetFilter = new PacketFilter();
 #endif
+			this->initPacketHandling();
 		}
 #ifdef DEBUGGING_NETWORK
 		this->debugNetwork.initializeDebugNetwork(0, true);
@@ -48,21 +44,16 @@ namespace Nurn
 
 	bool NurnEngine::InitializeClient(uint8_t ip1, uint8_t ip2, uint8_t ip3, uint8_t ip4, uint16_t destPort, uint16_t origPort)
 	{
-		if (!packager)
+		if (!packager && !packetFilter)
 		{
 #ifdef DEBUGGING_NETWORK
 			this->packager = new Packager(&this->debugNetwork);
-#else
-			this->packager = new Packager();
-#endif
-		}
-		if (!packetFilter)
-		{
-#ifdef DEBUGGING_NETWORK
 			this->packetFilter = new PacketFilter(&this->debugNetwork);
 #else
+			this->packager = new Packager();
 			this->packetFilter = new PacketFilter();
 #endif
+			this->initPacketHandling();
 		}
 #ifdef DEBUGGING_NETWORK
 		this->debugNetwork.initializeDebugNetwork(1, false);
@@ -134,182 +125,182 @@ namespace Nurn
 		netCommunication.Shutdown();
 	}
 
-	void NurnEngine::pushTransformPacket(const TransformPacket& packet)
+	void NurnEngine::pushTransformPacket(const Packet::TransformPacket& packet)
 	{
 		this->packager->getQueue(TRANSFORM_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchTransformPacket(TransformPacket &packet)
+	bool NurnEngine::fetchTransformPacket(Packet::TransformPacket &packet)
 	{
 		return this->packetFilter->getQueue(TRANSFORM_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushAnimationPacket(const AnimationPacket& packet)
+	void NurnEngine::pushAnimationPacket(const Packet::AnimationPacket& packet)
 	{
 		this->packager->getQueue(ANIMATION_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchAnimationPacket(AnimationPacket& packet)
+	bool NurnEngine::fetchAnimationPacket(Packet::AnimationPacket& packet)
 	{
 		return this->packetFilter->getQueue(ANIMATION_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushAIStatePacket(const AIStatePacket& packet)
+	void NurnEngine::pushAIStatePacket(const Packet::AIStatePacket& packet)
 	{
 		this->packager->getQueue(AI_STATE_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchAIPacket(AIStatePacket& packet)
+	bool NurnEngine::fetchAIPacket(Packet::AIStatePacket& packet)
 	{
 		return this->packetFilter->getQueue(AI_STATE_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushSpellPacket(const SpellPacket& packet)
+	void NurnEngine::pushSpellPacket(const Packet::SpellPacket& packet)
 	{
 		this->packager->getQueue(SPELL_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchSpellPacket(SpellPacket& packet)
+	bool NurnEngine::fetchSpellPacket(Packet::SpellPacket& packet)
 	{
 		return this->packetFilter->getQueue(SPELL_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushAITransformPacket(const TransformPacket& packet)
+	void NurnEngine::pushAITransformPacket(const Packet::TransformPacket& packet)
 	{
 		this->packager->getQueue(AI_TRANSFORM_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchAITransformPacket(TransformPacket& packet)
+	bool NurnEngine::fetchAITransformPacket(Packet::TransformPacket& packet)
 	{
 		return this->packetFilter->getQueue(AI_TRANSFORM_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushChargingPacket(const ChargingPacket& packet)
+	void NurnEngine::pushChargingPacket(const Packet::ChargingPacket& packet)
 	{
 		this->packager->getQueue(CHARGING_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchChargingPacket(ChargingPacket& packet)
+	bool NurnEngine::fetchChargingPacket(Packet::ChargingPacket& packet)
 	{
 		return this->packetFilter->getQueue(CHARGING_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushQuickBlendPacket(const QuickBlendPacket& packet)
+	void NurnEngine::pushQuickBlendPacket(const Packet::QuickBlendPacket& packet)
 	{
 		this->packager->getQueue(QUICKBLEND_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchQuickBlendPacket(QuickBlendPacket& packet)
+	bool NurnEngine::fetchQuickBlendPacket(Packet::QuickBlendPacket& packet)
 	{
 		return this->packetFilter->getQueue(QUICKBLEND_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushDamagePacket(const DamagePacket& packet)
+	void NurnEngine::pushDamagePacket(const Packet::DamagePacket& packet)
 	{
 		this->packager->getQueue(DAMAGE_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchDamagePacket(DamagePacket& packet)
+	bool NurnEngine::fetchDamagePacket(Packet::DamagePacket& packet)
 	{
 		return this->packetFilter->getQueue(DAMAGE_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushChangeSpellsPacket(const ChangeSpellsPacket& packet)
+	void NurnEngine::pushChangeSpellsPacket(const Packet::ChangeSpellsPacket& packet)
 	{
 		this->packager->getQueue(CHANGESPELLS_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchChangeSpellsPacket(ChangeSpellsPacket& packet)
+	bool NurnEngine::fetchChangeSpellsPacket(Packet::ChangeSpellsPacket& packet)
 	{
 		return this->packetFilter->getQueue(CHANGESPELLS_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushPlayerEventPacket(const EventPacket& packet)
+	void NurnEngine::pushPlayerEventPacket(const Packet::EventPacket& packet)
 	{
 		this->packager->getQueue(PLAYER_EVENT_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchPlayerEventPacket(EventPacket& packet)
+	bool NurnEngine::fetchPlayerEventPacket(Packet::EventPacket& packet)
 	{
 		return this->packetFilter->getQueue(PLAYER_EVENT_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushAIHealthPacket(const HealthPacket& packet)
+	void NurnEngine::pushAIHealthPacket(const Packet::HealthPacket& packet)
 	{
 		this->packager->getQueue(AI_HEALTH_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchAIHealthPacket(HealthPacket& packet)
+	bool NurnEngine::fetchAIHealthPacket(Packet::HealthPacket& packet)
 	{
 		return this->packetFilter->getQueue(AI_HEALTH_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushDashPacket(const DashPacket& packet)
+	void NurnEngine::pushDashPacket(const Packet::DashPacket& packet)
 	{
 		this->packager->getQueue(DASH_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchDashPacket(DashPacket& packet)
+	bool NurnEngine::fetchDashPacket(Packet::DashPacket& packet)
 	{
 		return this->packetFilter->getQueue(DASH_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushEndEventPacket(const EventPacket& packet)
+	void NurnEngine::pushEndEventPacket(const Packet::EventPacket& packet)
 	{
 		this->packager->getQueue(END_EVENT_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchEndEventPacket(EventPacket& packet)
+	bool NurnEngine::fetchEndEventPacket(Packet::EventPacket& packet)
 	{
 		return this->packetFilter->getQueue(END_EVENT_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushPlayerHealthPacket(const HealthPacket& packet)
+	void NurnEngine::pushPlayerHealthPacket(const Packet::HealthPacket& packet)
 	{
 		this->packager->getQueue(PLAYER_HEALTH_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchPlayerHealthPacket(HealthPacket& packet)
+	bool NurnEngine::fetchPlayerHealthPacket(Packet::HealthPacket& packet)
 	{
 		return this->packetFilter->getQueue(PLAYER_HEALTH_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushRessurectionPacket(const HealthPacket& packet)
+	void NurnEngine::pushRessurectionPacket(const Packet::HealthPacket& packet)
 	{
 		this->packager->getQueue(RESSURECTION_PACKET)->push(&packet);
 	}
 	
-	bool NurnEngine::fetchRessurectionPacket(HealthPacket& packet)
+	bool NurnEngine::fetchRessurectionPacket(Packet::HealthPacket& packet)
 	{
 		return this->packetFilter->getQueue(RESSURECTION_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushAIDamageTextPacket(const DamagePacket& packet)
+	void NurnEngine::pushAIDamageTextPacket(const Packet::DamagePacket& packet)
 	{
 		this->packager->getQueue(AI_DAMAGE_TEXT_PACKET)->push(&packet);
 	}
 	
-	bool NurnEngine::fetchAIDamageTextPacket(DamagePacket& packet)
+	bool NurnEngine::fetchAIDamageTextPacket(Packet::DamagePacket& packet)
 	{
 		return this->packetFilter->getQueue(AI_DAMAGE_TEXT_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushBossDamageTextPacket(const DamagePacket& packet)
+	void NurnEngine::pushBossDamageTextPacket(const Packet::DamagePacket& packet)
 	{
 		this->packager->getQueue(BOSS_DAMAGE_TEXT_PACKET)->push(&packet);
 	}
 
-	bool NurnEngine::fetchBossDamageTextPacket(DamagePacket& packet)
+	bool NurnEngine::fetchBossDamageTextPacket(Packet::DamagePacket& packet)
 	{
 		return this->packetFilter->getQueue(BOSS_DAMAGE_TEXT_PACKET)->pop(&packet);
 	}
 
-	void NurnEngine::pushBossHealthPacket(const HealthPacket& packet)
+	void NurnEngine::pushBossHealthPacket(const Packet::HealthPacket& packet)
 	{
 		this->packager->getQueue(BOSS_HEALTH_PACKET)->push(&packet);
 	}
 	
-	bool NurnEngine::fetchBossHealthPacket(HealthPacket& packet)
+	bool NurnEngine::fetchBossHealthPacket(Packet::HealthPacket& packet)
 	{
 		return this->packetFilter->getQueue(BOSS_HEALTH_PACKET)->pop(&packet);
 	}
@@ -322,4 +313,32 @@ namespace Nurn
 	}
 #endif
 
+	void NurnEngine::initPacketHandling()
+	{
+		this->initQueues<Packet::TransformPacket>(3);
+		this->initQueues<Packet::AnimationPacket>(5);
+		this->initQueues<Packet::AIStatePacket>(100);
+		this->initQueues<Packet::SpellPacket>(20);
+		this->initQueues<Packet::TransformPacket>(100);
+		this->initQueues<Packet::ChargingPacket>(20);
+		this->initQueues<Packet::QuickBlendPacket>(20);
+		this->initQueues<Packet::DamagePacket>(40);
+		this->initQueues<Packet::ChangeSpellsPacket>(10);
+		this->initQueues<Packet::EventPacket>(10);
+		this->initQueues<Packet::HealthPacket>(100);
+		this->initQueues<Packet::DashPacket>(5);
+		this->initQueues<Packet::EventPacket>(10);
+		this->initQueues<Packet::HealthPacket>(10);
+		this->initQueues<Packet::HealthPacket>(2);
+		this->initQueues<Packet::DamagePacket>(100);
+		this->initQueues<Packet::DamagePacket>(10);
+		this->initQueues<Packet::HealthPacket>(30);
+	}
+
+	template<class packetType>
+	void NurnEngine::initQueues(const int & size)
+	{
+		this->packetFilter->addNewQueue<packetType>(size);
+		this->packager->addNewQueue<packetType>(size);
+	}
 }

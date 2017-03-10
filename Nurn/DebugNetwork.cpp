@@ -18,7 +18,7 @@ void DebugNetwork::initializeDebugNetwork(uint8_t loopNumber, bool sendPingPacke
 	this->pingPacket.data.loopNumber = loopNumber;
 }
 
-PingPacket& DebugNetwork::getPingPacket()
+Packet::PingPacket& DebugNetwork::getPingPacket()
 {
 	return this->pingPacket;
 }
