@@ -11,7 +11,7 @@ function CreatePolyEffect(owner, duration)
 	effect.polymorphTransform, effect.particles = GetNextFreeMorph()
 
 	function effect:Apply(entity, duration)
-		if entity ~= boss then
+		if entity == boss then
 			return
 		end
 		Transform.SetScale(entity.transformID, 0)

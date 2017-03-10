@@ -165,7 +165,7 @@ function LoadPlayer()
 		player.levelIndex = levelIndex
 		player.currentHeightmap = heightmaps[levelIndex]
 		player.controller:SetHeightmap(player.currentHeightmap.asset)
-		PlayBGM(BACKGROUND_MUSIC_FILE[levelIndex])
+		PlayBGM(BACKGROUND_MUSIC_FILE[levelIndex],musicVolume)
 	end
 
 	-- add a sphere collider to the player

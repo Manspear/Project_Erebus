@@ -691,6 +691,12 @@ namespace AGI
 			if (xFrom < 0 || xPlayerPos < 0 || yFrom < 0 || yPlayerPos < 0)
 				return;
 
+			if (xFrom > 700 || xPlayerPos > 700 || yFrom > 780 || yPlayerPos> 780)
+				return;
+
+			if (dynamicInfluenceMap[xPlayerPos][yPlayerPos] == nullptr)
+				return;
+
 			if (enemies.at(enemyPos).hasTarget())
 			{
 				enemies.at(enemyPos).hasReachedTarget(xFrom, yFrom, xPlayerPos, yPlayerPos);
@@ -729,8 +735,11 @@ namespace AGI
 						float countDown = 66;
 						if (finishNode != nullptr)
 							finishNode = finishNode->getParent();
-						while (finishNode != nullptr && finishNode != finishNode->getParent())
+
+						superCounter = 0;
+						while (finishNode != nullptr && finishNode != finishNode->getParent() && superCounter < (MAXSIZEPATH - 14))
 						{
+							superCounter++;
 							glm::vec2 inPos = finishNode->getPos();
 
 							int tempX = round(((inPos.x / mapWidth)*imWidth));
