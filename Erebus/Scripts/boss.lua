@@ -217,7 +217,7 @@ function UpdateBoss(dt)
 					boss.Kill()
 				end
 			end
-			local newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
+			newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
 		end
 
 		if Network.GetNetworkHost() == false then
