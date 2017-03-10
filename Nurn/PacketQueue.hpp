@@ -14,6 +14,8 @@ private:
 	uint8_t queueSize;
 	std::atomic<uint8_t> readIndex;
 	std::atomic<uint8_t> writeIndex;
+	size_t sizeOfIndividualPacket;
+
 
 public:
 	PacketQueue(uint8_t size);
@@ -22,6 +24,7 @@ public:
 	bool pop(void * packet) override;
 	bool push(const void * packet) override;
 	bool batchPush(const unsigned char * const memoryPointer, const uint16_t& startPoint, const uint16_t& sizeToCopy) override; // Push x bytes of packets to queue
+	size_t getPacketSize() override; // Push x bytes of packets to queue
 };
 
 template<typename Packet> PacketQueue<typename Packet>::PacketQueue(uint8_t queueSize)
@@ -29,6 +32,7 @@ template<typename Packet> PacketQueue<typename Packet>::PacketQueue(uint8_t queu
 	this->readIndex = 0;
 	this->writeIndex = 0;
 	this->queueSize = queueSize;
+	this->sizeOfIndividualPacket = sizeof(Packet);
 
 	this->queuePointer = new typename Packet[this->queueSize];
 }
@@ -121,4 +125,9 @@ template<typename Packet> bool PacketQueue<Packet>::batchPush(const unsigned cha
 	{
 		return false; // return if next element is readIndex
 	}
+}
+
+template<typename Packet> size_t PacketQueue<Packet>::getPacketSize()
+{
+	return sizeOfIndividualPacket;
 }

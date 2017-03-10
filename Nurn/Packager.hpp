@@ -58,8 +58,7 @@ private:
 	DebugNetwork *debugNetwork_ptr;
 #endif
 
-	template<class packetType>
-	void addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::shared_ptr<PacketQueueInterface> const packetQueue, const uint8_t& packetEnum);
+	void addNewPackets(uint16_t &netPacketSize, bool& fullPackage, const uint8_t& packetEnum);
 	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 #ifdef DEBUGGING_NETWORK
