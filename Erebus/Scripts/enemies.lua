@@ -139,7 +139,9 @@ function CreateEnemy(type, position, element)
 							Network.SendAIHealthPacket(self.transformID, 0)
 						end
 						self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
-						self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+						if self.stateName ~= DUMMY_STATE then
+							self.soundID[3] = Sound.Play(SFX_HURT, 1, pos)
+						end
 						if element then
 							Network.SendAIDamageTextPacket(self.transformID, damage, element)
 							Gear.PrintDamage(damage,element, pos.x, pos.y+1, pos.z )
