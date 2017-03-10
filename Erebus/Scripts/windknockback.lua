@@ -8,7 +8,7 @@ function CreateWindknockback(entity)
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 	spell.texture1 = Assets.LoadTexture("Textures/wind.dds")
-	spell.texture2 = Assets.LoadTexture("Textures/wind2.dds")
+	spell.texture2 = Assets.LoadTexture("Textures/windWave.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.durationTime = 0
@@ -91,6 +91,7 @@ function CreateWindknockback(entity)
 		pos.x = pos.x + direction.x * 2.5
 		pos.y = pos.y + direction.y
 		pos.z = pos.z + direction.z * 2.5
+
 		Transform.SetPosition(self.transformID, pos)
 		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
