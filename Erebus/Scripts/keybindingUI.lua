@@ -51,7 +51,7 @@ function UpdateKeybindingUI(dt)
 	end
 
 	for i=1, num_keys do
-		if Inputs.ButtonReleased(Buttons.Left) then
+		if Inputs.ButtonReleased(Buttons.Left and EnabledKeys[i]) then
 			if UI.mousePick(screenImages[i], x,y) then
 				selected_key = i
 			end
@@ -131,15 +131,10 @@ function saveKeySettings()
 	 SETTING_KEYBIND_LEFT = Keychanges[2]
 	 SETTING_KEYBIND_BACK = Keychanges[3]
 	 SETTING_KEYBIND_RIGHT = Keychanges[4]
-	 SETTING_KEYBIND_DASH = "Keys.Space"
-	 SETTING_KEYBIND_NORMAL_ATTACK = "Buttons.Left"
-	 SETTING_KEYBIND_CHARGED_ATTACK = "Buttons.Right"
 	 SETTING_KEYBIND_SPELL_ONE = Keychanges[8]
 	 SETTING_KEYBIND_SPELL_TWO = Keychanges[9]
 	 SETTING_KEYBIND_SPELL_THREE = Keychanges[10]
 	 SETTING_KEYBIND_SPELLBOOK = Keychanges[11]
-	 SETTING_KEYBIND_MENU = "Keys.Escape"
-	 SETTING_KEYBIND_COMBINE = "Keys.Shift"
 	 SETTING_KEYBIND_PING = Keychanges[14]
 end
 
