@@ -16,9 +16,9 @@ function LoadOptionsUI()
 	imageTextures["play"]		=	Assets.LoadTexture("Textures/button.dds");
 
 	screenImages["background"]	=	UI.load(0, 0, 1280, 720);
-	screenImages["play"]		=	UI.load(465, 240, 350, 60);
-	screenImages["fullscreen"]	=	UI.load(465, 310, 350, 60);
-	screenImages["debug"]		=	UI.load(465, 380, 350, 60);
+	screenImages["play"]		=	UI.load(10, 650, 350, 60);
+	screenImages["fullscreen"]	=	UI.load(465, 240, 350, 60);
+	screenImages["debug"]		=	UI.load(465, 310, 350, 60);
 	screenImages["shadows"]		= UI.load(465, 380, 350, 60);
 	screenImages["shadowBlur"]	= UI.load(465, 450, 350, 60);
 	screenImages["keybinding"]	= UI.load(465, 520, 350, 60);
