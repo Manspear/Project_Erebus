@@ -2,6 +2,7 @@
 WINDKNOCKBACK_COOLDOWN = 0.8
 WINDKNOCKBACK_CASTSPEED_MULTIPLE = 1.8
 WINDKNOCKBACK_POWER = 4
+WINDKNOCKBACK_DAMAGE = 10
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
@@ -61,7 +62,7 @@ function CreateWindknockback(entity)
 			self.radius = 3
 			Transform.SetScale(self.transformID, self.scale - 0.4)
 			self:GeneralCast()
-			self.damage = 6
+			self.damage = WINDKNOCKBACK_DAMAGE
 		end
 	end
 	
@@ -80,7 +81,7 @@ function CreateWindknockback(entity)
 			self.radius = self.chargedTime
 			Transform.SetScale(self.transformID, self.scale)
 			self:GeneralCast()
-			self.damage = 10
+			self.damage = WINDKNOCKBACK_DAMAGE * 1.5
 		end
 
 	end
