@@ -140,7 +140,6 @@ function CreateSunRay(entity)
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x , self.startUpScale.y , self.startUpScale.z)
 		self.UVpushed = 0.0
 		self.alive = true	self.effectFlag = true
-		self.owner.moveSpeed = self.owner.moveSpeed * self.moveImpairment 	
 	end
 
 	function sunRay:Blasting(dt)
@@ -194,7 +193,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:MoveWithPlayer(dt)
-		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
+		Gear.SetBlendUniformValue(self.modelIndex, self.UVpushed, 0)
 		local direction = Transform.GetLookAt(self.caster)
 		local pos = Transform.GetPosition(self.caster)
 		pos.x = pos.x + direction.x * self.length 
@@ -205,13 +204,14 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Kill()
+		if self.alive then
+			Erebus.CameraSensitivity(1 / self.cameraSlow)
+		end
 		self.alive = false
 		self.chargeAlive = false
 		for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 		Sound.Stop(self.hitID)
-		Erebus.CameraSensitivity(1 / self.cameraSlow)
 		self.damage = SUNRAY_DAMAGE
-		self.owner.moveSpeed = self.owner.moveSpeed / self.moveImpairment
 		self.startUpScale.x = 1 self.startUpScale.y = 1 self.startUpScale.z = 1
 		self.type:Kill()
 		if self.owner == player then

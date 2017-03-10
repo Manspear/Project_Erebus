@@ -51,6 +51,7 @@ class FloatingDamage
 private:
 	float xOffsetRandom[RANDOM_NUMBER_TOTAL];
 	float yOffsetRandom[RANDOM_NUMBER_TOTAL];
+	float damageRandom[RANDOM_NUMBER_TOTAL];
 	const float charWidth = 1;
 	int currentOffset;
 
@@ -69,7 +70,7 @@ private:
 	fDamageVertex printDamage(const std::string &s, const float &scale, const glm::vec4 &color, glm::vec3 worldPos);
 	const float upSpeed = 1.5f;
 	glm::vec4 diffColors[eDamageTypes::NUM_DAMAGE_TYPES];
-	const float baseDamage = 30.f;
+	const float baseDamage = 70.f * 30;
 	const float maxScale = .25f; // minscale + maxScale = TotalScale
 	const float minScale = .3f;
 	const float maxLifeTime = 2.f;

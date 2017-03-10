@@ -123,7 +123,7 @@ function CreateBlackHole(entity)
 			--scale = scale + BLACK_HOLE_WHOBLE_FACTOR * math.cos(((BLACK_HOLE_COOLDOWN -self.cooldown)/BLACK_HOLE_WHOBLE_INTERVAL)*3.14)
 			--Transform.SetScaleNonUniform(self.type.transformID, scale, 0.01, scale) 
 			for index = 1, #hits do
-				local position = Transform.GetPosition(hits[index].transformID)--kanske borde flyttas ut till c
+				local position = hits[index].position--kanske borde flyttas ut till c
 				local pos = self.type.position
 				local direction = {x=0,y=0,z=0}
 				direction.x = position.x - pos.x

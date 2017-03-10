@@ -44,6 +44,9 @@ public:
 	void buildNetPacket(); 
 	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
+	template<class packetType>
+	void addNewQueue(const int& size);
+
 private:
 	unsigned char * memory;
 
@@ -55,11 +58,22 @@ private:
 	DebugNetwork *debugNetwork_ptr;
 #endif
 
-	template<class packetType>
-	void addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::shared_ptr<PacketQueueInterface> const packetQueue, const uint8_t& packetEnum);
+	void addNewPackets(uint16_t &netPacketSize, bool& fullPackage, const uint8_t& packetEnum);
 	void addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes); // After a group of packets have been added the MetaData is added.
 
 #ifdef DEBUGGING_NETWORK
 	void addPingPacket(uint16_t& netPacketSize, bool& fullPackage); // Only added when debugging
 #endif
 };
+
+extern template void Packager::addNewQueue<Packet::AIStatePacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::AnimationPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::ChangeSpellsPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::ChargingPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::DamagePacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::DashPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::EventPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::HealthPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::QuickBlendPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::SpellPacket>(const int& size);
+extern template void Packager::addNewQueue<Packet::TransformPacket>(const int& size);

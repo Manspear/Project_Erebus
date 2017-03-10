@@ -5,6 +5,8 @@
 #include <thread>
 #include <chrono>
 
+using namespace Packet;
+
 class NetworkController
 {
 public:

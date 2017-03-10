@@ -5,6 +5,7 @@
 CascadedShadowMap::CascadedShadowMap()
 {
 	blurShader = 0;
+	quadShader = 0;
 }
 
 
@@ -18,6 +19,9 @@ CascadedShadowMap::~CascadedShadowMap()
 
 	if (blurShader)
 		delete blurShader;
+
+	if (quadShader)
+		delete quadShader;
 }
 
 void CascadedShadowMap::Init(int textureWidth, int textureHeight, Lights::DirLight* light)
@@ -31,7 +35,9 @@ void CascadedShadowMap::Init(int textureWidth, int textureHeight, Lights::DirLig
 	this->farPlane = 2000.f;
 	this->initFramebuffer(textureWidth, textureHeight);
 
-	//blurShader =
+	blurShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "blur");
+	quadShader = new ShaderProgram(shaderBaseType::VERTEX_FRAGMENT, "quad");
+	initBlurFramebuffer(textureWidth, textureHeight);
 }
 
 void CascadedShadowMap::bind(int cascadeIndex)
@@ -184,6 +190,48 @@ float * CascadedShadowMap::getSplitDistance()
 void CascadedShadowMap::blur()
 {
 
+	GLuint uniformBlur = glGetUniformLocation(blurShader->getProgramID(), "filterTexture");
+	GLuint uniformQuad = glGetUniformLocation(quadShader->getProgramID(), "diffuse");
+
+	////Downsample
+	//quadShader->use();
+	//glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
+	//bindTexture(quadShader, "diffuse", 0, 0);
+	glViewport(0, 0, width, height);
+	//drawQuad();
+	//quadShader->unUse();
+
+	//Vertical Blur
+	blurShader->use();
+
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i(uniformBlur, 0);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurHorizontalFramebufferID);
+	bindTexture(blurShader, "filterTexture", 0, 0);
+	glm::vec3 blurScale = glm::vec3(0, 1.0 / (2.5f * (height)), 0);
+	blurShader->setUniform(blurScale, "blurScale");
+	drawQuad();
+
+	//Horizontal Blur
+	glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
+	bind(0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	blurScale = glm::vec3(1.0 / (2.5f * width), 0, 0);
+	blurShader->setUniform(blurScale, "blurScale");
+	drawQuad();
+
+	blurShader->unUse();
+
+	////Upsample
+	//quadShader->use();
+	//bind(0);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glActiveTexture(GL_TEXTURE0);
+	//glUniform1i(uniformQuad, 0);
+	//glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
+	//drawQuad();
+	//quadShader->unUse();
 }
 
 void CascadedShadowMap::drawQuad()
@@ -243,6 +291,52 @@ void CascadedShadowMap::initFramebuffer(int textureWidth, int textureHeight)
 	//glReadBuffer(GL_NONE);
 
 	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		printf("FB error, status: 0x%x\n", Status);
+	}
+}
+
+void CascadedShadowMap::initBlurFramebuffer(int textureWidth, int textureHeight)
+{
+	glGenFramebuffers(1, &blurVerticalFramebufferID);
+
+	glGenTextures(1, &blurVerticalTextureID);
+
+	glBindTexture(GL_TEXTURE_2D, blurVerticalTextureID);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, textureWidth, textureHeight, 0, GL_RG, GL_UNSIGNED_BYTE, NULL);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurVerticalFramebufferID);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, blurVerticalTextureID, 0);
+
+	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+	if (Status != GL_FRAMEBUFFER_COMPLETE) {
+		printf("FB error, status: 0x%x\n", Status);
+	}
+
+
+	glGenFramebuffers(1, &blurHorizontalFramebufferID);
+
+	glGenTextures(1, &blurHorizontalTextureID);
+
+	glBindTexture(GL_TEXTURE_2D, blurHorizontalTextureID);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG32F, textureWidth, textureHeight, 0, GL_RG, GL_UNSIGNED_BYTE, NULL);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, blurHorizontalFramebufferID);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, blurHorizontalTextureID, 0);
+
+	Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
 	if (Status != GL_FRAMEBUFFER_COMPLETE) {
 		printf("FB error, status: 0x%x\n", Status);

@@ -23,7 +23,7 @@ function UpdateLogic(dt)
 	end
 	
 	if LEVEL_ROUND > 3 then
-		print("Congratulations, YOU WON! in levelLogic8, UpdateLogic(dt)-function! ")
+		gamestate.ChangeState(GAMESTATE_WIN)
 	end
 
 	

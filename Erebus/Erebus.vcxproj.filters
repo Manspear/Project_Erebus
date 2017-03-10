@@ -165,9 +165,6 @@
     <None Include="Scripts\camera.lua">
       <Filter>Scripts</Filter>
     </None>
-    <None Include="Scripts\level.lua">
-      <Filter>Scripts</Filter>
-    </None>
     <None Include="Scripts\main.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -529,7 +526,6 @@
     <None Include="Scripts\TimeLaser.lua">
       <Filter>Scripts\spells</Filter>
     </None>
-    <None Include="Scripts\level01.lua" />
     <None Include="Scripts\assets_debug.lua">
       <Filter>Scripts</Filter>
     </None>
@@ -546,6 +542,9 @@
       <Filter>Scripts\UI</Filter>
     </None>
     <None Include="Scripts\winState.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
+    <None Include="Scripts\credits.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
   </ItemGroup>

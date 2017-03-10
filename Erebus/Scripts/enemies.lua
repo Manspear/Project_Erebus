@@ -24,7 +24,6 @@ ENEMY_DUMMY = 3
 enemies = {}
 
 COUNTDOWN = -1
---tempPlayerPosition = Transform.GetPosition(player.transformID)
 
 SFX_AGGRO = "Goblin/Voice/Goblin laugh aggro.ogg"
 SFX_ATTACK = "Goblin/Voice/albin goblin - attack3.ogg"
@@ -82,7 +81,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].visionRange = 100
 		enemies[i].subPathtarget = nil
 		enemies[i].pathTarget = nil
-		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].position = Transform.GetPosition(enemies[i].transformID)
 		enemies[i].insideInnerCircleRange = false
 
 		enemies[i].lastPos = Transform.GetPosition(enemies[i].transformID)
@@ -126,7 +125,7 @@ function CreateEnemy(type, position, element)
 
 		enemies[i].Hurt = function(self, damage, source, element)
 
-			local pos = Transform.GetPosition(self.transformID)
+			local pos = self.position
 			--print("Health: " .. self.health .. "/nCurrent Healh: " .. self.currentHealth .. "/nMax Health: " .. self.maxHealth )
 			
 			if source ~= player2 then
@@ -140,6 +139,7 @@ function CreateEnemy(type, position, element)
 							Network.SendAIHealthPacket(self.transformID, 0)
 						end
 						self.damagedTint = {r = FIRE == element and 1, g = NATURE == element and 1, b = ICE == element and 1, a = 1}
+						
 						
 						if element then
 							Network.SendAIDamageTextPacket(self.transformID, damage, element)
@@ -189,7 +189,7 @@ function CreateEnemy(type, position, element)
 		end
 
 		enemies[i].Kill = function(self)
-			local pos = Transform.GetPosition(self.transformID)
+			local pos = self.position
 			--SphereCollider.SetActive(self.collider, false)
 			for i = 1, #self.soundID do Sound.Stop(self.soundID[i]) end
 			for i = 1, #SFX_DEAD do Sound.Play(SFX_DEAD[i], 1, pos) end
@@ -291,7 +291,7 @@ function CreateEnemy(type, position, element)
 		Transform.SetPosition(enemies[i].transformID, position)
 		SphereCollider.SetActive(enemies[i].collider, true)
 
-		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].position = Transform.GetPosition(enemies[i].transformID)
 
 		if Network.GetNetworkHost() == true then
 			enemies[i].state =  stateScript.state.idleState
@@ -342,7 +342,7 @@ function UpdateEnemies(dt)
 	--AI.DrawDebug()
 	--end
 	for i = 1, #enemies do
-		enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
+		enemies[i].position = Transform.GetPosition(enemies[i].transformID)
 		if enemies[i].damagedTint.a > 0 then
 			enemies[i].damagedTint.a = enemies[i].damagedTint.a - (dt / enemies[i].damagedTintDuration)
 			if enemies[i].type ~= ENEMY_DUMMY then
@@ -378,8 +378,8 @@ function UpdateEnemies(dt)
 		local shouldSendNewTransform = Network.ShouldSendNewAITransform()
 
 		for i=1, #enemies do
-			enemies[i].pos = Transform.GetPosition(enemies[i].transformID)
-			UI.reposWorld(enemies[i].healthbar, enemies[i].pos.x, enemies[i].pos.y+1.5, enemies[i].pos.z)
+			enemies[i].position = Transform.GetPosition(enemies[i].transformID)
+			UI.reposWorld(enemies[i].healthbar, enemies[i].position.x, enemies[i].position.y+1.5, enemies[i].position.z)
 
 			if enemies[i].currentHealth > enemies[i].health then
 				enemies[i].currentHealth  = enemies[i].currentHealth - (50 * dt);
@@ -405,43 +405,43 @@ function UpdateEnemies(dt)
 				local heightmapIndex = 1
 
 				for o = 1, #heightmaps do
-					if heightmaps[o].asset:Inside(enemies[i].pos) then
+					if heightmaps[o].asset:Inside(enemies[i].position) then
 						heightmapIndex = o
 					end
 				end
 
 				if  enemies[i].stateName ~= DEAD_STATE then
-					local height = heightmaps[heightmapIndex].asset:GetHeight(enemies[i].pos.x,enemies[i].pos.z)+0.7
-					enemies[i].pos.y = enemies[i].pos.y - 10*dt
-					if enemies[i].pos.y < height then
-						enemies[i].pos.y = height
+					local height = heightmaps[heightmapIndex].asset:GetHeight(enemies[i].position.x,enemies[i].position.z)+0.7
+					enemies[i].position.y = enemies[i].position.y - 10*dt
+					if enemies[i].position.y < height then
+						enemies[i].position.y = height
 					end
 				end
-				Transform.SetPosition(enemies[i].transformID, enemies[i].pos)
+				Transform.SetPosition(enemies[i].transformID, enemies[i].position)
 
 				local direction = Transform.GetLookAt(enemies[i].transformID)
 				local rotation = Transform.GetRotation(enemies[i].transformID)
 
 				if shouldSendNewTransform == true then
-					Network.SendAITransformPacket(enemies[i].transformID, enemies[i].pos, direction, rotation)
+					Network.SendAITransformPacket(enemies[i].transformID, enemies[i].position, direction, rotation)
 				end
 			elseif enemies[i].stateName == DUMMY_STATE then
 				if  enemies[i].stateName ~= DEAD_STATE then
-					local pos = Transform.GetPosition(enemies[i].transformID)
+					local pos = enemies[i].position
 
 					local heightmapIndex = 1
 
 					for i = 1, #heightmaps do
-						if heightmaps[i].asset:Inside(pos) then
+						if heightmaps[i].asset:Inside(enemies[i].position) then
 							heightmapIndex = i
 						end
 					end
 
 					if  enemies[i].stateName ~= DEAD_STATE then
-						local height = heightmaps[heightmapIndex].asset:GetHeight(pos.x,pos.z)+0.7
-						pos.y = pos.y - 10*dt
-						if pos.y < height then
-							pos.y = height
+						local height = heightmaps[heightmapIndex].asset:GetHeight(enemies[i].position.x,enemies[i].position.z)+0.7
+						enemies[i].position.y = enemies[i].position.y - 10*dt
+						if enemies[i].position.y < height then
+							enemies[i].position.y = height
 						end
 					end
 					Transform.SetPosition(enemies[i].transformID, pos)		
@@ -519,7 +519,7 @@ function UpdateEnemies(dt)
 					enemies[i].new_transform_interpolate.rotation = {x=rotation_x, y=rotation_y, z=rotation_z}
 
 					if INTERPOLATING_AI_TRANSFORM == false then
-						enemies[i].start_transform_interpolate.position = Transform.GetPosition(enemies[i].transformID)
+						enemies[i].start_transform_interpolate.position = enemies[i].position
 						enemies[i].start_transform_interpolate.lookAt = Transform.GetLookAt(enemies[i].transformID)
 						enemies[i].start_transform_interpolate.rotation = Transform.GetRotation(enemies[i].transformID)
 					
@@ -582,7 +582,7 @@ function UpdateEnemies(dt)
 
 		for i=1, #enemies do
 
-				pos = Transform.GetPosition(enemies[i].transformID)
+				local pos = enemies[i].position
 				UI.reposWorld(enemies[i].healthbar, pos.x, pos.y+1.5, pos.z)
 
 				tempdt = dt * enemies[i].timeScalar

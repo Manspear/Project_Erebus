@@ -1,19 +1,21 @@
 #pragma once
 
 #include <iostream>
-
-union UDPPacket
+namespace Packet
 {
-	struct UDPPacketStruct
+	union UDPPacket
 	{
-		int16_t sequenceNumber;
-		int16_t ACK;
-	}data;
+		struct UDPPacketStruct
+		{
+			int16_t sequenceNumber;
+			int16_t ACK;
+		}data;
 
-	UDPPacket()
-	{
+		UDPPacket()
+		{
 
-	}
+		}
 
-	unsigned char bytes[sizeof(UDPPacketStruct)];
-};
+		unsigned char bytes[sizeof(UDPPacketStruct)];
+	};
+}

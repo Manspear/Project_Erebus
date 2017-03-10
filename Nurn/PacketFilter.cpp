@@ -8,24 +8,6 @@ PacketFilter::PacketFilter(DebugNetwork * debugNetwork_ptr)
 PacketFilter::PacketFilter()
 {
 #endif
-	this->queueList.emplace_back(new PacketQueue<TransformPacket>(3));
-	this->queueList.emplace_back(new PacketQueue<AnimationPacket>(5));
-	this->queueList.emplace_back(new PacketQueue<AIStatePacket>(100));
-	this->queueList.emplace_back(new PacketQueue<SpellPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<TransformPacket>(100));
-	this->queueList.emplace_back(new PacketQueue<ChargingPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<QuickBlendPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(40));
-	this->queueList.emplace_back(new PacketQueue<ChangeSpellsPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(100));
-	this->queueList.emplace_back(new PacketQueue<DashPacket>(5));
-	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(2));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(100));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(30));
 }
 
 PacketFilter::~PacketFilter()
@@ -40,12 +22,12 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
 	uint16_t sizeOfNetPacket =  memoryPointer[0] | memoryPointer[1] << 8; // Size of the content. The first 2 bytes are read immideately.
-	MetaDataPacket metaDataPacket;
+	Packet::MetaDataPacket metaDataPacket;
 
 	while (bytesRead < sizeOfNetPacket)
 	{
-		memcpy(metaDataPacket.bytes, memoryPointer + bytesRead, sizeof(MetaDataPacket));
-		bytesRead += sizeof(MetaDataPacket);
+		memcpy(metaDataPacket.bytes, memoryPointer + bytesRead, sizeof(Packet::MetaDataPacket));
+		bytesRead += sizeof(Packet::MetaDataPacket);
 
 		// For each metaDataPacket, do...
 
@@ -79,7 +61,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				this->debugNetwork_ptr->setSendPingPacket(true);
 			}
 #endif
-			if ( 0 <= metaDataPacket.metaData.packetType < queueList.size())
+			if ( 0 <= metaDataPacket.metaData.packetType && metaDataPacket.metaData.packetType < queueList.size())
 			{
 				this->queueList.at(metaDataPacket.metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes);
 			}
@@ -98,3 +80,21 @@ std::shared_ptr<PacketQueueInterface> PacketFilter::getQueue(const uint8_t& pack
 {
 	return this->queueList.at(packetEnum);
 }
+
+template<typename packetType>
+void PacketFilter::addNewQueue(const int& size)
+{
+	this->queueList.emplace_back(new PacketQueue<typename packetType>(size));
+}
+
+template void PacketFilter::addNewQueue<Packet::AIStatePacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::AnimationPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::ChangeSpellsPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::ChargingPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::DamagePacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::DashPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::EventPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::HealthPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::QuickBlendPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::SpellPacket>(const int& size);
+template void PacketFilter::addNewQueue<Packet::TransformPacket>(const int& size);

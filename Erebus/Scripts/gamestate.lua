@@ -9,6 +9,7 @@ GAMESTATE_IPHOST = 8
 GAMESTATE_KEYBINDING = 9
 GAMESTATE_WIN = 10
 GAMESTATE_DISCONNECTED = 11
+GAMESTATE_CREDITS = 12
 
 gamestate = {}
 gamestate.currentState = -1
@@ -25,7 +26,8 @@ local gamestateScripts =
 	"Scripts/iphost.lua",
 	"Scripts/keybinding.lua",
 	"Scripts/winState.lua",
-	"Scripts/disconnected.lua"
+	"Scripts/disconnected.lua",
+	"Scripts/credits.lua"
 }
 
 function gamestate.Load()
@@ -43,8 +45,9 @@ function gamestate.Load()
 	if file_check("settings.lua") == false then
 		file = io.open("settings.lua", "w")
 		file:write("SETTING_FULLSCREEN = false\n")
-		file:write("SETTING_DEBUG = true\n")
+		file:write("SETTING_DEBUG = false\n")
 		file:write("SETTING_SHADOW = true\n")
+		file:write("SETTING_BLURRING = false\n")
 
 		file:write("SETTING_KEYBIND_FORWARD = \"W\"\n")
 		file:write("SETTING_KEYBIND_LEFT = \"A\"\n")
@@ -72,6 +75,7 @@ function gamestate.Load()
 
 	gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 	Sky.Shadows(SETTING_SHADOW);
+	Sky.ShadowBlur(SETTING_BLURRING);
 end
 
 function gamestate.Unload()

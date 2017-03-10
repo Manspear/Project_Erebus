@@ -1,4 +1,4 @@
-POLYMORPH_EFFECT_DURATION = 2
+POLYMORPH_EFFECT_DURATION = 4
 POLYMORPH_POOL_SIZE = 4
 POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
@@ -11,6 +11,9 @@ function CreatePolyEffect(owner, duration)
 	effect.polymorphTransform, effect.particles = GetNextFreeMorph()
 
 	function effect:Apply(entity, duration)
+		if entity == boss then
+			return
+		end
 		Transform.SetScale(entity.transformID, 0)
 		local pos = Transform.GetPosition(entity.transformID)
 		pos.y = pos.y + 1
@@ -24,6 +27,10 @@ function CreatePolyEffect(owner, duration)
 	end
 
 	function effect:Deapply(entity)
+		if entity == boss then 
+			self = nil
+			return
+		end
 		Transform.SetScale(entity.transformID, 1)	
 		Transform.ActiveControl(self.polymorphTransform, false)
 		local pos = Transform.GetPosition(entity.transformID)
@@ -38,6 +45,9 @@ function CreatePolyEffect(owner, duration)
 	end
 
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
+		if entity == boss then
+			return false
+		end
 		self.duration = self.duration - dt
 		self.poofTime = self.poofTime - dt
 		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true)  self.poofTime = 1000 end

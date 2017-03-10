@@ -1,9 +1,9 @@
 --POLYMORPH_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconPolymorph.dds");
-POLYMORPH_COOLDOWN = 2
-POLYMORPH_SPEED = 30
-POLYMORPH_LIFETIME = 2.0
+POLYMORPH_COOLDOWN = 0.3
+POLYMORPH_SPEED = 80
+POLYMORPH_LIFETIME = 0.7
 POLYMORPH_MIN_CHARGETIME = 1
-POLYMORPH_BASE_DURATION = 2
+POLYMORPH_BASE_DURATION = 5
 POLYMORPH_CASTSPEED_MULTIPLE = 1.1 + 0.1875
 function CreatePolymorph(entity)
 	--General variables
@@ -64,7 +64,7 @@ function CreatePolymorph(entity)
 	function spell:ChargeCast()	
 		if self.cooldown < 0 and not self.alive then	
 			self.chargedTime = POLYMORPH_MIN_CHARGETIME > self.chargedTime and POLYMORPH_MIN_CHARGETIME or self.chargedTime
-			self.chargedTime = self.chargedTime * 1.5
+			self.chargedTime = 3 + self.chargedTime * 3
 			self:GeneralCast()
 		end
 	end
@@ -105,7 +105,7 @@ function CreatePolymorph(entity)
 			if boss.alive and collisionIDs[curID] == boss.collider:GetID() then -- boss collison
 				boss:Hurt(self.damage, self.owner, self.element)
 				for stuff = 1, #self.effects do
-					local effect = effectTable[self.effects[stuff]](self.chargedTime)
+					local effect = effectTable[self.effects[stuff]](self.owner, self.chargedTime)
 					boss:Apply(effect)
 				end
 				self:Kill()

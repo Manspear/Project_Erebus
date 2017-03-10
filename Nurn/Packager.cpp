@@ -8,26 +8,6 @@ Packager::Packager(DebugNetwork * debugNetwork_ptr)
 Packager::Packager()
 {
 #endif
-
-	this->queueList.emplace_back(new PacketQueue<TransformPacket>(3));
-	this->queueList.emplace_back(new PacketQueue<AnimationPacket>(5));
-	this->queueList.emplace_back(new PacketQueue<AIStatePacket>(100));
-	this->queueList.emplace_back(new PacketQueue<SpellPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<TransformPacket>(100));
-	this->queueList.emplace_back(new PacketQueue<ChargingPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<QuickBlendPacket>(20));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(40));
-	this->queueList.emplace_back(new PacketQueue<ChangeSpellsPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(100));
-	this->queueList.emplace_back(new PacketQueue<DashPacket>(5));
-	this->queueList.emplace_back(new PacketQueue<EventPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(2));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(100));
-	this->queueList.emplace_back(new PacketQueue<DamagePacket>(10));
-	this->queueList.emplace_back(new PacketQueue<HealthPacket>(30));
-
 	this->memory = new unsigned char[packetSize];
 	this->currentNetPacketSize = 0;
 }
@@ -69,26 +49,11 @@ void Packager::buildNetPacket()
 		this->debugNetwork_ptr->setSendPingPacket(false);
 	}
 #endif
+	for (uint8_t i = 0; i < queueList.size(); ++i)
+	{
+		this->addNewPackets(this->currentNetPacketSize, fullPackage, i);
+	}
 
-	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(TRANSFORM_PACKET), TRANSFORM_PACKET);
-	this->addNewPackets<AnimationPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(ANIMATION_PACKET), ANIMATION_PACKET);
-	this->addNewPackets<AIStatePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_STATE_PACKET), AI_STATE_PACKET);
-	this->addNewPackets<SpellPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(SPELL_PACKET), SPELL_PACKET);
-	this->addNewPackets<TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_TRANSFORM_PACKET), AI_TRANSFORM_PACKET);
-	this->addNewPackets<ChargingPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHARGING_PACKET), CHARGING_PACKET);
-	this->addNewPackets<QuickBlendPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(QUICKBLEND_PACKET), QUICKBLEND_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DAMAGE_PACKET), DAMAGE_PACKET);
-	this->addNewPackets<ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHANGESPELLS_PACKET), CHANGESPELLS_PACKET);
-	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_EVENT_PACKET), PLAYER_EVENT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_HEALTH_PACKET), AI_HEALTH_PACKET);
-	this->addNewPackets<DashPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DASH_PACKET), DASH_PACKET);
-	this->addNewPackets<EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(END_EVENT_PACKET), END_EVENT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_HEALTH_PACKET), PLAYER_HEALTH_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(RESSURECTION_PACKET), RESSURECTION_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_DAMAGE_TEXT_PACKET), AI_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_DAMAGE_TEXT_PACKET), BOSS_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_HEALTH_PACKET), BOSS_HEALTH_PACKET);
-	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
 }
@@ -98,25 +63,25 @@ std::shared_ptr<PacketQueueInterface> Packager::getQueue(const uint8_t& packetEn
 	return this->queueList.at(packetEnum);
 }
 
-template<class packetType>
-void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::shared_ptr<PacketQueueInterface> const packetQueue, const uint8_t& packetEnum)
+void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, const uint8_t& packetEnum)
 {
-	packetType newPacket;
-	std::size_t sizeOfPacketType = sizeof(packetType);
 	uint16_t sizeOfnewPackets = 0;
+	std::shared_ptr<PacketQueueInterface> const packetQueue = this->queueList.at(packetEnum);
+	std::size_t sizeOfPacketType = packetQueue->getPacketSize();
+	void * newPacket = malloc(sizeOfPacketType);
 	
-	if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
+	if ((packetSize - (netPacketSize + sizeof(Packet::MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
 	{
 		fullPackage = true;
 	}
 
-	while (fullPackage == false && packetQueue->pop(&newPacket))
+	while (fullPackage == false && packetQueue->pop(newPacket))
 	{
 		// Add Packet to the memory ( ...[MetaData][packet][packet]... )
-		memcpy(this->memory + netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets, &newPacket, sizeOfPacketType);
+		memcpy(this->memory + netPacketSize + sizeof(Packet::MetaDataPacket) + sizeOfnewPackets, newPacket, sizeOfPacketType);
 		sizeOfnewPackets += sizeOfPacketType;
 		// Only add a packet if there's enough space in the buffer
-		if ((packetSize - (netPacketSize + sizeof(MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
+		if ((packetSize - (netPacketSize + sizeof(Packet::MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
 		{
 			fullPackage = true;
 		}
@@ -128,13 +93,14 @@ void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::sh
 
 		netPacketSize += sizeOfnewPackets; // Should now point at the location of the next MetaDataPacket
 	}
+	free(newPacket);
 }
 
 void Packager::addMetaDataPacket(const uint16_t& type, uint16_t& netPacketSize, const uint16_t& sizeInBytes)
 {
-	memcpy(this->memory + netPacketSize, &MetaDataPacket(type, sizeInBytes), sizeof(MetaDataPacket));
+	memcpy(this->memory + netPacketSize, &Packet::MetaDataPacket(type, sizeInBytes), sizeof(Packet::MetaDataPacket));
 
-	netPacketSize += sizeof(MetaDataPacket);
+	netPacketSize += sizeof(Packet::MetaDataPacket);
 }
 
 #ifdef DEBUGGING_NETWORK
@@ -150,3 +116,21 @@ void Packager::addPingPacket(uint16_t& netPacketSize, bool& fullPackage)
 	netPacketSize += sizeOfPingPackets; // Should now point at the location of the next MetaDataPacket
 }
 #endif
+
+template<typename packetType>
+void Packager::addNewQueue(const int& size)
+{
+	this->queueList.emplace_back(new PacketQueue<packetType>(size));
+}
+
+template void Packager::addNewQueue<Packet::AIStatePacket>(const int& size);
+template void Packager::addNewQueue<Packet::AnimationPacket>(const int& size);
+template void Packager::addNewQueue<Packet::ChangeSpellsPacket>(const int& size);
+template void Packager::addNewQueue<Packet::ChargingPacket>(const int& size);
+template void Packager::addNewQueue<Packet::DamagePacket>(const int& size);
+template void Packager::addNewQueue<Packet::DashPacket>(const int& size);
+template void Packager::addNewQueue<Packet::EventPacket>(const int& size);
+template void Packager::addNewQueue<Packet::HealthPacket>(const int& size);
+template void Packager::addNewQueue<Packet::QuickBlendPacket>(const int& size);
+template void Packager::addNewQueue<Packet::SpellPacket>(const int& size);
+template void Packager::addNewQueue<Packet::TransformPacket>(const int& size);

@@ -68,11 +68,11 @@ function state.followState.update(enemy,player,dt)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
 			--vec3print(direction)
-			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
-			enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
+			enemy.position.x = enemy.position.x + direction.x * enemy.movementSpeed * dt
 			--pos.y = pos.y + direction.y * enemy.movementSpeed * dt
-			enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
+			enemy.position.z = enemy.position.z + direction.z * enemy.movementSpeed * dt
 
 			--Transform.SetPosition(enemy.transformID,pos)
 
@@ -98,7 +98,7 @@ function state.positioningInnerState.enter(enemy,player)
 	local direction = AI.NormalizeDir(enemy.transformID,enemy.playerTarget.position)
 
  	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 
 	enemy.insideInnerCircleRange = true
@@ -108,11 +108,11 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 	enemy.actionCountDown = enemy.actionCountDown - dt
 
 	if enemy.subPathtarget ~= nil then
-		local pos = enemy.pos
+		local pos = enemy.position
 		local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 		--Transform.SetLookAt(enemy.transformID,direction)
-		Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+		Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 		
 		pos.x = pos.x + direction.x * enemy.movementSpeed * dt
@@ -125,7 +125,7 @@ function state.positioningInnerState.update(enemy,player,dt,enemyManager)
 			enemy.subPathtarget = nil
 
 			--Transform.SetLookAt(enemy.transformID,direction)
-			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 		end
 	else
@@ -182,7 +182,7 @@ function state.positioningOuterState.enter(enemy,player)
 
 
 	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 end
 
@@ -192,26 +192,26 @@ function state.positioningOuterState.update(enemy,player,dt)
 	if (enemy.playerTarget.nrOfInnerCircleEnemies >= 3) then
 		if enemy.subPathtarget ~= nil then
 
-			local pos = enemy.pos
-				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
+			local pos = enemy.position
+			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
+			--Transform.SetLookAt(enemy.transformID,direction)
+			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
+			
+			
+			pos.x = pos.x + direction.x * enemy.movementSpeed * dt
+			pos.z = pos.z + direction.z * enemy.movementSpeed * dt
+
+			Transform.SetPosition(enemy.transformID,pos)
+
+			rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
+			if rangeTest < 0.9 then
+				enemy.subPathtarget = nil
+			
 				--Transform.SetLookAt(enemy.transformID,direction)
-				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
-			
-				pos.x = pos.x + direction.x * enemy.movementSpeed * dt
-				pos.z = pos.z + direction.z * enemy.movementSpeed * dt
-
-				Transform.SetPosition(enemy.transformID,pos)
-
-				rangeTest = AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
-				if rangeTest < 0.9 then
-					enemy.subPathtarget = nil
-			
-					--Transform.SetLookAt(enemy.transformID,direction)
-					Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
-			
-				end
+			end
 		else
 		local dir = AI.NavigateMesh(enemy.transformID)
 			if dir.y ~= -1 and enemy.pathTarget ~= nil  then
@@ -240,7 +240,7 @@ function state.attackState.enter(enemy,player)
 
 
 	--Transform.SetLookAt(enemy.transformID,direction)
-	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+	Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 
 	enemy.actionCountDown = 1.2
@@ -272,11 +272,11 @@ function state.attackState.update(enemy,player,dt,enemyManager)
 		
 		--Transform.SetLookAt(enemy.transformID,direction)
 		--Transform.SetFacing(enemy.transformID,player.transformID)
-		Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+		Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 		
-		enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
-		enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
+		enemy.position.x = enemy.position.x + direction.x * enemy.movementSpeed * dt
+		enemy.position.z = enemy.position.z + direction.z * enemy.movementSpeed * dt
 		
 		--Transform.SetPosition(enemy.transformID,pos)
 	end
@@ -317,7 +317,7 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 			enemy.subPathtarget = enemy.playerTarget.position
 			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
 			enemy.tempVariable = length
-			local pos = enemy.pos
+			local pos = enemy.position
 			enemy.whatEver = pos.y
 
 			length =  AI.DistanceTransPos(enemy.transformID,enemy.subPathtarget)
@@ -335,20 +335,20 @@ function state.leapState.update(enemy,player,dt,enemyManager)
 
 				local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 		
-				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 		
-				enemy.pos.x = enemy.pos.x + direction.x * (enemy.movementSpeed+4) * dt
-				enemy.pos.z = enemy.pos.z + direction.z * (enemy.movementSpeed+4) * dt
+				enemy.position.x = enemy.position.x + direction.x * (enemy.movementSpeed+4) * dt
+				enemy.position.z = enemy.position.z + direction.z * (enemy.movementSpeed+4) * dt
 
 				local maxHeight = 12
 
 				local checker =  length/enemy.tempVariable
 
 				if checker > 0.5 then
-					enemy.pos.y  = enemy.whatEver + (maxHeight * (1-checker))
+					enemy.position.y  = enemy.whatEver + (maxHeight * (1-checker))
 				else
-					enemy.pos.y  = enemy.whatEver + (maxHeight * (checker))
+					enemy.position.y  = enemy.whatEver + (maxHeight * (checker))
 					enemy.animationController:doEndLeap()
 				end
 
@@ -391,7 +391,7 @@ end
 
 function state.deadState.enter(enemy,player)
 	enemy.actionCountDown = 3
-	SpawnNewHealthOrb(Transform.GetPosition(enemy.transformID))
+	SpawnNewHealthOrb(enemy.position)
 	enemy.animationController:doDeath()
 end
 
@@ -400,9 +400,9 @@ function state.deadState.update(enemy,player,dt)
 	
 
 	if enemy.actionCountDown > 0 then		
-		enemy.pos.x = enemy.pos.x + math.random(-3,3) * dt
-		enemy.pos.y = enemy.pos.y - 0.6 * dt
-		enemy.pos.z = enemy.pos.z + math.random(-3,3)  * dt
+		enemy.position.x = enemy.position.x + math.random(-3,3) * dt
+		enemy.position.y = enemy.position.y - 0.6 * dt
+		enemy.position.z = enemy.position.z + math.random(-3,3)  * dt
 		--Transform.SetPosition(enemy.transformID,pos)
 	else
 		Transform.ActiveControl(enemy.transformID, false)
@@ -455,7 +455,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 			enemy.actionCountDown = 0.4
 
 			--Network.SendAIDamageTextPacket(self.transformID, 2, element)
-			Gear.PrintDamage(1,4, enemy.pos.x, enemy.pos.y+1, enemy.pos.z )
+			Gear.PrintDamage(1,4, enemy.position.x, enemy.position.y+1, enemy.position.z )
 		end
 	else
 		if enemy.subPathtarget ~= nil then
@@ -464,11 +464,11 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 			local direction = AI.NormalizeDir(enemy.transformID,enemy.subPathtarget)
 
 			--Transform.SetLookAt(enemy.transformID,direction)
-			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+			Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 		
-			enemy.pos.x = enemy.pos.x + direction.x * enemy.movementSpeed * dt
-			enemy.pos.z = enemy.pos.z + direction.z * enemy.movementSpeed * dt
+			enemy.position.x = enemy.position.x + direction.x * enemy.movementSpeed * dt
+			enemy.position.z = enemy.position.z + direction.z * enemy.movementSpeed * dt
 		
 			--Transform.SetPosition(enemy.transformID,pos)
 
@@ -477,7 +477,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 				enemy.subPathtarget = nil
 
 				--Transform.SetLookAt(enemy.transformID,direction)
-				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, Transform.GetPosition(enemy.transformID)) )
+				Transform.RotateToVector(enemy.transformID, vec3sub(enemy.playerTarget.position, enemy.position) )
 			
 			end
 		else
@@ -494,7 +494,7 @@ function state.runAwayState.update(enemy, playerTarget, dt)
 				local dirAngle = 0
 				while enemy.pathTarget == nil and littleRangecountDown ~= 0 do
 					
-					local testPos = Transform.GetPosition(enemy.playerTarget.transformID)
+					local testPos = enemy.playerTarget.position
 					testPos.x = testPos.x + (littleRangecountDown * math.cos(dirAngle))
 					testPos.y = 0
 					testPos.z = testPos.z + (littleRangecountDown * math.sin(dirAngle))

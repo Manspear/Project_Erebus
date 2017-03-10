@@ -85,7 +85,6 @@ function CreateCombineRay(entity)
 			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
 			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
-
 			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
 			return true
 		else 
@@ -135,20 +134,14 @@ function CreateChargeEggs(entity)
 	--chargeThing.modelIndex = Gear.AddForwardInstance(iceModel, chargeThing.transformID)
 	chargeThing.transformID = Gear.BindForwardInstance(iceModel)
 	Transform.ActiveControl(chargeThing.transformID, false)
-	-- TEMP(Niclas): Figure this out
-	--chargeThing.modelIndex = chargeThing.transformID
 
-	--chargeThing.transformID2 = Transform.Bind()
 	local fireModel = Assets.LoadModel("Models/SpellChargingFireMesh.model")
 	chargeThing.transformID2 = Gear.BindForwardInstance(fireModel)
 	Transform.ActiveControl(chargeThing.transformID2, false)
-	--chargeThing.modelIndex2 = chargeThing.transformID2
 
-	--chargeThing.transformID3 = Transform.Bind()
 	local natureModel = Assets.LoadModel("Models/SpellChargingNatureMesh.model")
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	Transform.ActiveControl(chargeThing.transformID3, false)
-	--chargeThing.modelIndex3 = chargeThing.transformID3
 	
 	chargeThing.firstCombine = false
 	chargeThing.elementalTransformID = 0
@@ -249,21 +242,19 @@ function CreateChargeEggs(entity)
 	function chargeThing:StartCharge(position, spellElement, minChargeTime) 
 		--called when right mouse button is pressed	
 		self.timer = minChargeTime   
-		self.pos = Transform.GetPosition(chargeThing.caster)		
+		self.pos = Transform.GetPosition(self.caster)		
 			
 		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
 			self.elementalTransformID = self.transformID2
 		elseif spellElement == NATURE then
 			self.color.g = 1
-			Transform.ActiveControl(self.transformID3, true) 
 			self.elementalTransformID = self.transformID3	
 		elseif spellElement == ICE then 
 			self.color.b = 1
-			self.elementalTransformID = self.transformID
-			Transform.ActiveControl(self.transformID, true)		
+			self.elementalTransformID = self.transformID			
 		end
+		Transform.ActiveControl(self.elementalTransformID , true)	
 		Transform.SetScale(self.elementalTransformID, 0.5)
 	end
 
