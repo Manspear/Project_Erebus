@@ -14,7 +14,7 @@ function CreateLifeStealEffect(entity, duration)
 		self.interval = self.interval - dt
 		self.duration = self.duration - dt
 		if self.interval < 0 then
-			if(self.owner.health < 100) then
+			if self.owner.health < 100 and self.owner.isAlive then
 				self.owner.health = self.owner.health + self.damage
 				Gear.PrintDamage(self.damage, HEAL, self.owner.position.x, self.owner.position.y+1, self.owner.position.z )
 			end
