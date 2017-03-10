@@ -6,6 +6,8 @@
 #include <fstream>
 #include <string>
 
+using namespace Packet;
+
 namespace LuaNetwork
 {
 	void registerFunctions(lua_State* lua, NetworkController* networkController);

@@ -9,6 +9,7 @@ GAMESTATE_IPHOST = 8
 GAMESTATE_KEYBINDING = 9
 GAMESTATE_WIN = 10
 GAMESTATE_DISCONNECTED = 11
+GAMESTATE_CREDITS = 12
 
 gamestate = {}
 gamestate.currentState = -1
@@ -25,7 +26,8 @@ local gamestateScripts =
 	"Scripts/iphost.lua",
 	"Scripts/keybinding.lua",
 	"Scripts/winState.lua",
-	"Scripts/disconnected.lua"
+	"Scripts/disconnected.lua",
+	"Scripts/credits.lua"
 }
 
 function gamestate.Load()
