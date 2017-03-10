@@ -10,7 +10,7 @@ FloatingDamage::FloatingDamage()
 	{
 		xOffsetRandom[i] = (((float)((rand() % 100) - 50)) / 100.f) * 2.f;
 		yOffsetRandom[i] = (((float)((rand() % 100))) / 125.f);
-		damageRandom[i] = (((float)((rand() % 100))) / 500) + 0.9f;
+		damageRandom[i] = (((float)((rand() % 100))) / 1000) + 0.95f;
 	}
 
 	currentOffset = 0;

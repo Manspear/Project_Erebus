@@ -11,9 +11,11 @@ function LoadOptionsUI()
 	imageTextures["debugOn"]	=	Assets.LoadTexture("Textures/buttonDebugOn.dds");
 	imageTextures["shadowsOff"] =	Assets.LoadTexture("Textures/buttonShadowsOff.dds");
 	imageTextures["shadowsOn"]	=	Assets.LoadTexture("Textures/buttonShadowsOn.dds");
+	imageTextures["shadowBlurOff"] =	Assets.LoadTexture("Textures/buttonShadowBlurOff.dds");
+	imageTextures["shadowBlurOn"]	=	Assets.LoadTexture("Textures/buttonShadowBlurOn.dds");
 	imageTextures["back"]		=	Assets.LoadTexture("Textures/buttonReturn.dds");
 	imageTextures["keybinding"] =	Assets.LoadTexture("Textures/buttonKeybinding.dds");
-	imageTextures["play"]		=	Assets.LoadTexture("Textures/button.dds");
+	imageTextures["play"]		=	Assets.LoadTexture("Textures/buttonDebugMode.dds");
 
 	screenImages["background"]	=	UI.load(0, 0, 1280, 720);
 	screenImages["play"]		=	UI.load(10, 650, 350, 60);
@@ -111,9 +113,9 @@ function DrawOptionsUI()
 	end
 
 	if SETTING_BLURRING then
-		UI.drawImage(screenImages["shadowBlur"], imageTextures["debugOn"]);
+		UI.drawImage(screenImages["shadowBlur"], imageTextures["shadowBlurOn"]);
 	else
-		UI.drawImage(screenImages["shadowBlur"], imageTextures["debugOff"]);
+		UI.drawImage(screenImages["shadowBlur"], imageTextures["shadowBlurOff"]);
 	end
 
 	UI.drawImage(screenImages["keybinding"], imageTextures["keybinding"]);

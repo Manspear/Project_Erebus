@@ -6,6 +6,16 @@ local num_keys = 14
 local enter_key_text = "Press Key:"
 local selected_key = -1
 local Keychanges = {}
+local EnabledKeys ={}
+EnabledKeys[1] = true 
+EnabledKeys[2] = true 
+EnabledKeys[3] = true 
+EnabledKeys[4] = true 
+EnabledKeys[8] = true 
+EnabledKeys[9] = true 
+EnabledKeys[10] = true 
+EnabledKeys[11] = true 
+EnabledKeys[14] = true 
 
 function LoadKeybindingUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
@@ -89,7 +99,7 @@ function DrawKeybindingUI()
 		Gear.Print("Ping Player:", 383, 600)
 
 		for i=1, num_keys do
-			if(i == selected_key) then
+			if(i == selected_key and EnabledKeys[i]) then
 				Gear.Print(enter_key_text, 658, 40 + i * 40)
 			else
 				Gear.Print(Keychanges[i], 658, 40 + i * 40)
@@ -104,15 +114,15 @@ function loadKeySettings()
 	Keychanges[2] = SETTING_KEYBIND_LEFT
 	Keychanges[3] = SETTING_KEYBIND_BACK
 	Keychanges[4] = SETTING_KEYBIND_RIGHT
-	Keychanges[5] = SETTING_KEYBIND_DASH
-	Keychanges[6] = SETTING_KEYBIND_NORMAL_ATTACK
-	Keychanges[7] = SETTING_KEYBIND_CHARGED_ATTACK
+	Keychanges[5] = "Keys.Space"
+	Keychanges[6] = "Buttons.Left"
+	Keychanges[7] = "Buttons.Right"
 	Keychanges[8] = SETTING_KEYBIND_SPELL_ONE
 	Keychanges[9] = SETTING_KEYBIND_SPELL_TWO
 	Keychanges[10] = SETTING_KEYBIND_SPELL_THREE
 	Keychanges[11] = SETTING_KEYBIND_SPELLBOOK
-	Keychanges[12] = SETTING_KEYBIND_MENU
-	Keychanges[13] = SETTING_KEYBIND_COMBINE
+	Keychanges[12] = "Keys.Escape"
+	Keychanges[13] = "Keys.Shift"
 	Keychanges[14] = SETTING_KEYBIND_PING
 end
 
@@ -121,15 +131,15 @@ function saveKeySettings()
 	 SETTING_KEYBIND_LEFT = Keychanges[2]
 	 SETTING_KEYBIND_BACK = Keychanges[3]
 	 SETTING_KEYBIND_RIGHT = Keychanges[4]
-	 SETTING_KEYBIND_DASH = Keychanges[5]
-	 SETTING_KEYBIND_NORMAL_ATTACK = Keychanges[6]
-	 SETTING_KEYBIND_CHARGED_ATTACK = Keychanges[7]
+	 SETTING_KEYBIND_DASH = "Keys.Space"
+	 SETTING_KEYBIND_NORMAL_ATTACK = "Buttons.Left"
+	 SETTING_KEYBIND_CHARGED_ATTACK = "Buttons.Right"
 	 SETTING_KEYBIND_SPELL_ONE = Keychanges[8]
 	 SETTING_KEYBIND_SPELL_TWO = Keychanges[9]
 	 SETTING_KEYBIND_SPELL_THREE = Keychanges[10]
 	 SETTING_KEYBIND_SPELLBOOK = Keychanges[11]
-	 SETTING_KEYBIND_MENU = Keychanges[12]
-	 SETTING_KEYBIND_COMBINE = Keychanges[13]
+	 SETTING_KEYBIND_MENU = "Keys.Escape"
+	 SETTING_KEYBIND_COMBINE = "Keys.Shift"
 	 SETTING_KEYBIND_PING = Keychanges[14]
 end
 
