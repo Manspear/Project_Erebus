@@ -5,13 +5,13 @@ local tempLight
 function LoadMenuUI()
 	imageTextures["background"] = Assets.LoadTexture("Textures/menuBackground.dds");
 	imageTextures["network"] = Assets.LoadTexture("Textures/button.dds");
-	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptions.dds");
-	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExit.dds");
+	imageTextures["options"] = Assets.LoadTexture("Textures/buttonOptionsFancy.dds");
+	imageTextures["exit"] = Assets.LoadTexture("Textures/buttonExitFancy.dds");
 
 	screenImages["background"] = UI.load(0, 0, 1280, 720);
-	screenImages["network"] = UI.load(465, 240, 350, 60);
-	screenImages["options"] = UI.load(465, 310, 350, 60);
-	screenImages["exit"] = UI.load(465, 380, 350, 60);
+	screenImages["network"] = UI.load(465, 450, 350, 60);
+	screenImages["options"] = UI.load(465, 520, 350, 60);
+	screenImages["exit"] = UI.load(465, 590, 350, 60);
 
 end
 

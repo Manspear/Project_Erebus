@@ -22,7 +22,7 @@ function CreateWindknockback(entity)
 	spell.isActiveSpell = false
 	spell.stage2time = 1
 	spell.enemiesHit = {}
-
+	spell.scale = 1
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -59,9 +59,9 @@ function CreateWindknockback(entity)
 			self.durationTime = 0.4
 			self.chargedTime = WINDKNOCKBACK_POWER
 			self.radius = 3
+			Transform.SetScale(self.transformID, self.scale - 0.4)
 			self:GeneralCast()
 			self.damage = 6
-
 		end
 	end
 	
@@ -78,6 +78,7 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.radius = self.chargedTime
+			Transform.SetScale(self.transformID, self.scale)
 			self:GeneralCast()
 			self.damage = 10
 		end
