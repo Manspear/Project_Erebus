@@ -208,7 +208,7 @@ function UpdateBoss(dt)
 	boss.animationController:AnimationUpdate(dt, Network)
 	if boss.alive then
 		local newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
-		if newBossHealth == true then
+		while newBossHealth == true then
 			if Network.GetNetworkHost() == true then
 				boss:Hurt(bossHealth, player, elementID) 
 			else
@@ -217,6 +217,7 @@ function UpdateBoss(dt)
 					boss.Kill()
 				end
 			end
+			local newBossHealth, elementID, bossHealth = Network.GetBossHealthPacket()
 		end
 
 		if Network.GetNetworkHost() == false then
