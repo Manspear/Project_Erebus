@@ -22,6 +22,7 @@ local showHealthbar = true;
 local crosshairIsVisible = false
 
 function LoadHUD()
+
 	imageTextures["healthBackground"] = Assets.LoadTexture("Textures/HealthBackground.dds");
 	imageTextures["healthBar"] = Assets.LoadTexture("Textures/HealthBar.dds");
 	imageTextures["cooldown"] = Assets.LoadTexture("Textures/cooldown.dds");
