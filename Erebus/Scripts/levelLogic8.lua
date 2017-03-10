@@ -1,3 +1,4 @@
+
 function LoadLogic8()
 	
 end
@@ -9,18 +10,23 @@ function UpdateLogic(dt)
 	else
 		BossStuff(dt)
 	end
-	if boss.combatStarted and firstLoad then 
-		Transform.SetPosition(levels[8].props.WoodenFenceID.transformID, {x=289.09, y=126.67, z=479.67})
-		levels[8].props.WoodenFenceID.collider:SetPos(289.09, 126.67, 479.67)
-		Transform.ActiveControl(levels[8].props.WoodenFenceID.transformID, true)
-		Transform.SetPosition(levels[8].props.WoodenFence1ID.transformID, {x=355.01, y=126.86, z=479.48})
-		levels[8].props.WoodenFence1ID.collider:SetPos(355.01, 126.86, 479.48)
-		Transform.ActiveControl(levels[8].props.WoodenFence1ID.transformID, true)
-		firstLoad = false
+	if boss.combatStarted then
+		if firstLoad then 
+			Transform.SetPosition(levels[8].props.WoodenFenceID.transformID, {x=289.09, y=126.67, z=479.67})
+			levels[8].props.WoodenFenceID.collider:SetPos(289.09, 126.67, 479.67)
+			Transform.ActiveControl(levels[8].props.WoodenFenceID.transformID, true)
+			Transform.SetPosition(levels[8].props.WoodenFence1ID.transformID, {x=355.01, y=126.86, z=479.48})
+			levels[8].props.WoodenFence1ID.collider:SetPos(355.01, 126.86, 479.48)
+			Transform.ActiveControl(levels[8].props.WoodenFence1ID.transformID, true)
+			firstLoad = false
+		end
 	end
+	
 	if LEVEL_ROUND > 3 then
 		gamestate.ChangeState(GAMESTATE_WIN)
 	end
+
+	
 end
 
 function BossStuff(dt)
@@ -45,7 +51,8 @@ function StartingBoss()
 	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
 	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
 		boss:Spawn()
-		PlayBGM("Area4_Bossfight.ogg")
+		PlayBGM("BOSS.ogg")
+		--Sound.SetVolume(BACKGROUND_MUSIC_ID, 0)
 	end
 end
 
