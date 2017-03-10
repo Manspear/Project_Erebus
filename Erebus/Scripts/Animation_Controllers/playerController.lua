@@ -98,7 +98,6 @@ function CreatePlayerController(player)
 			self.animationState1 = 9
 			self.animationState2 = 25
 		end
-
 		if self.oldWatch.health > self.watch.health or self.isDamagedTimerStart == true 
 		then
 			self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
@@ -359,8 +358,18 @@ function CreatePlayerController(player)
 		self.oldWatch.charging = self.watch.charging
 	end
 
+	function controller:initWatch()
+		self.oldWatch.health = 100
+		self.oldWatch.canJump = self.watch.canJump
+		self.oldWatch.verticalSpeed = self.watch.verticalSpeed
+		self.oldWatch.forward = self.watch.forward
+		self.oldWatch.left = self.watch.left 
+		self.oldWatch.spamCasting = self.watch.spamCasting
+		self.oldWatch.charging = self.watch.charging
+	end
+
 	--Use this to initialize oldWatch
-	controller:copyWatch()
+	controller:initWatch()
 
 	return controller
 end
