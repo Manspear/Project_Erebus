@@ -242,21 +242,19 @@ function CreateChargeEggs(entity)
 	function chargeThing:StartCharge(position, spellElement, minChargeTime) 
 		--called when right mouse button is pressed	
 		self.timer = minChargeTime   
-		self.pos = Transform.GetPosition(chargeThing.caster)		
+		self.pos = Transform.GetPosition(self.caster)		
 			
 		if spellElement == FIRE then
-			Transform.ActiveControl(self.transformID2, true)
 			self.color.r = 1
 			self.elementalTransformID = self.transformID2
 		elseif spellElement == NATURE then
 			self.color.g = 1
-			Transform.ActiveControl(self.transformID3, true) 
 			self.elementalTransformID = self.transformID3	
 		elseif spellElement == ICE then 
 			self.color.b = 1
-			self.elementalTransformID = self.transformID
-			Transform.ActiveControl(self.transformID, true)		
+			self.elementalTransformID = self.transformID			
 		end
+		Transform.ActiveControl(self.elementalTransformID , true)	
 		Transform.SetScale(self.elementalTransformID, 0.5)
 	end
 

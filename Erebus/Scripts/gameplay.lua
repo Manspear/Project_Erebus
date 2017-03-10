@@ -18,7 +18,6 @@ local scriptFiles =
 	"Scripts/slowEffect.lua",
 	"Scripts/iceGrenade.lua",
 	"Scripts/grenadeType.lua",
-	"Scripts/blackHole.lua",
 	"Scripts/hellPillar.lua",
 	"Scripts/rayType.lua",
 	"Scripts/staticAoEType.lua",
@@ -42,7 +41,8 @@ local scriptFiles =
 	"Scripts/healthOrb.lua",
 	"Scripts/reusable.lua",
 	"Scripts/sluice.lua",
-	"Scripts/rewinder.lua"
+	"Scripts/rewinder.lua",
+	"Scripts/blackHole.lua"
 }
 
 loadedLevels = {}

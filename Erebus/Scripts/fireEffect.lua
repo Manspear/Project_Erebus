@@ -10,7 +10,7 @@ function CreateFireEffect(effectowner)
 	effect.interval = FIREEFFECTINTERVAL
 	effect.particles = GetNextFireEffectParticle()
 	function effect:Apply(entity)
-		self.particles:Update(Transform.GetPosition(entity.transformID))
+		self.particles:Update(entity.position)
 		self.particles:Cast()
 	end
 
@@ -21,7 +21,7 @@ function CreateFireEffect(effectowner)
 	function effect:Update(entity, dt) --return false if you want the enemy to remove the effect from its effect list
 		self.duration = self.duration - dt
 		self.interval = self.interval - dt
-		self.particles:Update(Transform.GetPosition(entity.transformID))
+		self.particles:Update(entity.position)
 		if self.interval < 0 then
 			self.interval = self.interval + FIREEFFECTINTERVAL
 			entity:Hurt(self.damage, self.owner, FIRE)
