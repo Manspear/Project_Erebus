@@ -45,18 +45,11 @@ function CreateWindknockback(entity)
 
 	function spell:Update(dt)
 		if self.alive then
-			--if self.startUp then
-			--	self:StartingUp(dt)
-			--else
-			--	self:UpdateBlending(dt)
-			--end
-						
-		
 		
 			self:CheckCollisions()
 			self:UpdateBlending(dt)
 			self:MoveWithOwner()
-
+			print(self)
 		end
 		self.cooldown = self.cooldown - dt
 	end
@@ -64,7 +57,7 @@ function CreateWindknockback(entity)
 	function spell:Cast()
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN, WINDKNOCKBACK_COOLDOWN
-			self.durationTime = 0.4		self.startUpTime = 0.1
+			self.durationTime = 0.4
 			self.chargedTime = WINDKNOCKBACK_POWER
 			self.radius = 3
 			self:GeneralCast()
@@ -81,8 +74,6 @@ function CreateWindknockback(entity)
 	function spell:ChargeCast(entity)
 		self.chargedTime = self.chargedTime * 2 + WINDKNOCKBACK_POWER	
 		self.durationTime = 0.5
-		self.startUpTime = 0.5
-		self.startUp = true
 
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
@@ -105,7 +96,7 @@ function CreateWindknockback(entity)
 		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.radius)
-		Transform.RotateToVector(self.transformID, Transform.GetLookAt(player.transformID))
+		Transform.RotateToVector(self.transformID, Transform.GetLookAt(self.owner.transformID))
 		self.particles:poof(pos, direction)
 	end
 
@@ -116,7 +107,7 @@ function CreateWindknockback(entity)
 		pos.y = pos.y + direction.y
 		pos.z = pos.z + direction.z * 2.5
 		Transform.SetPosition(self.transformID, pos)
-		Transform.RotateToVector(self.transformID, Transform.GetLookAt(player.transformID))
+		Transform.RotateToVector(self.transformID, Transform.GetLookAt(self.owner.transformID))
 	end
 
 	function spell:CheckCollisions()
@@ -152,32 +143,11 @@ function CreateWindknockback(entity)
 		if self.durationTime < 0 then
 			self:Kill()
 		else
-			self.blendValue1.x = self.blendValue1.x + 0 * dt
-			self.blendValue1.y = self.blendValue1.y - 0.6 * dt * 1.5
 
-			self.blendValue2.x = self.blendValue2.x + 0 * dt
+			self.blendValue1.y = self.blendValue1.y - 0.6 * dt * 1.5
 			self.blendValue2.y = self.blendValue2.y - 1.0 * dt *1.5
 
 			Gear.SetBlendUniformValue(self.blendingIndex, 2, self.blendValue1, self.blendValue2)	
-		end
-	end
-	function spell:StartingUp(dt)
-		self.startUpTime = self.startUpTime - dt
-	
-		if self.startUpTime < 0 then
-			self.startUp = false
-			SphereCollider.SetActive(self.sphereCollider, true)
-
-			local pos = Transform.GetPosition(self.caster)
-			local direction = Transform.GetLookAt(self.caster)
-			pos.x = pos.x + direction.x
-			pos.y = pos.y + direction.y * 4
-			pos.z = pos.z + direction.z * 2.5
-
-			Transform.SetPosition(self.transformID, pos)
-			SphereCollider.SetRadius(self.sphereCollider, self.radius)
-			Transform.ActiveControl(self.transformID, true)
-			self.startUpTime = 0.2
 		end
 	end
 
