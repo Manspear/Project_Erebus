@@ -1,11 +1,14 @@
 local screenImages = {}
 local imageTextures = {}
 local verticalOffset = 0
+local scrollSpeed = 60
+local ScrollingTextX = 341
+local CreditsHeight = 4600
 
 function LoadCredits()
 	screenImages.background = UI.load(0, 0, 1280, 720)
-	screenImages.credits = UI.load(0, 720, 1280, 720)
-	screenImages.back = UI.load(32, 650, 350, 60)
+	screenImages.credits = UI.load(ScrollingTextX, 0, 640, 4600)
+	screenImages.back = UI.load(32, 645, 200, 50)
 end
 
 function UnloadCredits()
@@ -23,11 +26,11 @@ function UpdateCredits(dt)
 		end
 	end
 
-	if Inputs.KeyReleased(Keys.Escape) or Inputs.KeyReleased(Keys.Space) or verticalOffset < -720 then
+	if Inputs.KeyReleased(Keys.Escape) or Inputs.KeyReleased(Keys.Space) or verticalOffset < -CreditsHeight then
 		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 	else
-		verticalOffset = verticalOffset - dt*15
-		UI.repos(screenImages.credits, 0, verticalOffset)
+		verticalOffset = verticalOffset - dt * scrollSpeed
+		UI.repos(screenImages.credits, ScrollingTextX, verticalOffset)
 	end
 end
 
@@ -40,14 +43,14 @@ end
 function EnterCredits()
 	verticalOffset = 720
 
-	imageTextures.background = Assets.LoadTexture("Textures/menuBackground.dds")
-	imageTextures.credits = Assets.LoadTexture("Textures/menuBackground.dds")
+	imageTextures.background = Assets.LoadTexture("Textures/credits_background.dds")
+	imageTextures.credits = Assets.LoadTexture("Textures/Credits.dds")
 	imageTextures.back = Assets.LoadTexture("Textures/buttonReturn.dds")
 end
 
 function ExitCredits()
 	Assets.UnloadTexture("Textures/menuBackground.dds")
-	Assets.UnloadTexture("Textures/menuBackground.dds")
+	Assets.UnloadTexture("Textures/Credits.dds")
 	Assets.UnloadTexture("Textures/buttonReturn.dds")
 end
 
