@@ -98,7 +98,7 @@ function LoadPlayer()
 	player.attackDelayTimerThreshHold = 0.1
 	player.attackDelayTimer = 0
 
-	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
+	player.dashStartParticles = Particle.Bind("ParticleFiles/fire.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
 
 	Particle.SetExtro(player.dashStartParticles, false)
@@ -543,6 +543,8 @@ function Controls(dt)
 				end
 			end
 
+			player.attackQueueTimer = player.attackQueueTimer + dt
+
 			if player.globalSpellSwitchingCooldownTimerStarted == false then
 				--ATTACK DELAY TIMER
 				player.attackDelayTimer = player.attackDelayTimer + dt
@@ -561,7 +563,7 @@ function Controls(dt)
 									player.animationController.animation:SetSegmentPlayTime(player.spells[player.currentSpell].castAnimationPlayTime, 1)
 									player.firstAttack = false	
 
-									player.attackQueueTimer = -0.05
+									player.attackQueueTimer = 0
 								end 
 							else
 								if player.attackDelayTimer >= player.attackDelayTimerThreshHold then 
@@ -596,11 +598,10 @@ function Controls(dt)
 			end
 
 			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
-				player.attackQueueTimer = -0.05
+				player.attackQueueTimer = 0
 				player.attackQueue = true
 			end
 
-			player.attackQueueTimer = player.attackQueueTimer + dt
 			if player.attackQueueTimer > player.attackDelayTimerThreshHold then 
 				player.attackQueue = false
 				player.spamAttackActive = false
