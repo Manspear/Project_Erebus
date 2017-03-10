@@ -24,6 +24,10 @@
 --	For each new creature with unique animations you create, you have to make a new Controller. 
 --	That controller must also follow the same principles as described above. 
 --
+ISDANCING = false
+DANCETIMER = 0
+DANCETIMERTHRESHHOLD = 1
+DANCESWITCH = false
 
 function CreatePlayerController(player)
 	local controller = {}
@@ -175,6 +179,21 @@ function CreatePlayerController(player)
 		end
 		if self.watch.health <= 0 then 
 			self:DeathState(dt)
+		end
+
+		if ISDANCING then
+			self.animationState2 = 37
+
+			DANCETIMER = DANCETIMER + dt
+			if DANCETIMER > DANCETIMERTHRESHHOLD then 
+				DANCESWITCH = not DANCESWITCH
+				DANCETIMER = 0
+			end
+			if DANCESWITCH then
+				self.animationState1 = 38
+			elseif not DANCESWITCH then 
+				self.animationState1 = 38
+			end
 		end
 
 		self.animation:SetSegmentState( self.animationState1, 0 )
