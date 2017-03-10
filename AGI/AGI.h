@@ -16,7 +16,7 @@
 
 #include"HeightMap.h"
 
-const int MAXSIZEPATH = 200;
+const int MAXSIZEPATH = 240;
 
 namespace AGI
 {
@@ -214,8 +214,8 @@ namespace AGI
 		{
 			destroyInfluenceMap();
 
-			width = 700;
-			height = 780;
+			width = 730;
+			height = 800;
 			this->mapWidth = width;
 			this->mapHeight = height;
 			this->imWidth = width * resolution;
@@ -692,14 +692,8 @@ namespace AGI
 			if (xFrom < 0 || xPlayerPos < 0 || yFrom < 0 || yPlayerPos < 0)
 				return;
 
-			if (xFrom > 700 || xPlayerPos > 700 || yFrom > 780 || yPlayerPos> 780)
+			if (xFrom > imWidth || xPlayerPos > imWidth || yFrom > imHeight || yPlayerPos> imHeight)
 				return;
-			if (dynamicInfluenceMap == NULL)
-				return;
-
-			if (dynamicInfluenceMap[xPlayerPos][yPlayerPos] == nullptr)
-				return;
-			
 
 			if (enemies.at(enemyPos).hasTarget())
 			{
@@ -740,10 +734,10 @@ namespace AGI
 						if (finishNode != nullptr)
 							finishNode = finishNode->getParent();
 
-						superCounter = 0;
-						while (finishNode != nullptr && finishNode != finishNode->getParent() && superCounter < (MAXSIZEPATH - 14))
+						//superCounter = 0;
+						while (finishNode != nullptr && finishNode != finishNode->getParent())
 						{
-							superCounter++;
+							//superCounter++;
 							glm::vec2 inPos = finishNode->getPos();
 
 							int tempX = round(((inPos.x / mapWidth)*imWidth));
