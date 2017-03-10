@@ -292,6 +292,11 @@ GEAR_API void Gear::Skybox::setShadowsEnabled(bool enabled)
 	this->shadowsEnabled = enabled;
 }
 
+GEAR_API void Gear::Skybox::setShadowsBluring(bool enabled)
+{
+	this->shadowBlur = enabled;
+}
+
 GEAR_API int Gear::Skybox::numCascades()
 {
 	return this->shadowMap.getNumCascades();
@@ -299,7 +304,10 @@ GEAR_API int Gear::Skybox::numCascades()
 
 GEAR_API void Gear::Skybox::blurShadow()
 {
-	shadowMap.blur();
+	if (shadowBlur)
+	{
+		shadowMap.blur();
+	}
 }
 
 GEAR_API void Gear::Skybox::readyShadowForDraw(int cascadeIndex, ShaderProgram * geomerty, ShaderProgram * animation)

@@ -116,6 +116,7 @@ namespace LuaGear
 			{ "GetHours", getHours },
 			{ "GetMinutes", getMinutes },
 			{ "Shadows", setShadow },
+			{ "ShadowBlur", setBluring },
 			{ "SetAmbient", setAmbient },
 			{ NULL, NULL }
 		};
@@ -786,6 +787,15 @@ namespace LuaGear
 		bool shadowEnabled = lua_toboolean(lua, 1);
 
 		g_skybox->setShadowsEnabled(shadowEnabled);
+		return 0;
+	}
+
+	int setBluring(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+		bool shadowBlur = lua_toboolean(lua, 1);
+
+		g_skybox->setShadowsBluring(shadowBlur);
 		return 0;
 	}
 

@@ -50,6 +50,7 @@ namespace Gear
 		GEAR_API void updateLightPass(ShaderProgram* shader);
 		GEAR_API bool isShadowsEnabled();
 		GEAR_API void setShadowsEnabled(bool enabled);
+		GEAR_API void setShadowsBluring(bool enabled);
 		GEAR_API int numCascades();
 		GEAR_API void blurShadow();
 
@@ -129,6 +130,7 @@ namespace Gear
 		const float CASCADE_TEXTURE_SIZE = 720.f;
 		CascadedShadowMap shadowMap;
 		bool shadowsEnabled = true;
+		bool shadowBlur = false;
 
 		GLuint skyboxVAO;
 		GLuint skyboxVBO;
