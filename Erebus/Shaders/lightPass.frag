@@ -97,15 +97,23 @@ void main() {
 	
 	vec3 directional = vec3(0);
 	for(int i = 0; i < NR_DIR_LIGHTS; i++) //calculate direconal light
+	{
 		directional += CalcDirLight(dirLights, Normal, viewDir, Specular);
+	}
+		
 
 	vec3 point = vec3(0,0,0);
 	for(int i = 0; i < NR_POINT_LIGHTS; i++) //calculate point lights
+	{
 		point += CalcPointLight(lightBuffer.data[i], Normal, FragPos, viewDir, Specular);
+	}
 
 	vec3 dynamicPoint = vec3(0,0,0);
 	for(int i = 0; i < num_dynamic_lights; i++) //calculate dynamic point lights
-	dynamicPoint += CalcPointLight(dynamicLights[i], Normal, FragPos, viewDir, Specular);
+	{
+		dynamicPoint += CalcPointLight(dynamicLights[i], Normal, FragPos, viewDir, Specular);
+	}
+		
 
 	vec3 outputColor = ((ambient * Diffuse) + (directional * ShadowFactor) + point + dynamicPoint);
 
@@ -166,6 +174,8 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir, f
 			vec3 halfwayDir = normalize(lightDir + viewDir);
 			float spec = pow(max(dot(normal, halfwayDir), 0.0), 16.0);
 			vec3 specular = light.color.xyz * spec * (Specular/16.0);
+			
+
 
 			float attenuation = smoothstep(light.radius.x, 0.0f, length(light.pos.xyz - fragPos));
 

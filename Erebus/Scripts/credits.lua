@@ -49,7 +49,7 @@ function EnterCredits()
 end
 
 function ExitCredits()
-	Assets.UnloadTexture("Textures/menuBackground.dds")
+	Assets.UnloadTexture("Textures/credits_background.dds")
 	Assets.UnloadTexture("Textures/Credits.dds")
 	Assets.UnloadTexture("Textures/buttonReturn.dds")
 end
