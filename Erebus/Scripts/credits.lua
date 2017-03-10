@@ -2,7 +2,7 @@ local screenImages = {}
 local imageTextures = {}
 local verticalOffset = 0
 local scrollSpeed = 60
-local ScrollingTextX = 341
+local ScrollingTextX = 332
 local CreditsHeight = 4600
 
 function LoadCredits()
