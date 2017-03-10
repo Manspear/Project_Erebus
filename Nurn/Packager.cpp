@@ -50,24 +50,24 @@ void Packager::buildNetPacket()
 	}
 #endif
 
-	this->addNewPackets<Packet::TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(TRANSFORM_PACKET), TRANSFORM_PACKET);
-	this->addNewPackets<Packet::AnimationPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(ANIMATION_PACKET), ANIMATION_PACKET);
-	this->addNewPackets<Packet::AIStatePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_STATE_PACKET), AI_STATE_PACKET);
-	this->addNewPackets<Packet::SpellPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(SPELL_PACKET), SPELL_PACKET);
-	this->addNewPackets<Packet::TransformPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_TRANSFORM_PACKET), AI_TRANSFORM_PACKET);
-	this->addNewPackets<Packet::ChargingPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHARGING_PACKET), CHARGING_PACKET);
-	this->addNewPackets<Packet::QuickBlendPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(QUICKBLEND_PACKET), QUICKBLEND_PACKET);
-	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DAMAGE_PACKET), DAMAGE_PACKET);
-	this->addNewPackets<Packet::ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(CHANGESPELLS_PACKET), CHANGESPELLS_PACKET);
-	this->addNewPackets<Packet::EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_EVENT_PACKET), PLAYER_EVENT_PACKET);
-	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_HEALTH_PACKET), AI_HEALTH_PACKET);
-	this->addNewPackets<Packet::DashPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(DASH_PACKET), DASH_PACKET);
-	this->addNewPackets<Packet::EventPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(END_EVENT_PACKET), END_EVENT_PACKET);
-	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(PLAYER_HEALTH_PACKET), PLAYER_HEALTH_PACKET);
-	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(RESSURECTION_PACKET), RESSURECTION_PACKET);
-	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(AI_DAMAGE_TEXT_PACKET), AI_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_DAMAGE_TEXT_PACKET), BOSS_DAMAGE_TEXT_PACKET);
-	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, this->queueList.at(BOSS_HEALTH_PACKET), BOSS_HEALTH_PACKET);
+	this->addNewPackets<Packet::TransformPacket>(this->currentNetPacketSize, fullPackage, TRANSFORM_PACKET);
+	this->addNewPackets<Packet::AnimationPacket>(this->currentNetPacketSize, fullPackage, ANIMATION_PACKET);
+	this->addNewPackets<Packet::AIStatePacket>(this->currentNetPacketSize, fullPackage, AI_STATE_PACKET);
+	this->addNewPackets<Packet::SpellPacket>(this->currentNetPacketSize, fullPackage, SPELL_PACKET);
+	this->addNewPackets<Packet::TransformPacket>(this->currentNetPacketSize, fullPackage, AI_TRANSFORM_PACKET);
+	this->addNewPackets<Packet::ChargingPacket>(this->currentNetPacketSize, fullPackage, CHARGING_PACKET);
+	this->addNewPackets<Packet::QuickBlendPacket>(this->currentNetPacketSize, fullPackage,  QUICKBLEND_PACKET);
+	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage,  DAMAGE_PACKET);
+	this->addNewPackets<Packet::ChangeSpellsPacket>(this->currentNetPacketSize, fullPackage, CHANGESPELLS_PACKET);
+	this->addNewPackets<Packet::EventPacket>(this->currentNetPacketSize, fullPackage, PLAYER_EVENT_PACKET);
+	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, AI_HEALTH_PACKET);
+	this->addNewPackets<Packet::DashPacket>(this->currentNetPacketSize, fullPackage, DASH_PACKET);
+	this->addNewPackets<Packet::EventPacket>(this->currentNetPacketSize, fullPackage, END_EVENT_PACKET);
+	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, PLAYER_HEALTH_PACKET);
+	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, RESSURECTION_PACKET);
+	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage, AI_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<Packet::DamagePacket>(this->currentNetPacketSize, fullPackage, BOSS_DAMAGE_TEXT_PACKET);
+	this->addNewPackets<Packet::HealthPacket>(this->currentNetPacketSize, fullPackage, BOSS_HEALTH_PACKET);
 	
 	// Add the size of the netpacket at the start
 	memcpy(this->memory, &this->currentNetPacketSize, sizeof(uint16_t));
@@ -79,11 +79,12 @@ std::shared_ptr<PacketQueueInterface> Packager::getQueue(const uint8_t& packetEn
 }
 
 template<class packetType>
-void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, std::shared_ptr<PacketQueueInterface> const packetQueue, const uint8_t& packetEnum)
+void Packager::addNewPackets(uint16_t &netPacketSize, bool& fullPackage, const uint8_t& packetEnum)
 {
 	packetType newPacket;
 	std::size_t sizeOfPacketType = sizeof(packetType);
 	uint16_t sizeOfnewPackets = 0;
+	std::shared_ptr<PacketQueueInterface> const packetQueue = this->queueList.at(packetEnum);
 	
 	if ((packetSize - (netPacketSize + sizeof(Packet::MetaDataPacket) + sizeOfnewPackets)) < sizeOfPacketType)
 	{
