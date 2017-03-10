@@ -75,10 +75,12 @@ SUNANGLE = 50
 
 OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
 
+musicVolume = 0.5
+
 BACKGROUND_MUSIC_ID = -1
 BACKGROUND_MUSIC_FILE = {
-	"Area1.ogg",
-	"Area1.ogg",
+	"Sooom.ogg",
+	"Sooom.ogg",
 	"Area2.ogg",
 	"Area2.ogg",
 	"Area2.ogg",
@@ -87,11 +89,12 @@ BACKGROUND_MUSIC_FILE = {
 	"Area3.ogg"
 }
 
-function PlayBGM(filename)
+function PlayBGM(filename,volume)
 	print("playing music "..filename)
+		
 	local id = Sound.Play("Music/"..filename, 48)
 	if id ~= -1 then
-		Sound.SetVolume(id, 0.1)
+		Sound.SetVolume(id, volume)
 		Sound.Resume(id)
 		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
 		BACKGROUND_MUSIC_ID = id
@@ -250,8 +253,9 @@ function Rewind()
 	--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
 		for i = 1, #levelScripts do
 			levelScripts[i].Unload()
+		
 		end
-	PlayBGM(BACKGROUND_MUSIC_FILE[1])
+	PlayBGM(BACKGROUND_MUSIC_FILE[1],musicVolume)
 
 	boss.alive = true
 	RewindPlayer(player)
