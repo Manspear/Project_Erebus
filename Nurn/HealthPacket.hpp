@@ -1,24 +1,26 @@
 #pragma once
 
 #include <iostream>
-
-union HealthPacket
+namespace Packet
 {
-	struct HealthPacketStruct
+	union HealthPacket
 	{
-		uint16_t transformID;
-		uint16_t health;
-	}data;
+		struct HealthPacketStruct
+		{
+			uint16_t transformID;
+			uint16_t health;
+		}data;
 
-	HealthPacket()
-	{
-	}
+		HealthPacket()
+		{
+		}
 
-	HealthPacket(const uint16_t& transformID, const uint16_t& health)
-	{
-		data.transformID = transformID;
-		data.health = health;
-	}
+		HealthPacket(const uint16_t& transformID, const uint16_t& health)
+		{
+			data.transformID = transformID;
+			data.health = health;
+		}
 
-	unsigned char bytes[sizeof(HealthPacketStruct)];
-};
+		unsigned char bytes[sizeof(HealthPacketStruct)];
+	};
+}

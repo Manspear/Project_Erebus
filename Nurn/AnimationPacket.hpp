@@ -1,24 +1,26 @@
 #pragma once
 
 #include <iostream>
-
-union AnimationPacket
+namespace Packet
 {
-	struct AnimationPacketStruct
+	union AnimationPacket
 	{
-		uint8_t animationState1;
-		uint8_t animationState2;
-	}data;
+		struct AnimationPacketStruct
+		{
+			uint8_t animationState1;
+			uint8_t animationState2;
+		}data;
 
-	AnimationPacket()
-	{
-	}
+		AnimationPacket()
+		{
+		}
 
-	AnimationPacket(const uint8_t& animationState1, const uint8_t& animationState2)
-	{
-		data.animationState1 = animationState1;
-		data.animationState2 = animationState2;
-	}
+		AnimationPacket(const uint8_t& animationState1, const uint8_t& animationState2)
+		{
+			data.animationState1 = animationState1;
+			data.animationState2 = animationState2;
+		}
 
-	unsigned char bytes[sizeof(AnimationPacketStruct)];
-};
+		unsigned char bytes[sizeof(AnimationPacketStruct)];
+	};
+}

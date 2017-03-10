@@ -21,6 +21,19 @@
 #include "Address.hpp"
 #include "Packager.hpp"
 #include "PacketFilter.hpp"
+#include "PacketEnums.hpp"
+#include "AIStatePacket.hpp"
+#include "TransformPacket.hpp"
+#include "AnimationPacket.hpp"
+#include "MetaDataPacket.hpp"
+#include "SpellPacket.hpp"
+#include "ChargingPacket.hpp"
+#include "QuickBlendPacket.hpp"
+#include "DamagePacket.hpp"
+#include "ChangeSpellsPacket.hpp"
+#include "EventPacket.hpp"
+#include "HealthPacket.hpp"
+#include "DashPacket.hpp"
 
 #ifdef DEBUGGING_NETWORK
 #include "DebugNetwork.hpp"
@@ -56,59 +69,59 @@ namespace Nurn
 
 		NURN_API void Shutdown();
 
-		NURN_API void pushTransformPacket(const TransformPacket& packet);
-		NURN_API bool fetchTransformPacket(TransformPacket& packet);
+		NURN_API void pushTransformPacket(const Packet::TransformPacket& packet);
+		NURN_API bool fetchTransformPacket(Packet::TransformPacket& packet);
 
-		NURN_API void pushAnimationPacket(const AnimationPacket& packet);
-		NURN_API bool fetchAnimationPacket(AnimationPacket& packet);
+		NURN_API void pushAnimationPacket(const Packet::AnimationPacket& packet);
+		NURN_API bool fetchAnimationPacket(Packet::AnimationPacket& packet);
 
-		NURN_API void pushAIStatePacket(const AIStatePacket& packet);
-		NURN_API bool fetchAIPacket(AIStatePacket& packet);
+		NURN_API void pushAIStatePacket(const Packet::AIStatePacket& packet);
+		NURN_API bool fetchAIPacket(Packet::AIStatePacket& packet);
 
-		NURN_API void pushSpellPacket(const SpellPacket& packet);
-		NURN_API bool fetchSpellPacket(SpellPacket& packet);
+		NURN_API void pushSpellPacket(const Packet::SpellPacket& packet);
+		NURN_API bool fetchSpellPacket(Packet::SpellPacket& packet);
 
-		NURN_API void pushAITransformPacket(const TransformPacket& packet);
-		NURN_API bool fetchAITransformPacket(TransformPacket& packet);
+		NURN_API void pushAITransformPacket(const Packet::TransformPacket& packet);
+		NURN_API bool fetchAITransformPacket(Packet::TransformPacket& packet);
 
-		NURN_API void pushChargingPacket(const ChargingPacket& packet);
-		NURN_API bool fetchChargingPacket(ChargingPacket& packet);
+		NURN_API void pushChargingPacket(const Packet::ChargingPacket& packet);
+		NURN_API bool fetchChargingPacket(Packet::ChargingPacket& packet);
 
-		NURN_API void pushQuickBlendPacket(const QuickBlendPacket& packet);
-		NURN_API bool fetchQuickBlendPacket(QuickBlendPacket& packet);
+		NURN_API void pushQuickBlendPacket(const Packet::QuickBlendPacket& packet);
+		NURN_API bool fetchQuickBlendPacket(Packet::QuickBlendPacket& packet);
 
-		NURN_API void pushDamagePacket(const DamagePacket& packet);
-		NURN_API bool fetchDamagePacket(DamagePacket& packet);
+		NURN_API void pushDamagePacket(const Packet::DamagePacket& packet);
+		NURN_API bool fetchDamagePacket(Packet::DamagePacket& packet);
 
-		NURN_API void pushChangeSpellsPacket(const ChangeSpellsPacket& packet);
-		NURN_API bool fetchChangeSpellsPacket(ChangeSpellsPacket& packet);
+		NURN_API void pushChangeSpellsPacket(const Packet::ChangeSpellsPacket& packet);
+		NURN_API bool fetchChangeSpellsPacket(Packet::ChangeSpellsPacket& packet);
 
-		NURN_API void pushPlayerEventPacket(const EventPacket& packet);
-		NURN_API bool fetchPlayerEventPacket(EventPacket& packet);
+		NURN_API void pushPlayerEventPacket(const Packet::EventPacket& packet);
+		NURN_API bool fetchPlayerEventPacket(Packet::EventPacket& packet);
 
-		NURN_API void pushAIHealthPacket(const HealthPacket& packet);
-		NURN_API bool fetchAIHealthPacket(HealthPacket& packet);
+		NURN_API void pushAIHealthPacket(const Packet::HealthPacket& packet);
+		NURN_API bool fetchAIHealthPacket(Packet::HealthPacket& packet);
 
-		NURN_API void pushDashPacket(const DashPacket& packet);
-		NURN_API bool fetchDashPacket(DashPacket& packet);
+		NURN_API void pushDashPacket(const Packet::DashPacket& packet);
+		NURN_API bool fetchDashPacket(Packet::DashPacket& packet);
 
-		NURN_API void pushEndEventPacket(const EventPacket& packet);
-		NURN_API bool fetchEndEventPacket(EventPacket& packet);
+		NURN_API void pushEndEventPacket(const Packet::EventPacket& packet);
+		NURN_API bool fetchEndEventPacket(Packet::EventPacket& packet);
 
-		NURN_API void pushPlayerHealthPacket(const HealthPacket& packet);
-		NURN_API bool fetchPlayerHealthPacket(HealthPacket& packet);
+		NURN_API void pushPlayerHealthPacket(const Packet::HealthPacket& packet);
+		NURN_API bool fetchPlayerHealthPacket(Packet::HealthPacket& packet);
 
-		NURN_API void pushRessurectionPacket(const HealthPacket& packet);
-		NURN_API bool fetchRessurectionPacket(HealthPacket& packet);
+		NURN_API void pushRessurectionPacket(const Packet::HealthPacket& packet);
+		NURN_API bool fetchRessurectionPacket(Packet::HealthPacket& packet);
 
-		NURN_API void pushAIDamageTextPacket(const DamagePacket& packet);
-		NURN_API bool fetchAIDamageTextPacket(DamagePacket& packet);
+		NURN_API void pushAIDamageTextPacket(const Packet::DamagePacket& packet);
+		NURN_API bool fetchAIDamageTextPacket(Packet::DamagePacket& packet);
 
-		NURN_API void pushBossDamageTextPacket(const DamagePacket& packet);
-		NURN_API bool fetchBossDamageTextPacket(DamagePacket& packet);
+		NURN_API void pushBossDamageTextPacket(const Packet::DamagePacket& packet);
+		NURN_API bool fetchBossDamageTextPacket(Packet::DamagePacket& packet);
 
-		NURN_API void pushBossHealthPacket(const HealthPacket& packet);
-		NURN_API bool fetchBossHealthPacket(HealthPacket& packet);
+		NURN_API void pushBossHealthPacket(const Packet::HealthPacket& packet);
+		NURN_API bool fetchBossHealthPacket(Packet::HealthPacket& packet);
 
 		
 #ifdef DEBUGGING_NETWORK
@@ -116,6 +129,11 @@ namespace Nurn
 #endif
 
 	private:
+		void initPacketHandling();
+
+		template<class packetType>
+		void initQueues(const int & size);
+
 		Address address;
 		Packager * packager = nullptr;
 		PacketFilter * packetFilter = nullptr;

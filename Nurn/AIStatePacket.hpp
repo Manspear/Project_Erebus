@@ -1,24 +1,26 @@
 #pragma once
 
 #include <iostream>
-
-union AIStatePacket
+namespace Packet
 {
-	struct AIStatePacketStruct
+	union AIStatePacket
 	{
-		uint16_t transformID;
-		uint16_t aiState;
-	}data;
+		struct AIStatePacketStruct
+		{
+			uint16_t transformID;
+			uint16_t aiState;
+		}data;
 
-	AIStatePacket()
-	{
-	}
+		AIStatePacket()
+		{
+		}
 
-	AIStatePacket(const uint16_t& transformID, const uint16_t& aiState)
-	{
-		data.transformID = transformID;
-		data.aiState = aiState;
-	}
+		AIStatePacket(const uint16_t& transformID, const uint16_t& aiState)
+		{
+			data.transformID = transformID;
+			data.aiState = aiState;
+		}
 
-	unsigned char bytes[sizeof(AIStatePacketStruct)];
-};
+		unsigned char bytes[sizeof(AIStatePacketStruct)];
+	};
+}
