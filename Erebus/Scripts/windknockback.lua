@@ -1,7 +1,7 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 0.8
-WINDKNOCKBACK_CASTSPEED_MULTIPLE = 2.0
-WINDKNOCKBACK_POWER = 2
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 1.8
+WINDKNOCKBACK_POWER = 6
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE

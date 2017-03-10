@@ -696,8 +696,7 @@ namespace AGI
 
 			if (dynamicInfluenceMap[xPlayerPos][yPlayerPos] == nullptr)
 				return;
-			width = 700;
-			height = 780;
+			
 
 			if (enemies.at(enemyPos).hasTarget())
 			{
