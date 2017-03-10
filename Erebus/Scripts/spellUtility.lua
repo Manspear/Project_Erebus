@@ -85,7 +85,6 @@ function CreateCombineRay(entity)
 			self.blendValue1.y = self.blendValue1.y + 0.6 * speed
 			self.blendValue2.x = self.blendValue2.x + 0.2 * speed
 			self.blendValue2.y = self.blendValue2.y + 1.0 * speed
-
 			Gear.SetBlendUniformValue(blendIndex, 2, self.blendValue1,self.blendValue2)		
 			return true
 		else 

@@ -20,9 +20,9 @@ function CreateHellPillar(entity)
 	spell.pos = Transform.GetPosition(spell.caster)
 	spell.chargedTime = 0	spell.minChargeTime = MIN_CHARGE_TIME_PILLAR
 	
-	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds");
-	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
-	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
+	spell.hudtexture = Assets.LoadTexture("Textures/IconHellPiller.dds")
+	spell.texture1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds")
+	spell.texture2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds")
 	spell.maxcooldown = COOLDOWN_BIG_PILLAR --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
