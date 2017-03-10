@@ -109,6 +109,7 @@ namespace LuaGear
 			{ "SetFogColor", setFogColor },
 			{ "SetBlend", setBlend},
 			{ "Shadows", setShadow },
+			{ "ShadowBlur", setBluring },
 			{ "SetAmbient", setAmbient },
 			{ "SetSunColor", setLightColor },
 			{ "SetSunAngle", setLightAngle },
@@ -688,6 +689,15 @@ namespace LuaGear
 		}
 
 		g_skybox->setColor(glm::vec3(r, g, b), force);
+		return 0;
+	}
+
+	int setBluring(lua_State * lua)
+	{
+		assert(lua_gettop(lua) == 1);
+		bool shadowBlur = lua_toboolean(lua, 1);
+
+		g_skybox->setShadowsBluring(shadowBlur);
 		return 0;
 	}
 

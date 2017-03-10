@@ -19,9 +19,10 @@ function LoadOptionsUI()
 	screenImages["play"]		=	UI.load(465, 240, 350, 60);
 	screenImages["fullscreen"]	=	UI.load(465, 310, 350, 60);
 	screenImages["debug"]		=	UI.load(465, 380, 350, 60);
-	screenImages["shadows"]		=	UI.load(465, 450, 350, 60);
-	screenImages["keybinding"]	=	UI.load(465, 520, 350, 60);
-	screenImages["back"]		=	UI.load(465, 590, 350, 60);
+	screenImages["shadows"]		= UI.load(465, 380, 350, 60);
+	screenImages["shadowBlur"]	= UI.load(465, 450, 350, 60);
+	screenImages["keybinding"]	= UI.load(465, 520, 350, 60);
+	screenImages["back"]		= UI.load(465, 590, 350, 60);
 end
 
 function UnloadOptionsUI()
@@ -67,6 +68,16 @@ function UpdateOptionsUI(dt)
 			Sky.Shadows(SETTING_SHADOW)
 		end
 
+		if UI.mousePick(screenImages["shadowBlur"], x,y) then
+			Sound.Play("Effects/button.wav", 2)
+			if SETTING_BLURRING then
+				SETTING_BLURRING = false
+			else
+				SETTING_BLURRING = true
+			end
+			Sky.ShadowBlur(SETTING_BLURRING)
+		end
+
 		if UI.mousePick(screenImages["back"], x,y) then
 			Sound.Play("Effects/button.wav", 2)
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
@@ -97,6 +108,12 @@ function DrawOptionsUI()
 		UI.drawImage(screenImages["shadows"], imageTextures["shadowsOn"]);
 	else
 		UI.drawImage(screenImages["shadows"], imageTextures["shadowsOff"]);
+	end
+
+	if SETTING_BLURRING then
+		UI.drawImage(screenImages["shadowBlur"], imageTextures["debugOn"]);
+	else
+		UI.drawImage(screenImages["shadowBlur"], imageTextures["debugOff"]);
 	end
 
 	UI.drawImage(screenImages["keybinding"], imageTextures["keybinding"]);
