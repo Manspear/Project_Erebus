@@ -224,39 +224,39 @@ function Rewind()
 	boss.health = 500 * LEVEL_ROUND/2.0
 	--UnloadGameplay()
 	--EnterGameplay()
-	if LEVEL_ROUND > 3 then
-			gamestate.ChangeState(GAMESTATE_WIN)
-	else
-		for levelIndex,level in pairs(levels) do
-			if loadedLevels[levelIndex] then
-				level.unload()
-				print("unloaded level ".. levelIndex)
-			end
-			loadedLevels[levelIndex] = false
+	
+	for levelIndex,level in pairs(levels) do
+		if loadedLevels[levelIndex] then
+			level.unload()
+			print("unloaded level ".. levelIndex)
 		end
-		--UnloadEnemies()
-		levels[1].load()
-		loadedLevels[1] = true
-		for _,v in pairs(levels[1].surrounding) do
-			levels[v].load()
-			loadedLevels[v] = true
-			print("level: " .. v .. " loaded!")
-		end
-		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
-		player:ChangeHeightmap(1)
-
-		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)
-		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* (LEVEL_ROUND-1)
-		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
-
-		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
-
-		PlayBGM(BACKGROUND_MUSIC_FILE[1])
-
-		boss.alive = true
-		RewindPlayer(player)
-		RewindPlayer(player2)
+		loadedLevels[levelIndex] = false
 	end
+	--UnloadEnemies()
+	levels[1].load()
+	loadedLevels[1] = true
+	for _,v in pairs(levels[1].surrounding) do
+		levels[v].load()
+		loadedLevels[v] = true
+		print("level: " .. v .. " loaded!")
+	end
+	Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
+	player:ChangeHeightmap(1)
+
+	OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)
+	OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* (LEVEL_ROUND-1)
+	OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
+
+	--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
+	PlayBGM(BACKGROUND_MUSIC_FILE[1])
+
+	boss.alive = true
+	RewindPlayer(player)
+	RewindPlayer(player2)
+	
 
 end
 

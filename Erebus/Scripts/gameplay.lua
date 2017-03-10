@@ -1,4 +1,4 @@
-local levelScripts = {}
+levelScripts = {}
 local scripts = {}
 LEVEL_ROUND = 1
 local scriptFiles =
