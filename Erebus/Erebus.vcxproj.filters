@@ -548,6 +548,9 @@
     <None Include="Scripts\winState.lua">
       <Filter>Scripts\gamestates</Filter>
     </None>
+    <None Include="Scripts\credits.lua">
+      <Filter>Scripts\gamestates</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
