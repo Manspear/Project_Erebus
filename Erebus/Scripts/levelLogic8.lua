@@ -11,7 +11,7 @@ function UpdateLogic(dt)
 		BossStuff(dt)
 	end
 	if boss.combatStarted then
-		if firstLoad then 
+		--if firstLoad then 
 			Transform.SetPosition(levels[8].props.WoodenFenceID.transformID, {x=289.09, y=126.67, z=479.67})
 			levels[8].props.WoodenFenceID.collider:SetPos(289.09, 126.67, 479.67)
 			Transform.ActiveControl(levels[8].props.WoodenFenceID.transformID, true)
@@ -19,7 +19,7 @@ function UpdateLogic(dt)
 			levels[8].props.WoodenFence1ID.collider:SetPos(355.01, 126.86, 479.48)
 			Transform.ActiveControl(levels[8].props.WoodenFence1ID.transformID, true)
 			firstLoad = false
-		end
+		--end
 	end
 	
 	if LEVEL_ROUND > 3 then
