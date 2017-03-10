@@ -4,8 +4,10 @@ function LoadLogic2()
 	WaterID = {}
 	WaterID.model = Assets.LoadModel('Models/lake.model')
 	WaterID.transformID, WaterID.blendingIndex = Gear.BindForwardInstance(WaterID.model, 1)
+	Transform.SetScale(WaterID.transformID, 120)
 	WaterID.blendValue = {x = 0, y = 0}
 	Transform.ActiveControl(WaterID.transformID, true)
+	Transform.SetPosition(WaterID.transformID, {x = 205, y = 30, z = 200})
 	loadedLake = true
 end
 
