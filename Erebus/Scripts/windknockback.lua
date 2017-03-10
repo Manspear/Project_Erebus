@@ -1,14 +1,14 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 0.8
-WINDKNOCKBACK_CASTSPEED_MULTIPLE = 2.0
-WINDKNOCKBACK_POWER = 2
+WINDKNOCKBACK_CASTSPEED_MULTIPLE = 1.8
+WINDKNOCKBACK_POWER = 8
 function CreateWindknockback(entity)
 	local spell = {}
 	spell.element = ICE
 	spell.maxcooldown = 4
 	spell.hudtexture = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 	spell.texture1 = Assets.LoadTexture("Textures/wind.dds")
-	spell.texture2 = Assets.LoadTexture("Textures/wind2.dds")
+	spell.texture2 = Assets.LoadTexture("Textures/windWave.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.durationTime = 0
@@ -22,7 +22,7 @@ function CreateWindknockback(entity)
 	spell.isActiveSpell = false
 	spell.stage2time = 1
 	spell.enemiesHit = {}
-
+	spell.scale = 1
 	--For animation timing 
 	spell.hasSpamAttack = true
 	spell.cooldown = 0 --spells no longer have an internal cooldown for spam attacks. The player's castSpeed determines this.
@@ -59,6 +59,7 @@ function CreateWindknockback(entity)
 			self.durationTime = 0.4
 			self.chargedTime = WINDKNOCKBACK_POWER
 			self.radius = 3
+			Transform.SetScale(self.transformID, self.scale - 0.4)
 			self:GeneralCast()
 			self.damage = 6
 		end
@@ -77,6 +78,7 @@ function CreateWindknockback(entity)
 		if self.cooldown < 0.0 then
 			self.cooldown, self.maxcooldown = WINDKNOCKBACK_COOLDOWN + 2, WINDKNOCKBACK_COOLDOWN + 2
 			self.radius = self.chargedTime
+			Transform.SetScale(self.transformID, self.scale)
 			self:GeneralCast()
 			self.damage = 10
 		end
@@ -91,6 +93,7 @@ function CreateWindknockback(entity)
 		pos.x = pos.x + direction.x * 2.5
 		pos.y = pos.y + direction.y
 		pos.z = pos.z + direction.z * 2.5
+
 		Transform.SetPosition(self.transformID, pos)
 		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
@@ -178,7 +181,7 @@ function DestroyWindknockback(knockback)
 	Assets.UnloadModel( "Models/pCone1.model" )
 	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
 	Assets.UnloadTexture("Textures/wind.dds")
-	Assets.UnloadTexture("Textures/wind2.dds")
+	Assets.UnloadTexture("Textures/windWave.dds")
 
 	knockback = nil
 end
