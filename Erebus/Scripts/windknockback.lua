@@ -61,6 +61,7 @@ function CreateWindknockback(entity)
 			self.radius = 3
 			self:GeneralCast()
 			self.damage = 6
+
 		end
 	end
 	
@@ -179,7 +180,7 @@ function DestroyWindknockback(knockback)
 	Assets.UnloadModel( "Models/pCone1.model" )
 	Assets.UnloadTexture("Textures/IconWindKnockback.dds")
 	Assets.UnloadTexture("Textures/wind.dds")
-	Assets.UnloadTexture("Textures/wind2.dds")
+	Assets.UnloadTexture("Textures/windWave.dds")
 
 	knockback = nil
 end
