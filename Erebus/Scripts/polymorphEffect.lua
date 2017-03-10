@@ -1,4 +1,4 @@
-POLYMORPH_EFFECT_DURATION = 2
+POLYMORPH_EFFECT_DURATION = 4
 POLYMORPH_POOL_SIZE = 4
 POLYMORPH_POOFTIME = 0.3
 polymorphPool = {}
@@ -13,9 +13,10 @@ function CreatePolyEffect(owner, duration)
 	function effect:Apply(entity, duration)
 		Transform.SetScale(entity.transformID, 0)
 		local pos = Transform.GetPosition(entity.transformID)
+		pos.y = pos.y + 1
 		Transform.SetPosition(self.polymorphTransform, pos)
 		if entity.SetState then
-			if entity.type ~= ENEMY_DUMMY then
+			if entity.type ~= ENEMY_DUMMY and entity.stateName ~= DEAD_STATE then
 				entity.SetState(entity, DO_NOTHING_STATE)
 			end
 		end
@@ -27,7 +28,7 @@ function CreatePolyEffect(owner, duration)
 		Transform.ActiveControl(self.polymorphTransform, false)
 		local pos = Transform.GetPosition(entity.transformID)
 		if entity.SetState then
-			if entity.type ~= ENEMY_DUMMY then
+			if entity.type ~= ENEMY_DUMMY and entity.stateName ~= DEAD_STATE then
 				entity.SetState(entity,IDLE_STATE)
 			end
 		end
@@ -40,7 +41,9 @@ function CreatePolyEffect(owner, duration)
 		self.duration = self.duration - dt
 		self.poofTime = self.poofTime - dt
 		if self.poofTime < 0 then Transform.ActiveControl(self.polymorphTransform, true)  self.poofTime = 1000 end
-		Transform.SetPosition(self.polymorphTransform, Transform.GetPosition(entity.transformID))	
+		local pos = Transform.GetPosition(entity.transformID)
+		pos.y = pos.y + 1
+		Transform.SetPosition(self.polymorphTransform, pos)	
 		return self.duration > 0 
 	end
 

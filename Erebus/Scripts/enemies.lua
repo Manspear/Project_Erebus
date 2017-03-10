@@ -99,7 +99,7 @@ function CreateEnemy(type, position, element)
 		enemies[i].modelName = ""
 		if type == ENEMY_MELEE then
 			if enemies[i].elementType == NEUTRAL then
-				enemies[i].modelName = "Models/Fire_Goblin.model"
+				enemies[i].modelName = "Models/Neutral_Goblin.model"
 			elseif enemies[i].elementType == FIRE then
 				enemies[i].modelName = "Models/Fire_Goblin.model"
 			elseif enemies[i].elementType == NATURE then
@@ -147,9 +147,16 @@ function CreateEnemy(type, position, element)
 						end
 						if self.stateName ~= DUMMY_STATE and self.stateName ~= DEAD_STATE then
 							enemies[i].animationController:AnimationHurt()
-							inState = FOLLOW_STATE
-							stateScript.changeToState(self, player, inState)
-							self.aggro = true
+							for o =1, #enemies do
+								if enemies[o].aggro == false and enemies[o].stateName == IDLE_STATE then
+									local length = AI.DistanceTransTrans(enemies[i].transformID,enemies[o].transformID)
+									if length < 85 then
+										inState = FOLLOW_STATE
+										stateScript.changeToState(enemies[o], player, inState)
+										enemies[o].aggro = true
+									end
+								end
+							end
 
 							if self.health < 1 then
 

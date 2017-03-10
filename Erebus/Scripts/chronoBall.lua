@@ -1,10 +1,10 @@
 --CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
-CHRONOBALLLIFETIME = 1.6
+CHRONOBALLLIFETIME = 2
 CHRONOBALLSPEED = 35
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
-CHRONOBALL_DAMAGE = 0
+CHRONOBALL_DAMAGE = 15
 
 CHRONOBALL_SCALE = 1
 CHRONOBALL_HITBOXRADIUS = 3
@@ -33,6 +33,7 @@ function CreateChronoBall(entity)
 	--Gear.AddStaticInstance(model, spell.type.transformID)
 
 	function spell:Update(dt)
+	if CollisionHandler.HitboxLayerCollision(spell.type.sphereCollider,3) then self:Kill() end -- if spell colliding with wall kill urself
 		if self.alive then
 			hits = self.type:Update(dt)
 
@@ -53,7 +54,9 @@ function CreateChronoBall(entity)
 					local hitPos = Transform.GetPosition(self.type.transformID)
 					hitPos.x = hitPos.x + anglex * CHRONOBALLORBITDISTANCE
 					hitPos.z = hitPos.z + anglez * CHRONOBALLORBITDISTANCE
-					Transform.SetPosition(hits[index].transformID, hitPos)
+					--Transform.SetPosition(hits[index].transformID, hitPos)
+					-- HitPos = where we wanna go
+					player.controller:MoveOverride(hitPos.x,0,hitPos.z)
 				end
 			end
 			self.lifeTime = self.lifeTime - dt

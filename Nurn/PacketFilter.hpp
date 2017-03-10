@@ -2,6 +2,7 @@
 
 #include "NetworkDefines.hpp"
 
+#include "PacketQueueInterface.hpp"
 #include "PacketQueue.hpp"
 #include "PacketEnums.hpp"
 #include "AIStatePacket.hpp"
@@ -22,6 +23,9 @@
 #include "DebugNetwork.hpp"
 #endif
 
+#include <vector>
+#include <memory>
+
 class PacketFilter
 {
 public:
@@ -34,44 +38,11 @@ public:
 	virtual ~PacketFilter();
 
 	void openNetPacket(const unsigned char * const memoryPointer);
-	PacketQueue<TransformPacket> * getTransformQueue();
-	PacketQueue<AnimationPacket> * getAnimationQueue();
-	PacketQueue<AIStatePacket> * getAIStateQueue();
-	PacketQueue<SpellPacket> * getSpellQueue();
-	PacketQueue<TransformPacket> * getAITransformQueue();
-	PacketQueue<ChargingPacket> * getChargingQueue();
-	PacketQueue<QuickBlendPacket> * getQuickBlendQueue();
-	PacketQueue<DamagePacket> * getDamageQueue();
-	PacketQueue<ChangeSpellsPacket> * getChangeSpellsQueue();
-	PacketQueue<EventPacket> * getPlayerEventQueue();
-	PacketQueue<HealthPacket> * getAIHealthQueue();
-	PacketQueue<DashPacket> * getDashQueue();
-	PacketQueue<EventPacket> * getEndEventQueue();
-	PacketQueue<HealthPacket> * getPlayerHealthQueue();
-	PacketQueue<HealthPacket> * getRessurectionQueue();
-	PacketQueue<DamagePacket> * getAIDamageTextQueue();
-	PacketQueue<DamagePacket> * getBossDamageTextQueue();
-	PacketQueue<HealthPacket> * getBossHealthQueue();
+	
+	std::shared_ptr<PacketQueueInterface> getQueue(const uint8_t& packetEnum);
 
 private:
-	PacketQueue<TransformPacket> * transformQueue;
-	PacketQueue<AnimationPacket> * animationQueue;
-	PacketQueue<AIStatePacket> * aiStateQueue;
-	PacketQueue<SpellPacket> * spellQueue;
-	PacketQueue<TransformPacket> * aiTransformQueue;
-	PacketQueue<ChargingPacket> * chargingQueue;
-	PacketQueue<QuickBlendPacket> * quickBlendQueue;
-	PacketQueue<DamagePacket> * damageQueue;
-	PacketQueue<ChangeSpellsPacket> * changeSpellsQueue;
-	PacketQueue<EventPacket> * playerEventQueue;
-	PacketQueue<HealthPacket> * aiHealthQueue;
-	PacketQueue<DashPacket> * dashQueue;
-	PacketQueue<EventPacket> * endEventQueue;
-	PacketQueue<HealthPacket> * playerHealthQueue;
-	PacketQueue<HealthPacket> * ressurectionQueue;
-	PacketQueue<DamagePacket> * aiDamageTextQueue;
-	PacketQueue<DamagePacket> * bossDamageTextQueue;
-	PacketQueue<HealthPacket> * bossHealthQueue;
+	std::vector<std::shared_ptr<PacketQueueInterface>> queueList;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

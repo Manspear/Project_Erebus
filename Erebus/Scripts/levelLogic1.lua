@@ -6,6 +6,7 @@ TUTORIAL_OBJECT = {}
 loadedStream = false
 
 function UpdateLogic(dt)
+	if loadedLake then UnloadLogic2() end
 	if TUTORIAL_START_ANIM == true then
 		lowerObject(TUTORIAL_OBJECT,3,dt)
 	end 
@@ -20,7 +21,7 @@ end
 function StreamDaStream(dt)
 	StreamID.blendValue.x = StreamID.blendValue.x + 0.05 * dt
 	StreamID.blendValue.y = StreamID.blendValue.y - 0.15 * dt
-	Gear.SetBlendUniformValue(StreamID.blendingIndex, 1, StreamID.blendValue)
+	Gear.SetUniformValue(StreamID.blendingIndex, StreamID.blendValue.x , StreamID.blendValue.y)
 end
 
 function InteractSpellBook()
@@ -73,21 +74,20 @@ end
 function LoadLogic1()
 	StreamID = {}
 	StreamID.model = Assets.LoadModel('Models/Stream.model')
-	StreamID.transformID = Gear.BindBlendingInstance(StreamID.model)
-	StreamID.blendingIndex = Gear.SetBlendTextures(-1, 1, Assets.LoadTexture("Textures/water_albedo.dds"))
+	StreamID.transformID, StreamID.blendingIndex  = Gear.BindForwardInstance(StreamID.model, 1)
 	StreamID.blendValue = {x = 0, y = 0}
-	Transform.SetPosition(StreamID.transformID, {x=0, y=0, z=0})
-	Transform.SetScaleNonUniform(StreamID.transformID, 1, 1, 1)
-	Transform.SetRotation(StreamID.transformID, {x=-0, y=0, z=-0})
+	Transform.ActiveControl(StreamID.transformID, true)
 	loadedStream = true
 end
 
 function UnloadLogic1()
-	Gear.UnbindInstance(StreamID.transformID)
-	Assets.UnloadModel('Models/Stream.model')
-	Assets.UnloadTexture( "Textures/water_albedo.dds")
+	if StreamID then
+		Gear.UnbindInstance(StreamID.transformID)
+		Assets.UnloadModel('Models/Stream.model')
+		Gear.UnbindForward()
+	end
 	StreamID = nil
 	loadedStream = false
 end
 
-return { Load = LoadLogic, Unload = UnloadLogic, Update = UpdateLogic }
+return { Load = LoadLogic1, Unload = UnloadLogic1, Update = UpdateLogic }

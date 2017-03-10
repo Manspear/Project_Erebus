@@ -61,10 +61,6 @@ function CreateSunRay(entity)
 	sunRay.castAnimationPlayTime = 2 * SUNRAY_CASTSPEED_MULTIPLE --the true cast time of the animation
 	sunRay.castTimeFirstAttack = 0.1875 * SUNRAY_CASTSPEED_MULTIPLE
 
-	-- TODO(Niclas): Not supported yet
-	--sunRay.modelIndex = Gear.AddForwardInstance(model, sunRay.type.transformID)
-	--Gear.SetUniformLocation(sunRay.modelIndex, "aValue");
-
 	function sunRay:Update(dt)
 		if self.alive then
 			self:MoveWithPlayer(dt)
@@ -198,7 +194,7 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:MoveWithPlayer(dt)
-		Gear.SetUniformValue(self.modelIndex, self.UVpushed, 0)
+		Gear.SetBlendUniformValue(self.modelIndex, self.UVpushed, 0)
 		local direction = Transform.GetLookAt(self.caster)
 		local pos = Transform.GetPosition(self.caster)
 		pos.x = pos.x + direction.x * self.length 

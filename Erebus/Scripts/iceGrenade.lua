@@ -1,9 +1,9 @@
 --ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
 MAX_CHARGE_TIME_ICENADE = 3
-MAX_DAMAGE_ICENADE = 10
+MAX_DAMAGE_ICENADE = 30
 SPEED_ICENADE = 32
-EXPLOSION_RADIUS_ICENADE = 10
+EXPLOSION_RADIUS_ICENADE = 20
 
 MIN_FALLOFF_ICENADE = 0.5
 MAX_FALLOFF_ICENADE = 1 - MIN_FALLOFF_ICENADE
@@ -236,11 +236,13 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Combine(effect,damage)
-		self.damage = self.damage + 2 * damage
 		for i=1, #self.nades do
 			if not self.nades[i].alive then
-				self.nades[i], self.nades[1] =  self.nades[1], self.nades[i]
-				table.insert(self.nades[i].effects, effect)
+				if #self.nades[i].effects < 2 then
+					self.nades[i], self.nades[1] =  self.nades[1], self.nades[i]
+					table.insert(self.nades[i].effects, effect)
+					self.damage = self.damage + 2 * damage
+				end
 				break
 			end
 		end

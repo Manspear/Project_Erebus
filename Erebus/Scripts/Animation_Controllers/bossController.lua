@@ -99,7 +99,7 @@ function CreateBossController(boss)
 			self.animationState1 = 3
 		end
 
-		if self.watch.health <= 0 then 
+		if self.watch.currentHealth <= 0 then 
 			if BOSS_DEAD then 
 				self.deathTimer = self.deathTimer + dt
 				if self.deathTimer < self.deathTimerThreshhold then 

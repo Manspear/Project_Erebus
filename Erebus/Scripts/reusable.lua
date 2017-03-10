@@ -13,75 +13,95 @@ AMBIENCECOLOR = {r = 1,g=0.976470,b=0.6196078},
 FOGCOLOR ={r=0.76,g=0.9,b=0.72},
 SKYBOX = 0,
 SUNCOLOR =  {r = 1,g=0.976470,b=0.6196078},
-SUNANGLE = 90
+SUNANGLE = 89
 }
 TILE_ATMOSPHERE_TABLE[2] = {
 AMBIENCECOLOR = {r = 0.8,g=0.676470,b=0.8196078},
-FOGCOLOR ={r=0.76,g=0.9,b=0.92},
+FOGCOLOR = {r=0.76,g=0.9,b=0.92},
 SKYBOX = 0,
-SUNCOLOR =  {r = 0.7,g=0.876470,b=0.6196078},
+SUNCOLOR = {r = 0.7,g=0.876470,b=0.6196078},
 SUNANGLE = 85
 }
 
 TILE_ATMOSPHERE_TABLE[3] = {
-AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4},
-FOGCOLOR ={r=0.1,g=0.1,b=0.1},
+AMBIENCECOLOR = {r = 0.60,g=0.5,b=0.6},
+FOGCOLOR = {r=0.66,g=0.75,b=0.84}, 
 SKYBOX = 0,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
-SUNANGLE = 80
+SUNCOLOR = {r = 0.5,g=0.676470,b=0.4196078},
+SUNANGLE = 77
 }
 
 TILE_ATMOSPHERE_TABLE[4] = {
 AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4},
-FOGCOLOR ={r=0.1,g=0.1,b=0.1},
+FOGCOLOR ={r=0.47,g=0.6,b=0.78},
 SKYBOX = 0,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
+SUNCOLOR =  {r = 0.4,g=0.576470,b=0.3196078},
 SUNANGLE = 72
 }
 
 TILE_ATMOSPHERE_TABLE[5] = {
 AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4},
-FOGCOLOR ={r=0.1,g=0.1,b=0.1},
-SKYBOX = 0,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
-SUNANGLE = 68
+FOGCOLOR = {r=0.36,g=0.8,b=0.62}, 
+SKYBOX = 1,
+SUNCOLOR =  {r = 0.4,g=0.576470,b=0.3196078},
+SUNANGLE = 72
 }
+
 
 TILE_ATMOSPHERE_TABLE[6] = {
 AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4},
-FOGCOLOR ={r=0.1,g=0.1,b=0.1},
-SKYBOX = 0,
+FOGCOLOR ={r=0.36,g=0.8,b=0.62}, 
+SKYBOX = 1,
 SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
 SUNANGLE = 61
 }
 
 TILE_ATMOSPHERE_TABLE[7] = {
 AMBIENCECOLOR = {r = 0.4,g=0.4,b=0.4},
-FOGCOLOR ={r=0.1,g=0.1,b=0.1},
-SKYBOX = 0,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
+FOGCOLOR ={r=0.56,g=0.3,b=0.62}, 
+SKYBOX = 1,
+SUNCOLOR =  {r = 0.0,g=1.1 ,b=0.1},
 SUNANGLE = 56
 }
 
 TILE_ATMOSPHERE_TABLE[8] = {
 AMBIENCECOLOR =  {r = 0.47450980,g=0.23137,b=0.49411},
 FOGCOLOR = {r=0.5,g=0.3,b=0.5},
-SKYBOX = 0,
-SUNCOLOR =  {r = 0.0,g=0.1 ,b=0.1},
+SKYBOX = 1,
+SUNCOLOR =  {r = 0.2,g=0.9 ,b=0.2},
 SUNANGLE = 50
 }
 
 
 OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
 
-OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* 1
-OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* 1
-OVEREALAMBIENCE.b = OVEREALAMBIENCE.b* 1
+BACKGROUND_MUSIC_ID = -1
+BACKGROUND_MUSIC_FILE = {
+	"Area1.ogg",
+	"Area1.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area2.ogg",
+	"Area3.ogg",
+	"Area3.ogg",
+	"Area3.ogg"
+}
+
+function PlayBGM(filename)
+	print("playing music "..filename)
+	local id = Sound.Play("Music/"..filename, 48)
+	if id ~= -1 then
+		Sound.SetVolume(id, 0.1)
+		Sound.Resume(id)
+		Sound.Crossfade(BACKGROUND_MUSIC_ID, id, 1)
+		BACKGROUND_MUSIC_ID = id
+	end
+end
 
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
-		self.damage = self.damage + 2 * damage
+		self.damage = self.damage +  damage
 	end
 end
 
@@ -200,43 +220,43 @@ function TriggerChecks(dt)
 end
 
 function Rewind()
-	boss.health = 500
-	--UnloadGameplay()
 	LEVEL_ROUND = LEVEL_ROUND + 1
+	boss.health = 500 * LEVEL_ROUND/2.0
+	--UnloadGameplay()
 	--EnterGameplay()
-	if LEVEL_ROUND > 3 then
-			gamestate.ChangeState(GAMESTATE_WIN)
-	else
-		for levelIndex,level in pairs(levels) do
-			if loadedLevels[levelIndex] then
-				level.unload()
-				print("unloaded level ".. levelIndex)
-			end
-			loadedLevels[levelIndex] = false
+	
+	for levelIndex,level in pairs(levels) do
+		if loadedLevels[levelIndex] then
+			level.unload()
+			print("unloaded level ".. levelIndex)
 		end
-		--UnloadEnemies()
-		levels[1].load()
-		loadedLevels[1] = true
-		for _,v in pairs(levels[1].surrounding) do
-			levels[v].load()
-			loadedLevels[v] = true
-			print("level: " .. v .. " loaded!")
-		end
-		Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
-		player:ChangeHeightmap(1)
-
-		OVEREALAMBIENCE.r = OVEREALAMBIENCE.r*LEVEL_ROUND-1
-		OVEREALAMBIENCE.g = OVEREALAMBIENCE.g*LEVEL_ROUND-1
-		OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*LEVEL_ROUND-1
-
-		print("HAHA " ,LEVEL_ROUND-1)
-		--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
-
-
-		boss.alive = true
-		RewindPlayer(player)
-		RewindPlayer(player2)
+		loadedLevels[levelIndex] = false
 	end
+	--UnloadEnemies()
+	levels[1].load()
+	loadedLevels[1] = true
+	for _,v in pairs(levels[1].surrounding) do
+		levels[v].load()
+		loadedLevels[v] = true
+		print("level: " .. v .. " loaded!")
+	end
+	Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
+	player:ChangeHeightmap(1)
+
+	OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)
+	OVEREALAMBIENCE.g = OVEREALAMBIENCE.g* (LEVEL_ROUND-1)
+	OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
+
+	--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
+	PlayBGM(BACKGROUND_MUSIC_FILE[1])
+
+	boss.alive = true
+	RewindPlayer(player)
+	RewindPlayer(player2)
+	
 
 end
 

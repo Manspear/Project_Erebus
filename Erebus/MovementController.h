@@ -17,6 +17,7 @@ public:
 	~MovementController();
 
 	void move( glm::vec3 distance );
+	void moveOverride(glm::vec3 distance);
 	void update();
 
 	//Setters
@@ -31,7 +32,7 @@ private:
 	//Transform* transform;
 	TransformHandler* transformHandler;
 	int transformID;
-	glm::vec3 movement;
+	glm::vec3 movement, movementOverride;
 	CollisionLayers* collisionLayer;
 	CollisionHandler* myCollisionHandler;
 	unsigned int layerID;
