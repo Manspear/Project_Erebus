@@ -208,8 +208,10 @@ namespace LuaUI {
 			sScreenImage* image = (sScreenImage*)lua_touserdata(lua, -1);
 
 
-			int posX = (int)lua_tonumber(lua, 2);
-			int posY = (int)lua_tonumber(lua, 3);
+			//int posX = (int)lua_tonumber(lua, 2);
+			//int posY = (int)lua_tonumber(lua, 3);
+			float posX = lua_tonumber(lua, 2);
+			float posY = lua_tonumber(lua, 3);
 
 			image->pos = glm::vec2(posX, posY);
 		}
