@@ -691,6 +691,8 @@ namespace AGI
 			if (xFrom < 0 || xPlayerPos < 0 || yFrom < 0 || yPlayerPos < 0)
 				return;
 
+			if (dynamicInfluenceMap[xPlayerPos][yPlayerPos] == nullptr)
+				return;
 			if (enemies.at(enemyPos).hasTarget())
 			{
 				enemies.at(enemyPos).hasReachedTarget(xFrom, yFrom, xPlayerPos, yPlayerPos);
