@@ -101,7 +101,7 @@ end
 function BaseCombine(self, effect,damage)
 	if #self.effects < 2 then
 		table.insert(self.effects, effect)
-		self.damage = self.damage + 2 * damage
+		self.damage = self.damage +  damage
 	end
 end
 
@@ -220,9 +220,9 @@ function TriggerChecks(dt)
 end
 
 function Rewind()
-	boss.health = 500
-	--UnloadGameplay()
 	LEVEL_ROUND = LEVEL_ROUND + 1
+	boss.health = 500 * LEVEL_ROUND/2.0
+	--UnloadGameplay()
 	--EnterGameplay()
 	
 	for levelIndex,level in pairs(levels) do
@@ -248,7 +248,9 @@ function Rewind()
 	OVEREALAMBIENCE.b = OVEREALAMBIENCE.b*(LEVEL_ROUND-1)
 
 	--Sky.SetTime(TIMETABLE[math.min(LEVEL_ROUND-1,#TIMETABLE)])
-
+		for i = 1, #levelScripts do
+			levelScripts[i].Unload()
+		end
 	PlayBGM(BACKGROUND_MUSIC_FILE[1])
 
 	boss.alive = true
