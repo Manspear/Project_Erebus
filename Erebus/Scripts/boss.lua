@@ -100,6 +100,18 @@ function LoadBoss()
 		boss.animationController.waitForRewindTimer = 0
 		boss.animationController.animation:ResetSegmentPlayTime(0)
 
+		if(LEVEL_ROUND == 1) then
+			--TimeOrbWave-settings
+			TIMEORBWAVEDURATION = 12
+			--TimeLaser-settings
+
+			--Chronoball-settings
+			CHRONOBALLSPEED = 35
+			CHRONOBALLLIFETIME = 2
+			CHRONOBALL_SCALE = 1
+			CHRONOBALL_HITBOXRADIUS = 3
+		end
+
 		--Boss gets harder each round
 		if(LEVEL_ROUND == 2) then
 			--TimeOrbWave-settings

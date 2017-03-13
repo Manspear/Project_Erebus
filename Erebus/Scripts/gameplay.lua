@@ -79,6 +79,12 @@ end
 function UnloadGameplay()
 	print("unloading gameplay")
 	if loadedGameplay then		
+		LEVEL_ROUND = 0
+
+		BOSS_DEAD = false
+
+		Rewind()
+
 		for i = 1, #levelScripts do
 			levelScripts[i].Unload()
 		end
@@ -112,8 +118,6 @@ function UnloadGameplay()
 		openSluices = {}
 
 		enemies = {}
-
-		LEVEL_ROUND = 1
 
 		collectgarbage()
 	end
