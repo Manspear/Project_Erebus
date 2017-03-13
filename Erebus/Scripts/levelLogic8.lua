@@ -49,7 +49,7 @@ end
 function StartingBoss()
 	local player1BossDistance = Transform.GetDistanceBetweenTrans(player.transformID, boss.transformID)
 	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
-	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
+	if player1BossDistance <= 39 and player2BossDistance <= 39 then 
 		boss:Spawn()
 		PlayBGM("BOSS.ogg")
 		--Sound.SetVolume(BACKGROUND_MUSIC_ID, 0)
