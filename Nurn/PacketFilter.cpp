@@ -12,12 +12,16 @@ PacketFilter::PacketFilter()
 
 PacketFilter::~PacketFilter()
 {
+	PacketFilter::shutdown();
+}
+
+void PacketFilter::shutdown()
+{
 	while (queueList.size() > 0)
 	{
 		queueList.pop_back();
 	}
 }
-
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.

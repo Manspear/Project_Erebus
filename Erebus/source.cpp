@@ -117,27 +117,15 @@ DWORD WINAPI update(LPVOID args)
 
 	AnimationData animationData[MAX_ANIMATIONS];
 
+	glm::vec3 cameraPosition;
+	glm::vec3 cameraLookDirection;
+	glm::vec3 cameraUp;
 	//std::vector<ModelInstance>* hello = nullptr;
 	while (data->running)
-	{
-		/*f.updateFrustum(data->camera->getPosition(), data->camera->getDirection(), data->camera->getUp());
-
-		if (data->inputs->keyPressed(GLFW_KEY_T))
-		{
-
-			data->quadtree->addDynamicModels(data->models);
-			hello = data->quadtree->frustumCollision();
-
-
-		}*/
-
-
-		
-
-
-		glm::vec3 cameraPosition = data->camera->getPosition();
-		glm::vec3 cameraLookDirection = data->camera->getDirection();
-		glm::vec3 cameraUp = data->camera->getUp();
+	{	
+		cameraPosition = data->camera->getPosition();
+		cameraLookDirection = data->camera->getDirection();
+		cameraUp = data->camera->getUp();
 
 
 		DWORD waitResult = WaitForSingleObject(data->produce, THREAD_TIMEOUT);
@@ -161,10 +149,7 @@ DWORD WINAPI update(LPVOID args)
 
 			collisionUpdater.update();
 			collisionHandler.checkCollisions();
-			collisionsDraw.draw(); // this only draws if drawThisFrame is called (this frame), lua does this
-			//collisionsDraw.draw(data->quadtree);
-			//data->engine->print(std::to_string(data->quadtree->getNodeCollisionAmount()), 100, 100);
-
+			//collisionsDraw.draw(); 
 
 			std::string fps = "FPS: " + std::to_string(counter.getFPS())
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
@@ -185,9 +170,7 @@ DWORD WINAPI update(LPVOID args)
 				}
 			}
 			data->workQueue->execute();
-
 			ReleaseSemaphore(data->consume, 1, NULL);
-
 		}
 	}
 	network.shutdown();
@@ -307,42 +290,27 @@ int main()
 				controls.update(&inputs);
 
 //#if _DEBUG
-			if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
-				engine.setDrawMode(1);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
-				engine.setDrawMode(2);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
-				engine.setDrawMode(3);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
-				engine.setDrawMode(4);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
-				engine.setDrawMode(5);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
-				engine.setDrawMode(5);
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
-				engine.setDrawMode(5);
-			else if(inputs.keyPressedThisFrame(GLFW_KEY_F6))
-				floatingDamage.addDamage(23, eDamageTypes::FIRE, glm::vec3(20, 8, 165));
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_F7))
-				floatingDamage.addDamage(52, eDamageTypes::COLD, glm::vec3(20, 8, 165));
-			else if (inputs.keyPressedThisFrame(GLFW_KEY_F8))
-				floatingDamage.addDamage(3, eDamageTypes::GRASS, glm::vec3(20, 8, 165));
+			//if (inputs.keyPressedThisFrame(GLFW_KEY_KP_1))
+			//	engine.setDrawMode(1);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_2))
+			//	engine.setDrawMode(2);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_3))
+			//	engine.setDrawMode(3);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_4))
+			//	engine.setDrawMode(4);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_5))
+			//	engine.setDrawMode(5);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_6))
+			//	engine.setDrawMode(5);
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_KP_7))
+			//	engine.setDrawMode(5);
+			//else if(inputs.keyPressedThisFrame(GLFW_KEY_F6))
+			//	floatingDamage.addDamage(23, eDamageTypes::FIRE, glm::vec3(20, 8, 165));
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_F7))
+			//	floatingDamage.addDamage(52, eDamageTypes::COLD, glm::vec3(20, 8, 165));
+			//else if (inputs.keyPressedThisFrame(GLFW_KEY_F8))
+			//	floatingDamage.addDamage(3, eDamageTypes::GRASS, glm::vec3(20, 8, 165));
 //#endif
-			/*else if (inputs.keyPressedThisFrame(GLFW_KEY_R))
-			{
-				if (lockMouse)
-				{
-				soundEngine.pauseAll();
-					window.changeCursorStatus(false);
-					lockMouse = false;
-				}
-				else
-				{
-				soundEngine.resumeAll();
-					window.changeCursorStatus(true);
-					lockMouse = true;
-				}
-			}*/
 
 			if (prevMouseVisible != threadData.mouseVisible)
 			{

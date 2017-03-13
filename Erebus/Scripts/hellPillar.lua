@@ -7,9 +7,9 @@ COOLDOWN_BIG_PILLAR = 2.2
 HELLPILLAR_CASTSPEED_MULTIPLE = 2.5 + 0.1875
 
 --Divide COOLDOWN_SMALL_PILLAR by 2.5 to get castSpeed for first attack
-HELLPILLAR_CHARGE_SFX = "Effects/flames-2.wav"
-HELLPILLAR_PILLAR_SFX = "Effects/explosion.wav"
-HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.wav"
+HELLPILLAR_CHARGE_SFX = "Effects/flames-2.ogg"
+HELLPILLAR_PILLAR_SFX = "Effects/explosion.ogg"
+HELLPILLAR_HIT_SFX = "Effects/burn_ice_001.ogg"
 
 function CreateHellPillar(entity)
 	--Generalla saker	

@@ -37,6 +37,7 @@ public:
 	Packager();
 #endif
 	virtual ~Packager();
+	void shutdown();
 
 	unsigned char * getPacketPointer();
 	uint16_t getCurrentNetPacketSize() const;

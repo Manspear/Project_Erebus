@@ -1,7 +1,7 @@
 --WINDKNOCKBACK_TEXTURE = Assets.LoadTexture("Textures/IconWindKnockback.dds")
 WINDKNOCKBACK_COOLDOWN = 0.8
 WINDKNOCKBACK_CASTSPEED_MULTIPLE = 1.8
-WINDKNOCKBACK_POWER = 5
+WINDKNOCKBACK_POWER = 4
 WINDKNOCKBACK_DAMAGE = 10
 function CreateWindknockback(entity)
 	local spell = {}
@@ -99,7 +99,7 @@ function CreateWindknockback(entity)
 		Transform.ActiveControl(self.transformID, true)
 		SphereCollider.SetActive(self.sphereCollider, true)
 		SphereCollider.SetRadius(self.sphereCollider, self.radius)
-		Transform.RotateToVector(self.transformID, Transform.GetLookAt(self.owner.transformID))
+		Transform.RotateToVector(self.transformID, direction)
 		self.particles:poof(pos, direction)
 	end
 

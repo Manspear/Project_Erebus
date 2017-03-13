@@ -15,5 +15,5 @@ end
 function Update(dt)
 	gamestate.Update(dt)
 	console.Update(dt)
-	UpdateDebugAssets()
+	--UpdateDebugAssets()
 end

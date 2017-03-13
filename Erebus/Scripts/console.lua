@@ -46,7 +46,7 @@ function UnloadConsole()
 end
 
 function UpdateConsole(dt)
-	if Inputs.KeyPressed(Keys.Console) then
+	if Inputs.KeyPressed(Keys.Console) and Inputs.KeyDown("C") then
 		console.visible = not console.visible
 	end
 

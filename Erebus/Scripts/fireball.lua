@@ -10,9 +10,9 @@ FIRESPAM_DAMAGE = 10
 FIREBALL_BASE_DMG = 20
 FIREBALL_LIGHTRADIUS = 5
 FIREBALL_CASTSPEED_MULTIPLE = 1.1 + 0.1875
-FIREBALL_CAST_SFX = "Effects/fireball-01.wav"
-FIREBALL_SMALL_HIT_SFX = "Effects/explosion.wav"
-FIREBALL_BIG_HIT_SFX = "Effects/explosion.wav"
+FIREBALL_CAST_SFX = "Effects/fireball-01.ogg"
+FIREBALL_SMALL_HIT_SFX = "Effects/explosion.ogg"
+FIREBALL_BIG_HIT_SFX = "Effects/explosion.ogg"
 
 function CreateFireball(entity)
 	function initSmallFireball()

@@ -36,6 +36,7 @@ public:
 #endif
 
 	virtual ~PacketFilter();
+	void shutdown();
 
 	void openNetPacket(const unsigned char * const memoryPointer);
 	
