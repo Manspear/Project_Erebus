@@ -6,6 +6,7 @@ BOSS_SPELLCD[3] = 10
 boss = {alive = false}
 boss.spells = {}
 boss.spellinfo = {}
+boss.effects = {}
 
 BOSS_HEALTHBAR_WIDTH = 8
 BOSS_HEALTHBAR_HEIGHT = 0.45
