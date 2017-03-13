@@ -733,10 +733,10 @@ namespace AGI
 						if (finishNode != nullptr)
 							finishNode = finishNode->getParent();
 
-						//superCounter = 0;
-						while (finishNode != nullptr && finishNode != finishNode->getParent())
+						superCounter = 0;
+						while (finishNode != nullptr && finishNode != finishNode->getParent() && superCounter <MAXSIZEPATH - 14)
 						{
-							//superCounter++;
+							superCounter++;
 							glm::vec2 inPos = finishNode->getPos();
 
 							int tempX = round(((inPos.x / mapWidth)*imWidth));
