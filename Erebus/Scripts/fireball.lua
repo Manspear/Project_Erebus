@@ -30,6 +30,7 @@ function CreateFireball(entity)
 	local spell = {}
 	spell.element = FIRE
 	spell.damage = FIREBALL_BASE_DMG
+	spell.combineDamage = 10
 	spell.hudtexture = Assets.LoadTexture("Textures/IconFireball.dds");
 	spell.isActiveSpell = false
 	spell.maxcooldown = FIREBALL_COOLDOWN		spell.minChargeTime = MIN_CHARGETIME_FIREBALL

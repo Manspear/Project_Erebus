@@ -28,6 +28,7 @@ function CreateHellPillar(entity)
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.maxChargeTime = 3
 	spell.damage = 0
+	spell.combineDamage = 14
 	
 	--For animation timing 
 	spell.hasSpamAttack = false

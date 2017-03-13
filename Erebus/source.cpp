@@ -151,6 +151,7 @@ DWORD WINAPI update(LPVOID args)
 			collisionHandler.checkCollisions();
 			//collisionsDraw.draw(); 
 
+			/*
 			std::string fps = "FPS: " + std::to_string(counter.getFPS())
 				+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
 				+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
@@ -158,7 +159,7 @@ DWORD WINAPI update(LPVOID args)
 			fps += "\nPing: " + std::to_string(network.getPing() * 100) + " ms";
 #endif
 			data->engine->print(fps, 0.0f, 0.0f);
-			//data->engine->print(data->soundEngine->getDbgTxt(), 350, 0, 0.7);
+			*/
 			for (int i = 0; i < boundAnimations; i++)
 			{
 				if( data->allAnimations[i].getActive() && !data->allAnimations[i].getCulled() )

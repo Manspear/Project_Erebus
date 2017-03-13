@@ -23,6 +23,7 @@ function CreatePolymorph(entity)
 	spell.hudtexture = Assets.LoadTexture("Textures/IconPolymorph.dds");
 	spell.position = {x = 0, y = 0, z = 0}		spell.direction = {x = 0, y = 0, z = 0}	
 	spell.damage = 1
+	spell.combineDamage = 5
 	spell.morphTime = 3
 	spell.effects = {}
 	
