@@ -65,7 +65,7 @@ SUNANGLE = 56
 }
 
 TILE_ATMOSPHERE_TABLE[8] = {
-AMBIENCECOLOR =  {r = 0.47450980,g=0.23137,b=0.49411},
+AMBIENCECOLOR =  {r = 0.47450980,g=0.43137,b=0.49411},
 FOGCOLOR = {r=0.5,g=0.3,b=0.5},
 SKYBOX = 1,
 SUNCOLOR =  {r = 0.2,g=0.9 ,b=0.2},
@@ -73,11 +73,12 @@ SUNANGLE = 50
 }
 
 
-OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
+OVEREALAMBIENCE = {r = -0.23,g=-0.16,b=-0.11}
 
 musicVolume = 0.5
 
 BACKGROUND_MUSIC_ID = -1
+
 BACKGROUND_MUSIC_FILE = {
 	"Sooom.ogg",
 	"Mellowing.ogg",
