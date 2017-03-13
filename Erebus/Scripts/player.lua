@@ -236,7 +236,7 @@ function FindHeightmap(position)
 		for k,index in pairs(levels[player.levelIndex].surrounding) do
 			hm = heightmaps[index]
 			if hm.asset:Inside(position) then
-				print(index)
+				--print(index)
 				player:ChangeHeightmap(index)
 				break
 			end
