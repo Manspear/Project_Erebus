@@ -60,7 +60,8 @@ function StartingBoss()
 end
 
 function UnloadLogic8()
-	firstLoad = nil
+	firstLoad = true
+	boss.loaded = false
 end
 
 return { Load = LoadLogic8, Unload = UnloadLogic8, Update = UpdateLogic }
