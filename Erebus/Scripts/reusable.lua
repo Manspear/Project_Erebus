@@ -245,6 +245,7 @@ function Rewind()
 		print("level: " .. v .. " loaded!")
 	end
 	Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
+	Transform.SetPosition(player.dummyTrans.transformID, {x=150, y=0, z=210})
 	player:ChangeHeightmap(1)
 
 	OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)

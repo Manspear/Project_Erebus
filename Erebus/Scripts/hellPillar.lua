@@ -2,9 +2,10 @@
 --BLEND_TERXTURE1 = Assets.LoadTexture("Textures/hellpillarNewTex.dds");
 --BLEND_TERXTURE2 = Assets.LoadTexture("Textures/hellpillarNewTex2.dds");
 MAX_DAMAGE_PILLAR = 30
-MIN_CHARGE_TIME_PILLAR = 1
-COOLDOWN_BIG_PILLAR = 2.2
-HELLPILLAR_CASTSPEED_MULTIPLE = 2.5 + 0.1875
+MIN_CHARGE_TIME_PILLAR = 0.5
+COOLDOWN_BIG_PILLAR = 1.5
+COOLDOWN_SMALL_PILLAR = 0.5
+HELLPILLAR_CASTSPEED_MULTIPLE = 1.9 + 0.1875
 
 --Divide COOLDOWN_SMALL_PILLAR by 2.5 to get castSpeed for first attack
 HELLPILLAR_CHARGE_SFX = "Effects/flames-2.ogg"
@@ -69,14 +70,14 @@ function CreateHellPillar(entity)
 			if self.isActiveSpell then
 				self:Aim()
 			end
-			self.cooldown, self.maxcooldown = 1.3, 1.3	
-			self.startUpTime = 0.1		self.finishingTime = 0.7	self.startUpScale = 3
+			self.cooldown, self.maxcooldown = COOLDOWN_SMALL_PILLAR, COOLDOWN_SMALL_PILLAR	
+			self.startUpTime = 0.1	self.finishingTime = 0.6	self.startUpScale = 3
 			self.startUp = true
 			self.maxScale = 0.7			self.scale = 0.7
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 1.3)
 			self.lightRadius = 3
-			self.damage = 5
+			self.damage = MAX_DAMAGE_PILLAR
 			self.aliveCharged = true		self.growAgain = true	
 			self.chargedTime = MIN_CHARGE_TIME_PILLAR
 			self:GeneralCast()		
@@ -96,7 +97,7 @@ function CreateHellPillar(entity)
 			end
 			self.scale = 1
 			self.cooldown, self.maxcooldown = COOLDOWN_BIG_PILLAR, COOLDOWN_BIG_PILLAR	
-			self.startUpTime = 0.5		self.finishingTime = 1.8	self.startUpScale = 6
+			self.startUpTime = 0.5		self.finishingTime = 1	self.startUpScale = 6
 			self.startUp = true
 			self.maxScale = 6
 			Transform.SetScale(self.transformID, 1)
