@@ -398,6 +398,7 @@ function UpdateEnemies(dt)
 				if enemies[i].playerTarget ~= nil then
 					aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 				end
+
 				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
 
 				
