@@ -91,7 +91,7 @@ BACKGROUND_MUSIC_FILE = {
 }
 
 function PlayBGM(filename,volume)
-	print("playing music "..filename)
+	--print("playing music "..filename)
 		
 	local id = Sound.Play("Music/"..filename, 48)
 	if id ~= -1 then
@@ -232,7 +232,7 @@ function Rewind()
 	for levelIndex,level in pairs(levels) do
 		if loadedLevels[levelIndex] then
 			level.unload()
-			print("unloaded level ".. levelIndex)
+			--print("unloaded level ".. levelIndex)
 		end
 		loadedLevels[levelIndex] = false
 	end
@@ -242,7 +242,7 @@ function Rewind()
 	for _,v in pairs(levels[1].surrounding) do
 		levels[v].load()
 		loadedLevels[v] = true
-		print("level: " .. v .. " loaded!")
+		--print("level: " .. v .. " loaded!")
 	end
 	Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
 	Transform.SetPosition(player.dummyTrans.transformID, {x=150, y=0, z=210})
