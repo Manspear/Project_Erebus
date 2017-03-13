@@ -76,8 +76,8 @@ function LoadPlayer()
 	player.damagedTint = {r=1, g=0, b=0, a=0}
 	player.damagedTintDuration = 0.3
 
-	player.deathImage = UI.load(0, -3, 0, 7, 1)
-	player.deathTexture = Assets.LoadTexture("Textures/dead.dds")
+	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
 
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
@@ -221,7 +221,7 @@ function UnloadPlayer()
 	Assets.UnloadModel( "Models/player1.model" )
 	Assets.UnloadModel( "Models/nothing.model" )
 	Assets.UnloadTexture( "Textures/ping.dds" )
-	Assets.UnloadTexture( "Textures/dead.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 
 	UnloadPlayer2()
 end
@@ -477,7 +477,6 @@ function Controls(dt)
 			player.left = -player.moveSpeed
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
-			player.isCombined=true
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
