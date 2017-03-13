@@ -14,7 +14,7 @@ function CreateTimeLaser( entity )
 	for i = 1, TIMELASER_NR_OF_LASERS do
 		--spell.transformIDs[i] = Transform.Bind()
 		spell.angles[i] = (i-1)*2*3.1415/TIMELASER_NR_OF_LASERS
-		spell.transformIDs[i] = Gear.BindForwardInstance(model)
+		spell.transformIDs[i] = Gear.BindStaticInstance(model)
 		spell.colliders[i] = OBBCollider.Create(spell.transformIDs[i])
 		spell.colliders[i].SetSize(spell.colliders[i], TIMELASER_LENGTH, 1, 1)
 		spell.hitTimers[i] = 0
