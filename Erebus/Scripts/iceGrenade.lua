@@ -246,7 +246,6 @@ function CreateIceGrenade(entity)
 				break
 			end
 		end
-		self.damage = self.damage + 2* damage
 	end
 	
 	function spell:UpdateSim(dt)

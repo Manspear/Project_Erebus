@@ -24,6 +24,8 @@ bossAggroFlyDownDone = false
 BOSS_AGGRO_TIMEONGROUND = 2.08
 bossAggroTimeOnGroundDone = false
 
+IS_SINGLEPLAYER = false
+
 BOSS_DEAD = false
 
 TIMETABLE = {}
