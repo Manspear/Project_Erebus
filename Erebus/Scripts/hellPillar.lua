@@ -5,7 +5,7 @@ MAX_DAMAGE_PILLAR = 30
 MIN_CHARGE_TIME_PILLAR = 0.5
 COOLDOWN_BIG_PILLAR = 1.5
 COOLDOWN_SMALL_PILLAR = 0.5
-HELLPILLAR_CASTSPEED_MULTIPLE = 2 + 0.1875
+HELLPILLAR_CASTSPEED_MULTIPLE = 1.9 + 0.1875
 
 --Divide COOLDOWN_SMALL_PILLAR by 2.5 to get castSpeed for first attack
 HELLPILLAR_CHARGE_SFX = "Effects/flames-2.ogg"
@@ -77,7 +77,7 @@ function CreateHellPillar(entity)
 			Transform.SetScale(self.transformID, self.maxScale)
 			SphereCollider.SetRadius(self.sphereCollider, self.scale + 1.3)
 			self.lightRadius = 3
-			self.damage = 5
+			self.damage = MAX_DAMAGE_PILLAR
 			self.aliveCharged = true		self.growAgain = true	
 			self.chargedTime = MIN_CHARGE_TIME_PILLAR
 			self:GeneralCast()		
