@@ -260,7 +260,6 @@ function Rewind()
 		end
 	PlayBGM(BACKGROUND_MUSIC_FILE[1],musicVolume)
 
-	boss.alive = true
 	RewindPlayer(player)
 	RewindPlayer(player2)
 	

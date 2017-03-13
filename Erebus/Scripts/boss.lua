@@ -88,9 +88,9 @@ function LoadBoss()
 		boss.health = boss.maxHealth
 		boss.currentHealth = boss.maxHealth
 		boss.alive = true
-		for i =1, #boss.effects do
-			boss.effects[i]:Deapply(boss)
-		end
+		---for i =1, #boss.effects do
+		--	boss.effects[i]:Deapply(boss)
+		--end
 		boss.effects = {}
 		boss.timeScalar = 1
 		boss.movementSpeed = 1
