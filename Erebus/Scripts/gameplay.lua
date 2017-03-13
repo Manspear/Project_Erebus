@@ -132,14 +132,12 @@ function UpdateGameplay(dt)
 	for key,value in pairs(scripts) do
 		value.Update(dt)
 	end
-
-	if Inputs.KeyReleased("Q") then PLAYER_MOVESPEED = PLAYER_MOVESPEED == 10 and 50 or 10 end
 	
 	levelScripts[player.levelIndex].Update(dt)
 
-	if SETTING_DEBUG then 
-		CollisionHandler.DrawHitboxes()
-	end
+	--if SETTING_DEBUG then 
+	--	CollisionHandler.DrawHitboxes()
+	--end
 	
 	
 	local newEndEventValue, endEventId = Network.GetEndEventPacket()
@@ -173,10 +171,6 @@ function EnterGameplay()
 		dofile( "Scripts/Max_Oscar_test.lua" )
 
 		CreateIM()
-
-		--for i = 1, 7 do
-		--	levels[1].unload()
-		--end
 
 		levels[1].load()
 		loadedLevels[1] = true

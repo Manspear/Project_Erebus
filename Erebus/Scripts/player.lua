@@ -396,11 +396,11 @@ function UpdatePlayer(dt)
 	end
 
 	-- show player position and lookat on screen
-	if Inputs.KeyPressed("0") then 
-		player.printInfo = not player.printInfo
-	end
-	
-	if player.printInfo then PrintInfo() end
+	--if Inputs.KeyPressed("0") then 
+	--	player.printInfo = not player.printInfo
+	--end
+	--
+	--if player.printInfo then PrintInfo() end
 
 	-- update player controller -- this moves the player
 	if player.isAlive then
@@ -421,9 +421,8 @@ function UpdatePlayer(dt)
 		else
 			player.controller:Move(player.left * dt, 0, player.forward * dt)
 		end
-		if not console.visible then
-			Controls(dt)
-		end
+
+		Controls(dt)
 	else
 		Transform.CopyPosition(player.transformID, player.dummyTrans.transformID) -- varför var den player2? wtf dood? vem?
 	end
@@ -476,19 +475,19 @@ function Controls(dt)
 		if Inputs.KeyDown(SETTING_KEYBIND_RIGHT) then
 			player.left = -player.moveSpeed
 		end
-		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
-			pingPressed(player)
-			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
-		end
+		--if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
+		--	pingPressed(player)
+		--	Network.SendPlayerEventPacket(0) -- Event 0 = ping position
+		--end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
 		end
 
-		if Inputs.KeyDown("O") then
-			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
-			levels[8].load()
-			player:ChangeHeightmap(8)
-		end
+		--if Inputs.KeyDown("O") then
+		--	Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
+		--	levels[8].load()
+		--	player:ChangeHeightmap(8)
+		--end
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
