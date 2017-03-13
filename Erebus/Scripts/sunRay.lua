@@ -47,6 +47,7 @@ function CreateSunRay(entity)
 	sunRay.soundID = {}
 	sunRay.chargeID = -1
 	sunRay.hitID = -1
+	sunRay.scale = 0.45
 	sunRay.hudtexture = Assets.LoadTexture("Textures/IconSunRay.dds");
 	sunRay.maxcooldown = SUNRAY_COOLDOWN --Change to cooldown duration if it has a cooldown otherwise -1
 	--local model2 = Assets.LoadModel( "Models/SunRayInner.model" )
@@ -143,8 +144,8 @@ function CreateSunRay(entity)
 	end
 
 	function sunRay:Blasting(dt)
-		self.startUpScale.x = self.startUpScale.x + self.shakeIt * dt
-		self.startUpScale.y = self.startUpScale.y + self.shakeIt * dt
+		self.startUpScale.x = self.scale + self.shakeIt * dt
+		self.startUpScale.y = self.scale + self.shakeIt * dt
 		Transform.SetScaleNonUniform(self.type.transformID, self.startUpScale.x, self.startUpScale.y, self.startUpScale.z)
 		self.shakeIt = self.shakeIt * -1
 		self.UVpushed = self.UVpushed - self.UVpushing * dt 
