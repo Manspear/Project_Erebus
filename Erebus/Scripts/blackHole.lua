@@ -9,7 +9,7 @@ BLACK_HOLE_WHOBLE_INTERVAL = 0.5
 BLACK_HOLE_COOLDOWN = 6
 BLACK_HOLE_PULL_SPEED = 1
 BLACK_HOLE_SPIN_SPEED = 3.14/1
-BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.wav", "Effects/Bluezone-BC0212-ambience-053.wav", "Effects/Bluezone-BC0212-sound-effect-004.wav"}
+BLACK_HOLE_CAST_SFX = {"Effects/portal-idle.ogg", "Effects/Bluezone-BC0212-ambience-053.ogg", "Effects/Bluezone-BC0212-sound-effect-004.ogg"}
 --BLACK_HOLE_TEX1 = Assets.LoadTexture("Textures/blackHoleTex.dds");
 --BLACK_HOLE_TEX2 = Assets.LoadTexture("Textures/blackHole_AnimTex.dds");
 

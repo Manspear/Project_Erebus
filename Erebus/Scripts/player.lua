@@ -150,6 +150,8 @@ function LoadPlayer()
 	function player.Kill(self)
 		self.health = 0
 		self.isAlive = false
+		self.damagedTint.a = 0
+		self.animationController.animation:SetTint(self.damagedTint)
 		camera.toFollow = player.dummyTrans
 		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
 		Erebus.SetControls(player.dummyTrans.transformID)
@@ -698,7 +700,7 @@ function Controls(dt)
 end
 
 function pingPressed(player)
-	Sound.Play("Effects/ping.wav", 1, player.position)	
+	Sound.Play("Effects/ping.ogg", 1, player.position)	
 	player.ping = player.pingDuration
 end
 

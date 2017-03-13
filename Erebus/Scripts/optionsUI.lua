@@ -37,12 +37,12 @@ function UpdateOptionsUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["play"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_GAMEPLAY)
 		end
 
 		if UI.mousePick(screenImages["fullscreen"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			if SETTING_FULLSCREEN then
 				SETTING_FULLSCREEN = false
 			else
@@ -52,7 +52,7 @@ function UpdateOptionsUI(dt)
 		end
 
 		if UI.mousePick(screenImages["debug"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			if SETTING_DEBUG then
 				SETTING_DEBUG = false
 			else
@@ -61,7 +61,7 @@ function UpdateOptionsUI(dt)
 		end
 
 		if UI.mousePick(screenImages["shadows"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			if SETTING_SHADOW then
 				SETTING_SHADOW = false
 			else
@@ -71,7 +71,7 @@ function UpdateOptionsUI(dt)
 		end
 
 		if UI.mousePick(screenImages["shadowBlur"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			if SETTING_BLURRING then
 				SETTING_BLURRING = false
 			else
@@ -81,12 +81,12 @@ function UpdateOptionsUI(dt)
 		end
 
 		if UI.mousePick(screenImages["back"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(OPTIONS_RETURN_STATE)
 		end
 
 		if UI.mousePick(screenImages["keybinding"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_KEYBINDING)
 		end
 	end

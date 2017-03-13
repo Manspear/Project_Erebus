@@ -6,9 +6,9 @@ SUNRAY_DAMAGE = 1
 SUNRAY_COOLDOWN = 4.7
 SUNRAY_HALF_LENGTH = 23
 SUNRAY_TICK_INTERVAL = 0.5
-SUNRAY_CHARGE_SFX = "Effects/energy-blast.wav"
-SUNRAY_CAST_SFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav"}
-SUNRAY_HIT_SFX = "Effects/burn_ice_001.wav"
+SUNRAY_CHARGE_SFX = "Effects/energy-blast.ogg"
+SUNRAY_CAST_SFX = {"Effects/CK_Blaster_Shot-226.ogg", "Effects/CK_Force_Field_Loop-32.ogg"}
+SUNRAY_HIT_SFX = "Effects/burn_ice_001.ogg"
 
 function CreateSunRay(entity)
 	local sunRay = {}
@@ -42,8 +42,8 @@ function CreateSunRay(entity)
 	sunRay.UVpushing = 2.0	sunRay.UVpushed = 0
 	sunRay.startUp = false	sunRay.startUpTime = SUNRAY_STARTUPTIME	sunRay.startUpTimeLVL2 = SUNRAY_STARTUPTIMELVL2
 	sunRay.startUpScale = {x = 1, y = 1, z = 1}
-	sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.wav", "Effects/CK_Force_Field_Loop-32.wav" }
-	sunRay.hitSFX = "Effects/burn_ice_001.wav"
+	--sunRay.castSFX = {"Effects/CK_Blaster_Shot-226.ogg", "Effects/CK_Force_Field_Loop-32.ogg" }
+	--sunRay.hitSFX = "Effects/burn_ice_001.ogg"
 	sunRay.soundID = {}
 	sunRay.chargeID = -1
 	sunRay.hitID = -1

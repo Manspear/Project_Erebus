@@ -27,7 +27,7 @@ function UpdateWinUI(dt)
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["return"], x,y) then
 			Network.SendEndEventPacket(1) -- quit to menu event
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			--gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 			gamestate.ChangeState(GAMESTATE_CREDITS)
 			Erebus.ShutdownNetwork()
