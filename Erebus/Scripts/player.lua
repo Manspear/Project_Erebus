@@ -97,6 +97,7 @@ function LoadPlayer()
 	player.attackDelayTimerStarted = false
 	player.attackDelayTimerThreshHold = 0.1
 	player.attackDelayTimer = 0
+	player.attackAbortTimer = 0
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
@@ -477,6 +478,7 @@ function Controls(dt)
 			player.left = -player.moveSpeed
 		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
+			player.isCombined=true
 			pingPressed(player)
 			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
 		end
@@ -492,7 +494,7 @@ function Controls(dt)
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
-
+		
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -601,11 +603,17 @@ function Controls(dt)
 
 			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.attackQueueTimer = 0
-				player.attackQueue = true
+				player.attackAbortTimer = 0
+				--så det här gör att du quar en attack med ett button press.
+				--Det fungerar bra om du mashar
+			else
+				player.attackAbortTimer = player.attackAbortTimer + dt
+				if player.attackAbortTimer > 0.35 then
+					player.attackQueueTimer = player.attackDelayTimerThreshHold + 1
+				end  
 			end
 
 			if player.attackQueueTimer > player.attackDelayTimerThreshHold then 
-				player.attackQueue = false
 				player.spamAttackActive = false
 
 				player.spamCasting = false
