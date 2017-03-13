@@ -197,9 +197,10 @@ function EnterGameplay()
 		Sky.SetSunColor(tempTable.SUNCOLOR.r,tempTable.SUNCOLOR.g,tempTable.SUNCOLOR.b)
 		Sky.SetSunAngle(tempTable.SUNANGLE,true)
 
-			----------------------
+		----------------------
+
+		LEVEL_ROUND = 1
 	end
-	LEVEL_ROUND = 1
 
 	Gear.QueueModels(true)
 	CollisionHandler.Enable()
