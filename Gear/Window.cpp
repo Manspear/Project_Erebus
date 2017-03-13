@@ -78,7 +78,7 @@ GEAR_API void Window::createWindow(bool fullscreen)
 		{
 			if (!window)
 			{
-				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", glfwGetPrimaryMonitor(), NULL);
+				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wizards and Magic: A Quest Through Time", glfwGetPrimaryMonitor(), NULL);
 
 				// DEBUG: This moves the main window out of the way of the console window
 				glfwSetWindowPos(window, 0, 0);
@@ -112,7 +112,7 @@ GEAR_API void Window::createWindow(bool fullscreen)
 		{
 			if (!window)
 			{
-				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Erebus", NULL, NULL);
+				window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wizards and Magic: A Quest Through Time", NULL, NULL);
 
 				// DEBUG: This moves the main window out of the way of the console window
 				glfwSetWindowPos(window, 512, 128);
