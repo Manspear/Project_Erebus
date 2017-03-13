@@ -44,6 +44,8 @@ function EnterCredits()
 	Gear.QueueModels(false)
 	CollisionHandler.Disable()
 	Gear.CursorVisible(true)
+	Erebus.ShutdownNetwork()
+	UnloadGameplay()
 
 	verticalOffset = 720
 
