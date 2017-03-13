@@ -23,15 +23,15 @@ function UpdateCredits(dt)
 		if UI.mousePick(screenImages.back, x,y) then
 			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
+			UnloadGameplay()			
 			Erebus.ShutdownNetwork()
-			UnloadGameplay()
 		end
 	end
 
 	if Inputs.KeyReleased(Keys.Escape) or verticalOffset < -CreditsHeight then
 		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
-		Erebus.ShutdownNetwork()
 		UnloadGameplay()
+		Erebus.ShutdownNetwork()
 	else
 		verticalOffset = verticalOffset - dt * scrollSpeed
 		UI.repos(screenImages.credits, ScrollingTextX, verticalOffset)
