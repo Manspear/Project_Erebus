@@ -225,7 +225,8 @@ end
 
 function Rewind()
 	LEVEL_ROUND = LEVEL_ROUND + 1
-	boss.health = 500 * LEVEL_ROUND/2.0
+	boss.maxHealth = 500 * LEVEL_ROUND/2.0
+	boss.health = boss.maxHealth
 	--UnloadGameplay()
 	--EnterGameplay()
 	

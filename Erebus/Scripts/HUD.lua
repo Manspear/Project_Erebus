@@ -72,6 +72,7 @@ function LoadHUD()
 	pingImages[1] = UI.load(11.8, 10.5, 153, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[2] = UI.load(24.7, 10, 168, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 	pingImages[3] = UI.load(12, 9.6, 169, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
+	pingImages[4] = UI.load(171.5,43.2, 215.25, 0.8, 0.8) --;tutorialImages[index] = UI.load(x, y, z, 5, 5)
 
 end
 
@@ -238,6 +239,10 @@ function DrawHUD()
 		UI.drawWorldImage(pingImages[3], player.pingTexture);
 	end
 	UI.drawWorldImage(pingImages[2], player.pingTexture);
+
+	if LEVEL_ROUND > 1 then
+		UI.drawWorldImage(pingImages[4], player.pingTexture);
+	end
 
 	if SHOW_COMBINE_BARRIER_IMAGE ~= -1 then
 		UI.drawWorldImage(tutorialImages[SHOW_COMBINE_BARRIER_IMAGE], tutorialTexture[SHOW_COMBINE_BARRIER_IMAGE])
