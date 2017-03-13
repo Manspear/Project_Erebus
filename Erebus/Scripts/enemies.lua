@@ -398,11 +398,9 @@ function UpdateEnemies(dt)
 				if enemies[i].playerTarget ~= nil then
 					aiScript.update(enemies[i],enemies[i].playerTarget,tempdt)
 				end
-				if enemies[i].stateName ~= IDLE_STATE or enemies[i].animationController.firstTick == false then
-					enemies[i].animationController:AnimationUpdate(dt,enemies[i])
-				else
-					enemies[i].animationController:doNothing()
-				end
+
+				enemies[i].animationController:AnimationUpdate(dt,enemies[i])
+
 				
 
 				local heightmapIndex = 1

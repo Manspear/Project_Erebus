@@ -26,8 +26,6 @@
 	That controller must also follow the same principles as described above. 
 ]]
 
-
-
 function CreateEnemyController(enemy)
 	local controller = {}
 	controller.animation = Animation.Bind()
@@ -36,15 +34,13 @@ function CreateEnemyController(enemy)
 	controller.animationState3 = 0
 	controller.watch = enemy
 	controller.oldWatch = {}
-	controller.firstTick = false
-	controller.tickCounter = 0
 
 	controller.damagedMaxTime = 1
 	controller.quickBlendFrom = 0
 	controller.quickBlendTo = 7
 	controller.quickBlendSegment = 1
 
-	controller.currentAnimation = 8
+	controller.currentAnimation = 1
 
 	local animationTransitionTimes = {}
 	for i = 1, 9 do
@@ -64,19 +60,12 @@ function CreateEnemyController(enemy)
 	function controller:AnimationUpdate(dt,enemy)
 		--self.animation:Update(dt, 2, 0)
 		--self.animation:UpdateShaderMatrices()
-		self.animation:StopAnimationUpdating(false)
+
 		self.animation:SetSegmentState( self.currentAnimation, 0 )
-		if self.firstTick == false then
-			self.tickCounter = self.tickCounter +1
-			--print("Count ", self.tickCounter )
-			if self.tickCounter > 100 then
-				self.firstTick = true
-			end
-		end
 	end
 
 	function controller:AnimationHurt(dt,enemy)
-		self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)	
+		self.animation:SetQuickBlend(self.quickBlendFrom, self.quickBlendTo, self.damagedMaxTime, self.quickBlendSegment)
 	end
 
 	function controller:copyWatch()
@@ -93,7 +82,6 @@ function CreateEnemyController(enemy)
 
 	function controller:doNothing()
 		self.currentAnimation = 8
-		self.animation:StopAnimationUpdating(true)
 	end
 
 	function controller:doDeath()
