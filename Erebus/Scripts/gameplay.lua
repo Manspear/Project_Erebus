@@ -151,8 +151,8 @@ function UpdateGameplay(dt)
 		elseif endEventId == 1 then -- other player quit to main menu
 			--gamestate.ChangeState(GAMESTATE_MAIN_MENU) 
 			gamestate.ChangeState(GAMESTATE_DISCONNECTED)
-			Erebus.ShutdownNetwork()
 			UnloadGameplay()
+			Erebus.ShutdownNetwork()
 		elseif endEventId == 2 then -- player win!
 			boss.health = 0
 			BOSS_DEAD = true

@@ -30,9 +30,8 @@ function UpdateWinUI(dt)
 			Sound.Play("Effects/button.ogg", 2)
 			--gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 			gamestate.ChangeState(GAMESTATE_CREDITS)
-			Erebus.ShutdownNetwork()
-
 			UnloadGameplay()
+			Erebus.ShutdownNetwork()
 		end
 	end
 end
