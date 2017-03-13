@@ -24,7 +24,7 @@ function UpdateDisconnected(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["return"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 		end
 	end

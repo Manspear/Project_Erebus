@@ -45,7 +45,7 @@ function UpdateKeybindingUI(dt)
 	x,y = Inputs.GetMousePos()
 	if Inputs.ButtonReleased(Buttons.Left) then
 		if UI.mousePick(screenImages["back"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_OPTIONS)
 		end
 	end

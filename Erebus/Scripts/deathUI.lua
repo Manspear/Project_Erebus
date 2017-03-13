@@ -50,14 +50,14 @@ function UpdateDeathUI(dt)
 	if Inputs.ButtonReleased(Buttons.Left) then
 		x,y = Inputs.GetMousePos()
 		if UI.mousePick(screenImages["continue"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 			Erebus.ShutdownNetwork()
 			UnloadGameplay()
 		end
 
 		if UI.mousePick(screenImages["exit"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			Erebus.Running(false)
 		end
 	end

@@ -699,7 +699,7 @@ function Controls(dt)
 end
 
 function pingPressed(player)
-	Sound.Play("Effects/ping.wav", 1, player.position)	
+	Sound.Play("Effects/ping.ogg", 1, player.position)	
 	player.ping = player.pingDuration
 end
 

@@ -26,17 +26,17 @@ function UpdateMenuUI(dt)
 		x,y = Inputs.GetMousePos()
 
 		if UI.mousePick(screenImages["network"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			gamestate.ChangeState(GAMESTATE_IPCONNECT)
 		end
 
 		if UI.mousePick(screenImages["options"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			OPTIONS_RETURN_STATE = GAMESTATE_MAIN_MENU
 			gamestate.ChangeState(GAMESTATE_OPTIONS)
 		end
 		if UI.mousePick(screenImages["exit"], x,y) then
-			Sound.Play("Effects/button.wav", 2)
+			Sound.Play("Effects/button.ogg", 2)
 			Erebus.Running(false)
 		end
 	end

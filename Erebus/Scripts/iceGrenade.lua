@@ -9,8 +9,8 @@ MIN_FALLOFF_ICENADE = 0.5
 MAX_FALLOFF_ICENADE = 1 - MIN_FALLOFF_ICENADE
 SPAM_CD_ICENADE = 0.3
 SPAM_COMBO_NUMBER_ICENADE = 4 --number of attacks in the combo, last attack of combo applies effect
-ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.wav"
-ICEGRENADE_HIT_SFX = "Effects/Ice_impact_lite_02.wav"
+ICEGRENADE_CAST_SFX = "Effects/burn_ice_001.ogg"
+ICEGRENADE_HIT_SFX = "Effects/Ice_impact_lite_02.ogg"
 
 function CreateIceGrenade(entity)
 	
