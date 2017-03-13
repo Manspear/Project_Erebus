@@ -41,6 +41,10 @@ function DrawCredits()
 end
 
 function EnterCredits()
+	Gear.QueueModels(false)
+	CollisionHandler.Disable()
+	Gear.CursorVisible(true)
+
 	verticalOffset = 720
 
 	imageTextures.background = Assets.LoadTexture("Textures/credits_background.dds")
