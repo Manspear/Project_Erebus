@@ -76,8 +76,8 @@ function LoadPlayer()
 	player.damagedTint = {r=1, g=0, b=0, a=0}
 	player.damagedTintDuration = 0.3
 
-	player.deathImage = UI.load(0, -3, 0, 7, 1)
-	player.deathTexture = Assets.LoadTexture("Textures/dead.dds")
+	player.deathImage = UI.load(0, -3, 0, 0.75, 0.75)
+	player.deathTexture = Assets.LoadTexture("Textures/playerDeath.dds")
 
 	player.chargeImage = UI.load(0, -3, 0, 0.50, 0.50)
 	player.combineImage = UI.load(0, -3, 0, 0.50, 0.50)
@@ -97,6 +97,7 @@ function LoadPlayer()
 	player.attackDelayTimerStarted = false
 	player.attackDelayTimerThreshHold = 0.1
 	player.attackDelayTimer = 0
+	player.attackAbortTimer = 0
 
 	player.dashStartParticles = Particle.Bind("ParticleFiles/dash.particle")
 	player.dashEndParticles = Particle.Bind("ParticleFiles/dash3.particle")
@@ -220,7 +221,7 @@ function UnloadPlayer()
 	Assets.UnloadModel( "Models/player1.model" )
 	Assets.UnloadModel( "Models/nothing.model" )
 	Assets.UnloadTexture( "Textures/ping.dds" )
-	Assets.UnloadTexture( "Textures/dead.dds" )
+	Assets.UnloadTexture( "Textures/playerDeath.dds" )
 
 	UnloadPlayer2()
 end
@@ -277,14 +278,14 @@ function FindHeightmap(position)
 
 			--unload previous tiles
 			for _,v in pairs(oldTiles) do
-				print("Unloading tile: " .. v)
+				--print("Unloading tile: " .. v)
 				levels[v].unload()
 				loadedLevels[v] = false
 			end
 
 			--load new tiles
 			for _,v in pairs(newTiles) do
-				print("Loading tile: " .. v)
+				--print("Loading tile: " .. v)
 				levels[v].load()
 				loadedLevels[v] = true
 			end
@@ -327,10 +328,6 @@ function UpdatePlayer(dt)
 
 	UpdatePlayer2(dt)
 	if player.isAlive then
-		local scale = 0.8
-		local color = {0.6, 0.3, 0.1, 0.8}
-		local info = ""..player.timeScalar
-		Gear.Print(info, 1230, 0, scale, color)
 		dt = dt * player.timeScalar
 
 		player.dashcd = player.dashcd - dt
@@ -433,7 +430,7 @@ function UpdatePlayer(dt)
 end
 
 function SendCombine(spell)
-	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.combineDamage)
 	Network.SendChargingPacket(player.currentSpell, true)
 end
 
@@ -475,23 +472,23 @@ function Controls(dt)
 		if Inputs.KeyDown(SETTING_KEYBIND_RIGHT) then
 			player.left = -player.moveSpeed
 		end
-		--if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
-		--	pingPressed(player)
-		--	Network.SendPlayerEventPacket(0) -- Event 0 = ping position
-		--end
+		if Inputs.KeyPressed(SETTING_KEYBIND_PING) then
+			pingPressed(player)
+			Network.SendPlayerEventPacket(0) -- Event 0 = ping position
+		end
 		if Inputs.KeyPressed(SETTING_KEYBIND_COMBINE) then
 			SendCombine(player.spells[player.currentSpell])
 		end
 
-		--if Inputs.KeyDown("O") then
-		--	Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
-		--	levels[8].load()
-		--	player:ChangeHeightmap(8)
-		--end
+		if Inputs.KeyDown("O") then
+			Transform.SetPosition(player.transformID, {x =324.1, y = 143.4, z = 488.2})
+			levels[8].load()
+			player:ChangeHeightmap(8)
+		end
 
 		if Inputs.KeyDown(SETTING_KEYBIND_COMBINE) then
 			
-
+		
 			sElement = player.spells[player.currentSpell].element
 			pos2 = Transform.GetPosition(player2.transformID)
 			
@@ -600,11 +597,17 @@ function Controls(dt)
 
 			if Inputs.ButtonDown(SETTING_KEYBIND_NORMAL_ATTACK) then
 				player.attackQueueTimer = 0
-				player.attackQueue = true
+				player.attackAbortTimer = 0
+				--så det här gör att du quar en attack med ett button press.
+				--Det fungerar bra om du mashar
+			else
+				player.attackAbortTimer = player.attackAbortTimer + dt
+				if player.attackAbortTimer > 0.35 then
+					player.attackQueueTimer = player.attackDelayTimerThreshHold + 1
+				end  
 			end
 
 			if player.attackQueueTimer > player.attackDelayTimerThreshHold then 
-				player.attackQueue = false
 				player.spamAttackActive = false
 
 				player.spamCasting = false

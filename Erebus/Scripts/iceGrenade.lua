@@ -1,7 +1,7 @@
 --ICEGRENADE_SPELL_TEXTURE = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 MAX_NR_OF_ICENADES = 10
-MAX_CHARGE_TIME_ICENADE = 3
-MAX_DAMAGE_ICENADE = 30
+MAX_CHARGE_TIME_ICENADE = 1.5
+MAX_DAMAGE_ICENADE = 15
 SPEED_ICENADE = 32
 EXPLOSION_RADIUS_ICENADE = 20
 
@@ -44,6 +44,7 @@ function CreateIceGrenade(entity)
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
+	spell.combineDamage = 15
 	spell.hudtexture = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0
@@ -63,7 +64,7 @@ function CreateIceGrenade(entity)
 	end
 
 	function spell:Cast(entity, chargetime)
-		chargetime = chargetime or 1
+		chargetime = chargetime or 0.5
 		if self.cooldown < 0 then
 			--ZoomInCamera()
 			self.timeSinceLastPoop = 2
@@ -246,7 +247,6 @@ function CreateIceGrenade(entity)
 				break
 			end
 		end
-		self.damage = self.damage + 2* damage
 	end
 	
 	function spell:UpdateSim(dt)

@@ -1,6 +1,6 @@
 --CHRONOBALL_SPELL_TEXTURE = Assets.LoadTexture("Textures/ChargeTemp.dds");
 CHRONOBALLLIFETIME = 2
-CHRONOBALLSPEED = 35
+CHRONOBALLSPEED = 40
 CHRONOBALLORBITDISTANCE = 1.5
 CHRONOBALLORBITSPEED = 10
 CHRONOBALLMAXCHARGETIME = 5
@@ -28,6 +28,7 @@ function CreateChronoBall(entity)
 	spell.chargedTime = 0
 	spell.hudtexture = Assets.LoadTexture("Textures/ChronoBallTexture.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
+	spell.damage = 0
 	
 	--local model = Assets.LoadModel( "Models/projectile1.model" )
 	--Gear.AddStaticInstance(model, spell.type.transformID)
@@ -48,7 +49,7 @@ function CreateChronoBall(entity)
 					if not self.hitflag then
 						local effect = effectTable[self.effect]()
 						hits[index]:Apply(effect)
-						hits[index]:Hurt(CHRONOBALL_DAMAGE, self.owner, self.element)
+						hits[index]:Hurt(self.damage, self.owner, self.element)
 						self.hitflag = true
 					end
 					local hitPos = Transform.GetPosition(self.type.transformID)
@@ -76,7 +77,7 @@ function CreateChronoBall(entity)
 		if not self.alive then
 			--self.position = Transform.GetPosition(casterTransID)
 			--self.direction = dir	--Transform.GetLookAt(player.transformID
-
+			self.damage = CHRONOBALL_DAMAGE * ((LEVEL_ROUND+1)/2)
 			Transform.SetScale(entity.transformID, CHRONOBALL_SCALE)
 			self.type.sphereCollider:SetRadius(CHRONOBALL_HITBOXRADIUS)
 

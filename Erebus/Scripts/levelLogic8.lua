@@ -3,6 +3,7 @@ function LoadLogic8()
 	
 end
 firstLoad = true
+countDownToWin = 10
 function UpdateLogic(dt)
 	if rewinder.rewinding then
 		rewinder:Update(dt)
@@ -23,10 +24,12 @@ function UpdateLogic(dt)
 	end
 	
 	if LEVEL_ROUND > 3 then
-		gamestate.ChangeState(GAMESTATE_WIN)
+		countDownToWin = countDownToWin - dt
+		if countDownToWin < 0 then
+			gamestate.ChangeState(GAMESTATE_CREDITS)
+			countDownToWin = 10
+		end
 	end
-
-	
 end
 
 function BossStuff(dt)
@@ -49,7 +52,12 @@ end
 function StartingBoss()
 	local player1BossDistance = Transform.GetDistanceBetweenTrans(player.transformID, boss.transformID)
 	local player2BossDistance = Transform.GetDistanceBetweenTrans(player2.transformID, boss.transformID)
-	if player1BossDistance <= 39 then--and player2BossDistance <= 39 then 
+	local player2Location = Transform.GetPosition(player2.transformID)
+	if player2Location.x == 0 and player2Location.y == 0 and player2Location.z == 0 then
+		IS_SINGLEPLAYER = true
+	end
+	
+	if (player1BossDistance <= 39 and player2BossDistance <= 39) or (player1BossDistance <= 39 and IS_SINGLEPLAYER) then 
 		boss:Spawn()
 		PlayBGM("BOSS.ogg")
 		--Sound.SetVolume(BACKGROUND_MUSIC_ID, 0)
@@ -57,7 +65,8 @@ function StartingBoss()
 end
 
 function UnloadLogic8()
-	firstLoad = nil
+	firstLoad = true
+	boss.loaded = false
 end
 
 return { Load = LoadLogic8, Unload = UnloadLogic8, Update = UpdateLogic }

@@ -1,6 +1,6 @@
 ORBWAVEORBS = 50
 ORBWAVEMINRADIUS = 1
-ORBWAVEMAXRADIUS = 40 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
+ORBWAVEMAXRADIUS = 55 - ORBWAVEMINRADIUS --the number is how long out the wave will travel
 ORBWAVELAPTIME = 3
 
 function CreateOrbWaveType(model) 

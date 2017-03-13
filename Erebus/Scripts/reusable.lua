@@ -65,7 +65,7 @@ SUNANGLE = 56
 }
 
 TILE_ATMOSPHERE_TABLE[8] = {
-AMBIENCECOLOR =  {r = 0.47450980,g=0.23137,b=0.49411},
+AMBIENCECOLOR =  {r = 0.47450980,g=0.43137,b=0.49411},
 FOGCOLOR = {r=0.5,g=0.3,b=0.5},
 SKYBOX = 1,
 SUNCOLOR =  {r = 0.2,g=0.9 ,b=0.2},
@@ -73,11 +73,12 @@ SUNANGLE = 50
 }
 
 
-OVEREALAMBIENCE = {r = -0.2,g=-0.1,b=-0.1}
+OVEREALAMBIENCE = {r = -0.23,g=-0.16,b=-0.11}
 
 musicVolume = 0.5
 
 BACKGROUND_MUSIC_ID = -1
+
 BACKGROUND_MUSIC_FILE = {
 	"Sooom.ogg",
 	"Mellowing.ogg",
@@ -90,7 +91,7 @@ BACKGROUND_MUSIC_FILE = {
 }
 
 function PlayBGM(filename,volume)
-	print("playing music "..filename)
+	--print("playing music "..filename)
 		
 	local id = Sound.Play("Music/"..filename, 48)
 	if id ~= -1 then
@@ -224,14 +225,15 @@ end
 
 function Rewind()
 	LEVEL_ROUND = LEVEL_ROUND + 1
-	boss.health = 500 * LEVEL_ROUND/2.0
+	boss.maxHealth = 500 * LEVEL_ROUND/2.0
+	boss.health = boss.maxHealth
 	--UnloadGameplay()
 	--EnterGameplay()
 	
 	for levelIndex,level in pairs(levels) do
 		if loadedLevels[levelIndex] then
 			level.unload()
-			print("unloaded level ".. levelIndex)
+			--print("unloaded level ".. levelIndex)
 		end
 		loadedLevels[levelIndex] = false
 	end
@@ -241,9 +243,10 @@ function Rewind()
 	for _,v in pairs(levels[1].surrounding) do
 		levels[v].load()
 		loadedLevels[v] = true
-		print("level: " .. v .. " loaded!")
+		--print("level: " .. v .. " loaded!")
 	end
 	Transform.SetPosition(player.transformID, {x=150, y=0, z=210})
+	Transform.SetPosition(player.dummyTrans.transformID, {x=150, y=0, z=210})
 	player:ChangeHeightmap(1)
 
 	OVEREALAMBIENCE.r = OVEREALAMBIENCE.r* (LEVEL_ROUND-1)

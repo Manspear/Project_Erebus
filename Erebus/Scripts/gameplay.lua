@@ -51,7 +51,7 @@ gameplayStarted = false
 loadedGameplay = false
 
 function LoadGameplay()
-	print("LOADING GAMEPLAY")
+	--print("LOADING GAMEPLAY")
 	-- run scripts
 	for i=1, #scriptFiles do
 		scripts[i] = dofile(scriptFiles[i])
@@ -77,7 +77,7 @@ function CreateIM()
 end
 
 function UnloadGameplay()
-	print("unloading gameplay")
+	--print("unloading gameplay")
 	if loadedGameplay then		
 		for i = 1, #levelScripts do
 			levelScripts[i].Unload()
@@ -121,7 +121,7 @@ end
 
 function UpdateGameplay(dt)
 	if Inputs.KeyReleased(SETTING_KEYBIND_MENU) then
-		print(SETTING_KEYBIND_MENU)
+		--print(SETTING_KEYBIND_MENU)
 		gamestate.ChangeState(GAMESTATE_PAUSEMENU)
 	end
 
@@ -158,7 +158,7 @@ function UpdateGameplay(dt)
 end
 
 function EnterGameplay()
-	print("entering gameplay")
+	--print("entering gameplay")
 	if loadedGameplay == false then 
 		InitPolymorphs()
 		InitTimeSlows()

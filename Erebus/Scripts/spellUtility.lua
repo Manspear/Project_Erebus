@@ -143,7 +143,7 @@ function CreateChargeEggs(entity)
 	chargeThing.transformID3 = Gear.BindForwardInstance(natureModel)
 	Transform.ActiveControl(chargeThing.transformID3, false)
 	
-	chargeThing.firstCombine = false
+	chargeThing.chargePower = 0.7
 	chargeThing.elementalTransformID = 0
 	chargeThing.particles = createParticlesByElement()
 	chargeThing.particles:extrovert(false)
@@ -151,11 +151,13 @@ function CreateChargeEggs(entity)
 	chargeThing.owner = entity
 	chargeThing.rot = {x = 0, y = 0, z = 0}
 
-	chargeThing.rotSmall = {x = 0, y = 0, z = 0}
-	chargeThing.scaleSmall = {x = 1, y = 1, z = 1}
+	chargeThing.scale = {x = 1, y = 1, z = 1}
+	chargeThing.scaleSmall = {x = 1.6, y = 1.05, z = 1.6}
+	chargeThing.scaleLarge = {x = 1.6, y = 1.3, z = 1.6}
 
+	chargeThing.rotSmall = {x = 0, y = 0, z = 0}
 	chargeThing.rotLarge = {x = 0, y = 0, z = 0}
-	chargeThing.scaleLarge = {x = 1.4, y = 1.1, z = 1.4}
+
 
 	chargeThing.pos = {x = 0, y = 0, z = 0}
 	chargeThing.light = nil
@@ -179,16 +181,15 @@ function CreateChargeEggs(entity)
 		if not self.owner.isCombined then
 			self:ChargeMePlease(dt)
 		else 
-			self:CombinedAndCharged(dt, chargePower)
+			self:CombinedAndCharged(dt)
 		end
 	end
 
 
 
-	function chargeThing:CombinedAndCharged(dt, chargePower)
+	function chargeThing:CombinedAndCharged(dt)
 		self.pos = Transform.GetPosition(self.caster)
-		--nature particle alla typer 
-		self.firstCombine = false
+		
 		
 		if self.light then
 			Light.updatePos(self.light, self.pos.x, self.pos.y + 3, self.pos.z, true)
@@ -198,27 +199,27 @@ function CreateChargeEggs(entity)
 		self.pos.y = self.pos.y - 1
 		
 		--Cyl
-		if self.scaleSmall.x < 1.1  then
-			self.scaleSmall.x = self.scaleSmall.x + (chargePower * chargePower * 75) * dt
-			self.scaleSmall.z = self.scaleSmall.z + (chargePower * chargePower * 75) * dt
+		if self.scale.x < self.scaleSmall.x  then
+			self.scale.x = self.scale.x + (self.chargePower * self.chargePower * 10) * dt
+			self.scale.z = self.scale.z + (self.chargePower * self.chargePower * 10) * dt
 		end
 
-		if self.scaleSmall.y < 1.1 then
-			self.scaleSmall.y = self.scaleSmall.y + (0.075*dt)
+		if self.scale.y < self.scaleSmall.y then
+			self.scale.y = self.scale.y + (0.075*dt)
 		end
 
-		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z) 
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scale.x, self.scale.y, self.scale.z) 
 		Transform.SetPosition(self.elementalTransformID, self.pos) 
 		self.rotSmall.y = self.rotSmall.y + 3 * dt
 		Transform.SetRotation(self.elementalTransformID, self.rotSmall)
 
 		if self.timer > 0.75 then	
-			if self.scaleLarge.x < 1.1 then
-				self.scaleLarge.x = self.scaleLarge.x + (chargePower * chargePower * 30) * dt
-				self.scaleLarge.Y = self.scaleLarge.y + (chargePower * chargePower * 30) * dt
-				self.scaleLarge.z = self.scaleLarge.z + (chargePower * chargePower * 30) * dt
+			if self.scale.x < self.scaleLarge.x then
+				self.scale.x = self.scale.x + (self.chargePower * self.chargePower * 40) * dt
+				self.scale.Y = self.scale.y + (self.chargePower * self.chargePower * 40) * dt
+				self.scale.z = self.scale.z + (self.chargePower * self.chargePower * 40) * dt
 			end
-			Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleLarge.x, self.scaleLarge.y, self.scaleLarge.z)
+			Transform.SetScaleNonUniform(self.elementalTransformID, self.scale.x, self.scale.y, self.scale.z)
 			Transform.SetPosition(self.elementalTransformID, self.pos)
 			self.particles:update(self.pos) 
 			self.rotLarge.y = self.rotLarge.y + 5 * dt
@@ -228,12 +229,12 @@ function CreateChargeEggs(entity)
 
 
 	function chargeThing:EndCharge() 
-		self.scaleSmall = {x = 1, y = 1, z = 1}
+		self.scale = {x = 1, y = 1, z = 1}
 		self.timer = 0
 		self.color = {r = 0, g = 0, b = 0}
 		Transform.ActiveControl(self.elementalTransformID, false)
 		Transform.SetPosition(self.elementalTransformID, {x = 0, y = 0, z = 0})
-		Transform.SetScaleNonUniform(self.elementalTransformID, self.scaleSmall.x, self.scaleSmall.y, self.scaleSmall.z)
+		Transform.SetScaleNonUniform(self.elementalTransformID, self.scale.x, self.scale.y, self.scale.z)
 		self.elementalTransformID = 0 
 		self.particles:die()
 		if self.light then	Light.removeLight(self.light, true)	 self.light = nil	end

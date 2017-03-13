@@ -289,7 +289,6 @@ namespace AGI
 
 		AGI_API void destroyInfluenceMap()
 		{
-			//std::cout << "DSDA" << std::endl;
 			for (int n = 0; n < imWidth; n++)
 			{
 				for (int i = 0; i < imHeight; i++)
@@ -692,7 +691,7 @@ namespace AGI
 			if (xFrom < 0 || xPlayerPos < 0 || yFrom < 0 || yPlayerPos < 0)
 				return;
 
-			if (xFrom > imWidth || xPlayerPos > imWidth || yFrom > imHeight || yPlayerPos> imHeight)
+			if (xFrom >= imWidth || xPlayerPos >= imWidth || yFrom >= imHeight || yPlayerPos>= imHeight)
 				return;
 
 			if (enemies.at(enemyPos).hasTarget())

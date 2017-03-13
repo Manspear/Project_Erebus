@@ -2,7 +2,7 @@ TUMBLETHORN_SPEED = 20
 TUMBLETHORN_RADIUS = 1
 TUMBLETHORNS_COOLDOWN = 1
 TUMBLETHORNS_ROLLBACKTIME = 0.5
-TUMBLETHORNS_CASTSPEED_MULTIPLE = 1.7
+TUMBLETHORNS_CASTSPEED_MULTIPLE = 1.6
 TUMBLETHORNS_LIFETIME = 999
 TUMBLETHORNS_DAMAGE = 8
 function CreateTumblethorns(entity)
@@ -12,6 +12,7 @@ function CreateTumblethorns(entity)
 	spell.hudtexture = Assets.LoadTexture("Textures/IconTumblethorne.dds")
 	spell.owner = entity		spell.caster = entity.transformID
 	spell.damage = TUMBLETHORNS_DAMAGE
+	spell.combineDamage = 8
 	spell.alive = false			spell.canRollBack = false		spell.rollBackTime = TUMBLETHORNS_ROLLBACKTIME
 	spell.chargedTime = 0		spell.maxChargeTime = 2			spell.minChargeTime = 1
 	spell.spin = 10.0			spell.rotation = {x = 0, y = 0, z = 0}
