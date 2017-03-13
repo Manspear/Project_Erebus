@@ -150,6 +150,8 @@ function LoadPlayer()
 	function player.Kill(self)
 		self.health = 0
 		self.isAlive = false
+		self.damagedTint.a = 0
+		self.animationController.animation:SetTint(self.damagedTint)
 		camera.toFollow = player.dummyTrans
 		Transform.CopyTransform(player.transformID, player.dummyTrans.transformID)
 		Erebus.SetControls(player.dummyTrans.transformID)
