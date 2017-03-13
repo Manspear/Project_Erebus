@@ -80,13 +80,13 @@ musicVolume = 0.5
 BACKGROUND_MUSIC_ID = -1
 BACKGROUND_MUSIC_FILE = {
 	"Sooom.ogg",
-	"Sooom.ogg",
-	"Area2.ogg",
-	"Area2.ogg",
-	"Area2.ogg",
-	"Area3.ogg",
-	"Area3.ogg",
-	"Area3.ogg"
+	"Mellowing.ogg",
+	"Mellowing.ogg",
+	"Tension.ogg",
+	"Tension.ogg",
+	"Tension.ogg",
+	"Looming.ogg",
+	"Looming.ogg"
 }
 
 function PlayBGM(filename,volume)

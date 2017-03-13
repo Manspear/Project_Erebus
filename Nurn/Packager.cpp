@@ -14,15 +14,19 @@ Packager::Packager()
 
 Packager::~Packager()
 {
+	Packager::shutdown();
+	if (this->memory)
+	{
+		delete[] this->memory;
+		this->memory = 0;
+	}
+}
+
+void Packager::shutdown()
+{
 	while (queueList.size() > 0)
 	{
 		queueList.pop_back();
-	}
-
-	if (this->memory)
-	{
-		delete [] this->memory;
-		this->memory = 0;
 	}
 }
 
