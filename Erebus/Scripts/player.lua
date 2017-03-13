@@ -434,7 +434,7 @@ function UpdatePlayer(dt)
 end
 
 function SendCombine(spell)
-	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.damage)
+	player2.spells[player2.currentSpell]:Combine(spell:GetEffect(), spell.combineDamage)
 	Network.SendChargingPacket(player.currentSpell, true)
 end
 
