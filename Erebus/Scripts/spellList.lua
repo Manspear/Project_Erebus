@@ -27,7 +27,7 @@ function LoadSpellbook()
 	RemoveList.Hellpillar = Hellpillar
 
 	local BlackHole = {	texture =  Assets.LoadTexture("Textures/IconBlackHole.dds"),
-						info = wrap("Black Hole \n\nNo such thing as a weak black hole, therefore a black hole can only be charged", 30, "",""),
+						info = wrap("Black Hole \n\nNo such thing as a weak black hole, therefore a black hole can only be charged!", 30, "",""),
 						spell = CreateBlackHole(player)
 	}
 	BlackHole.spell.spellListId = 2
@@ -43,7 +43,7 @@ function LoadSpellbook()
 	RemoveList.FireBall = FireBall
 
 	local IceGrenade = {texture =  Assets.LoadTexture("Textures/IconIceGrenade.dds"),
-						info = wrap("Ice Grenade \n\nLob a grenade of ice at your enemies.", 30, "",""),
+						info = wrap("Ice Grenade \n\nLob a grenade of ice at your enemies. Charge longer for more damage.", 30, "",""),
 						spell = CreateIceGrenade(player)
 	}
 	IceGrenade.spell.spellListId = 4
@@ -59,7 +59,7 @@ function LoadSpellbook()
 	RemoveList.SunRay = SunRay
 
 	local siphon = {texture =  Assets.LoadTexture("Textures/IconSiphon.dds"),
-					info = wrap("Life Syphon \n\nDrain life from an enemy. Charge to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link", 30, "",""),
+					info = wrap("Life Syphon \n\nDrain life from an enemy. Charge to create a chain between you and the target, that drains the targets life and hurts anybody who crosses the link.", 30, "",""),
 					spell = CreateSiphon(player)
 	}
 	siphon.spell.spellListId = 6
