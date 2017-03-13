@@ -27,6 +27,7 @@ function CreateSunRay(entity)
 	table.insert(sunRay.effects, FIRE_EFFECT_INDEX)
 	sunRay.lifeTime = SUNRAY_DURATION 
 	sunRay.damage = 0
+	sunRay.combineDamage = 3
 	sunRay.spam = false
 	sunRay.alive = false
 	sunRay.chargeAlive = false

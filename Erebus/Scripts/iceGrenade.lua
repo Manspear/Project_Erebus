@@ -44,6 +44,7 @@ function CreateIceGrenade(entity)
 	spell.chargedTime = 0
 	spell.combo = 0
 	spell.damage = MAX_DAMAGE_ICENADE
+	spell.combineDamage = 15
 	spell.hudtexture = Assets.LoadTexture("Textures/IconIceGrenade.dds");
 	spell.maxcooldown = -1 --Change to cooldown duration if it has a cooldown otherwise -1
 	spell.timeSinceLastPoop = 0

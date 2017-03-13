@@ -14,6 +14,7 @@ function CreateWindknockback(entity)
 	spell.blendValue1 = {x = 0.0, y = 0.0} spell.blendValue2 = {x = 0.0, y = 0.5}
 	spell.durationTime = 0
 	spell.damage = 0
+	spell.combineDamage = 10
 	spell.alive = false
 	spell.chargedTime = 0
 	spell.radius = 0

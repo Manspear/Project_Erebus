@@ -13,6 +13,7 @@ function CreateSiphon(entity)
 	local spell = {}
 	spell.element = NATURE
 	spell.damage = SIPHON_DAMAGE
+	spell.combineDamage = 4
 	spell.owner = entity
 	spell.steal = SIPHON_HEALTH_STEAL
 	spell.hudtexture = Assets.LoadTexture("Textures/IconSiphon.dds");

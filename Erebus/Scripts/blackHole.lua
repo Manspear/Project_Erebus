@@ -27,6 +27,7 @@ function CreateBlackHole(entity)
 	spell.maxChargeTime = 0
 	spell.chargedTime = 0
 	spell.damage = 0
+	spell.combineDamage = 8
 	spell.lastTick = 0
 	spell.duration = 0
 	spell.hits = {}
