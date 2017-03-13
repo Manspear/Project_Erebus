@@ -28,7 +28,7 @@ function UpdateCredits(dt)
 		end
 	end
 
-	if Inputs.KeyReleased(Keys.Escape) or Inputs.KeyReleased(Keys.Space) or verticalOffset < -CreditsHeight then
+	if Inputs.KeyReleased(Keys.Escape) or verticalOffset < -CreditsHeight then
 		gamestate.ChangeState(GAMESTATE_MAIN_MENU)
 		Erebus.ShutdownNetwork()
 		UnloadGameplay()
