@@ -213,7 +213,7 @@ void ShaderProgram::addUniform(std::string uniform)
 
 	if (uniformLocation == 0xFFFFFFFF)
 	{
-		printf("Error in shader %s : Could not find uniform: %s\n", shaderName.c_str(), uniform.c_str());
+		//printf("Error in shader %s : Could not find uniform: %s\n", shaderName.c_str(), uniform.c_str());
 		return;
 	}
 

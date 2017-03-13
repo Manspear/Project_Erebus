@@ -2,12 +2,14 @@
 #include <iostream>
 PerformanceCounter::PerformanceCounter():frameTime(0.0), frameCounter(0)
 {
+	/*
 	dxgifactory = nullptr;
 	dxgiAdapter3 = NULL;
 	ret_code = ::CreateDXGIFactory(
 		__uuidof(IDXGIFactory),
 		reinterpret_cast<void**>(&dxgifactory));
 	ret_code = dxgifactory->EnumAdapters(0, &firstAdapter);
+	*/
 	startCounter();
 }
 
@@ -83,6 +85,7 @@ int PerformanceCounter::getFPS()
 	return fps;
 }
 
+/*
 int PerformanceCounter::getVramUsage()
 {
 
@@ -114,3 +117,4 @@ int PerformanceCounter::getRamUsage()
 
 	return 0;
 }
+*/

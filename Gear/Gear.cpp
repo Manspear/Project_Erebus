@@ -254,7 +254,7 @@ namespace Gear
 				light->radius.a = (float)i;
 			}
 			else {
-				printf("ERROR: Too many lights : " + lights->size());
+				//printf("ERROR: Too many lights : " + lights->size());
 			}
 		}
 

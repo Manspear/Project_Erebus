@@ -239,7 +239,7 @@ function FindHeightmap(position)
 		for k,index in pairs(levels[player.levelIndex].surrounding) do
 			hm = heightmaps[index]
 			if hm.asset:Inside(position) then
-				print(index)
+				--print(index)
 				player:ChangeHeightmap(index)
 				break
 			end
@@ -278,14 +278,14 @@ function FindHeightmap(position)
 
 			--unload previous tiles
 			for _,v in pairs(oldTiles) do
-				print("Unloading tile: " .. v)
+				--print("Unloading tile: " .. v)
 				levels[v].unload()
 				loadedLevels[v] = false
 			end
 
 			--load new tiles
 			for _,v in pairs(newTiles) do
-				print("Loading tile: " .. v)
+				--print("Loading tile: " .. v)
 				levels[v].load()
 				loadedLevels[v] = true
 			end
@@ -328,10 +328,6 @@ function UpdatePlayer(dt)
 
 	UpdatePlayer2(dt)
 	if player.isAlive then
-		local scale = 0.8
-		local color = {0.6, 0.3, 0.1, 0.8}
-		local info = ""..player.timeScalar
-		Gear.Print(info, 1230, 0, scale, color)
 		dt = dt * player.timeScalar
 
 		player.dashcd = player.dashcd - dt

@@ -92,7 +92,7 @@ function UpdateSpellbookUI(dt)
 				for i=1, #player.spells do
 					if player.spells[i] ==  SpellList[selectedBookSpell].spell and player.spells[selectedPlayerSpell].cooldown < 0 then
 						player.spells[i] = player.spells[selectedPlayerSpell]
-						print("changed spell: "..i.." to spell: "..selectedPlayerSpell .. " Bookspell: " .. selectedBookSpell)
+						--print("changed spell: "..i.." to spell: "..selectedPlayerSpell .. " Bookspell: " .. selectedBookSpell)
 						break
 					end
 				end
