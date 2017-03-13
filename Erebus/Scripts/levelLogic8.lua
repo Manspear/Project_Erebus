@@ -23,7 +23,7 @@ function UpdateLogic(dt)
 	end
 	
 	if LEVEL_ROUND > 3 then
-		gamestate.ChangeState(GAMESTATE_WIN)
+		gamestate.ChangeState(GAMESTATE_CREDITS)
 	end
 
 	

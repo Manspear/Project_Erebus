@@ -267,7 +267,6 @@ end
 function RewindPlayer(rewindPlayer)
 		rewindPlayer.moveSpeed = PLAYER_MOVESPEED
 		rewindPlayer.health = 100
-		rewindPlayer.damagedTint.a = 0
 		rewindPlayer.isAlive = true
 		rewindPlayer.effects = {}
 		rewindPlayer.isCombined = false
