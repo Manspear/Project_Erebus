@@ -3,6 +3,7 @@ function LoadLogic8()
 	
 end
 firstLoad = true
+countDownToWin = 10
 function UpdateLogic(dt)
 	if rewinder.rewinding then
 		rewinder:Update(dt)
@@ -23,10 +24,12 @@ function UpdateLogic(dt)
 	end
 	
 	if LEVEL_ROUND > 3 then
-		gamestate.ChangeState(GAMESTATE_CREDITS)
+		countDownToWin = countDownToWin - dt
+		if countDownToWin < 0 then
+			gamestate.ChangeState(GAMESTATE_CREDITS)
+			countDownToWin = 10
+		end
 	end
-
-	
 end
 
 function BossStuff(dt)
