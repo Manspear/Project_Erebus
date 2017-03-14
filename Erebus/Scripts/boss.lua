@@ -219,7 +219,7 @@ end
 
 function UpdateBoss(dt)	
 	
-	if boss.currentHealth <= 0 then	
+	if boss.health <= 0 then	
 		boss.Kill()
 	end
 
