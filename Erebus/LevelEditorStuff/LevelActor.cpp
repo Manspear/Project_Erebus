@@ -335,6 +335,7 @@ std::string LevelActor::toLuaUnload(std::string levelName)
 
 			for( ComponentIT it = actorComponents.begin(); it != actorComponents.end(); it++ )
 			{
+				
 				if( it->first != LevelModel::name && it->first != LevelTransform::name )
 				{
 					if(it->second->getName() != LevelHeightmap::name)

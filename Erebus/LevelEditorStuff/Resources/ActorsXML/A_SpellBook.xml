@@ -1,0 +1,19 @@
+<LevelActor type="Asset_SpellBook" displayName="SpellBook" tileID="1" exportType="8">
+    <LevelCollider type="0">
+        <Offset x="0" y="0" z="0"/>
+        <Color x="0" y="1" z="1"/>
+        <IDs ID="1382" parentID="0"/>
+        <Behavior Type="1" OnEnter="" OnExit="" OnTriggering="function() InteractSpellBook() end"/>
+        <GenParent value="false"/>
+        <Radius r="4.75"/>
+    </LevelCollider>
+    <LevelModel>
+        <ModelName>Spellbook</ModelName>
+    </LevelModel>
+    <LevelTransform>
+        <Position x="24.65625" y="7.2161393" z="168"/>
+        <Rotation x="0" y="0.4827393" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Export e="true"/>
+    </LevelTransform>
+</LevelActor>

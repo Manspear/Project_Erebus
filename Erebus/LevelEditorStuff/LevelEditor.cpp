@@ -156,7 +156,7 @@ void LevelEditor::start() {
 		engine->queueDynamicModels(LevelModelHandler::getInstance()->getModels());
 		deltaTime = counter.getDeltaTime();
 		inputs->update();
-
+		
 		currentUpdateTime += deltaTime;
 
 		if (currentUpdateTime >= 1) {
@@ -196,10 +196,10 @@ void LevelEditor::start() {
 		//	actors[n]->update();
 		//}
 		LevelActorHandler::getInstance()->updateActors();
-		std::string fps = "FPS: " + std::to_string(counter.getFPS())
-			+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
-			+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
-		engine->print(fps, 0.0f, 0.0f);
+		//std::string fps = "FPS: " + std::to_string(counter.getFPS())
+		//	+ "\nVRAM: " + std::to_string(counter.getVramUsage()) + " MB"
+		//	+ "\nRAM: " + std::to_string(counter.getRamUsage()) + " MB";
+		//engine->print(fps, 0.0f, 0.0f);
 		engine->update();
 		camera->updateBuffer();
 		engine->draw(camera);
