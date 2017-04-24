@@ -67,7 +67,17 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 #endif
 			if ( 0 <= metaDataPacket.metaData.packetType && metaDataPacket.metaData.packetType < queueList.size())
 			{
-				this->queueList.at(metaDataPacket.metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes);
+				//this->queueList.at(metaDataPacket.metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes);
+
+				size_t packetSize = this->queueList.at(metaDataPacket.metaData.packetType)->getPacketSize();
+				void * newPacket = malloc(packetSize);
+				uint16_t amountTransfered = 0;
+				while (metaDataPacket.metaData.sizeInBytes > (amountTransfered * packetSize))
+				{
+					memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
+					this->queueList.at(metaDataPacket.metaData.packetType)->push(newPacket);
+					amountTransfered++;
+				}
 			}
 			else
 			{
