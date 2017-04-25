@@ -23,6 +23,7 @@
     <ClInclude Include="HealthPacket.hpp" />
     <ClInclude Include="DebugNetwork.hpp" />
     <ClInclude Include="EventPacket.hpp" />
+    <ClInclude Include="Measure.hpp" />
     <ClInclude Include="PacketQueueInterface.hpp" />
     <ClInclude Include="PingPacket.hpp" />
     <ClInclude Include="ChangeSpellsPacket.hpp" />

@@ -22,6 +22,23 @@ void PacketFilter::shutdown()
 		queueList.pop_back();
 	}
 }
+void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer, uint16_t bytesRead, Packet::MetaDataPacket * metaDataPacket)
+{
+	//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
+
+	size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
+	void * newPacket = malloc(packetSize);
+	uint16_t amountTransfered = 0;
+	while (metaDataPacket->metaData.sizeInBytes > (amountTransfered * packetSize))
+	{
+		memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
+		this->queueList.at(metaDataPacket->metaData.packetType)->push(newPacket);
+		amountTransfered++;
+	}
+
+	std::cout << "pushPacketsToQueue run for ";
+}
+
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 {
 	uint16_t bytesRead = sizeof(uint16_t); // Start reading right after where the value of bytesLeft were located in the packet.
@@ -67,17 +84,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 #endif
 			if ( 0 <= metaDataPacket.metaData.packetType && metaDataPacket.metaData.packetType < queueList.size())
 			{
-				//this->queueList.at(metaDataPacket.metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket.metaData.sizeInBytes);
-
-				size_t packetSize = this->queueList.at(metaDataPacket.metaData.packetType)->getPacketSize();
-				void * newPacket = malloc(packetSize);
-				uint16_t amountTransfered = 0;
-				while (metaDataPacket.metaData.sizeInBytes > (amountTransfered * packetSize))
-				{
-					memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
-					this->queueList.at(metaDataPacket.metaData.packetType)->push(newPacket);
-					amountTransfered++;
-				}
+				std::cout << measure<std::chrono::nanoseconds>::execution(this->pushPacketsToQueue, memoryPointer, bytesRead, &metaDataPacket) << std::endl;
 			}
 			else
 			{
