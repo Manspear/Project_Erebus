@@ -22,11 +22,13 @@ void PacketFilter::shutdown()
 		queueList.pop_back();
 	}
 }
+
 void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer, uint16_t bytesRead, Packet::MetaDataPacket * metaDataPacket)
+//void PacketFilter::pushPacketsToQueue()
 {
 	//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
 
-	size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
+	/*size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
 	void * newPacket = malloc(packetSize);
 	uint16_t amountTransfered = 0;
 	while (metaDataPacket->metaData.sizeInBytes > (amountTransfered * packetSize))
@@ -34,9 +36,9 @@ void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer,
 		memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
 		this->queueList.at(metaDataPacket->metaData.packetType)->push(newPacket);
 		amountTransfered++;
-	}
+	}*/
 
-	std::cout << "pushPacketsToQueue run for ";
+	std::cout << " -> pushPacketsToQueue run for ";
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -84,7 +86,20 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 #endif
 			if ( 0 <= metaDataPacket.metaData.packetType && metaDataPacket.metaData.packetType < queueList.size())
 			{
-				std::cout << measure<std::chrono::nanoseconds>::execution(this->pushPacketsToQueue, memoryPointer, bytesRead, &metaDataPacket) << std::endl;
+				std::cout << measure<std::chrono::nanoseconds>::execution(&PacketFilter::pushPacketsToQueue, memoryPointer, bytesRead, &metaDataPacket) << std::endl;
+				//std::cout << measure<std::chrono::nanoseconds>::execution(&PacketFilter::pushPacketsToQueue);
+
+				//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
+
+				size_t packetSize = this->queueList.at(metaDataPacket.metaData.packetType)->getPacketSize();
+				void * newPacket = malloc(packetSize);
+				uint16_t amountTransfered = 0;
+				while (metaDataPacket.metaData.sizeInBytes >(amountTransfered * packetSize))
+				{
+					memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
+					this->queueList.at(metaDataPacket.metaData.packetType)->push(newPacket);
+					amountTransfered++;
+				}
 			}
 			else
 			{
