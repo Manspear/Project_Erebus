@@ -28,7 +28,7 @@ void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer,
 {
 	//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
 
-	/*size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
+	size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
 	void * newPacket = malloc(packetSize);
 	uint16_t amountTransfered = 0;
 	while (metaDataPacket->metaData.sizeInBytes > (amountTransfered * packetSize))
@@ -36,9 +36,7 @@ void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer,
 		memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
 		this->queueList.at(metaDataPacket->metaData.packetType)->push(newPacket);
 		amountTransfered++;
-	}*/
-
-	std::cout << " -> pushPacketsToQueue run for ";
+	}
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -86,20 +84,16 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 #endif
 			if ( 0 <= metaDataPacket.metaData.packetType && metaDataPacket.metaData.packetType < queueList.size())
 			{
-				std::cout << measure<std::chrono::nanoseconds>::execution(&PacketFilter::pushPacketsToQueue, memoryPointer, bytesRead, &metaDataPacket) << std::endl;
-				//std::cout << measure<std::chrono::nanoseconds>::execution(&PacketFilter::pushPacketsToQueue);
+				std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 
-				//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
+				pushPacketsToQueue(memoryPointer, bytesRead, &metaDataPacket);
 
-				size_t packetSize = this->queueList.at(metaDataPacket.metaData.packetType)->getPacketSize();
-				void * newPacket = malloc(packetSize);
-				uint16_t amountTransfered = 0;
-				while (metaDataPacket.metaData.sizeInBytes >(amountTransfered * packetSize))
-				{
-					memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
-					this->queueList.at(metaDataPacket.metaData.packetType)->push(newPacket);
-					amountTransfered++;
-				}
+				uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
+
+				std::ofstream testdatafile;
+				testdatafile.open("simplepushtime.txt", std::ofstream::app);
+				testdatafile << duration << std::endl;
+				testdatafile.close();
 			}
 			else
 			{
