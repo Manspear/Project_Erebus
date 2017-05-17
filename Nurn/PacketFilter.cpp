@@ -26,9 +26,9 @@ void PacketFilter::shutdown()
 void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer, uint16_t bytesRead, Packet::MetaDataPacket * metaDataPacket)
 //void PacketFilter::pushPacketsToQueue()
 {
-	//this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
+	this->queueList.at(metaDataPacket->metaData.packetType)->batchPush(memoryPointer, bytesRead, metaDataPacket->metaData.sizeInBytes);
 
-	size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
+	/*size_t packetSize = this->queueList.at(metaDataPacket->metaData.packetType)->getPacketSize();
 	void * newPacket = malloc(packetSize);
 	uint16_t amountTransfered = 0;
 	while (metaDataPacket->metaData.sizeInBytes > (amountTransfered * packetSize))
@@ -36,7 +36,7 @@ void PacketFilter::pushPacketsToQueue(const unsigned char * const memoryPointer,
 		memcpy(newPacket, memoryPointer + bytesRead + (amountTransfered * packetSize), packetSize);
 		this->queueList.at(metaDataPacket->metaData.packetType)->push(newPacket);
 		amountTransfered++;
-	}
+	}*/
 }
 
 void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
@@ -91,7 +91,7 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 				uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
 
 				std::ofstream testdatafile;
-				testdatafile.open("simplepushtime.txt", std::ofstream::app);
+				testdatafile.open("batchpushtime.txt", std::ofstream::app);
 				testdatafile << duration << std::endl;
 				testdatafile.close();
 			}
