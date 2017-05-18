@@ -145,5 +145,8 @@ namespace Nurn
 #ifdef DEBUGGING_NETWORK
 		DebugNetwork debugNetwork;
 #endif
+
+		std::vector<uint32_t> cpuRecieveTimes;
+		std::vector<uint32_t> cpuSendTimes;
 	};
 }

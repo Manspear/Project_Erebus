@@ -90,10 +90,10 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 
 				uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
 
-				std::ofstream testdatafile;
+				/*std::ofstream testdatafile;
 				testdatafile.open("batchpushtime.txt", std::ofstream::app);
 				testdatafile << duration << std::endl;
-				testdatafile.close();
+				testdatafile.close();*/
 			}
 			else
 			{

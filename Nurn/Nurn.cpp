@@ -19,6 +19,13 @@ namespace Nurn
 	NurnEngine::~NurnEngine()
 	{
 		NurnEngine::Shutdown();
+		std::ofstream testdatafile;
+		testdatafile.open("sendRecieveTimes.txt", std::ofstream::app);
+		for (long long i = 0; i < cpuRecieveTimes.size(); ++i)
+		{
+			testdatafile << cpuSendTimes.at(i) << "," << cpuRecieveTimes.at(i) << std::endl;
+		}
+		testdatafile.close();
 		return;
 	}
 
@@ -81,11 +88,14 @@ namespace Nurn
 
 	bool NurnEngine::Send()
 	{
+		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		this->packager->buildNetPacket();
 		if (this->packager->getCurrentNetPacketSize() > 6)
 		{
 			this->Send(this->packager->getPacketPointer(), this->packager->getCurrentNetPacketSize());
 		}
+		uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
+		cpuSendTimes.push_back(duration);
 
 		return true;
 	}
@@ -97,6 +107,7 @@ namespace Nurn
 
 	bool NurnEngine::Receive()
 	{
+		std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
 		unsigned char buffer[packetSize];
 		int bytes_read = netCommunication.Peek(address, buffer, 2);
 		if (bytes_read > 0)
@@ -105,6 +116,9 @@ namespace Nurn
 			this->Receive(buffer, expectedSize);
 			this->packetFilter->openNetPacket(buffer);
 		}
+		uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
+		cpuRecieveTimes.push_back(duration);
+
 		return true;
 	}
 
