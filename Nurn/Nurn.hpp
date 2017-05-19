@@ -148,5 +148,6 @@ namespace Nurn
 
 		std::vector<uint32_t> cpuRecieveTimes;
 		std::vector<uint32_t> cpuSendTimes;
+		std::vector<uint32_t> fetchPushTimes;
 	};
 }
