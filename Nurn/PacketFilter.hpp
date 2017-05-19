@@ -53,6 +53,7 @@ public:
 	
 private:
 	std::vector<std::shared_ptr<PacketQueueInterface>> queueList;
+	std::vector<uint32_t> packingqueue;
 
 #ifdef DEBUGGING_NETWORK
 	DebugNetwork * debugNetwork_ptr;

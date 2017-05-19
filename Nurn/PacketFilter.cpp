@@ -13,6 +13,14 @@ PacketFilter::PacketFilter()
 PacketFilter::~PacketFilter()
 {
 	PacketFilter::shutdown();
+
+	std::ofstream testdatafile;
+	testdatafile.open("batchpushtime.txt", std::ofstream::app);
+	for (auto& packaraka : packingqueue)
+	{
+		testdatafile << packaraka << std::endl;
+	}
+	testdatafile.close();
 }
 
 void PacketFilter::shutdown()
@@ -88,12 +96,8 @@ void PacketFilter::openNetPacket(const unsigned char * const memoryPointer)
 
 				pushPacketsToQueue(memoryPointer, bytesRead, &metaDataPacket);
 
-				uint32_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count();
+				packingqueue.push_back(std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now() - start).count());
 
-				std::ofstream testdatafile;
-				testdatafile.open("batchpushtime.txt", std::ofstream::app);
-				testdatafile << duration << std::endl;
-				testdatafile.close();
 			}
 			else
 			{
